@@ -24,6 +24,8 @@
     <!-- MetisMenu CSS -->
     <link href="assets/plugins/metisMenu/metisMenu.min.css" rel="stylesheet">
 	
+	<link href="assets/css/bootstrap-datetimepicker.min.css" rel="stylesheet"/>
+	
 		<!-- Custom styles for this template -->
     <link href="assets/css/main.css" rel="stylesheet">
 	
@@ -156,19 +158,37 @@
 			<c:out value="YOU HAVE NO PAST SESSIONS"></c:out>
 		</c:otherwise>
 		</c:choose>
-		
-		<div class="input-append date" id="searchByDateDiv" style="float: right;" data-date-format="dd-mm-yyyy">
+		           
+            <div class="form-group" style="float: right;">
         	<form action="AdminPreviousSessions" method="post">
-        		<div>
-	        		<input id="fromDate" name="fromDate" type="text" placeholder="From Date"/>
-					<!-- span class="add-on"><i class="icon-calendar"></i></span -->
-        		&nbsp;
-	        		<input id="toDate" name="toDate" type="text" placeholder="To Date" />
-	        		<!-- span class="add-on"><i class="icon-calendar"></i></span -->
-        		&nbsp;
-        		<input type="submit" value="search"/>
+				<div id="datetimepicker1" class="input-append date">
+	        		<input id="fromDate" name="fromDate" type="text" placeholder="From Date" readonly="readonly"/>
+					<span class="add-on">
+						<i data-time-icon="icon-time" data-date-icon="icon-calendar" style="margin-top:7px"></i>
+				  	</span>
+				</div>
+				<div id="datetimepicker2" class="input-append date">
+	        		<input id="toDate" name="toDate" type="text" placeholder="To Date" readonly="readonly"/>
+					<span class="add-on">
+						<i data-time-icon="icon-time" data-date-icon="icon-calendar" style="margin-top:7px"></i>
+				  	</span>
+				</div>
+       			<input type="submit" value="search" id="searchButton"/>
         	</form>
-        </div>
+		</div>
+            
+         <script src="assets/js/bootstrap-datetimepicker.min.js"></script>
+    <script type="text/javascript">
+        $('#datetimepicker1').datetimepicker({
+            format: 'yyyy-MM-dd',
+            language:'en'
+          });
+        $('#datetimepicker2').datetimepicker({
+            format: 'yyyy-MM-dd',
+            language:'en'
+          });
+    </script>   
+            
             
         </div>
             </div><!-- /right area -->

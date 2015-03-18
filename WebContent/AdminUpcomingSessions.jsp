@@ -174,33 +174,36 @@
 		</c:otherwise>
 		</c:choose>
 	
-        <div class="input-append date" id="searchByDateDiv" style="float: right;" data-date-format="dd-mm-yyyy">
+        <div class="form-group" style="float: right;">
         	<form action="AdminMyUpcomingSessions" method="post">
-        		<div>
-	        		<input id="fromDate" name="fromDate" type="text" placeholder="From Date" />
-					<!-- span class="add-on"><i class="icon-calendar"></i></span -->
-        			&nbsp;
-	        		<input id="toDate" name="toDate" type="text" placeholder="To Date" />
-	        		<!-- span class="add-on"><i class="icon-calendar"></i></span -->
-        			&nbsp;
-        			<input type="submit" value="search"/>
-        		</div>
+				<div id="datetimepicker1" class="input-append date">
+	        		<input id="fromDate" name="fromDate" type="text" placeholder="From Date" readonly="readonly" />
+					<span class="add-on">
+						<i data-time-icon="icon-time" data-date-icon="icon-calendar" style="margin-top:7px"></i>
+				  	</span>
+				</div>
+				<div id="datetimepicker2" class="input-append date">
+	        		<input id="toDate" name="toDate" type="text" placeholder="To Date" readonly="readonly"/>
+					<span class="add-on">
+						<i data-time-icon="icon-time" data-date-icon="icon-calendar" style="margin-top:7px"></i>
+				  	</span>
+				</div>
+       			<input type="submit" value="search" id="searchButton"/>
         	</form>
-        </div>
+		</div>
         
+	<script src="assets/js/bootstrap-datetimepicker.min.js"></script>
+    <script type="text/javascript">
+        $('#datetimepicker1').datetimepicker({
+            format: 'yyyy-MM-dd',
+            language:'en'
+          });
+        $('#datetimepicker2').datetimepicker({
+            format: 'yyyy-MM-dd',
+            language:'en'
+          });
+    </script>
         
-        <script type="text/javascript">
-//       		function showFromDate(){
-//    			$('#fromDate').datepicker();        		
-//    		}
-        
-//       		function showToDate(){
-//    			$('#toDate').datepicker();        		
-//    		}
-        
-        </script>
-        
-            
         </div>
             </div><!-- /right area -->
             
@@ -214,7 +217,6 @@
 	<!-- /#container -->
 
     <!-- jQuery Version 1.11.0 -->
-    <script src="assets/js/jquery-1.11.0.js"></script>
 
     <!-- Bootstrap Core JavaScript -->
     <script src="assets/js/bootstrap.min.js"></script>
