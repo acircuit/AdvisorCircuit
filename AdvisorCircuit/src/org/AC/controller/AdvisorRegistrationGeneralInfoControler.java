@@ -78,6 +78,7 @@ public class AdvisorRegistrationGeneralInfoControler extends HttpServlet {
 			String phone = request.getParameter("phone");
 			String industry = request.getParameter("industry");
 			String intro = request.getParameter("intro");
+			String edit = request.getParameter("edit");
 			try{
 				if( name != null && gender != null && age != null  && city != null && state != null && nationality != null && phone != null &&
 						industry != null && intro != null && !name.isEmpty() && !gender.isEmpty() && !age.isEmpty()   && !city.isEmpty() 
@@ -85,9 +86,15 @@ public class AdvisorRegistrationGeneralInfoControler extends HttpServlet {
 						){
 					
 					if(advisorId != 0){
+						Boolean isGeneralInfoCommit = false;
 						//Calling DAO to put the values into table
 							AdvisorRegistrationDAO dao = new AdvisorRegistrationDAO();
-							Boolean isGeneralInfoCommit = dao.setGeneralInfo(name,gender,age,city,nationality,phone,industry,intro,advisorId,state);
+							if(edit != null && edit.equals("true") ){
+								isGeneralInfoCommit = dao.setGeneralInfo(name,gender,age,city,nationality,phone,industry,intro,advisorId,state,edit);
+							}else{
+								edit = "false";
+								isGeneralInfoCommit = dao.setGeneralInfo(name,gender,age,city,nationality,phone,industry,intro,advisorId,state,edit);
+							}
 							if(isGeneralInfoCommit){
 								response.sendRedirect("AdvisorRegistrationEducationInfo");
 							}

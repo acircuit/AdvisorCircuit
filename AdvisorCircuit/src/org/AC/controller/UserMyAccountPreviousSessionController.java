@@ -2,7 +2,9 @@ package org.AC.controller;
 
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -53,13 +55,13 @@ public class UserMyAccountPreviousSessionController extends HttpServlet {
 		if(username != null &&  userId != 0 && !("").equals(username)){
 			List<AdvisorProfileDTO> list2 = new ArrayList<AdvisorProfileDTO>();
 			List<UserRequestDTO> list1 = new ArrayList<UserRequestDTO>();
-			List<TimeDTO> difference = new ArrayList<TimeDTO>();
+			List<SessionDTO>   list11 = new ArrayList<SessionDTO>();
 
 			//Getting the session details where uId= userId and status = "Waiting for session"
 			String status = "SESSION COMPLETE";
 			AdvisorMyAccountSessionDAO session = new AdvisorMyAccountSessionDAO();
-			list = session.getSessionDetailsUsingUserId(userId, status);
-			for (SessionDTO sessionDTO : list) {
+			list11 = session.getSessionDetailsUsingUserId(userId, status);
+			for (SessionDTO sessionDTO : list11) {
 				advisorIds.add(sessionDTO.getAdvisorId());
 				//userId = sessionDTO.getUserId();
 				requestIds.add(sessionDTO.getRequestId());
@@ -74,9 +76,17 @@ public class UserMyAccountPreviousSessionController extends HttpServlet {
 			if(requestIds.size() > 0){
 				MyAccountRequestDAO dao = new MyAccountRequestDAO();
 				list1 = dao.getRequestDetails(requestIds);	
-			}			
+			}
+			for (UserRequestDTO requests : list1) {
+				for (SessionDTO sessionDTO : list11) {
+					if(requests.getRequestId() == sessionDTO.getRequestId()){
+						sessionDTO.setAcceptedDateString(new SimpleDateFormat("dd-MMM-yyyy' 'h:mm a").format(new Date(sessionDTO.getAcceptedDate().getTime())));
+						requests.setAcceptedDate(sessionDTO.getAcceptedDateString());
+					}
+				}
+			}
 			
-			if(list.size() > 0  && list1.size() > 0 && list2.size() > 0) {
+			if(list11.size() > 0  && list11.size() > 0 && list2.size() > 0) {
 				request.setAttribute("requests", list1);
 				request.setAttribute("advisordetails", list2);
 				RequestDispatcher rd = getServletContext().getRequestDispatcher("/UserPreviousSession.jsp");

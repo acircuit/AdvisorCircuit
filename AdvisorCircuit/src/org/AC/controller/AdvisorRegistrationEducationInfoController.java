@@ -82,6 +82,10 @@ public class AdvisorRegistrationEducationInfoController extends HttpServlet {
 		String ug = request.getParameter("ug");
 		String pg = request.getParameter("pg");
 		String[] others = request.getParameterValues("others[]");
+		String edit = request.getParameter("edit");
+		if(edit == null){
+			edit = "false";
+		}
 		if(aId != 0){
 			if(!ug.isEmpty()){
 				List<AdvisorEducationDTO> education = new ArrayList<AdvisorEducationDTO>();
@@ -94,13 +98,15 @@ public class AdvisorRegistrationEducationInfoController extends HttpServlet {
 				//Calling DAO to put the values into table
 				AdvisorRegistrationDAO dao = new AdvisorRegistrationDAO();
 				Boolean isEducationInfoCommit = dao.setEducationInfo(education);
-				if(isEducationInfoCommit){
+				if(isEducationInfoCommit && !edit.equals("true")){
 					//Changing the status of the Advisor To ProfessionalBackground.jsp
 					AdvisorRegistrationDAO status = new AdvisorRegistrationDAO();
 					Boolean isStatusCommit = status.setRegistrationStatus(aId, "ProfessionalBackground.jsp");
 					if(isStatusCommit){
 						response.sendRedirect("AdvisorRegistrationProfessionalBackground");
 					}
+			}else{
+				response.sendRedirect("AdvisorRegistrationProfessionalBackground");
 			}
 		}
 

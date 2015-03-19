@@ -32,18 +32,16 @@ public class AdvisorEditProfileEmailController extends HttpServlet {
 		String status ="";
 		int advisorId = 0;
 		String name = "";
-		List<AdvisorRegistrationCheckEmailDTO> list = new ArrayList<AdvisorRegistrationCheckEmailDTO>();
+		AdvisorRegistrationCheckEmailDTO advisorRegistrationCheckEmailDTO = new AdvisorRegistrationCheckEmailDTO();
 
 		//Once we have retrieved the email we have to check whether the advisor have already started registration process.
 		//And if yes, then at what point did he stop the registration.
 		if(!email.isEmpty()){
 			AdvisorRegistrationDAO dao = new AdvisorRegistrationDAO();
-			list = dao.checkEmail(email);
-			for (AdvisorRegistrationCheckEmailDTO advisorRegistrationCheckEmailDTO : list) {
+			advisorRegistrationCheckEmailDTO = dao.checkEmail(email);
 				advisorId = advisorRegistrationCheckEmailDTO.getAdvisorId();
 				status = advisorRegistrationCheckEmailDTO.getRegistrationStatus();
 				name = advisorRegistrationCheckEmailDTO.getName();
-			}
 			if(advisorId == 0){
 				request.setAttribute("invalidEmail", true);
 				RequestDispatcher rd = getServletContext().getRequestDispatcher("/EditProfile.jsp");

@@ -2,8 +2,10 @@ package org.AC.controller;
 
 import java.beans.PropertyVetoException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.Properties;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -53,6 +55,20 @@ public class AdvisorEditProfileImageController extends HttpServlet {
 				Boolean isImageCommit = dao.setImageURL(aId, url);
 				
 				if(isImageCommit){
+					Properties prop = new Properties();
+			         InputStream resourceAsStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("Resources/mail.properties");
+			         try {
+						prop.load(resourceAsStream);
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					 String subject ="";
+					 String content ="";
+					 subject = "An Advisor just edited his profile";
+					 content = "Hi, <br><br>An Advisor just edited his profile. Following are the details: <br> Advisor Id : "+aId+"<br>Section : IMAGE <br><img src=http://www.advisorcircuit.com/assets/img/logo_black.png\" style='float:right' width='25%'>";
+					 SendMail mail = new SendMail(subject, content,prop.getProperty("MAIL_ADMIN") ,prop.getProperty("MAIL_ADMIN"));
+					 mail.start();
 					response.sendRedirect("AdvisorProfile?aId="+aId);
 				}
 			}

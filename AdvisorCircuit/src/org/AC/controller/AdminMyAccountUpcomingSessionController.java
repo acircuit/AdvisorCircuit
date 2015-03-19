@@ -67,71 +67,174 @@ public class AdminMyAccountUpcomingSessionController extends HttpServlet {
 		List<Integer> userIds = new ArrayList<Integer>();
 		List<Integer> advisorIds = new ArrayList<Integer>();
 		List<AdvisorProfileDTO> advisorDetails = new ArrayList<AdvisorProfileDTO>();
-		
-
-		//Get all the session details having status = "WAITING FOR SESSION"
-		String status = "WAITING FOR SESSION";
-		List<SessionDTO> sessionList = new ArrayList<SessionDTO>();
-		List<TimeDTO> difference = new ArrayList<TimeDTO>();
-		List<UserRequestDTO> userRequest = new ArrayList<UserRequestDTO>();
-		List<UserDetailsDTO> userDetailsList = new ArrayList<UserDetailsDTO>();
-
-
-		AdminSessionDAO session = new AdminSessionDAO();
-		sessionList = session.GetSessionDetails(status);
-		for (SessionDTO sessionDTO : sessionList) {
-			requestIds.add(sessionDTO.getRequestId());
-			userIds.add(sessionDTO.getUserId());
-			advisorIds.add(sessionDTO.getAdvisorId());
+		Boolean isAdmin = false;
+		Boolean isError = false;
+		try{
+			isAdmin = (Boolean) request.getSession().getAttribute("admin"); 
+			}catch(Exception e){
+				response.sendRedirect("Error");
+				isError = true;
+			}
+		if(isAdmin == null){
+			isError = true;
+			response.sendRedirect("Error");
 		}
-		//Getting Request Details
-		if(requestIds.size() > 0){
-			MyAccountRequestDAO dao = new MyAccountRequestDAO();
-			userRequest = dao.getRequestDetails(requestIds);	
-		}
-		//Setting time left for the session
-		for (UserRequestDTO userRequestDTO : userRequest) {
+		if(isError!= null &&  !isError){
+
+			//Get all the session details having status = "WAITING FOR SESSION"
+			String status = "WAITING FOR SESSION";
+			List<SessionDTO> sessionList = new ArrayList<SessionDTO>();
+			List<TimeDTO> difference = new ArrayList<TimeDTO>();
+			List<UserRequestDTO> userRequest = new ArrayList<UserRequestDTO>();
+			List<UserDetailsDTO> userDetailsList = new ArrayList<UserDetailsDTO>();
+	
+	
+			AdminSessionDAO session = new AdminSessionDAO();
+			sessionList = session.GetSessionDetails(status);
 			for (SessionDTO sessionDTO : sessionList) {
-				if(sessionDTO.getRequestId() == userRequestDTO.getRequestId()){
-					Timestamp sessionDate = sessionDTO.getAcceptedDate();
-					GetTimeLeftForReply time = new GetTimeLeftForReply();
-					difference = time.getTimeLeftForSession(sessionDate);
-					if(difference.size() > 0){
-						for (TimeDTO timeDTO : difference) {
-							userRequestDTO.setDays(timeDTO.getDay());
-							userRequestDTO.setHours(timeDTO.getHours());
-							userRequestDTO.setMinutes(timeDTO.getMinutes());
-						}	
-					}else{
-						userRequestDTO.setDays(0);
-						userRequestDTO.setHours(0);
-						userRequestDTO.setMinutes(0);
+				requestIds.add(sessionDTO.getRequestId());
+				userIds.add(sessionDTO.getUserId());
+				advisorIds.add(sessionDTO.getAdvisorId());
+			}
+			//Getting Request Details
+			if(requestIds.size() > 0){
+				MyAccountRequestDAO dao = new MyAccountRequestDAO();
+				userRequest = dao.getRequestDetails(requestIds);	
+			}
+			//Setting time left for the session
+			for (UserRequestDTO userRequestDTO : userRequest) {
+				for (SessionDTO sessionDTO : sessionList) {
+					if(sessionDTO.getRequestId() == userRequestDTO.getRequestId()){
+						Timestamp sessionDate = sessionDTO.getAcceptedDate();
+						GetTimeLeftForReply time = new GetTimeLeftForReply();
+						difference = time.getTimeLeftForSession(sessionDate);
+						if(difference.size() > 0){
+							for (TimeDTO timeDTO : difference) {
+								userRequestDTO.setDays(timeDTO.getDay());
+								userRequestDTO.setHours(timeDTO.getHours());
+								userRequestDTO.setMinutes(timeDTO.getMinutes());
+							}	
+						}else{
+							userRequestDTO.setDays(0);
+							userRequestDTO.setHours(0);
+							userRequestDTO.setMinutes(0);
+						}
+						
 					}
-					
 				}
 			}
-		}
-		//Getting the User Details
-		if(userIds.size() > 0){
-			//Fetching user details from the userdetails table
-			UserDetailsDAO user1 = new UserDetailsDAO();
-			userDetailsList = user1.getUserDetails(userIds);
-		}
-		
-		//Getting Advisor Details
-		if(advisorIds.size() > 0){
-			AdminRequestDAO advisorDetail = new AdminRequestDAO();
-			advisorDetails= advisorDetail.getAdvisorDetailsUsingAdvisorId(advisorIds);
-		}
-		
-		request.setAttribute("requestDetails", userRequest);
-		request.setAttribute("userDetails", userDetailsList);
-		request.setAttribute("advisorDetails", advisorDetails);
-		
-		RequestDispatcher rd = getServletContext().getRequestDispatcher("/AdminUpcomingSessions.jsp");
-        rd.forward(request, response);
-		
+			//Getting the User Details
+			if(userIds.size() > 0){
+				//Fetching user details from the userdetails table
+				UserDetailsDAO user1 = new UserDetailsDAO();
+				userDetailsList = user1.getUserDetails(userIds);
+			}
+			
+			//Getting Advisor Details
+			if(advisorIds.size() > 0){
+				AdminRequestDAO advisorDetail = new AdminRequestDAO();
+				advisorDetails= advisorDetail.getAdvisorDetailsUsingAdvisorId(advisorIds);
+			}
+			
+			request.setAttribute("requestDetails", userRequest);
+			request.setAttribute("userDetails", userDetailsList);
+			request.setAttribute("advisorDetails", advisorDetails);
+			
+			RequestDispatcher rd = getServletContext().getRequestDispatcher("/AdminUpcomingSessions.jsp");
+	        rd.forward(request, response);
+		}	
 		logger.info("Entered doGet method of AdminMyAccountUpcomingSessionController");
 	}
 
+	
+	// for search functionality
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+		logger.info("Entered doPost method of AdminMyAccountUpcomingSessionController");
+		List<Integer> requestIds = new ArrayList<Integer>();
+		List<Integer> userIds = new ArrayList<Integer>();
+		List<Integer> advisorIds = new ArrayList<Integer>();
+		List<AdvisorProfileDTO> advisorDetails = new ArrayList<AdvisorProfileDTO>();
+		Boolean isAdmin = false;
+		Boolean isError = false;
+		
+		try{
+			isAdmin = (Boolean) request.getSession().getAttribute("admin"); 
+			}catch(Exception e){
+				response.sendRedirect("Error");
+				isError = true;
+			}
+		if(isAdmin == null){
+			isError = true;
+			response.sendRedirect("Error");
+		}
+		if(isError!= null &&  !isError){
+
+			//Get all the session details having status = "WAITING FOR SESSION"
+			String status = "WAITING FOR SESSION";
+			List<SessionDTO> sessionList = new ArrayList<SessionDTO>();
+			List<TimeDTO> difference = new ArrayList<TimeDTO>();
+			List<UserRequestDTO> userRequest = new ArrayList<UserRequestDTO>();
+			List<UserDetailsDTO> userDetailsList = new ArrayList<UserDetailsDTO>();
+	
+	
+			String fromDate = request.getParameter("fromDate");
+			String toDate = request.getParameter("toDate");
+			
+			AdminSessionDAO session = new AdminSessionDAO();
+			sessionList = session.SearchSessionDetailsByDate(status, fromDate, toDate);
+			for (SessionDTO sessionDTO : sessionList) {
+				requestIds.add(sessionDTO.getRequestId());
+				userIds.add(sessionDTO.getUserId());
+				advisorIds.add(sessionDTO.getAdvisorId());
+			}
+			//Getting Request Details
+			if(requestIds.size() > 0){
+				MyAccountRequestDAO dao = new MyAccountRequestDAO();
+				userRequest = dao.getRequestDetails(requestIds);	
+			}
+			//Setting time left for the session
+			for (UserRequestDTO userRequestDTO : userRequest) {
+				for (SessionDTO sessionDTO : sessionList) {
+					if(sessionDTO.getRequestId() == userRequestDTO.getRequestId()){
+						Timestamp sessionDate = sessionDTO.getAcceptedDate();
+						GetTimeLeftForReply time = new GetTimeLeftForReply();
+						difference = time.getTimeLeftForSession(sessionDate);
+						if(difference.size() > 0){
+							for (TimeDTO timeDTO : difference) {
+								userRequestDTO.setDays(timeDTO.getDay());
+								userRequestDTO.setHours(timeDTO.getHours());
+								userRequestDTO.setMinutes(timeDTO.getMinutes());
+							}	
+						}else{
+							userRequestDTO.setDays(0);
+							userRequestDTO.setHours(0);
+							userRequestDTO.setMinutes(0);
+						}
+						
+					}
+				}
+			}
+			//Getting the User Details
+			if(userIds.size() > 0){
+				//Fetching user details from the userdetails table
+				UserDetailsDAO user1 = new UserDetailsDAO();
+				userDetailsList = user1.getUserDetails(userIds);
+			}
+			
+			//Getting Advisor Details
+			if(advisorIds.size() > 0){
+				AdminRequestDAO advisorDetail = new AdminRequestDAO();
+				advisorDetails= advisorDetail.getAdvisorDetailsUsingAdvisorId(advisorIds);
+			}
+			
+			request.setAttribute("requestDetails", userRequest);
+			request.setAttribute("userDetails", userDetailsList);
+			request.setAttribute("advisorDetails", advisorDetails);
+			
+			RequestDispatcher rd = getServletContext().getRequestDispatcher("/AdminUpcomingSessions.jsp");
+	        rd.forward(request, response);
+		}	
+		logger.info("Exit from doPost method of AdminMyAccountUpcomingSessionController");		
+	}
 }

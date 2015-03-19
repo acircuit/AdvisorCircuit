@@ -50,46 +50,59 @@ public class AdminMyAccountUpcomingSessionViewDetailsFormController extends Http
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		logger.info("Entered doGet method of AdminMyAccountUpcomingSessionViewDetailsFormController");
-		
-		String rId = request.getParameter("rId");
-		String sId = request.getParameter("sId");
-		String advisorNoShow = request.getParameter("advisornoshow");
-		String userNoShow = request.getParameter("usernoshow");
-		String advisorUnavailable = request.getParameter("advisorunavailabale");
-		String userUnavailable = request.getParameter("userunavailabale");
-		String complete = request.getParameter("complete");
-		String status = "";
-		String redirect = "";
-		Boolean isRequestStatusCommit =false;
-		Boolean isSessionStatusCommit = false;
-		if(rId != null  && sId != null){
-			if(advisorNoShow != null && ("true").equals(advisorNoShow)){
-				 status = "SESSION CANCELLED DUE TO ADVISOR NO SHOW";
-				 redirect = "AdminCancelledSessions";
-			}else if (userNoShow != null && ("true").equals(userNoShow)) {
-				 status = "SESSION CANCELLED DUE TO USER NO SHOW";
-				 redirect = "AdminCancelledSessions";
-			}else if (advisorUnavailable != null && ("true").equals(advisorUnavailable)) {
-				 status = "SESSION CANCELLED DUE TO ADVISOR UNAVAILABILITY";
-				 redirect = "AdminCancelledSessions";
-			}else if (userUnavailable != null && ("true").equals(userUnavailable)){
-				status = "SESSION CANCELLED DUE TO USER UNAVAILABILITY";
-				 redirect = "AdminCancelledSessions";
-			}else{
-				status = "SESSION COMPLETE";
-				 redirect = "AdminPreviousSessions";
+		Boolean isAdmin = false;
+		Boolean isError = false;
+		try{
+			isAdmin = (Boolean) request.getSession().getAttribute("admin"); 
+			}catch(Exception e){
+				response.sendRedirect("Error");
+				isError = true;
 			}
-			ChangeRequestStatusDAO requestStatus =  new ChangeRequestStatusDAO();
-			isRequestStatusCommit = requestStatus.setStatus(status, Integer.parseInt(rId));
-			if(isRequestStatusCommit){
-				//Set Session Status
-				ChangeSessionStatusDAO sessionStatus = new ChangeSessionStatusDAO();
-				isSessionStatusCommit = sessionStatus.setStatus(status, sId);
+		if(isAdmin == null){
+			isError = true;
+			response.sendRedirect("Error");
+		}
+		if(isError!= null &&  !isError){
+			String rId = request.getParameter("rId");
+			String sId = request.getParameter("sId");
+			String advisorNoShow = request.getParameter("advisornoshow");
+			String userNoShow = request.getParameter("usernoshow");
+			String advisorUnavailable = request.getParameter("advisorunavailabale");
+			String userUnavailable = request.getParameter("userunavailabale");
+			String complete = request.getParameter("complete");
+			String status = "";
+			String redirect = "";
+			Boolean isRequestStatusCommit =false;
+			Boolean isSessionStatusCommit = false;
+			if(rId != null  && sId != null){
+				if(advisorNoShow != null && ("true").equals(advisorNoShow)){
+					 status = "SESSION CANCELLED DUE TO ADVISOR NO SHOW";
+					 redirect = "AdminCancelledSessions";
+				}else if (userNoShow != null && ("true").equals(userNoShow)) {
+					 status = "SESSION CANCELLED DUE TO USER NO SHOW";
+					 redirect = "AdminCancelledSessions";
+				}else if (advisorUnavailable != null && ("true").equals(advisorUnavailable)) {
+					 status = "SESSION CANCELLED DUE TO ADVISOR UNAVAILABILITY";
+					 redirect = "AdminCancelledSessions";
+				}else if (userUnavailable != null && ("true").equals(userUnavailable)){
+					status = "SESSION CANCELLED DUE TO USER UNAVAILABILITY";
+					 redirect = "AdminCancelledSessions";
+				}else{
+					status = "SESSION COMPLETE";
+					 redirect = "AdminPreviousSessions";
+				}
+				ChangeRequestStatusDAO requestStatus =  new ChangeRequestStatusDAO();
+				isRequestStatusCommit = requestStatus.setStatus(status, Integer.parseInt(rId));
+				if(isRequestStatusCommit){
+					//Set Session Status
+					ChangeSessionStatusDAO sessionStatus = new ChangeSessionStatusDAO();
+					isSessionStatusCommit = sessionStatus.setStatus(status, sId);
+				}
+				if(isSessionStatusCommit){
+					response.sendRedirect(redirect);
+				}
+				
 			}
-			if(isSessionStatusCommit){
-				response.sendRedirect(redirect);
-			}
-			
 		}
 		logger.info("Entered doGet method of AdminMyAccountUpcomingSessionViewDetailsFormController");
 	}

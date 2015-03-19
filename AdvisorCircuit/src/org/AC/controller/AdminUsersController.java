@@ -54,13 +54,27 @@ public class AdminUsersController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		logger.info("Entered doGet method of AdminUsersController");
-		List<UserDetailsDTO> users = new ArrayList<UserDetailsDTO>();
-		//Get all the details of the advisor
-		AdminUserDAO user = new AdminUserDAO();
-		users = user.GetUsers();
-		request.setAttribute("users", users);
-		RequestDispatcher rd = getServletContext().getRequestDispatcher("/AdminUser.jsp");
-        rd.forward(request, response);
+		Boolean isAdmin = false;
+		Boolean isError = false;
+		try{
+			isAdmin = (Boolean) request.getSession().getAttribute("admin"); 
+			}catch(Exception e){
+				response.sendRedirect("Error");
+				isError = true;
+			}
+		if(isAdmin == null){
+			isError = true;
+			response.sendRedirect("Error");
+		}
+		if(isError!= null &&  !isError){
+			List<UserDetailsDTO> users = new ArrayList<UserDetailsDTO>();
+			//Get all the details of the advisor
+			AdminUserDAO user = new AdminUserDAO();
+			users = user.GetUsers();
+			request.setAttribute("users", users);
+			RequestDispatcher rd = getServletContext().getRequestDispatcher("/AdminUser.jsp");
+	        rd.forward(request, response);
+		}
 		logger.info("Exit doGet method of AdminUsersController");
 	}
 }

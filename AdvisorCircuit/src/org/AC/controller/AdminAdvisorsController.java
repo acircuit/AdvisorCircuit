@@ -51,13 +51,27 @@ public class AdminAdvisorsController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		logger.info("Entered doPost method of AdminAdvisorsController");
+		Boolean isAdmin = false;
+		Boolean isError = false;
+		try{
+			isAdmin = (Boolean) request.getSession().getAttribute("admin"); 
+			}catch(Exception e){
+				response.sendRedirect("Error");
+				isError = true;
+			}
+		if(isAdmin == null){
+			isError = true;
+			response.sendRedirect("Error");
+		}
 		List<AdvisorProfileDTO> advisors = new ArrayList<AdvisorProfileDTO>();
 		//Get all the details of the advisor
 		AdminAdvisorDAO advisor = new AdminAdvisorDAO();
 		advisors = advisor.GetAdvisors();
-		request.setAttribute("advisors", advisors);
-		RequestDispatcher rd = getServletContext().getRequestDispatcher("/AdminAdvisor.jsp");
-        rd.forward(request, response);
+		if( isError!= null &&  !isError){
+			request.setAttribute("advisors", advisors);
+			RequestDispatcher rd = getServletContext().getRequestDispatcher("/AdminAdvisor.jsp");
+	        rd.forward(request, response);
+		}
 		logger.info("Exit doGet method of AdminAdvisorsController");
 	}
 

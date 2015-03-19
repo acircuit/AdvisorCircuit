@@ -67,74 +67,86 @@ public class AdminMyAccountCancelledSessionController extends HttpServlet {
 		List<Integer> userIds = new ArrayList<Integer>();
 		List<Integer> advisorIds = new ArrayList<Integer>();
 		List<AdvisorProfileDTO> advisorDetails = new ArrayList<AdvisorProfileDTO>();
-		
-
-		//Get all the session details having status = "WAITING FOR SESSION"
-		String status1 = "SESSION CANCELLED DUE TO ADVISOR UNAVAILABILITY";
-		String status2 = "SESSION CANCELLED DUE TO ADVISOR NO SHOW";
-		String status3 = "SESSION CANCELLED DUE TO USER UNAVAILABILITY";
-		String status4 = "SESSION CANCELLED DUE TO NO USER PAYMENT";
-		String status5 = "SESSION REJECTED BY USER";
-		String status6 = "SESSION CANCELLED DUE TO USER NO SHOW";
-		List<SessionDTO> sessionList = new ArrayList<SessionDTO>();
-		List<UserRequestDTO> userRequest = new ArrayList<UserRequestDTO>();
-		List<UserDetailsDTO> userDetailsList = new ArrayList<UserDetailsDTO>();
-		List<UserRequestDTO> list1 = new ArrayList<UserRequestDTO>();
-		List<UserRequestDTO> list2 = new ArrayList<UserRequestDTO>();
-
-
-		AdminSessionDAO session = new AdminSessionDAO();
-		sessionList = session.GetSessionDetails(status1,status2,status3,status4,status5,status6);
-		for (SessionDTO sessionDTO : sessionList) {
-			requestIds.add(sessionDTO.getRequestId());
-			userIds.add(sessionDTO.getUserId());
-			advisorIds.add(sessionDTO.getAdvisorId());
+		Boolean isAdmin = false;
+		Boolean isError = false;
+		try{
+			isAdmin = (Boolean) request.getSession().getAttribute("admin"); 
+			}catch(Exception e){
+				response.sendRedirect("Error");
+				isError = true;
+			}
+		if(isAdmin == null){
+			isError = true;
+			response.sendRedirect("Error");
 		}
-		//Getting the request details from request table where status = "REQUEST REJECTED BY ADVISOR"
-		String requestStatus = "REQUEST REJECTED BY ADVISOR";
-		String requestStatus1 = "REQUEST REJECTED BY ADMIN";
-		String userRejectstatus = "REQUEST REJECTED BY USER";
-		AdminSessionDAO requestDetails = new AdminSessionDAO();
-		list1 = requestDetails.getUserRequestDetails(requestStatus,requestStatus1,userRejectstatus);
-		for (UserRequestDTO userRequestDTO : list1) {
-			int counter = 0;
+		if(isError!= null && !isError){
+
+			//Get all the session details having status = "WAITING FOR SESSION"
+			String status1 = "SESSION CANCELLED DUE TO ADVISOR UNAVAILABILITY";
+			String status2 = "SESSION CANCELLED DUE TO ADVISOR NO SHOW";
+			String status3 = "SESSION CANCELLED DUE TO USER UNAVAILABILITY";
+			String status4 = "SESSION CANCELLED DUE TO NO USER PAYMENT";
+			String status5 = "SESSION REJECTED BY USER";
+			String status6 = "SESSION CANCELLED DUE TO USER NO SHOW";
+			List<SessionDTO> sessionList = new ArrayList<SessionDTO>();
+			List<UserRequestDTO> userRequest = new ArrayList<UserRequestDTO>();
+			List<UserDetailsDTO> userDetailsList = new ArrayList<UserDetailsDTO>();
+			List<UserRequestDTO> list1 = new ArrayList<UserRequestDTO>();
+			List<UserRequestDTO> list2 = new ArrayList<UserRequestDTO>();
+	
+	
+			AdminSessionDAO session = new AdminSessionDAO();
+			sessionList = session.GetSessionDetails(status1,status2,status3,status4,status5,status6);
 			for (SessionDTO sessionDTO : sessionList) {
-				if(sessionDTO.getStatus().equals("SESSION REJECTED BY USER") && (sessionDTO.getRequestId() == userRequestDTO.getRequestId())){
-					counter = counter +1;
+				requestIds.add(sessionDTO.getRequestId());
+				userIds.add(sessionDTO.getUserId());
+				advisorIds.add(sessionDTO.getAdvisorId());
+			}
+			//Getting the request details from request table where status = "REQUEST REJECTED BY ADVISOR"
+			String requestStatus = "REQUEST REJECTED BY ADVISOR";
+			String requestStatus1 = "REQUEST REJECTED BY ADMIN";
+			String userRejectstatus = "REQUEST REJECTED BY USER";
+			AdminSessionDAO requestDetails = new AdminSessionDAO();
+			list1 = requestDetails.getUserRequestDetails(requestStatus,requestStatus1,userRejectstatus);
+			for (UserRequestDTO userRequestDTO : list1) {
+				int counter = 0;
+				for (SessionDTO sessionDTO : sessionList) {
+					if(sessionDTO.getStatus().equals("SESSION REJECTED BY USER") && (sessionDTO.getRequestId() == userRequestDTO.getRequestId())){
+						counter = counter +1;
+					}
 				}
+				if(counter == 0){
+					list2.add(userRequestDTO);
+					userIds.add(userRequestDTO.getUserId());
+					advisorIds.add(userRequestDTO.getAdvisorId());
+				}
+			}	
+			
+			//Getting Request Details
+			if(requestIds.size() > 0){
+				MyAccountRequestDAO dao = new MyAccountRequestDAO();
+				userRequest = dao.getRequestDetails(requestIds);
 			}
-			if(counter == 0){
-				list2.add(userRequestDTO);
-				userIds.add(userRequestDTO.getUserId());
-				advisorIds.add(userRequestDTO.getAdvisorId());
+			userRequest.addAll(list2);
+	
+			//Getting the User Details
+			if(userIds.size() > 0){
+				//Fetching user details from the userdetails table
+				UserDetailsDAO user1 = new UserDetailsDAO();
+				userDetailsList = user1.getUserDetails(userIds);
 			}
-		}	
-		
-		//Getting Request Details
-		if(requestIds.size() > 0){
-			MyAccountRequestDAO dao = new MyAccountRequestDAO();
-			userRequest = dao.getRequestDetails(requestIds);
+			
+			//Getting Advisor Details
+			if(advisorIds.size() > 0){
+				AdminRequestDAO advisorDetail = new AdminRequestDAO();
+				advisorDetails= advisorDetail.getAdvisorDetailsUsingAdvisorId(advisorIds);
+			}
+			request.setAttribute("requestDetails", userRequest);
+			request.setAttribute("userDetails", userDetailsList);
+			request.setAttribute("advisorDetails", advisorDetails);
+			
+			RequestDispatcher rd = getServletContext().getRequestDispatcher("/AdminCancelledSessions.jsp");
+	        rd.forward(request, response);
 		}
-		userRequest.addAll(list2);
-
-		//Getting the User Details
-		if(userIds.size() > 0){
-			//Fetching user details from the userdetails table
-			UserDetailsDAO user1 = new UserDetailsDAO();
-			userDetailsList = user1.getUserDetails(userIds);
-		}
-		
-		//Getting Advisor Details
-		if(advisorIds.size() > 0){
-			AdminRequestDAO advisorDetail = new AdminRequestDAO();
-			advisorDetails= advisorDetail.getAdvisorDetailsUsingAdvisorId(advisorIds);
-		}
-		request.setAttribute("requestDetails", userRequest);
-		request.setAttribute("userDetails", userDetailsList);
-		request.setAttribute("advisorDetails", advisorDetails);
-		
-		RequestDispatcher rd = getServletContext().getRequestDispatcher("/AdminCancelledSessions.jsp");
-        rd.forward(request, response);
-		
 	}
 }

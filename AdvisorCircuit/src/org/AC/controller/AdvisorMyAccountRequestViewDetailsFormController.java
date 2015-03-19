@@ -17,11 +17,13 @@ package org.AC.controller;
 ***************************************************************************************************/
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Properties;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -78,6 +80,9 @@ public class AdvisorMyAccountRequestViewDetailsFormController extends HttpServle
 		String acceptedTime = request.getParameter("optionsRadios");
 		String sessionPlan = request.getParameter("sessionplan");
 		String emailDate = request.getParameter("emaildate");
+		Properties prop = new Properties();
+	    InputStream resourceAsStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("Resources/mail.properties");
+	    prop.load(resourceAsStream);
 		try{
 			aId = (int) request.getSession().getAttribute("advisorId");
 			advisorName = (String) request.getSession().getAttribute("username");
@@ -199,8 +204,8 @@ public class AdvisorMyAccountRequestViewDetailsFormController extends HttpServle
 				if(isStatusCommit){
 					//Send Mail to Admin
 					String subject = "Advisor Accepted the session!";
-					String content = "Hi,<br>The SESSION REQUEST was accepted by the advisor!! Following are the details:<br>Advisor Name : " +advisorName+"<br>Request Id: "+rId+"<br>Session Id: "+sessionId+"<br> Accepted Date: "+acceptedTime+"<br>Session Plan: "+sessionPlan+"<br><img src=\"http://www.advisorcircuit.com/Test/assets/img/logo_black.png\" style='float:right' width='25%'>";
-					SendMail mail = new SendMail(subject, content, "admin@advisorcircuit.com","admin@advisorcircuit.com");
+					String content = "Hi, <br><br>The SESSION REQUEST was accepted by the advisor!! Following are the details:<br>Advisor Name : " +advisorName+"<br>Request Id: "+rId+"<br>Session Id: "+sessionId+"<br> Accepted Date: "+acceptedTime+"<br>Session Plan: "+sessionPlan+"<br><img src=\"http://www.advisorcircuit.com/Test/assets/img/logo_black.png\" style='float:right' width='25%'>";
+					SendMail mail = new SendMail(subject, content, prop.getProperty("MAIL_ADMIN"),prop.getProperty("MAIL_ADMIN"));
 					mail.start();
 					response.sendRedirect("AdvisorRequests?answered=true");
 				}
@@ -216,8 +221,8 @@ public class AdvisorMyAccountRequestViewDetailsFormController extends HttpServle
 			if(isStatusCommit){
 				//Send Mail to Admin
 				String subject = "Advisor Rejected the session!";
-				String content = "Hi,<br>The SESSION REQUEST was accepted by the advisor!! Following are the details: <br>Advisor Name : " +advisorName+"<br>Request Id: "+rId1+"<br><img src=\"http://www.advisorcircuit.com/Test/assets/img/logo_black.png\" style='float:right' width='25%'>";
-				SendMail mail = new SendMail(subject, content, "admin@advisorcircuit.com","admin@advisorcircuit.com");
+				String content = "Hi, <br><br>The SESSION REQUEST was accepted by the advisor!! Following are the details: <br>Advisor Name : " +advisorName+"<br>Request Id: "+rId1+"<br><img src=\"http://www.advisorcircuit.com/Test/assets/img/logo_black.png\" style='float:right' width='25%'>";
+				SendMail mail = new SendMail(subject, content, prop.getProperty("MAIL_ADMIN"),prop.getProperty("MAIL_ADMIN"));
 				mail.start();
 				response.sendRedirect("AdvisorCancelledSessions");
 			}

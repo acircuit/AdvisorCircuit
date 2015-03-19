@@ -28,14 +28,27 @@ public class AdminContactUsController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		logger.info("Entered doGet method of AdminContactUsController");
+		Boolean isAdmin = false;
+		Boolean isError = false;
+		try{
+			isAdmin = (Boolean) request.getSession().getAttribute("admin"); 
+			}catch(Exception e){
+				response.sendRedirect("Error");
+				isError = true;
+			}
+		if(isAdmin == null){
+			isError = true;
+			response.sendRedirect("Error");
+		}
 		//Getting the Contact us details
 		List<ContactUsDTO> contactList = new ArrayList<ContactUsDTO>();
 		AdminUserDAO contact = new AdminUserDAO();
 		contactList = contact.GetContactUsDetails();
-		request.setAttribute("contactList",contactList);
-		RequestDispatcher rd = getServletContext().getRequestDispatcher("/AdminContactUs.jsp");
-        rd.forward(request, response);
-		
+		if(isError!= null &&  !isError){
+			request.setAttribute("contactList",contactList);
+			RequestDispatcher rd = getServletContext().getRequestDispatcher("/AdminContactUs.jsp");
+	        rd.forward(request, response);
+		}
 		
 		logger.info("Exit doGet method of AdminContactUsController");
 	}

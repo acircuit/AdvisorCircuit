@@ -44,16 +44,30 @@ public class AdminAdvisorProfileEditController extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String email = request.getParameter("email");
+		Boolean isAdmin = false;
+		Boolean isError = false;
+		try{
+			isAdmin = (Boolean) request.getSession().getAttribute("admin"); 
+			}catch(Exception e){
+				response.sendRedirect("Error");
+				isError = true;
+			}
+		if(isAdmin == null){
+			isError = true;
+			response.sendRedirect("Error");
+		}
 		if(email != null){
 			AdminAdvisorDAO dao = new AdminAdvisorDAO();
 			int advisorId = dao.GetAdvisorId(email);
-			if(advisorId != 0){
-				
-			}else{
-				Boolean isInvalid = true;
-				request.setAttribute("isInvalidEmail",isInvalid);
-				RequestDispatcher rd = getServletContext().getRequestDispatcher("/advisor_profile_edit_email_admin.jsp");
-		        rd.forward(request, response);
+			if(isError!= null && !isError){
+				if(advisorId != 0){
+					
+				}else{
+					Boolean isInvalid = true;
+					request.setAttribute("isInvalidEmail",isInvalid);
+					RequestDispatcher rd = getServletContext().getRequestDispatcher("/advisor_profile_edit_email_admin.jsp");
+			        rd.forward(request, response);
+				}
 			}
 		}
 	}

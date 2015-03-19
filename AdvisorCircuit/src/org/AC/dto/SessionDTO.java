@@ -9,16 +9,17 @@ public class SessionDTO {
 	int advisorId;
 	int ratings;
 	Boolean isRating;
+
+	String reviewMessage;
+	String reviewMessageStatus;
+	public int getRatings() {
+		return ratings;
+	}
 	public Boolean getIsRating() {
 		return isRating;
 	}
 	public void setIsRating(Boolean isRating) {
 		this.isRating = isRating;
-	}
-	String reviewMessage;
-	String reviewMessageStatus;
-	public int getRatings() {
-		return ratings;
 	}
 	public void setRatings(int ratings) {
 		this.ratings = ratings;

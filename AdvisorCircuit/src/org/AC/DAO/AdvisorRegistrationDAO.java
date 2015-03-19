@@ -73,33 +73,90 @@ public class AdvisorRegistrationDAO {
 		logger.info("Entered checkEmail method of AdvisorRegistrationDAO");
 		return dto;
 	}
+	public AdvisorRegistrationCheckEmailDTO checkEmail(String email){
+		
+		logger.info("Entered checkEmail method of AdvisorRegistrationDAO");
+		AdvisorRegistrationCheckEmailDTO dto = new AdvisorRegistrationCheckEmailDTO();
+		if(!email.isEmpty()){
+		
+		try {
+			conn =ConnectionFactory.getConnection();
+			conn.setAutoCommit(false);
+			String query ="SELECT REGISTRATION_STATUS,ADVISOR_ID,NAME FROM advisordetails WHERE EMAIL = ?";
+			PreparedStatement pstmt = conn.prepareStatement(query);
+			pstmt.setString(1,email);
+			ResultSet results = pstmt.executeQuery();
+			if(results.first()){
+			dto.setAdvisorId(results.getInt("ADVISOR_ID"));
+			dto.setRegistrationStatus(results.getString("REGISTRATION_STATUS"));
+			dto.setName(results.getString("NAME"));
+			}
+		} catch (SQLException e) {
+			logger.error("checkEmail method of AdvisorRegistrationDAO threw error:"+e.getMessage());
+			e.printStackTrace();
+		} catch (IOException e) {
+			logger.error("checkEmail method of AdvisorRegistrationDAO threw error:"+e.getMessage());
+			e.printStackTrace();
+		} catch (PropertyVetoException e) {
+			logger.error("checkEmail method of AdvisorRegistrationDAO threw error:"+e.getMessage());
+			e.printStackTrace();
+		}finally{
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				logger.error("checkEmail method of AdvisorRegistrationDAO threw error:"+e.getMessage());
+				e.printStackTrace();
+			}
+		}
+		}
+		
+		logger.info("Entered checkEmail method of AdvisorRegistrationDAO");
+		return dto;
+	}
 	
 	
 	
 	//This function sets the General info of the advisor in the table.
-	public Boolean setGeneralInfo(String name,String gender,String age,String city,String nationality,String phone,String industry,String intro,int advisorId,String state){
+	public Boolean setGeneralInfo(String name,String gender,String age,String city,String nationality,String phone,String industry,String intro,int advisorId,String state,String edit){
 		
 	
 	logger.info("Entered setGeneralInfo method of AdvisorRegistrationDAO");
 	String status = "EducationInfo.jsp"; 
 	Boolean isGeneralInfoCommit = false;
-	
+	String query = "";
+	PreparedStatement pstmt;
 	try {
 		conn =ConnectionFactory.getConnection();
 		conn.setAutoCommit(false);
-		String query = "UPDATE advisordetails  SET NAME=?,GENDER = ?,AGE = ?,PHONE_NUMBER = ?,CITY = ?,NATIONALITY = ?,INDUSTRY = ?,INTRODUCTION = ?,REGISTRATION_STATUS = ?,STATE = ? WHERE ADVISOR_ID = ?";
-		PreparedStatement pstmt = conn.prepareStatement(query);
-		pstmt.setString(1,name );
-		pstmt.setString(2, gender);
-		pstmt.setString(3, age);
-		pstmt.setString(4, phone);
-		pstmt.setString(5, city);
-		pstmt.setString(6, nationality);
-		pstmt.setString(7, industry);
-		pstmt.setString(8, intro);
-		pstmt.setString(9, status);
-		pstmt.setString(10, state);
-		pstmt.setInt(11, advisorId);
+		if(!edit.equals("true")){
+			query = "UPDATE advisordetails  SET NAME=?,GENDER = ?,AGE = ?,PHONE_NUMBER = ?,CITY = ?,NATIONALITY = ?,INDUSTRY = ?,INTRODUCTION = ?,REGISTRATION_STATUS = ?,STATE = ? WHERE ADVISOR_ID = ?";
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1,name );
+			pstmt.setString(2, gender);
+			pstmt.setString(3, age);
+			pstmt.setString(4, phone);
+			pstmt.setString(5, city);
+			pstmt.setString(6, nationality);
+			pstmt.setString(7, industry);
+			pstmt.setString(8, intro);
+			pstmt.setString(9, status);
+			pstmt.setString(10, state);
+			pstmt.setInt(11, advisorId);
+		}else{
+			query = "UPDATE advisordetails  SET NAME=?,GENDER = ?,AGE = ?,PHONE_NUMBER = ?,CITY = ?,NATIONALITY = ?,INDUSTRY = ?,INTRODUCTION = ?,STATE = ? WHERE ADVISOR_ID = ?";
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1,name );
+			pstmt.setString(2, gender);
+			pstmt.setString(3, age);
+			pstmt.setString(4, phone);
+			pstmt.setString(5, city);
+			pstmt.setString(6, nationality);
+			pstmt.setString(7, industry);
+			pstmt.setString(8, intro);
+			pstmt.setString(9, state);
+			pstmt.setInt(10, advisorId);
+		}
+		
 		int result = pstmt.executeUpdate(); 
 		if(result >0) {
 			conn.commit();
@@ -327,7 +384,7 @@ public Boolean setRegistrationStatus(int advisorId,String  status){
 	logger.info("Exit setRegistrationStatus method of AdvisorRegistrationDAO");
 	return isRegistrationStatusCommit;
 }
-public Boolean setAdvisorServiceDetails( String service , 	int advisorId , String description) { 
+public Boolean setAdvisorServiceDetails( String service , 	int advisorId , String description, Boolean isFree) { 
 	
 	
 	logger.info("Entered setAdvisorServiceDetails method of AdvisorRegistrationDAO");	
@@ -337,11 +394,12 @@ public Boolean setAdvisorServiceDetails( String service , 	int advisorId , Strin
 			conn =ConnectionFactory.getConnection();
 			conn.setAutoCommit(false);
 		    SavepointServices = conn.setSavepoint("SavepointServices");
-			String query = "insert into advisorservices"+"(ADVISOR_ID,SERVICE,DESCRIPTION) values" + "(?, ?, ?)";
+			String query = "insert into advisorservices"+"(ADVISOR_ID,SERVICE,DESCRIPTION,ISFREE) values" + "(?, ?, ?,?)";
 			PreparedStatement pstmt = conn.prepareStatement(query);
 			pstmt.setInt(1,advisorId);
 			pstmt.setString(2,service);
 			pstmt.setString(3,description);
+			pstmt.setBoolean(4, isFree);
 			int result = pstmt.executeUpdate();
 			if(result >0) {
 				conn.commit();
@@ -822,7 +880,7 @@ public int setEmail(String email,String pass){
 		try {
 			conn =ConnectionFactory.getConnection();
 			conn.setAutoCommit(false);
-			String query ="SELECT ADVISOR_ID,SERVICE,DESCRIPTION FROM advisorservices WHERE ADVISOR_ID = ?";
+			String query ="SELECT ADVISOR_ID,SERVICE,DESCRIPTION,ISFREE FROM advisorservices WHERE ADVISOR_ID = ?";
 			PreparedStatement pstmt = conn.prepareStatement(query);
 			pstmt.setInt(1,aId);
 			ResultSet results = pstmt.executeQuery();
@@ -831,6 +889,7 @@ public int setEmail(String email,String pass){
 				service.setAdvisorId(results.getInt("ADVISOR_ID"));
 				service.setService(results.getString("SERVICE"));
 				service.setDescription(results.getString("DESCRIPTION"));
+				service.setIsFree(results.getBoolean("ISFREE"));
 				list.add(service);
 			}
 		} catch (SQLException e) {
@@ -992,11 +1051,13 @@ public int setEmail(String email,String pass){
 	public Boolean setAchievements(int aId, String[] achievement){
 		logger.info("Entered setAchievements method of AdvisorRegistrationDAO");
 		Boolean isAchievementCommit = false;
+		try {
+				conn =ConnectionFactory.getConnection();
+				conn.setAutoCommit(false);
 				for (String award : achievement) {
-					try {
+					
 						if(!award.equals("")){
-							conn =ConnectionFactory.getConnection();
-							conn.setAutoCommit(false);
+
 							Savepoint SavepointAchievement = conn.setSavepoint("SavepointAchievement");
 							String query = "insert into advisorachievements"+"(ADVISOR_ID,ACHIEVEMENTS) values" + "(?, ?)";
 							PreparedStatement pstmt = conn.prepareStatement(query);
@@ -1012,7 +1073,8 @@ public int setEmail(String email,String pass){
 								break;
 							}
 						}
-					} catch (SQLException e) {
+					} 
+		}catch (SQLException e) {
 						logger.error("setAchievements method of AdvisorRegistrationDAO threw error:"+e.getMessage());
 						e.printStackTrace();
 					} catch (IOException e) {
@@ -1029,7 +1091,6 @@ public int setEmail(String email,String pass){
 							e.printStackTrace();
 						}
 					}	
-				}
 			logger.info("Entered setAchievements method of AdvisorRegistrationDAO");
 			return isAchievementCommit;
 
@@ -1560,7 +1621,6 @@ public int setEmail(String email,String pass){
 		logger.info("Entered RemoveAwards method of AdvisorRegistrationDAO");
 		return isDeleted;
 	}
-	
 	
 	
 	private String generateQsForIn(int numQs) {

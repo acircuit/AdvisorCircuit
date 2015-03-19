@@ -60,8 +60,8 @@ public class ContactUsController extends HttpServlet {
 			if(isCommit){
 				int image = 1;
 				String subject = "Contact Us!";
-				String content = "Hi,<br>A user has sent a query through the contact us page.Following are the details:<br>Name: " +name+ "<br>Email Id: " +email+"<br>Phone: " +phone+"<br>Message: "+ message+"<br><img src=\"http://www.advisorcircuit.com/Test/assets/img/logo_black.png\" style='float:right' width='25%'>";
-				SendMail mail = new SendMail(subject, content,"contactus@advisorcircuit.com", email);
+				String content = "Hi, <br><br>A user has sent a query through the contact us page. Following are the details:<br>Name: " +name+ "<br>Email Id: " +email+"<br>Phone: " +phone+"<br>Message: "+ message+"<br><img src=\"http://www.advisorcircuit.com/Test/assets/img/logo_black.png\" style='float:right' width='25%'>";
+				SendMail mail = new SendMail(subject, content,"udaykhatry@advisorcircuit.com", email);
 				mail.start();
 				response.sendRedirect("ContactUsThankyou");
 			}

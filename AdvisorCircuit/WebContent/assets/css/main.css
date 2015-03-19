@@ -157,12 +157,23 @@ overflow:auto
 /* Global CSS */
 /* ============================================================== */
 @font-face {
-	font-family:"custom_light";
-	src:url("../fonts/NGCDMC__.TTF") /* EOT file for IE */
+	font-family: 'custom_light';
+  	src: url('../fonts/MYRIADPRO-COND.eot'); 
+  	src: url('../fonts/MYRIADPRO-COND.eot?#iefix') format('embedded-opentype'),
+       url('../fonts/MYRIADPRO-COND.woff') format('woff'),
+       url('../fonts/MYRIADPRO-COND.OTF')  format('opentype'), 
+       url('../fonts/MYRIADPRO-COND.svg#MYRIADPRO-COND') format('svg');
 }
 @font-face {
-	font-family:"custom_bold";
-	src:url("../fonts/NGCDBC__.TTF") /* TTF file for CSS3 browsers */
+	font-family: 'custom_bold';
+  	src: url('../fonts/MYRIADPRO-BOLDCOND.eot'); 
+  	src: url('../fonts/MYRIADPRO-BOLDCOND.eot?#iefix') format('embedded-opentype'),
+       url('../fonts/MYRIADPRO-BOLDCOND.woff') format('woff'),
+	   url('../fonts/MYRIADPRO-BOLDCOND.ttf') format('truetype'),
+       url('../fonts/MYRIADPRO-BOLDCOND.OTF')  format('opentype'), 
+       url('../fonts/MYRIADPRO-BOLDCOND.svg#MYRIADPRO-BOLDCOND') format('svg');
+	font-stretch: condensed;
+	unicode-range: U+0020-25CA;
 }
 h1, h2, h3, h4, h5 {
 	font-family:'custom_bold', Arial, sans-serif !important;
@@ -420,10 +431,11 @@ ul.dropdown-menu li a {
 .business h1 {
 	color:#555;
 	font-size:46px;
-	padding-bottom:24px;
 }
+
 .business h4 {
 	color:#555;
+	font-size: 21px !important;
 	margin-bottom:30px !important;
 	font-family:"custom_light", Arial, sans-serif!important;
 }
@@ -566,7 +578,6 @@ ul.dropdown-menu li a {
 
 /* Terms page */
 .term-page {
-	background:#e5e5e5;
 	padding:3% 4%;
 }
 .term-page h2 {
@@ -966,6 +977,7 @@ ul.pagination li a.activePageLink {
 	color:#fff;
 	margin:0;
 }
+
 @media only screen and (max-width: 500px) {	
 	.profile-intro h1 span {
 		display:block;
@@ -977,7 +989,7 @@ ul.pagination li a.activePageLink {
 
 .similar-advisors {
 	background:#e7e7e9;
-	margin:0;
+	margin:20px 0 0 0;
 }
 .similar-advisors h1 {
 	padding:0 15px;
@@ -994,9 +1006,19 @@ ul.pagination li a.activePageLink {
 	background:#e7e7e8;
 	padding:15px;
 	margin-bottom:30px;
+	position:relative;
 }
 .other-service .hpanel {
 	min-height:455px;
+}
+
+.other-service .free-session-cb {
+	background:url(../img/free-session-img.png) no-repeat 0 0;
+	position:absolute;
+	bottom:0;
+	right:0;
+	width:196px;
+	height:187px;
 }
 
 /* How It works */
@@ -1046,8 +1068,8 @@ ul.pagination li a.activePageLink {
 	color:#fff;
 	font-size:24px;
 	font-family:"custom_bold", Arial, sans-serif;
-	cursor:pointer;
 }
+
 .how-it-work .service-link img {
 	margin-bottom:7px;
 }
@@ -1117,6 +1139,9 @@ ul.pagination li a.activePageLink {
 	.how-it-work .service-col img {
 		width:100%;
 		height:auto!important;
+	}
+	.other-service .hpanel {
+		padding-bottom:100px;
 	}
 }
 
@@ -1264,6 +1289,90 @@ ul.tab-list li {
 	font-family:"custom_light" !important;
 }
 
+#forgot_password_form p.required {
+	font-size:15px!important;
+	margin:0!important;
+}
+
+.profile-reviews {
+	background:#e7e7e9;
+	margin-top:20px;
+	padding:15px 20px;
+}
+.profile-reviews .review {
+	overflow:hidden;
+	margin-bottom:10px;
+}
+.profile-reviews .review h3 {
+	margin:0 0 3px 0;
+}
+.profile-reviews .review img {
+	float:left;
+	margin:0 20px 15px 0;
+}
+.profile-reviews .review:last-child {
+	margin-bottom:0;
+}
+
+
+#datetimepicker1, 
+#datetimepickeremail input,
+#datetimepicker1 input,
+#datetimepicker2,
+#datetimepicker2 input,
+#datetimepicker3,
+#datetimepicker3 input,
+#datetimepicker4,
+#datetimepicker4 input,
+#datetimepicker5,#datetimepicker5 input,#datetimepicker6,#datetimepicker6 input,#datetimepickeremail,#datetimepickeremail input{display: inline-block;
+	margin-bottom: 0;
+	vertical-align: middle;
+}
+		
+#datetimepicker1 .add-on,#datetimepickeremail .add-on,#datetimepicker6 .add-on,#datetimepicker2 .add-on,#datetimepicker3 .add-on,#datetimepicker4 .add-on,#datetimepicker5 .add-on{display: inline-block;
+	width: auto;
+	height: 28px;
+	min-width: 16px;
+	padding: 0;
+	font-size: 14px;
+	font-weight: normal;
+	line-height: 20px;
+	text-align: center;
+	text-shadow: 0 1px 0 #fff;
+	background-color: #eee;
+	border: 1px solid #ccc;
+	vertical-align: top;
+	margin-left: -1px;
+	border-radius: 0 4px 4px 0;
+}
+#datetimepicker1 .add-on i,#datetimepickeremail .add-on i,#datetimepicker2 .add-on i,#datetimepicker3 .add-on i,#datetimepicker4 .add-on i,#datetimepicker5 .add-on i,#datetimepicker6 .add-on i{
+	margin-top:3px;
+	line-height: 14px;
+	vertical-align: text-top;
+	background-image: url("../img/glyphicons-halflings.png");
+	background-position: -192px -120px;
+	background-repeat: no-repeat;
+}
+
+.help-panel {
+	position:relative;
+}
+.help-panel > .help {
+	position:absolute;
+	right:15px;
+	top:5px;
+	background:url(../img/we-help-icon.png) no-repeat 0 0;
+	height:44px;
+	line-height:18px;
+	padding:3px 10px 0 52px;
+	width:135px;
+	color:#fff;
+	font-family:"custom_light" !important;
+	font-size:18px;
+	text-align:center;
+}
+
+
 @media only screen and (max-width: 480px) {
 	.ex-page img {
 		max-width:100%;
@@ -1313,6 +1422,17 @@ ul.tab-list li {
 .footer .social-link li img {
 	margin-right:8px;
 }
+
+.myreview img {
+	max-width:50%;
+}
+
+@media only screen and (min-width:1000px) and (max-width: 1100px)  {
+	ul.tab-list li,
+	ul.tab-list li a {
+		font-size:13px;
+	}
+}
 @media only screen and (max-width: 1000px) {	
 	.footer .links,
 	.footer .social-link {
@@ -1345,5 +1465,8 @@ ul.tab-list li {
 @media only screen and (max-width: 600px) {
 	.form-control {
 		width:90%;
+	}
+	.help-panel > .help {
+		display:none;
 	}
 }

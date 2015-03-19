@@ -92,6 +92,8 @@ public class AdvisorProfileServlet extends HttpServlet {
 		AdvisorModesDAO dao3 = new AdvisorModesDAO();
 		list3 = dao3.getAdvisorModesDetails(advisorId);
 		for (AdvisorModeDTO mode : list3) {
+			int priceWithServiceFee = Integer.parseInt(mode.getPrice()) + (30 * Integer.parseInt(mode.getPrice()) /100);
+			mode.setPrice(String.valueOf(priceWithServiceFee));
 			if(!mode.getModeOfCommunication().equals("email")){
 				int price = Integer.parseInt(mode.getPrice())/2;
 				mode.setPrice(String.valueOf(price));

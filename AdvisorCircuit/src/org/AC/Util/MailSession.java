@@ -25,12 +25,15 @@ public class MailSession {
 	      properties.put(prop.getProperty("JAVA_MAIL_STARTTLS_LABEL"),prop.getProperty("JAVA_MAIL_TRUE"));
 	}
 
-	public Session GetSession() throws IOException{	
+	public Session GetSession() throws IOException{
+		  final Properties prop1 = new Properties();
+	      java.io.InputStream resourceAsStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("Resources/mail.properties");
+	      prop1.load(resourceAsStream);
 		  new MailSession();
 	      Session session = Session.getDefaultInstance(properties ,new javax.mail.Authenticator(){
 	            protected PasswordAuthentication getPasswordAuthentication() {
 	                return new PasswordAuthentication(
-	                		"admin@advisorcircuit.com", "admin_ac15");// Specify the Username and the PassWord
+	                		prop1.getProperty("MAIL_ADMIN"), prop1.getProperty("MAIL_ADMIN_PASS"));// Specify the Username and the PassWord
 	            }
 	    });
 		return session;

@@ -83,6 +83,13 @@ public class BookASessionDAO {
 					logger.error("setBookASessionDetails method of BookASessionDAO threw error:"+e.getMessage());
 					e.printStackTrace();
 				}
+                   // timestamp now
+				Calendar cal = Calendar.getInstance();       // get calendar instance
+				cal.setTime(date1);                           // set cal to date
+				cal.set(Calendar.HOUR_OF_DAY, 23);            // set hour to midnight
+				cal.set(Calendar.MINUTE, 59);                 // set minute in hour
+				cal.set(Calendar.SECOND, 59); 
+				date1 = cal.getTime(); // set second in minute
 			}else{
 				//This code is to convert the string format to Date format
 				ConvertStringToDate formattedDate1 = new ConvertStringToDate();

@@ -158,6 +158,15 @@
     $("[data-toggle=popover]")
         .popover()
     </script>
+    <script type="text/javascript">
+var _urq = _urq || [];
+_urq.push(['initSite', '8571f59c-9c67-4ac9-a169-0eb6aa49f203']);
+(function() {
+var ur = document.createElement('script'); ur.type = 'text/javascript'; ur.async = true;
+ur.src = ('https:' == document.location.protocol ? 'https://cdn.userreport.com/userreport.js' : 'http://cdn.userreport.com/userreport.js');
+var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ur, s);
+})();
+</script> 
 </body>
 
 </html>

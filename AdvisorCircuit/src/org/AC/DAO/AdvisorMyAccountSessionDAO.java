@@ -152,6 +152,7 @@ public List<SessionDTO> getSessionDetailsUsingUserId(int uId, String status){
 				session.setSessionPlan(results.getString("SESSION_PLAN"));
 				session.setAcceptedDate(results.getTimestamp("ACCEPTED_DATE"));
 				session.setStatus(results.getString("STATUS"));
+				session.setReviewMessage(results.getString("REVIEW_MESSAGE"));
 				list.add(session);
 				}
 				conn.commit();

@@ -13,8 +13,10 @@ package org.AC.controller;
 ***************************************************************************************************/
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Properties;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -53,6 +55,9 @@ public class Recommendation extends HttpServlet {
 		logger.info("Entered doPost method of Recommendation");
 		String review = request.getParameter("review");
 		String sId = request.getParameter("sId");
+		Properties prop = new Properties();
+	    InputStream resourceAsStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("Resources/mail.properties");
+	    prop.load(resourceAsStream);
 		if(review == null){
 			RecommendationDTO recommendation = new RecommendationDTO();
 			ReviewAndRecommendationDAO rating = new ReviewAndRecommendationDAO();
@@ -103,8 +108,8 @@ public class Recommendation extends HttpServlet {
 								String subject ="";
 								String content ="";
 								subject = "An Advisor got reviewed";
-								content = "Hi,<br>An advisor just got reviewed.Following are the details : <br> For SessionId : " +sId+ "<br>Review Message : " +reviewmessage+"<br><img src=\"http://www.advisorcircuit.com/Test/assets/img/logo_black.png\" style='float:right' width='25%'>";
-								SendMail mail = new SendMail(subject, content, "admin@advisorcircuit.com","admin@advisorcircuit.com");
+								content = "Hi, <br><br>An advisor just got reviewed. Following are the details : <br> For SessionId : " +sId+ "<br>Review Message : " +reviewmessage+"<br><img src=\"http://www.advisorcircuit.com/Test/assets/img/logo_black.png\" style='float:right' width='25%'>";
+								SendMail mail = new SendMail(subject, content, prop.getProperty("MAIL_ADMIN"),prop.getProperty("MAIL_ADMIN"));
 								mail.start();
 								reviews = "THANK YOU FOR YOUR REVIEW";
 							}
@@ -117,8 +122,8 @@ public class Recommendation extends HttpServlet {
 									String subject ="";
 									String content ="";
 									subject = "An Advisor got reviewed";
-									content = "Hi,<br>An advisor just got reviewed.Following are the details : <br> For SessionId : " +sId+ "<br>Review Message : " +reviewmessage+"<br><img src=\"http://www.advisorcircuit.com/Test/assets/img/logo_black.png\" style='float:right' width='25%'>";
-									SendMail mail = new SendMail(subject, content, "admin@advisorcircuit.com","admin@advisorcircuit.com");
+									content = "Hi, <br><br>An advisor just got reviewed. Following are the details : <br> For SessionId : " +sId+ "<br>Review Message : " +reviewmessage+"<br><img src=\"http://www.advisorcircuit.com/Test/assets/img/logo_black.png\" style='float:right' width='25%'>";
+									SendMail mail = new SendMail(subject, content, prop.getProperty("MAIL_ADMIN"),prop.getProperty("MAIL_ADMIN"));
 									mail.start();
 									reviews = "THANK YOU FOR YOUR REVIEW.PLEASE RECOMMEND THE ADVISOR";
 								}

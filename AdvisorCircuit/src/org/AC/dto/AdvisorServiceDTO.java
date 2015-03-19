@@ -5,6 +5,13 @@ public class AdvisorServiceDTO {
 	private int advisorId;
 	private String service;
 	private String description;
+	private Boolean isFree;
+	public Boolean getIsFree() {
+		return isFree;
+	}
+	public void setIsFree(Boolean isFree) {
+		this.isFree = isFree;
+	}
 	public int getAdvisorId() {
 		return advisorId;
 	}

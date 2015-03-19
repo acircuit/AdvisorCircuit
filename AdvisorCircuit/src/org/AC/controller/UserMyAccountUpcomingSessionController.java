@@ -80,13 +80,16 @@ public class UserMyAccountUpcomingSessionController extends HttpServlet {
 			if(requestIds.size() > 0){
 				MyAccountRequestDAO dao = new MyAccountRequestDAO();
 				list1 = dao.getRequestDetails(requestIds);	
-			}			
+			}
 			//Setting time left for the session
 			for (UserRequestDTO userRequestDTO : list1) {
 				for (SessionDTO sessionDTO : list) {
 					if(sessionDTO.getRequestId() == userRequestDTO.getRequestId()){
+						userRequestDTO.setReviewMesage(sessionDTO.getReviewMessage());
+						userRequestDTO.setSessionId(sessionDTO.getSessionId());
 						Timestamp sessionDate = sessionDTO.getAcceptedDate();
 						sessionDTO.setAcceptedDateString(new SimpleDateFormat("dd-MMM-yyyy' 'h:mm a").format(new Date(sessionDTO.getAcceptedDate().getTime())));
+						userRequestDTO.setAcceptedDate(sessionDTO.getAcceptedDateString());
 						GetTimeLeftForReply time = new GetTimeLeftForReply();
 						difference = time.getTimeLeftForSession(sessionDate);
 						if(difference.size() > 0){
@@ -107,7 +110,6 @@ public class UserMyAccountUpcomingSessionController extends HttpServlet {
 				request.setAttribute("requests", list1);
 				request.setAttribute("advisordetails", list2);
 				request.setAttribute("sId", sessionId);
-				
 				RequestDispatcher rd = getServletContext().getRequestDispatcher("/UserUpcomingSession.jsp");
 		        rd.forward(request, response);
 		}

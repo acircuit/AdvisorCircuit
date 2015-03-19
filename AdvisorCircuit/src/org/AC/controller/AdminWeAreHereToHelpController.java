@@ -29,14 +29,26 @@ public class AdminWeAreHereToHelpController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		logger.info("Entered doGet method of AdminWeAreHereToHelpController");
-		//Getting the details from heretohelp table
-		List<HereToHelpDTO> list = new ArrayList<HereToHelpDTO>();
-		AdminUserDAO user = new AdminUserDAO();
-		list = user.GetHereToHelpDetails();
-		request.setAttribute("heretohelp", list);
-		RequestDispatcher rd = getServletContext().getRequestDispatcher("/WeAreHereToHelp.jsp");
-        rd.forward(request, response);
-		
+		Boolean isAdmin = false;
+		Boolean isError = false;
+		try{
+			isAdmin = (Boolean) request.getSession().getAttribute("admin"); 
+			}catch(Exception e){
+				response.sendRedirect("Error");
+			}
+		if(isAdmin == null){
+			isError = true;
+			response.sendRedirect("Error");
+		}
+		if(isError!= null &&  !isError){
+			//Getting the details from heretohelp table
+			List<HereToHelpDTO> list = new ArrayList<HereToHelpDTO>();
+			AdminUserDAO user = new AdminUserDAO();
+			list = user.GetHereToHelpDetails();
+			request.setAttribute("heretohelp", list);
+			RequestDispatcher rd = getServletContext().getRequestDispatcher("/WeAreHereToHelp.jsp");
+	        rd.forward(request, response);
+		}
 		logger.info("Entered doGet method of AdminWeAreHereToHelpController");
 	}
 }

@@ -16,6 +16,7 @@ import javax.servlet.http.Part;
 import org.AC.DAO.AdminSessionDAO;
 import org.AC.DAO.AdvisorMyAccountSessionDAO;
 import org.AC.DAO.ChangeRequestStatusDAO;
+import org.AC.Util.SendMail;
 import org.AC.Util.SetFile;
 import org.apache.log4j.Logger;
 
@@ -71,6 +72,13 @@ public class ApproveFeedbackController extends HttpServlet {
 				}
 				
 				if(isFeedbackFormCommit){
+					Properties prop1 = new Properties();
+			        InputStream resourceAsStream1 = Thread.currentThread().getContextClassLoader().getResourceAsStream("Resources/mail.properties");
+			        prop1.load(resourceAsStream1);
+			        String subject1= "Advisor "+service+" Feedback!";
+					String content1 = "Hi, <br><br> An Advisor gave "+service+ "feedback. Following are the details: <br>Session Id : "+sId+"<br><img src=\"http://www.advisorcircuit.com/Test/assets/img/logo_black.png\" style='float:right' width='25%'>";
+					SendMail mail1 = new SendMail(subject1, content1, prop1.getProperty("MAIL_ADMIN"),prop1.getProperty("MAIL_ADMIN"));
+					mail1.start();
 					response.getWriter().write("Your FeedBack has been submitted");
 				}
 		}else if (details != null && sId != null) {

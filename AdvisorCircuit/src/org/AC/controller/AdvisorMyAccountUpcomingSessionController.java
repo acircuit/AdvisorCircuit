@@ -104,6 +104,7 @@ public class AdvisorMyAccountUpcomingSessionController extends HttpServlet {
 						userRequestDTO.setAcceptedDateForClock(dateFormat.format(sessionDTO.getAcceptedDate()));
 						SimpleDateFormat dateFormat1 = new SimpleDateFormat("dd-MMM-yyyy' 'h:mm a");
 						sessionDTO.setAcceptedDateString(new SimpleDateFormat("dd-MMM-yyyy' 'h:mm a").format(new Date(sessionDTO.getAcceptedDate().getTime())));
+						userRequestDTO.setAcceptedDate(sessionDTO.getAcceptedDateString());
 						SessionDate = dateFormat1.format(sessionDate);
 						GetTimeLeftForReply time = new GetTimeLeftForReply();
 						difference = time.getTimeLeftForSession(sessionDate);

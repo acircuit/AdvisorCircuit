@@ -60,7 +60,7 @@ public class AdvisorRegistrationProfessionalBackgroundControler extends HttpServ
 					
 					for (ProfessionalBackgroundDTO professional : list) {
 						int i=0;
-						String[] description = new String[10];
+						String[] description = new String[50];
 						for (ProfessionalBackgroundDTO profession : descriptions) {
 							if(professional.getProfId() == profession.getProfId()){
 								description[i]=profession.getDescription();
@@ -147,6 +147,10 @@ public class AdvisorRegistrationProfessionalBackgroundControler extends HttpServ
 		String[] description8 = request.getParameterValues("description8[]");
 		String[] description9 = request.getParameterValues("description9[]");
 		String[] description10 = request.getParameterValues("description10[]");
+		String edit = request.getParameter("edit");
+		if(edit == null){
+			edit = "false";
+		}
 		//This is for setting the professional background of the advisor
 		if(aId != 0){
 			if(company.length > 0  && designation.length > 0 && duration.length > 0) {
@@ -176,7 +180,7 @@ public class AdvisorRegistrationProfessionalBackgroundControler extends HttpServ
 						isDescriptionCommit =	professions.setDescription(aId,descriptions);
 					}
 				}
-					if(isDescriptionCommit){
+					if(isDescriptionCommit && !edit.equals("true")){
 						String status = "OtherInfo.jsp";
 						//Change the Registration Status in advisorregistrationprofiledetails table
 						AdvisorRegistrationDAO dao1 = new AdvisorRegistrationDAO();	
@@ -184,6 +188,8 @@ public class AdvisorRegistrationProfessionalBackgroundControler extends HttpServ
 						if(isRegistrationStatusCommit){
 							response.sendRedirect("AdvisorRegistrationOtherInfo");
 						}
+					}else{
+						response.sendRedirect("AdvisorRegistrationOtherInfo");
 					}
 			}
 		}

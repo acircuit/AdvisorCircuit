@@ -63,6 +63,9 @@ public class UserMyAccountPaymentController extends HttpServlet {
 		String sId = request.getParameter("sessionId");
 		String rId = request.getParameter("rId");
 		String acceptedDate = request.getParameter("optionsRadios");
+		Properties prop1 = new Properties();
+	    InputStream resourceAsStream1 = Thread.currentThread().getContextClassLoader().getResourceAsStream("Resources/mail.properties");
+	    prop1.load(resourceAsStream1);
 		if(sId!= null && rId != null && acceptedDate == null){
 			Properties prop = new Properties();
 		    InputStream resourceAsStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("Resources/Path.properties");
@@ -82,8 +85,8 @@ public class UserMyAccountPaymentController extends HttpServlet {
 					ChangeRequestStatusDAO copy = new ChangeRequestStatusDAO();
 					String service = copy.GetService(rId);				
 					String subject = "User Payment Done!";
-					String content = "Hi,<br>User Payment Done For Session Id : "+sId+" <br>Now, Waiting for session to happen"+"<br><img src=\"http://www.advisorcircuit.com/Test/assets/img/logo_black.png\" style='float:right' width='25%'>";
-					SendMail mail = new SendMail(subject, content, "admin@advisorcircuit.com","admin@advisorcircuit.com");
+					String content = "Hi, <br><br>User Payment Done For Session Id : "+sId+" <br>Now, Waiting for session to happen"+"<br><img src=\"http://www.advisorcircuit.com/Test/assets/img/logo_black.png\" style='float:right' width='25%'>";
+					SendMail mail = new SendMail(subject, content, prop1.getProperty("MAIL_ADMIN"),prop1.getProperty("MAIL_ADMIN"));
 					mail.start();
 					response.sendRedirect("UserUpcomingSessions");
 					//RequestDispatcher rd = getServletContext().getRequestDispatcher("/UserMyaccountUpcomingSessionController");
@@ -115,8 +118,8 @@ public class UserMyAccountPaymentController extends HttpServlet {
 					ChangeRequestStatusDAO copy = new ChangeRequestStatusDAO();
 					String service = copy.GetService(rId);
 					String subject = "User Payment Done!";
-					String content = "Hi,<br>User Payment Done For Session Id : "+sId+" <br>Now, Waiting for session to happen"+"<br><img src=\"http://www.advisorcircuit.com/Test/assets/img/logo_black.png\" style='float:right' width='25%'>";
-					SendMail mail = new SendMail(subject, content, "admin@advisorcircuit.com","admin@advisorcircuit.com");
+					String content = "Hi, <br><br>User Payment Done For Session Id : "+sId+" <br>Now, Waiting for session to happen"+"<br><img src=\"http://www.advisorcircuit.com/Test/assets/img/logo_black.png\" style='float:right' width='25%'>";
+					SendMail mail = new SendMail(subject, content, prop1.getProperty("MAIL_ADMIN"),prop1.getProperty("MAIL_ADMIN"));
 					mail.start();
 					response.sendRedirect("UserUpcomingSessions");
 					//RequestDispatcher rd = getServletContext().getRequestDispatcher("/UserMyaccountUpcomingSessionController");

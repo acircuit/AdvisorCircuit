@@ -49,17 +49,31 @@ public class AdminViewUserProfileController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		logger.info("Entered doGet method of AdminViewUserProfileController");	
-		String email = request.getParameter("email");
-		if(email != null){
-	    	UserDetailsDTO user = new UserDetailsDTO();
-	    	AdminUserDAO userDetails = new AdminUserDAO();
-	    	user = userDetails.GetUserDetails(email);
-	    	if(user.getUserId() != 0 && user.getEmail() != null){
-	    		CreateUserFormPDF pdf = new CreateUserFormPDF();
-	    		pdf.createPDF(response, user.getUserId(), user.getEmail(), user.getFullName(), user.getPhone(), user.getAge(), user.getOccupation(), user.getImage(),user.getDateOfRegistration(),user.getIsActive());
-	    		
-	    	}
-		}		
+		Boolean isAdmin = false;
+		Boolean isError = false;
+		try{
+			isAdmin = (Boolean) request.getSession().getAttribute("admin"); 
+			}catch(Exception e){
+				response.sendRedirect("Error");
+				isError = true;
+			}
+		if(isAdmin == null){
+			isError = true;
+			response.sendRedirect("Error");
+		}
+		if(isError!= null &&  !isError){
+			String email = request.getParameter("email");
+			if(email != null){
+		    	UserDetailsDTO user = new UserDetailsDTO();
+		    	AdminUserDAO userDetails = new AdminUserDAO();
+		    	user = userDetails.GetUserDetails(email);
+		    	if(user.getUserId() != 0 && user.getEmail() != null){
+		    		CreateUserFormPDF pdf = new CreateUserFormPDF();
+		    		pdf.createPDF(response, user.getUserId(), user.getEmail(), user.getFullName(), user.getPhone(), user.getAge(), user.getOccupation(), user.getImage(),user.getDateOfRegistration(),user.getIsActive());
+		    		
+		    	}
+			}	
+		}
 		logger.info("Entered doGet method of AdminViewUserProfileController");	
 	}
 }

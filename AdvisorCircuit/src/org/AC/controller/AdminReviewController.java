@@ -51,13 +51,27 @@ public class AdminReviewController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		logger.info("Entered doPost method of AdminReviewController");
-		//Get All the session details to show on the AdminReview.jsp
-		List<SessionDTO> sessionList = new ArrayList<SessionDTO>();
-		AdminSessionDAO session = new AdminSessionDAO();
-		sessionList = session.GetSessionDetails();
-		request.setAttribute("sessionList", sessionList);
-		RequestDispatcher rd = getServletContext().getRequestDispatcher("/AdminReview.jsp");
-		rd.forward(request, response);
+		Boolean isAdmin = false;
+		Boolean isError = false;
+		try{
+			isAdmin = (Boolean) request.getSession().getAttribute("admin"); 
+			}catch(Exception e){
+				response.sendRedirect("Error");
+				isError = true;
+			}
+		if(isAdmin == null){
+			isError = true;
+			response.sendRedirect("Error");
+		}
+		if(isError!= null &&  !isError){
+			//Get All the session details to show on the AdminReview.jsp
+			List<SessionDTO> sessionList = new ArrayList<SessionDTO>();
+			AdminSessionDAO session = new AdminSessionDAO();
+			sessionList = session.GetSessionDetails();
+			request.setAttribute("sessionList", sessionList);
+			RequestDispatcher rd = getServletContext().getRequestDispatcher("/AdminReview.jsp");
+			rd.forward(request, response);
+		}
 		logger.info("Exit doPost method of AdminReviewController");
 	}
 }

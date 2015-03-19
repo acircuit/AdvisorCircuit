@@ -17,10 +17,32 @@ public class UserRequestDTO {
 	long days;
 	String timeString1;
 	String timeString2;
+	public int getSessionId() {
+		return sessionId;
+	}
+	public void setSessionId(int sessionId) {
+		this.sessionId = sessionId;
+	}
 	String timeString3;
 	String timeString4;
 	String timeString5;
 	String timeString6;
+	String acceptedDate;
+	String reviewMesage;
+	int sessionId;
+
+	public String getReviewMesage() {
+		return reviewMesage;
+	}
+	public void setReviewMesage(String reviewMesage) {
+		this.reviewMesage = reviewMesage;
+	}
+	public String getAcceptedDate() {
+		return acceptedDate;
+	}
+	public void setAcceptedDate(String acceptedDate) {
+		this.acceptedDate = acceptedDate;
+	}
 	public String getTimeString2() {
 		return timeString2;
 	}

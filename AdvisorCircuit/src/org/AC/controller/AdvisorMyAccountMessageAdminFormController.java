@@ -1,10 +1,12 @@
 package org.AC.controller;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -42,6 +44,9 @@ public class AdvisorMyAccountMessageAdminFormController extends HttpServlet {
 				response.sendRedirect("Error");
 			}
 		 advisorMessage = request.getParameter("advisormessage");
+		 Properties prop = new Properties();
+	     InputStream resourceAsStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("Resources/mail.properties");
+	     prop.load(resourceAsStream);
 		 if(advisorId != 0 && advisorMessage != null && !("").equals(advisorMessage)){
 			 
 			 //Put the message in the advisormessageadmin table
@@ -59,8 +64,8 @@ public class AdvisorMyAccountMessageAdminFormController extends HttpServlet {
 				}
 				 if(advisorId != 0  && !("").equals(advisorEmail) && !("").equals(advisorName)){
 					 	String subject ="New Message From Advisor To Admin!!!!!";
-						String content ="Hi,<br> An Advisor has sent a message to admin.Following are the details: <br>Message By : " +advisorName+ "<br>Email Id: " +advisorEmail+ "<br>Advisor Id: " +advisorId+ "<br>Message: " +advisorMessage+"<br><img src=\"http://www.advisorcircuit.com/Test/assets/img/logo_black.png\" style='float:right' width='25%'>";
-						SendMail mail = new SendMail(subject, content, "admin@advisorcircuit.com","admin@advisorcircuit.com");
+						String content ="Hi, <br><br> An Advisor has sent a message to admin. Following are the details: <br>Message By : " +advisorName+ "<br>Email Id: " +advisorEmail+ "<br>Advisor Id: " +advisorId+ "<br>Message: " +advisorMessage+"<br><img src=\"http://www.advisorcircuit.com/Test/assets/img/logo_black.png\" style='float:right' width='25%'>";
+						SendMail mail = new SendMail(subject, content, prop.getProperty("MAIL_ADMIN"),prop.getProperty("MAIL_ADMIN"));
 						mail.start();
 				 }
 				 RequestDispatcher rd = getServletContext().getRequestDispatcher("/AdvisorMessageAdmin");

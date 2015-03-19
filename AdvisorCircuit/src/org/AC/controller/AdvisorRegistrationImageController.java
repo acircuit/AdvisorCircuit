@@ -1,6 +1,8 @@
 package org.AC.controller;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -32,6 +34,9 @@ public class AdvisorRegistrationImageController extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		logger.info("Entered doPost method of AdvisorRegistrationImageController");	
 		String email = "";
+		Properties prop = new Properties();
+	    InputStream resourceAsStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("Resources/mail.properties");
+	    prop.load(resourceAsStream);
 		int aId = 0;
 			try{
 				 email = (String) request.getSession().getAttribute("email");
@@ -53,8 +58,8 @@ public class AdvisorRegistrationImageController extends HttpServlet {
 				if(isImageCommit){
 					//Mail the admin
 					String subject = "New Registration by Advisor!!!!!";
-					String content = "Hi,<br>An advisor registered with us.Following are the details: <br>Email Id :</h3>" +email+"<br><img src=\"http://www.advisorcircuit.com/Test/assets/img/logo_black.png\" style='float:right' width='25%'>";
-					SendMail mail = new SendMail(subject, content,"admin@advisorcircuit.com",email);
+					String content = "Hi, <br><br>An advisor registered with us. Following are the details: <br>Email Id :</h3>" +email+"<br><img src=\"http://www.advisorcircuit.com/Test/assets/img/logo_black.png\" style='float:right' width='25%'>";
+					SendMail mail = new SendMail(subject, content,prop.getProperty("MAIL_ADMIN"),email);
 					mail.start();
 					response.sendRedirect("RegistrationComplete");
 				}

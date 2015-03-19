@@ -34,6 +34,8 @@ public class AdvisorRegistrationOtherInfoControler extends HttpServlet {
 			response.sendRedirect("Email");
 		}
 		String fromTab = request.getParameter("tab");
+		String edit = request.getParameter("edit");
+
 		if(advisorId != 0){
 			List<AdvisorProfileDTO> achievements = new ArrayList<AdvisorProfileDTO>();
 			List<AdvisorProfileDTO> keySkill = new ArrayList<AdvisorProfileDTO>();
@@ -103,6 +105,10 @@ public class AdvisorRegistrationOtherInfoControler extends HttpServlet {
 		String[] achievement = request.getParameterValues("achievement[]");
 		String[] keyskills =request.getParameterValues("keyskills[]");
 		String hobbies =request.getParameter("hobbies");
+		String edit = request.getParameter("edit");
+		if(edit == null){
+			edit = "false";
+		}
 		Boolean isHobbyCommit = false;
 		if(aId != 0){
 			if(!hobbies.isEmpty() && keyskills.length >0){
@@ -126,8 +132,17 @@ public class AdvisorRegistrationOtherInfoControler extends HttpServlet {
 					AdvisorRegistrationDAO hobby = new AdvisorRegistrationDAO();
 					isHobbyCommit = hobby.setHobbies(aId, hobbies);
 				}
-				if(isHobbyCommit && !isError){
-					response.sendRedirect("AdvisorRegistrationServices");
+				if(!isError){
+					if(isHobbyCommit  && edit.equals("true") ){
+						response.sendRedirect("AdvisorRegistrationServices");
+					}else{
+						//Changing the status of the Advisor To ProfessionalBackground.jsp
+						AdvisorRegistrationDAO status = new AdvisorRegistrationDAO();
+						Boolean isStatusCommit = status.setRegistrationStatus(aId, "Services.jsp");
+						if(isStatusCommit){
+							response.sendRedirect("AdvisorRegistrationServices");
+						}
+					}
 				}
 			}
 		}

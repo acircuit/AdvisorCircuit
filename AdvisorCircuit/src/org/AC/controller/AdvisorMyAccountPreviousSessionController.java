@@ -8,7 +8,9 @@ package org.AC.controller;
 
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -87,6 +89,14 @@ public class AdvisorMyAccountPreviousSessionController extends HttpServlet {
 				//String rId= Integer.toString(requestIds);
 				MyAccountRequestDAO dao = new MyAccountRequestDAO();
 				list1 = dao.getRequestDetails(requestIds);	
+			}
+			for (UserRequestDTO requests : list1) {
+				for (SessionDTO sessionDTO : list) {
+					if(requests.getRequestId() == sessionDTO.getRequestId()){
+						sessionDTO.setAcceptedDateString(new SimpleDateFormat("dd-MMM-yyyy' 'h:mm a").format(new Date(sessionDTO.getAcceptedDate().getTime())));
+						requests.setAcceptedDate(sessionDTO.getAcceptedDateString());
+					}
+				}
 			}
 			if(userIds.size() > 0){
 				//Fetching user details from the uderdetails table

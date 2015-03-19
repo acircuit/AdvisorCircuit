@@ -59,6 +59,9 @@ public class SessionFileController extends HttpServlet {
 		String isAdvisor = (String)request.getParameter("advisor");
 		String fromUser = (String) request.getParameter("fromUser");
 		List<FilesDTO> files = new ArrayList<FilesDTO>();
+		Properties prop1 = new Properties();
+	    InputStream resourceAsStream1 = Thread.currentThread().getContextClassLoader().getResourceAsStream("Resources/mail.properties");
+	    prop1.load(resourceAsStream1);
 		if(sId != null && getFile == null){
 			Properties prop = new Properties();
 		    InputStream resourceAsStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("Resources/Path.properties");
@@ -74,12 +77,12 @@ public class SessionFileController extends HttpServlet {
 					 String content ="";
 					 if(("true").equals(fromUser)){
 						 subject = "New File Uploaded by User!!!!!";
-						 content = "Hi,<br> A new File has been uploaded by user for : <br>Session Id  : " +sId+ " <br>Uploaded By : USER"+"<br><img src=\"http://www.advisorcircuit.com/Test/assets/img/logo_black.png\" style='float:right' width='25%'>";
+						 content = "Hi, <br><br> A new File has been uploaded by user for : <br>Session Id  : " +sId+ " <br>Uploaded By : USER"+"<br><img src=\"http://www.advisorcircuit.com/Test/assets/img/logo_black.png\" style='float:right' width='25%'>";
 			         }else{
 			        	 subject = "New File Uploaded by Advisor!!!!!";
-			        	 content = "Hi,<br> A new File has been uploaded by Advisor for : <br>Session Id  : " +sId+ " <br>Uploaded By : ADVISOR"+"<br><img src=\"http://www.advisorcircuit.com/Test/assets/img/logo_black.png\" style='float:right' width='25%'>"; 
+			        	 content = "Hi, <br><br> A new File has been uploaded by Advisor for : <br>Session Id  : " +sId+ " <br>Uploaded By : ADVISOR"+"<br><img src=\"http://www.advisorcircuit.com/Test/assets/img/logo_black.png\" style='float:right' width='25%'>"; 
 			         }
-					SendMail mail = new SendMail(subject, content, "admin@advisorcircuit.com","admin@advisorcircuit.com");
+					SendMail mail = new SendMail(subject, content, prop1.getProperty("MAIL_ADMIN"),prop1.getProperty("MAIL_ADMIN"));
 					mail.start();
 					response.getWriter().write("Your File has been Uploaded");
 				}

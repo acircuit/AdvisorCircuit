@@ -54,6 +54,9 @@ public class ForgotPasswordController extends HttpServlet {
 		String register = (String)request.getParameter("register");
 		Properties prop = new Properties();
         InputStream resourceAsStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("Resources/mail.properties");
+        Properties prop1 = new Properties();
+	    InputStream resourceAsStream1 = Thread.currentThread().getContextClassLoader().getResourceAsStream("Resources/mail.properties");
+	    prop1.load(resourceAsStream1);
         try {
 			prop.load(resourceAsStream);
 		} catch (IOException e1) {
@@ -77,8 +80,8 @@ public class ForgotPasswordController extends HttpServlet {
 							if(isInsertComplete){
 								String url = prop.getProperty("ADVISOR_FORGOT_PASSWORD_MAIL_URL")+advisorId;
 								String subject ="Forgot Password";
-								String content ="Hi,<br>Please Click on the below link to set your New Password: <br><a href= '"+url+"'>Click Here To Set New Password</a>"+"<br><img src=\"http://www.advisorcircuit.com/Test/assets/img/logo_black.png\" style='float:right' width='25%'>";
-								SendMail mail = new SendMail(subject, content, email,"admin@advisorcircuit.com");
+								String content ="Hi, <br><br>Please Click on the below link to set your New Password: <br><a href= '"+url+"'>Click Here To Set New Password</a>"+"<br><img src=\"http://www.advisorcircuit.com/Test/assets/img/logo_black.png\" style='float:right' width='25%'>";
+								SendMail mail = new SendMail(subject, content, email,prop1.getProperty("MAIL_ADMIN"));
 								mail.start();	
 									response.getWriter().write("<h3>A Mail has been sent to your registered Email Id.</h3><p>Please check your mail and reset your password</p>");
 							}

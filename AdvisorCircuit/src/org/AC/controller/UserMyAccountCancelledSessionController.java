@@ -111,6 +111,9 @@ public class UserMyAccountCancelledSessionController extends HttpServlet {
 						counter = counter +1;
 					}
 				}
+				if(userRequestDTO.getStatus().equals("REQUEST REJECTED BY ADMIN")){
+					userRequestDTO.setStatus("YOUR REQUEST COULD NOT BE ACCEPTED");
+				}
 				if(counter == 0){
 					list3.add(userRequestDTO);
 					advisorIds.add(userRequestDTO.getAdvisorId());

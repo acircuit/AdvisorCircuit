@@ -1,6 +1,8 @@
 package org.AC.controller;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -45,6 +47,9 @@ public class UserMyAccountRequestViewDetailsFormController extends HttpServlet {
 		 rId = (String) request.getParameter("rId");
 		 cancel = (String) request.getParameter("cancel");
 		 sessionId = (String) request.getParameter("sessionId");
+		 Properties prop = new Properties();
+	     InputStream resourceAsStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("Resources/mail.properties");
+		 prop.load(resourceAsStream);
 		//Check if the user has cancelled the session
 		if( cancel == null ){
 				
@@ -61,15 +66,15 @@ public class UserMyAccountRequestViewDetailsFormController extends HttpServlet {
 				Boolean isSessionStatusCommit = sessionStatus.setStatus("SESSION REJECTED BY USER", sessionId);
 				if(isSessionStatusCommit){
 					String subject = "Session Rejected By User!";
-					String content = "Hi,<br>The Session was rejected by the user for Session Id : "+sessionId+ " and Request Id :"+rId1+"<br><img src=\"http://www.advisorcircuit.com/Test/assets/img/logo_black.png\" style='float:right' width='25%'>";
-					SendMail mail = new SendMail(subject, content, "admin@advisorcircuit.com","admin@advisorcircuit.com");
+					String content = "Hi, <br><br>The Session was rejected by the user for Session Id : "+sessionId+ " and Request Id :"+rId1+"<br><img src=\"http://www.advisorcircuit.com/Test/assets/img/logo_black.png\" style='float:right' width='25%'>";
+					SendMail mail = new SendMail(subject, content, prop.getProperty("MAIL_ADMIN"),prop.getProperty("MAIL_ADMIN"));
 					mail.start();
 					response.sendRedirect("UserCancelledSessions");
 				}
 			}else if (isStatusCommit) {
 				String subject = "Session Rejected By User!";
-				String content = "Hi,<br>The Session was rejected by the user for Request Id :"+rId1+"<br><img src=\"http://www.advisorcircuit.com/Test/assets/img/logo_black.png\" style='float:right' width='25%'>";
-				SendMail mail = new SendMail(subject, content, "admin@advisorcircuit.com","admin@advisorcircuit.com");
+				String content = "Hi, <br><br>The Session was rejected by the user for Request Id :"+rId1+"<br><img src=\"http://www.advisorcircuit.com/Test/assets/img/logo_black.png\" style='float:right' width='25%'>";
+				SendMail mail = new SendMail(subject, content, prop.getProperty("MAIL_ADMIN"),prop.getProperty("MAIL_ADMIN"));
 				mail.start();
 				response.sendRedirect("UserCancelledSessions");
 			}

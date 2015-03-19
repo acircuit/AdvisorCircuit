@@ -58,56 +58,70 @@ public class AdminMyAccountUserAdvisorMessagesController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		logger.info("Entered doGet method of AdminMyAccountUserAdvisorMessagesController");
 		String sId = request.getParameter("sessionid");
-		if(sId != null){
-		//Get all User Messages for this session Id.
-			List<UserMessageDTO> usermessages = new ArrayList<UserMessageDTO>();
-			SessionMssagesDAO userMessage = new SessionMssagesDAO();
-			usermessages = userMessage.GetMessages(sId);
-			for (UserMessageDTO userMessageDTO : usermessages) {
-				SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MMM-yyyy' 'h:mm a");
-				if(userMessageDTO.getUserMessageTime() != null){
-					userMessageDTO.setUserMessageTimeString(dateFormat.format(userMessageDTO.getUserMessageTime()));
+		Boolean isAdmin = false;
+		Boolean isError = false;
+		try{
+			isAdmin = (Boolean) request.getSession().getAttribute("admin"); 
+			}catch(Exception e){
+				response.sendRedirect("Error");
+				isError = true;
+			}
+		if(isAdmin == null){
+			isError = true;
+			response.sendRedirect("Error");
+		}
+		if(isError!= null &&  !isError){
+			if(sId != null){
+			//Get all User Messages for this session Id.
+				List<UserMessageDTO> usermessages = new ArrayList<UserMessageDTO>();
+				SessionMssagesDAO userMessage = new SessionMssagesDAO();
+				usermessages = userMessage.GetMessages(sId);
+				for (UserMessageDTO userMessageDTO : usermessages) {
+					SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MMM-yyyy' 'h:mm a");
+					if(userMessageDTO.getUserMessageTime() != null){
+						userMessageDTO.setUserMessageTimeString(dateFormat.format(userMessageDTO.getUserMessageTime()));
+					}
 				}
-			}
-		//Get all Advisor Messages for this session Id.
-			List<AdvisorMessageDTO> advisormessages = new ArrayList<AdvisorMessageDTO>();
-			SessionMssagesDAO advisorMessage = new SessionMssagesDAO();
-			advisormessages = advisorMessage.GetAdvisorMessages(sId);
-			for (AdvisorMessageDTO advisorMessageDTO : advisormessages) {
-				SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MMM-yyyy' 'h:mm a");
-				if(advisorMessageDTO.getAdvisorMessageTime() != null){
-					advisorMessageDTO.setAdvisorMessageTimeString(dateFormat.format(advisorMessageDTO.getAdvisorMessageTime()));
+			//Get all Advisor Messages for this session Id.
+				List<AdvisorMessageDTO> advisormessages = new ArrayList<AdvisorMessageDTO>();
+				SessionMssagesDAO advisorMessage = new SessionMssagesDAO();
+				advisormessages = advisorMessage.GetAdvisorMessages(sId);
+				for (AdvisorMessageDTO advisorMessageDTO : advisormessages) {
+					SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MMM-yyyy' 'h:mm a");
+					if(advisorMessageDTO.getAdvisorMessageTime() != null){
+						advisorMessageDTO.setAdvisorMessageTimeString(dateFormat.format(advisorMessageDTO.getAdvisorMessageTime()));
+					}
 				}
-			}
-		//Get All the Files Uploaded For this session Id.
-			Properties prop = new Properties();
-	         InputStream resourceAsStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("Resources/Path.properties");
-	         try {
-				prop.load(resourceAsStream);
-			} catch (IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-			List<FilesDTO> files = new ArrayList<FilesDTO>();
-			SessionMssagesDAO file = new SessionMssagesDAO();
-			files = file.GetFilesList(sId);
-			for (FilesDTO filesDTO : files) {
-				SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MMM-yyyy' 'h:mm a");
-				if(filesDTO.getTime() != null){
-					filesDTO.setTimeString(dateFormat.format(filesDTO.getTime()));
+			//Get All the Files Uploaded For this session Id.
+				Properties prop = new Properties();
+		         InputStream resourceAsStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("Resources/Path.properties");
+		         try {
+					prop.load(resourceAsStream);
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
 				}
-				String fileURL = filesDTO.getFileURL();
-				String fileName = fileURL.substring(fileURL.lastIndexOf(prop.getProperty("FILE_NAME_SUBSTRING_LAST_INDEX"))+1, fileURL.length());
-				String href = "DownloadFile?id="+filesDTO.getId();
-				filesDTO.setFileName(fileName);
-				filesDTO.setHref(href);
+				List<FilesDTO> files = new ArrayList<FilesDTO>();
+				SessionMssagesDAO file = new SessionMssagesDAO();
+				files = file.GetFilesList(sId);
+				for (FilesDTO filesDTO : files) {
+					SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MMM-yyyy' 'h:mm a");
+					if(filesDTO.getTime() != null){
+						filesDTO.setTimeString(dateFormat.format(filesDTO.getTime()));
+					}
+					String fileURL = filesDTO.getFileURL();
+					String fileName = fileURL.substring(fileURL.lastIndexOf(prop.getProperty("FILE_NAME_SUBSTRING_LAST_INDEX"))+1, fileURL.length());
+					String href = "DownloadFile?id="+filesDTO.getId();
+					filesDTO.setFileName(fileName);
+					filesDTO.setHref(href);
+				}
+				
+				request.setAttribute("usermessages", usermessages);
+				request.setAttribute("advisormessages", advisormessages);
+				request.setAttribute("files", files);
+				RequestDispatcher rd = getServletContext().getRequestDispatcher("/AdminMessagesAndFiles.jsp");
+		        rd.forward(request, response);
 			}
-			
-			request.setAttribute("usermessages", usermessages);
-			request.setAttribute("advisormessages", advisormessages);
-			request.setAttribute("files", files);
-			RequestDispatcher rd = getServletContext().getRequestDispatcher("/AdminMessagesAndFiles.jsp");
-	        rd.forward(request, response);
 		}
 		logger.info("Exit doGet method of AdminMyAccountUserAdvisorMessagesController");
 	}

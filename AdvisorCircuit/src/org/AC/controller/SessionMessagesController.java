@@ -7,10 +7,12 @@
 package org.AC.controller;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Properties;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -50,6 +52,9 @@ public class SessionMessagesController extends HttpServlet {
 		String sId = request.getParameter("sId");
 		String user = request.getParameter("user");
 		String data = "";
+		Properties prop = new Properties();
+	    InputStream resourceAsStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("Resources/mail.properties");
+	    prop.load(resourceAsStream);
 		if(inputMessage == null && isAdvisor == null && sId != null){
 			List<UserMessageDTO> usermessages = new ArrayList<UserMessageDTO>();
 			List<AdvisorMessageDTO> advisormessages = new ArrayList<AdvisorMessageDTO>();
@@ -209,8 +214,8 @@ public class SessionMessagesController extends HttpServlet {
 					String subject ="";
 					String content ="";
 					subject = "New Message From Advisor To User!!!!!";
-					content = "Hi,<br>Advisor Sent a new message to user for : <br>Session Id  :" +sId+ "<br>Message : " +inputMessage+"<br><img src=\"http://www.advisorcircuit.com/Test/assets/img/logo_black.png\" style='float:right' width='25%'>";
-					SendMail mail = new SendMail(subject, content, "admin@advisorcircuit.com","admin@advisorcircuit.com");
+					content = "Hi, <br><br>Advisor Sent a new message to user for : <br>Session Id  :" +sId+ "<br>Message : " +inputMessage+"<br><img src=\"http://www.advisorcircuit.com/Test/assets/img/logo_black.png\" style='float:right' width='25%'>";
+					SendMail mail = new SendMail(subject, content, prop.getProperty("MAIL_ADMIN"),prop.getProperty("MAIL_ADMIN"));
 					mail.start();
 					response.getWriter().write("true");
 				}else{
@@ -224,8 +229,8 @@ public class SessionMessagesController extends HttpServlet {
 					String subject ="";
 					String content ="";
 					subject = "New Message From User To Advisor!!!!!";
-					content = "Hi,<br>User Sent a new message to advisor for : <br>Session Id  :" +sId+ "<br>Message : " +inputMessage+"<br><img src=\"http://www.advisorcircuit.com/Test/assets/img/logo_black.png\" style='float:right' width='25%'>";
-					SendMail mail = new SendMail(subject, content, "admin@advisorcircuit.com","admin@advisorcircuit.com");
+					content = "Hi, <br><br>User Sent a new message to advisor for : <br>Session Id  :" +sId+ "<br>Message : " +inputMessage+"<br><img src=\"http://www.advisorcircuit.com/Test/assets/img/logo_black.png\" style='float:right' width='25%'>";
+					SendMail mail = new SendMail(subject, content, prop.getProperty("MAIL_ADMIN"),prop.getProperty("MAIL_ADMIN"));
 					mail.start();
 					response.getWriter().write("true");
 				}else{

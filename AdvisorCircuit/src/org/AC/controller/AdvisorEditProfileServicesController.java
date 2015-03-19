@@ -1,8 +1,10 @@
 package org.AC.controller;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -11,6 +13,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.AC.Util.SendMail;
 import org.AC.dto.AdvisorServiceDTO;
 import org.AC.DAO.AdvisorRegistrationDAO;
 import org.AC.dto.AdvisorModeDTO;
@@ -90,7 +93,21 @@ public class AdvisorEditProfileServicesController extends HttpServlet {
 		String personalWorkshopPricePhone = "";
 		String personalWorkshopPriceEmail = "";
 		String personalWorkshopPriceWebchat = "";
-		
+		String resumecritiquefreecheckbox = request.getParameter("resumecritiquefreecheckbox");
+		String mockinterviewfreecheckbox = request.getParameter("mockinterviewfreecheckbox");
+		String careertalkfreecheckbox = request.getParameter("careertalkfreecheckbox");
+		Boolean isFreeCareerTalk = false;
+		Boolean isFreeMockInterview = false;
+		Boolean isFreeResumeCritique= false;
+		if(careertalkfreecheckbox != null && ("true").equals(careertalkfreecheckbox)){
+			isFreeCareerTalk = true;
+		}
+		if(mockinterviewfreecheckbox != null && ("true").equals(mockinterviewfreecheckbox)){
+			isFreeMockInterview = true;
+		}
+		if(resumecritiquefreecheckbox != null && ("true").equals(resumecritiquefreecheckbox)){
+			isFreeResumeCritique = true;
+		}
 		Boolean isServiceCommit = false;
 		if(advisorId !=0){
 		//Deleting the advisor services
@@ -162,7 +179,7 @@ public class AdvisorEditProfileServicesController extends HttpServlet {
 			for (String service : services) {
 				if(service.equals("careertalk")){
 					AdvisorRegistrationDAO dao = new AdvisorRegistrationDAO();
-					isServiceCommit = dao.setAdvisorServiceDetails("careertalk", advisorId , careerTalkDescription );
+					isServiceCommit = dao.setAdvisorServiceDetails("careertalk", advisorId , careerTalkDescription, isFreeCareerTalk );
 					if( isServiceCommit && careerTalkMode.length > 0){
 						for (String mode : careerTalkMode) {
 							if (mode.equals("phone")){
@@ -176,7 +193,7 @@ public class AdvisorEditProfileServicesController extends HttpServlet {
 					}
 				}else if (service.equals("mockinterview")) {
 					AdvisorRegistrationDAO dao = new AdvisorRegistrationDAO();
-					isServiceCommit = dao.setAdvisorServiceDetails("mockinterview", advisorId , mockInterviewDescription );
+					isServiceCommit = dao.setAdvisorServiceDetails("mockinterview", advisorId , mockInterviewDescription,isFreeMockInterview);
 					if(isServiceCommit && mockInterviewMode.length > 0){
 						for (String mode : mockInterviewMode) {
 							if (mode.equals("phone")){
@@ -190,7 +207,7 @@ public class AdvisorEditProfileServicesController extends HttpServlet {
 					}
 				}else if (service.equals("cvcritique")) {
 					AdvisorRegistrationDAO dao = new AdvisorRegistrationDAO();
-					isServiceCommit = dao.setAdvisorServiceDetails("cvcritique", advisorId , cvCritiqueDescription );
+					isServiceCommit = dao.setAdvisorServiceDetails("cvcritique", advisorId , cvCritiqueDescription, isFreeResumeCritique );
 					if(isServiceCommit && cvCritiqueMode.length > 0){
 						for (String mode : cvCritiqueMode) {
 							if (mode.equals("phone")){
@@ -202,25 +219,25 @@ public class AdvisorEditProfileServicesController extends HttpServlet {
 							}
 						}
 					}
-				}else{
-					AdvisorRegistrationDAO dao = new AdvisorRegistrationDAO();
-					isServiceCommit = dao.setAdvisorServiceDetails("personalworkshops", advisorId , personalWorkshopDescription );
-					if(isServiceCommit && personalWorkshopMode.length > 0){
-						for (String mode : personalWorkshopMode) {
-							if (mode.equals("phone")){
-								dao.setAdvisorModes("personalworkshops", advisorId, mode, personalWorkshopPricePhone);
-							}else if (mode.equals("email")) {
-								dao.setAdvisorModes("personalworkshops", advisorId, mode, personalWorkshopPriceEmail);
-							}else {
-								dao.setAdvisorModes("personalworkshops", advisorId, mode, personalWorkshopPriceWebchat);
-							}
-						}
-					}
 				}
 			}
 		}
 		//After successfull registration  :
 		//Redirect to CompleteRegistration.jsp
+		Properties prop = new Properties();
+        InputStream resourceAsStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("Resources/mail.properties");
+        try {
+			prop.load(resourceAsStream);
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		 String subject ="";
+		 String content ="";
+		 subject = "An Advisor just edited his profile";
+		 content = "Hi, <br><br>An Advisor just edited his profile. Following are the details: <br> Advisor Id : "+advisorId+"<br>Section : Services <br><img src=http://www.advisorcircuit.com/assets/img/logo_black.png\" style='float:right' width='25%'>";
+		 SendMail mail = new SendMail(subject, content,prop.getProperty("MAIL_ADMIN") ,prop.getProperty("MAIL_ADMIN"));
+		 mail.start();
 		response.sendRedirect("Image?edit=true");
 		logger.info("Exit doPost method of AdvisorEditProfileServicesController");		
 

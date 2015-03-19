@@ -3,13 +3,13 @@
 <div id="j_sidebar">
 <div class="sidebar-nav">
     <ul class="nav" id="side-menu">
-        <li><a href="AdminAdvisors">Advisor</a>
+        <li class="request"><a href="AdminAdvisors"><span class="request"></span> Advisor</a>
             <ul class="nav nav-second-level">
                 <li><a href="Email">Create Profile</a></li>
                 <li><a href="EditProfile.jsp">Edit Profile</a></li>
             </ul>
         </li>
-        <li><a href="AdminUsers">User</a></li>
+        <li class="request"><a href="AdminUsers"><span class="request"></span> User</a></li>
         <li class="request"><a href=""><span class="request"></span> Request</a>
             <ul class="nav nav-second-level">
                 <li>
@@ -34,10 +34,10 @@
             </ul>
             <!-- /.nav-second-level -->
         </li>
-        <li><a href="AdminReview">Review & Recommendation</a></li>
-        <li><a href="AdminMessages"><span class="msgadmin"></span> Messages & File Uploads</a></li>
-        <li><a href="AdminContactUs">Contact Us</a></li>
-        <li><a href="AdminHereToHelp">We Are Here To Help</a></li>
+        <li class="request"><a href="AdminReview"><span class="request"></span> Review & Recommendation</a></li>
+        <li class="request"><a href="AdminMessages"><span class="msgadmin"></span> Messages & File Uploads</a></li>
+        <li class="request"><a href="AdminContactUs"><span class="request"></span> Contact Us</a></li>
+        <li class="request"><a href="AdminHereToHelp"><span class="request"></span> We Are Here To Help</a></li>
 	</ul>
 </div>
 </div>

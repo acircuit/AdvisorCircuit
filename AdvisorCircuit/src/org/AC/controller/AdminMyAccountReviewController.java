@@ -54,17 +54,31 @@ public class AdminMyAccountReviewController extends HttpServlet {
 		String approveorreject = "";
 		approveorreject  = request.getParameter("approveorreject");
 			String sId = request.getParameter("sId");
-			if(approveorreject != null && ("APPROVE").equals(approveorreject)){
-				ReviewAndRecommendationDAO reviewApprove = new ReviewAndRecommendationDAO();
-				Boolean isApprovalCommit = reviewApprove.ApproveReview(sId,"APPROVED");
-				if(isApprovalCommit){
-					response.getWriter().write("<p><b>The Review has been approved</b></p>");
+			Boolean isAdmin = false;
+			Boolean isError = false;
+			try{
+				isAdmin = (Boolean) request.getSession().getAttribute("admin"); 
+				}catch(Exception e){
+					response.sendRedirect("Error");
+					isError = true;
 				}
-			}else if (approveorreject != null && ("REJECT").equals(approveorreject)) {
-				ReviewAndRecommendationDAO reviewApprove = new ReviewAndRecommendationDAO();
-				Boolean isRejectionCommit = reviewApprove.ApproveReview(sId,"REJECTED");
-				if(isRejectionCommit){
-					response.getWriter().write("<p><b>The Review has been rejected</b></p>");
+			if(isAdmin == null){
+				isError = true;
+				response.sendRedirect("Error");
+			}
+			if(isError!= null &&  !isError){
+				if(approveorreject != null && ("APPROVE").equals(approveorreject)){
+					ReviewAndRecommendationDAO reviewApprove = new ReviewAndRecommendationDAO();
+					Boolean isApprovalCommit = reviewApprove.ApproveReview(sId,"APPROVED");
+					if(isApprovalCommit){
+						response.getWriter().write("<p><b>The Review has been approved</b></p>");
+					}
+				}else if (approveorreject != null && ("REJECT").equals(approveorreject)) {
+					ReviewAndRecommendationDAO reviewApprove = new ReviewAndRecommendationDAO();
+					Boolean isRejectionCommit = reviewApprove.ApproveReview(sId,"REJECTED");
+					if(isRejectionCommit){
+						response.getWriter().write("<p><b>The Review has been rejected</b></p>");
+					}
 				}
 			}
 		logger.info("Exit doPost method of AdminMyAccountReviewController");

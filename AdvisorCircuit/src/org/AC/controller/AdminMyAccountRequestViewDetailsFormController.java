@@ -50,27 +50,41 @@ public class AdminMyAccountRequestViewDetailsFormController extends HttpServlet 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		logger.info("Entered doGet method of AdminMyAccountRequestViewDetailsFormController");
-		String rId = "";
-		String cancel = "";
-		rId = (String) request.getParameter("rId");
-		cancel = (String) request.getParameter("cancel");
-		//Check if the admin has accepted the request
-		if( cancel == null ){
-			String status = "PENDING FOR ADVISOR APPROVAL";
-			ChangeRequestStatusDAO requestStatus = new ChangeRequestStatusDAO();
-			Boolean isStatusCommit = requestStatus.setStatus(status, Integer.parseInt(rId));
-			if(isStatusCommit){
-				response.sendRedirect("AdminRequests?approved=true");
+		 Boolean isAdmin = false;
+			Boolean isError = false;
+			try{
+				isAdmin = (Boolean) request.getSession().getAttribute("admin"); 
+				}catch(Exception e){
+					response.sendRedirect("Error");
+					isError = true;
+				}
+			if(isAdmin == null){
+				isError = true;
+				response.sendRedirect("Error");
 			}
-		}else{
-			//If admin has cancelled the session
-			String status = "REQUEST REJECTED BY ADMIN";
-			ChangeRequestStatusDAO requestStatus = new ChangeRequestStatusDAO();
-			Boolean isStatusCommit = requestStatus.setStatus(status, Integer.parseInt(rId));
-			if(isStatusCommit){
-				response.sendRedirect("AdminCancelledSessions");
+			if(isError!= null &&  !isError){
+				String rId = "";
+				String cancel = "";
+				rId = (String) request.getParameter("rId");
+				cancel = (String) request.getParameter("cancel");
+				//Check if the admin has accepted the request
+				if( cancel == null ){
+					String status = "PENDING FOR ADVISOR APPROVAL";
+					ChangeRequestStatusDAO requestStatus = new ChangeRequestStatusDAO();
+					Boolean isStatusCommit = requestStatus.setStatus(status, Integer.parseInt(rId));
+					if(isStatusCommit){
+						response.sendRedirect("AdminRequests?approved=true");
+					}
+				}else{
+					//If admin has cancelled the session
+					String status = "REQUEST REJECTED BY ADMIN";
+					ChangeRequestStatusDAO requestStatus = new ChangeRequestStatusDAO();
+					Boolean isStatusCommit = requestStatus.setStatus(status, Integer.parseInt(rId));
+					if(isStatusCommit){
+						response.sendRedirect("AdminCancelledSessions");
+					}
+					
+				}
 			}
-			
-		}
 	}
 }

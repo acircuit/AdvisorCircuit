@@ -100,7 +100,18 @@
                                         <dt>Current Status :</dt>
                                         <dd><c:out value="${request.getStatus()}"/></dd>
                                     </dl>
-                                    <a class="btn btn-career" href="${myURL}">View Details</a>
+                                    <c:if test="${request.getService().equals('careertalk')}">
+                                         <a class="btn btn-career" href="${myURL}">View Details</a>
+                                    </c:if>
+                                    <c:if test="${request.getService().equals('mockinterview')}">
+                                          <a class="btn btn-mock" href="${myURL}">View Details</a>
+                                    </c:if>
+                                    <c:if test="${request.getService().equals('cvcritique')}">
+                                         <a class="btn btn-resume" href="${myURL}">View Details</a>
+                                    </c:if>
+                                    <c:if test="${request.getService().equals('personalworkshops')}">
+                                         <a class="btn btn-personal" href="${myURL}">View Details</a>
+                                    </c:if>
                             	</div>    
 				            </div>
                             
@@ -112,38 +123,37 @@
 				           			</c:if>
 				           			<c:if test="${request.getService().equals('careertalk')}">
 										<img alt="" width="100" src="assets/img/WebMail/HomePage/Panel_2_Icon_1.png">
-                                        <h4>Career Talk</h4>
+                                        <h4 class="text-career">Career Talk</h4>
 									</c:if>
 									<c:if test="${request.getService().equals('mockinterview')}">
 										<img alt="" width="100" src="assets/img/WebMail/HomePage/Panel_2_Icon_2.png">
-                                        <h4>Mock Interview</h4>
+                                        <h4 class="text-Mock">Mock Interview</h4>
 									</c:if>
 									<c:if test="${request.getService().equals('cvcritique')}">
 										<img alt="" width="100" src="assets/img/WebMail/HomePage/Panel_2_Icon_3.png">
-                                        <h4>Resume Critique</h4>
+                                        <h4 class="text-resume">Resume Critique</h4>
 									</c:if>
 									<c:if test="${request.getService().equals('personalworkshops')}">
 										<img alt="" width="100" src="assets/img/WebMail/HomePage/Panel_2_Icon_4.png">
-                                        <h4>Personal Workshop</h4>
-									</c:if>
-				            	</c:when>
+                                        <h4 class="text-personal">Personal Workshop</h4>
+									</c:if>				            	</c:when>
 				            	<c:otherwise>
 				            		<c:if test="${request.getService().equals('careertalk')}">
 										<img alt="" width="100" src="assets/img/WebMail/HomePage/Panel_2_Icon_1.png">
-                                        <h4>Career Talk</h4>
+                                        <h4 class="text-career">Career Talk</h4>
 									</c:if>
 									<c:if test="${request.getService().equals('mockinterview')}">
 										<img alt="" width="100" src="assets/img/WebMail/HomePage/Panel_2_Icon_2.png">
-                                        <h4>Mock Interview</h4>
+                                        <h4 class="text-Mock">Mock Interview</h4>
 									</c:if>
 									<c:if test="${request.getService().equals('cvcritique')}">
 										<img alt="" width="100" src="assets/img/WebMail/HomePage/Panel_2_Icon_3.png">
-                                        <h4>Resume Critique</h4>
+                                        <h4 class="text-resume">Resume Critique</h4>
 									</c:if>
 									<c:if test="${request.getService().equals('personalworkshops')}">
 										<img alt="" width="100" src="assets/img/WebMail/HomePage/Panel_2_Icon_4.png">
-                                        <h4>Personal Workshop</h4>
-									</c:if>			            	
+                                        <h4 class="text-personal">Personal Workshop</h4>
+									</c:if>			  		            	
 				            	</c:otherwise>			            
 				            </c:choose>
 				            </div>
@@ -199,6 +209,15 @@
     $("[data-toggle=popover]")
         .popover()
     </script>
+    <script type="text/javascript">
+var _urq = _urq || [];
+_urq.push(['initSite', '8571f59c-9c67-4ac9-a169-0eb6aa49f203']);
+(function() {
+var ur = document.createElement('script'); ur.type = 'text/javascript'; ur.async = true;
+ur.src = ('https:' == document.location.protocol ? 'https://cdn.userreport.com/userreport.js' : 'http://cdn.userreport.com/userreport.js');
+var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ur, s);
+})();
+</script> 
 </body>
 
 </html>

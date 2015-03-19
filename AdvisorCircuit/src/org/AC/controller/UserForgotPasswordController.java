@@ -69,9 +69,9 @@ public class UserForgotPasswordController extends HttpServlet {
 				if(isInsertComplete){
 				     String url = prop.getProperty("USER_FORGOT_PASSWORD_MAIL_URL")+userId;
 					String subject ="Forgot Password";
-					String content ="Hi,<br>Please Click on the below link to set your New Password: <br><a href='"+url+"'>Click Here To Set New Password</a>"+"<br><img src=\"http://www.advisorcircuit.com/Test/assets/img/logo_black.png\" style='float:right' width='25%'>";
+					String content ="Hi, <br><br>Please Click on the below link to set your New Password: <br><a href='"+url+"'>Click Here To Set New Password</a>"+"<br><img src=\"http://www.advisorcircuit.com/Test/assets/img/logo_black.png\" style='float:right' width='25%'>";
 					System.out.println(content);
-					SendMail mail = new SendMail(subject, content, email,"admin@advisorcircuit.com");
+					SendMail mail = new SendMail(subject, content, email,prop.getProperty("MAIL_ADMIN"));
 					mail.start();	
 					response.getWriter().write("<h3>A Mail has been sent to your registered Email Id.</h3><p>Please check your mail and reset your password</p>");
 				}

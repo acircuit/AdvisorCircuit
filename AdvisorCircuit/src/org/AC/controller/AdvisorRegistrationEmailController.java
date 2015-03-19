@@ -1,10 +1,12 @@
 package org.AC.controller;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -42,6 +44,9 @@ public class AdvisorRegistrationEmailController extends HttpServlet {
 		String status ="";
 		int advisorId = 0;
 		String name = "";
+		Properties prop = new Properties();
+	    InputStream resourceAsStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("Resources/mail.properties");
+	    prop.load(resourceAsStream);
 		AdvisorRegistrationCheckEmailDTO advisor = new AdvisorRegistrationCheckEmailDTO();
 
 		//Once we have retrieved the email we have to check whether the advisor have already started registration process.
@@ -72,8 +77,8 @@ public class AdvisorRegistrationEmailController extends HttpServlet {
 					String subject ="";
 					String content ="";
 					subject = "Thank Your For Registering";
-					content = "Hi,<br> ThankYou for registering with AdvisorCircuit. Please Click on the below link to create your own profile:<br> <a href='http://www.advisorcircuit.com/advisorverification?verify="+advisorId+"'>Click Here to Create Your Profile</a>"+"<br><img src=\"http://www.advisorcircuit.com/Test/assets/img/logo_black.png\" style='float:right' width='25%'>";
-					SendMail mail = new SendMail(subject, content, email,"admin@advisorcircuit.com");
+					content = "Hi, <br><br>ThankYou for registering with AdvisorCircuit. Please Click on the below link to create your own profile:<br> <a href='"+prop.getProperty("ADVISOR_REGISTRATION_VERIFICATION_LINK")+advisorId+"'>Click Here to Create Your Profile</a>"+"<br><img src=\"http://www.advisorcircuit.com/Test/assets/img/logo_black.png\" style='float:right' width='25%'>";
+					SendMail mail = new SendMail(subject, content, email,prop.getProperty("MAIL_ADMIN"));
 					mail.start();
 					response.sendRedirect("AdvisorRegistrationComplete");
 				}else{

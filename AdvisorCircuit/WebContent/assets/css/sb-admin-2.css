@@ -51,6 +51,9 @@ body {
 #j_sidebar .sidebar-nav li span.editprofile {
 	background:url(../img/edit-profile-icon.png) no-repeat 0 0;
 }
+#j_sidebar .sidebar-nav li span.payment {
+	background:url(../img/payment-icon.png) no-repeat 0 0;
+}
 #j_sidebar .sidebar-nav ul > li > a {
 	color:#58585a;
 	padding-left:25px;
@@ -277,7 +280,7 @@ a.review i {
 .table-bordered > tbody > tr > td, 
 .table-bordered > tfoot > tr > td {
 	border:1px solid #c2c2c2;
-	background:#f4f4f4;
+	background:#f8f8f8;
 }
 .table-bordered > thead > tr > th, 
 .table-bordered > tbody > tr > th, 
@@ -684,6 +687,13 @@ ul.notification-list li {
 	color:#fff;
 	width:80%;
 	float:left;
+}
+
+.action-btn li {
+	margin-bottom:0!important;
+}
+.action-btn li ul {
+	margin-top:0!important;
 }
 
 @media only screen and (max-width: 480px) {

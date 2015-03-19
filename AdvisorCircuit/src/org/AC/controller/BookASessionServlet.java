@@ -8,11 +8,13 @@
 package org.AC.controller;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Properties;
 import java.util.Scanner;
 
 import javax.servlet.ServletException;
@@ -60,6 +62,9 @@ public class BookASessionServlet extends HttpServlet {
 		logger.info("Entered doPost method of BookASessionServlet");
 		int userId = 0;
 		String userName = "";
+		Properties prop = new Properties();
+	    InputStream resourceAsStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("Resources/mail.properties");
+	    prop.load(resourceAsStream);
 		try{
 			userId = (Integer)request.getSession().getAttribute("userId");
 			userName = (String)request.getSession().getAttribute("username");
@@ -131,8 +136,8 @@ public class BookASessionServlet extends HttpServlet {
 		if(requestId != 0){	
 			//Send Mail to Admin
 			String subject = "A new session request!";
-			String content = "Hi,<br>A new SESSION REQUEST by the user ! Following are the details :<br>User Name : " +userName+"<br>Query: "+query+"<br>Mode : "+mode+"<br><img src=\"http://www.advisorcircuit.com/Test/assets/img/logo_black.png\" style='float:right' width='25%'>";
-			SendMail mail = new SendMail(subject, content, "admin@advisorcircuit.com","admin@advisorcircuit.com");
+			String content = "Hi, <br><br>A new SESSION REQUEST by the user ! Following are the details :<br>User Name : " +userName+"<br>Query: "+query+"<br>Mode : "+mode+"<br><img src=\"http://www.advisorcircuit.com/Test/assets/img/logo_black.png\" style='float:right' width='25%'>";
+			SendMail mail = new SendMail(subject, content, prop.getProperty("MAIL_ADMIN"),prop.getProperty("MAIL_ADMIN"));
 			mail.start();
 			response.sendRedirect("UserRequests?bookasession=true");
 		}

@@ -10,6 +10,7 @@ import java.sql.Statement;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 import org.AC.JDBC.ConnectionFactory;
@@ -48,6 +49,12 @@ public class AdvisorMyAccountRequestViewDetailsDAO {
 							logger.error("doPost method of AdvisorMyAccountRequestViewDetailsFormController threw error:"+e.getMessage());
 							e.printStackTrace();
 						}
+						Calendar cal = Calendar.getInstance();       // get calendar instance
+						cal.setTime(date1);                           // set cal to date
+						cal.set(Calendar.HOUR_OF_DAY, 23);            // set hour to midnight
+						cal.set(Calendar.MINUTE, 59);                 // set minute in hour
+						cal.set(Calendar.SECOND, 59); 
+						date1 = cal.getTime(); // set second in minute
 					}
 				}else{
 					if(acceptedTime != null){
@@ -146,6 +153,12 @@ public Boolean setNewDates(int sId, String newDate1,String newDate2,String newDa
 						logger.error("setBookASessionDetails method of BookASessionDAO threw error:"+e.getMessage());
 						e.printStackTrace();
 					}
+					Calendar cal = Calendar.getInstance();       // get calendar instance
+					cal.setTime(date1);                           // set cal to date
+					cal.set(Calendar.HOUR_OF_DAY, 23);            // set hour to midnight
+					cal.set(Calendar.MINUTE, 59);                 // set minute in hour
+					cal.set(Calendar.SECOND, 59); 
+					date1 = cal.getTime(); // set second in minute
 					String query = "insert into advisor_new_dates"+"(SESSION_ID,NEW_DATE1) values" + "(?,?)";
 					pstmt = conn.prepareStatement(query);
 					pstmt.setInt(1, sId);
