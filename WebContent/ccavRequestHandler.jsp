@@ -7,7 +7,7 @@
 <html>
 <head>
 	<title>Sub-merchant checkout page</title>
-	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+	<script src="https://code.jquery.com/jquery-1.11.0.min.js"></script>
 </head>
 <body>
 	<%

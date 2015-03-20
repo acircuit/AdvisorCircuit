@@ -20,7 +20,7 @@
   	<title>ProfilePage</title>
   
     <!-- Bootstrap core CSS -->
-    <link href="assets/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
 
     <!-- Custom styles for this template -->
     <link href="assets/css/main.css" rel="stylesheet">
@@ -30,8 +30,6 @@
     <link href="assets/css/font-awesome.min.css" rel="stylesheet" type="text/css">
     
     <!-- Profile CSS given by Raunak -->
-    <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
-    
     <!-- Book My Session CSS -->
     <link href="assets/css/bootstrap-datetimepicker.min.css" rel="stylesheet">	    
     <link href="assets/css/full-slider.css" rel="stylesheet">
@@ -629,8 +627,9 @@
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://code.jquery.com/jquery-1.11.0.min.js"></script>    
     
-    <script src="assets/js/bootstrap.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
     <script src="assets/js/moment.js"></script>
 	<script type="text/javascript" src="assets/js/bootstrap3-datetimepicker.js"></script>
 	<script>

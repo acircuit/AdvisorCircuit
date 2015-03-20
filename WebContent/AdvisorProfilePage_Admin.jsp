@@ -18,7 +18,7 @@
     <link rel="shortcut icon" href="assets/img/favicon.png">
   	<title>ProfilePage</title>
     <!-- Bootstrap core CSS -->
-    <link href="assets/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
 
     <!-- Custom styles for this template -->
     <link href="assets/css/main.css" rel="stylesheet">
@@ -27,7 +27,7 @@
     <link href='http://fonts.googleapis.com/css?family=Lato:300,400,900' rel='stylesheet' type='text/css'>
     <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
     
-    <script src="assets/js/jquery-1.10.2.min.js"></script>
+    <script src="https://code.jquery.com/jquery-1.11.0.min.js"></script>
     
     <!-- Book My Session CSS -->
     <link href="assets/css/bootstrap-datetimepicker.min.css" rel="stylesheet">	    
@@ -436,7 +436,7 @@
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
     
-    <script src="assets/js/bootstrap.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
     <script src="assets/js/moment.js"></script>
 	<script type="text/javascript" src="assets/js/bootstrap3-datetimepicker.js"></script>
     <script type="text/javascript">
@@ -483,7 +483,9 @@
     var modemockinterviewcounter =0;
     var modecvcritiquecounter =0;
     var modepersonalworkshopscounter =0;
+    
     <c:forEach items="${services}" var="service">
+    
     	if(${service.getService() == "careertalk"}){
     		counter++;
     		var service = "${service.getDescription()}";

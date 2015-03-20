@@ -15,7 +15,7 @@
 <link rel="shortcut icon" href="assets/img/favicon.png">
 
 <!-- Bootstrap core CSS -->
-<link href="assets/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
 <link href="assets/css/slider.css" rel="stylesheet">
 
 <!-- Custom styles for this template -->
@@ -686,8 +686,8 @@
 	<!-- Bootstrap core JavaScript
     ================================================== -->
 	<!-- Placed at the end of the document so the pages load faster -->
-	<script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
-	<script src="assets/js/bootstrap.min.js"></script>
+	<script src="https://code.jquery.com/jquery-1.11.0.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 	<script src="assets/js/bootstrap-slider.js"></script>
 	<script src="assets/js/list.pagination.min.js"></script>
 	<script src="assets/js/list.min.js"></script>
@@ -720,6 +720,7 @@
      $(function () { $(".popover-options a").popover({html : true });});
    </script>
 	<script type="text/javascript">
+	
     if(${services == "CarrerTalk"}){
         document.getElementById("Servicecareertalk").checked = true;
     }else if(${services == "PersonalWorkshop"}){

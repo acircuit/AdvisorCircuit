@@ -62,14 +62,11 @@
 		}
 		 </style>  		 
     <!-- Bootstrap core CSS -->
-    <link href="assets/css/bootstrap.css" rel="stylesheet">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
 	
 		<!-- Custom styles for this template -->
     <link href="assets/css/main.css" rel="stylesheet">
 	
-    <!-- Custom styles for this template -->
-    <link href="assets/css/main.css" rel="stylesheet">
-
     <!-- Fonts from Google Fonts -->
 	<link href='http://fonts.googleapis.com/css?family=Lato:300,400,900' rel='stylesheet' type='text/css'>
 	<% 	    Boolean isInvalidEmail= (Boolean)request.getAttribute("isInvalidEmail");

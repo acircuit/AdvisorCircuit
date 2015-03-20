@@ -51,7 +51,7 @@
 		 </style>  		 
 	
     <!-- Bootstrap Core CSS -->
-    <link href="assets/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
 
     <!-- MetisMenu CSS -->
     <link href="assets/plugins/metisMenu/metisMenu.min.css" rel="stylesheet">
@@ -120,9 +120,8 @@
 	    		<%@include file="/Footer.jsp" %>
 	    	</div>
 </body>
-<script src="assets/js/jquery-1.11.0.js"></script>
-<script type='assets/js/jquery.min.js'></script>
-<script src="assets/js/bootstrap.min.js"></script>
+	<script src="https://code.jquery.com/jquery-1.11.0.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 <script>
 $(document).ready(function() {
 	if(<%=invalidEmail%>){

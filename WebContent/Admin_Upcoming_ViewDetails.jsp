@@ -19,7 +19,7 @@
     <title>Session View Details</title>  		 
 
     <!-- Bootstrap Core CSS -->
-    <link href="assets/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
 	<link href="assets/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
 	
     <!-- MetisMenu CSS -->
@@ -30,7 +30,6 @@
 	
     <!-- Custom CSS -->
     <link href="assets/css/sb-admin-2.css" rel="stylesheet">
-	<!--<link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.2/css/bootstrap-combined.min.css" rel="stylesheet">-->
 	<!-- Custom styles for this template -->
     
     <!-- Fonts from Google Fonts -->
@@ -581,17 +580,15 @@
 	<!-- /#container -->
 
     <!-- jQuery Version 1.11.0 -->
-    <script src="assets/js/jquery-1.11.0.js"></script>
-
+	<script src="https://code.jquery.com/jquery-1.11.0.min.js"></script>
     <!-- Bootstrap Core JavaScript -->
-    <script src="assets/js/bootstrap.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 
     <!-- Metis Menu Plugin JavaScript -->
     <script src="assets/js/plugins/metisMenu/metisMenu.min.js"></script>
 
     <!-- Custom Theme JavaScript -->
     <script src="assets/js/sb-admin-2.js"></script>
-    <script src="assets/js/bootstrap.min.js"></script>
 	<script src="assets/js/bootstrap-datetimepicker.min.js"></script>
     <script type="text/javascript">
     	function setImageSrc(){

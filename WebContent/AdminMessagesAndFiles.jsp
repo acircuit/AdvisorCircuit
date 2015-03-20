@@ -82,7 +82,7 @@ tr{
 </style>
 
 <!-- Bootstrap Core CSS -->
-<link href="assets/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
 
 <!-- MetisMenu CSS -->
 <link href="assets/plugins/metisMenu/metisMenu.min.css" rel="stylesheet">
@@ -92,16 +92,13 @@ tr{
 
 <!-- Custom CSS -->
 <link href="assets/css/sb-admin-2.css" rel="stylesheet">
-<!--<link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.2/css/bootstrap-combined.min.css" rel="stylesheet">-->
 <!-- Custom styles for this template -->
 
 <!-- Fonts from Google Fonts -->
-<link href='http://fonts.googleapis.com/css?family=Lato:300,400,900'
-	rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Lato:300,400,900' rel='stylesheet' type='text/css'>
 
 <!-- Custom Fonts -->
-<link href="assets/font-awesome-4.1.0/css/font-awesome.min.css"
-	rel="stylesheet" type="text/css">
+<link href="assets/font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
 <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
 <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -339,12 +336,10 @@ table{font-family:'custom_light' !important;}
 	<!-- /#container -->
 
 	<!-- jQuery Version 1.11.0 -->
-	<script src="assets/js/jquery-1.11.0.js"></script>
+	<script src="https://code.jquery.com/jquery-1.11.0.min.js"></script>
 
 	<!-- Bootstrap Core JavaScript -->
-	<script src="assets/js/bootstrap.min.js"></script>
-
-    <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 
 	<!-- Custom Theme JavaScript -->
 	<script src="assets/js/sb-admin-2.js"></script>

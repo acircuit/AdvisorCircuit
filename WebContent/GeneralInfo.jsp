@@ -14,7 +14,7 @@
     <title>Advisor Registration</title>
   		 
     <!-- Bootstrap core CSS -->
-    <link href="assets/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
 
     <!-- Custom styles for this template -->
     <link href="assets/css/main.css" rel="stylesheet">
@@ -347,22 +347,21 @@
 </body>
 <script src="assets/js/jquery-1.11.0.js"></script>
 <script type='assets/js/jquery.min.js'></script>
-<script src="assets/js/bootstrap.min.js"></script>
-<script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+<script type="text/javascript">
     // popover demo
     $("[data-toggle=popover]")
         .popover()
-    </script>
-	<script>
+    
       $(function () { $('.popover-show').popover('show');});
       $(function () { $('.popover-hide').popover('hide');});
       $(function () { $('.popover-destroy').popover('destroy');});
       $(function () { $('.popover-toggle').popover('toggle');});
      $(function () { $(".popover-options a").popover({html : true });});
-   </script>
-<script>
+
+
 $(document).ready(function() {
-	<!--Name can't be blank-->
+	// Name can't be blank
 	var name_flag, relindus_flag,industry_flag,job_flag,mail_flag,nation_flag,state_flag,city_flag,phone_flag,name_flag,age_flag,org_flag;
 	$("#btn-signup").click(function(event){
 		var input_n = $("#fname").val();
@@ -400,7 +399,7 @@ $(document).ready(function() {
 			$("#dgender").removeClass("has-error");
 		}
 	});	
-	<!--age can't be blank-->
+	// age can't be blank
 	$("#btn-signup").click(function(event){
 		var input_a = $("#age").val();
 		var filter = /^[0-9-+]+$/;
@@ -425,7 +424,7 @@ $(document).ready(function() {
 			$("#dage").removeClass("has-error");
 		}	
 	});
-	<!--phone can't be blank-->
+	// phone can't be blank
 	$("#btn-signup").click(function(event){
 		var input_p = $("#phone").val();
 		var filter = /^\d{10}$/; 
@@ -451,7 +450,7 @@ $(document).ready(function() {
 		}	
 		
 	});
-	<!--city can't be blank-->
+	// city can't be blank
 	$("#btn-signup").click(function(event){
 		var input_city = $("#city").val();
 		var filtern = /^[a-z A-Z ]+$/; 
@@ -471,7 +470,7 @@ $(document).ready(function() {
 		}
 	});
 	
-	<!--city can't be blank-->
+	// city can't be blank
 	$("#btn-signup").click(function(event){
 		var input_city = $("#state").val();
 
@@ -488,7 +487,7 @@ $(document).ready(function() {
 		}
 	});
 	
-	<!--nation can't be blank-->
+	// nation can't be blank
 	$("#btn-signup").click(function(event){
 		var input_city = $("#nation").val();
 		if(input_city=='')
@@ -503,7 +502,7 @@ $(document).ready(function() {
 			$("#dnation").removeClass("has-error");
 		}		
 	});
-	<!--industry can't be blank-->
+	// industry can't be blank
 	$("#btn-signup").click(function(event){
 		var input_city = $("#industry").val();
 		if(input_city=='')
@@ -517,7 +516,7 @@ $(document).ready(function() {
 			$("#dindustry").removeClass("has-error");
 		}		
 	});
-	<!--organisation can't be blank-->
+	// organisation can't be blank
 	$("#btn-signup").click(function(event){
 		var input_city = $("#intro").val();
 		if (input_city==''){
