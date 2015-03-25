@@ -72,7 +72,14 @@
 					
                     <div class="table-responsive">
                     <table style="text-align:center" class="table table-bordered">
-												<tr><th style="text-align:center">ID</th><th style="text-align:center">NAME</th><th style="text-align:center">EMAIL</th><th style="text-align:center">ISACTIVE</th><th style="text-align:center">PHONE</th><th style="text-align:center">ACTION</th></tr>
+												<tr>
+													<th style="text-align:center">ID</th>
+													<th style="text-align:center">NAME</th>
+													<th style="text-align:center">EMAIL</th>
+													<th style="text-align:center">ISACTIVE</th>
+													<th style="text-align:center">PHONE</th>
+													<th style="text-align:center">PRIORITY LEVEL</th>
+													<th style="text-align:center">ACTION</th></tr>
 													<c:forEach items="${advisors}" var="advisor">
 														<tr><td><p>${advisor.getAdvisorId()}</p></td><td><p>${advisor.getName()}</p></td><td><p>${advisor.getEmail()}</p></td>
 														<td>
@@ -86,6 +93,7 @@
 														</c:choose>
 														</td>
 														<td><p>${advisor.getPhone()}</p></td>
+														<td>${advisor.getPageRank()}</td>
 														<td style="padding-top:12px">
 														<ul style="list-style-type: none; padding-left:0px" class="action-btn">
 															<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Select Action</a>
@@ -105,12 +113,12 @@
 																	<li><a href="${AdminAdvisorMessage}" target="_blank">Message</a></li>
 																	<li><a id="${advisor.getAdvisorId()}" onclick="deactivate(this)">Deactivate Account</a></li>
 																	<li><a id="${advisor.getAdvisorId()}" onclick="activate(this)">Activate Account</a></li>	
+																	<li><a id="${advisor.getAdvisorId()}" onclick="openChangePriorityModal(${advisor.getAdvisorId()},${advisor.getPageRank()})">Change Priority</a></li>
 																</ul>
 															</li>
 														</ul>
 														</td>
-														<div id ="deactivate">
-														</div>
+														<div id ="deactivate"></div>
 														</tr>
 													</c:forEach>
 												</table>
@@ -139,6 +147,27 @@
     <!-- /#wrapper -->
     
     <%@include file="/Footer.jsp" %>
+	
+	<div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="myModal">
+	  <div class="modal-dialog modal-sm">
+	    <div class="modal-content">
+	    	<div class="modal-header">
+          		<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          			<h4 class="modal-title" id="mySmallModalLabel">Change Priority Level</h4>
+       		</div>
+        	<div class="modal-body">
+          		Priority Level : <input type="text" name="updatedPriorityLevel" id="updatedPriorityLevel"/>
+          		<input type="hidden" name="advisorId" id="advisorId"/>
+          		<br/>
+          		<br/>
+          		<button type="button" class="btn btn-primary" onclick="changePriority()">Change</button>        		
+          		<br/>
+        	</div>
+	    </div>
+	  </div>
+	</div>
+	
+	
 	</div>
 	<!-- /#container -->
 
@@ -201,6 +230,30 @@
                 
             }
         }); 		
+	}
+	
+	function openChangePriorityModal(advisorId, pageRank){
+		$('#myModal').modal();   
+		$('#updatedPriorityLevel').val(pageRank); 
+		$('#advisorId').val(advisorId);
+	}
+
+	function changePriority(){
+		var advisorId = $('#advisorId').val();
+		var updatedPriorityLevel = $('#updatedPriorityLevel').val(); 
+
+		$.ajax({
+            url : 'AdminAdvisors',
+            data : {"advisorId" : advisorId, "updatedPriorityLevel" : updatedPriorityLevel},
+            type : 'POST',
+            success : function(response) {
+            	$('#myModal').modal('hide'); 
+            	location.reload();
+            },
+            error : function(request, textStatus, errorThrown) {
+            	$('#myModal').modal('hide'); 
+            }
+        }); 	
 	}
 	</script>
 

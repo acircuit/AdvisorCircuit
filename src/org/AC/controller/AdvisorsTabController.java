@@ -8,6 +8,7 @@ package org.AC.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -132,6 +133,10 @@ public class AdvisorsTabController extends HttpServlet {
 				professionalBackgroundDTO.setDesignation(professionalBackgroundDTO.getDesignation().substring(0, 18));
 			}
 		}*/
+		
+		// Sorting results for featured advisors
+		Collections.sort(advisorProfile);
+		
 		//Getting the Services of the advisors
 		List<AdvisorServiceDTO> services = new ArrayList<AdvisorServiceDTO>();
 		SearchDAO advisorServices = new SearchDAO();
