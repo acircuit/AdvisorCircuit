@@ -84,7 +84,14 @@
 													<th style="text-align:center">PRIORITY LEVEL</th>
 													<th style="text-align:center">ACTION</th></tr>
 													<c:forEach items="${advisors}" var="advisor">
-														<tr><td><p>${advisor.getAdvisorId()}</p></td><td><p>${advisor.getName()}</p></td><td><p>${advisor.getEmail()}</p></td>
+														<tr>
+														<td><p>${advisor.getAdvisorId()}</p></td>
+														<td style="color:
+														<c:choose>
+															<c:when test="${advisor.getIsVisible()}">black</c:when>
+															<c:otherwise>red</c:otherwise>
+														</c:choose>"><p>${advisor.getName()}</p></td>
+														<td><p>${advisor.getEmail()}</p></td>
 														<td>
 														<c:choose>
 															<c:when test="${advisor.getIsActive()}">
@@ -117,6 +124,7 @@
 																	<li><a id="${advisor.getAdvisorId()}" onclick="deactivate(this)">Deactivate Account</a></li>
 																	<li><a id="${advisor.getAdvisorId()}" onclick="activate(this)">Activate Account</a></li>	
 																	<li><a id="${advisor.getAdvisorId()}" onclick="openChangePriorityModal(${advisor.getAdvisorId()},${advisor.getPageRank()})">Change Priority</a></li>
+																	<li><a id="${advisor.getAdvisorId()}" onclick="changeVisibility(this)">Change Visibility</a></li>
 																</ul>
 															</li>
 														</ul>
@@ -247,7 +255,7 @@
 
 		$.ajax({
             url : 'AdminAdvisors',
-            data : {"advisorId" : advisorId, "updatedPriorityLevel" : updatedPriorityLevel},
+            data : {"operation": "updatePriorityLevel", "advisorId" : advisorId, "updatedPriorityLevel" : updatedPriorityLevel},
             type : 'POST',
             success : function(response) {
             	$('#myModal').modal('hide'); 
@@ -258,6 +266,23 @@
             }
         }); 	
 	}
+	
+	
+	function changeVisibility(obj){
+		$.ajax({
+            url : 'AdminAdvisors',
+            data : {"operation": "toggleAdvisorVisibilty", "advisorId" : obj.id},
+            type : 'POST',
+            success : function(response) {
+            	location.reload();
+            },
+            error : function(request, textStatus, errorThrown) {
+            	alert("Error in changing visibility.")
+            }
+        }); 	
+		
+	}
+	
 	</script>
 
 </body>

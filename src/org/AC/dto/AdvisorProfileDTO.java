@@ -31,6 +31,8 @@ public class AdvisorProfileDTO implements Comparable<AdvisorProfileDTO> {
 	private String knowYourAdvisor;
 	private int ratings;
 	private Boolean isActive;
+	private Boolean isVisible;
+	
 	private int pageRank;
 	String status;
 
@@ -237,6 +239,13 @@ public class AdvisorProfileDTO implements Comparable<AdvisorProfileDTO> {
 	}
 	public void setAchievementsStringArray(String[] achievementsStringArray) {
 		this.achievementsStringArray = achievementsStringArray;
+	}
+	
+	public Boolean getIsVisible() {
+		return isVisible;
+	}
+	public void setIsVisible(Boolean isVisible) {
+		this.isVisible = isVisible;
 	}
 	
 	

@@ -167,7 +167,7 @@ public class AdminAdvisorDAO {
 		try {
 			conn = ConnectionFactory.getConnection();
 			conn.setAutoCommit(false);
-			String query = "SELECT ADVISOR_ID,NAME,EMAIL,PHONE_NUMBER,ISACTIVE,PAGE_RANK FROM advisordetails";
+			String query = "SELECT ADVISOR_ID,NAME,EMAIL,PHONE_NUMBER,ISACTIVE,PAGE_RANK,ISVISIBLE FROM advisordetails";
 			PreparedStatement pstmt = conn.prepareStatement(query);
 			results = pstmt.executeQuery();
 			while (results.next()) {
@@ -178,6 +178,8 @@ public class AdminAdvisorDAO {
 				advisor.setPhone(results.getString("PHONE_NUMBER"));
 				advisor.setIsActive(results.getBoolean("ISACTIVE"));
 				advisor.setPageRank(results.getInt("PAGE_RANK"));
+				advisor.setIsVisible(results.getBoolean("ISVISIBLE"));
+				
 				advisors.add(advisor);
 			}
 			Collections.sort(advisors);
@@ -575,6 +577,51 @@ public class AdminAdvisorDAO {
 				conn.close();
 			} catch (SQLException e) {
 				logger.error("updatePriorityLevel method of AdminAdvisorDAO threw error:" + e.getMessage());
+				e.printStackTrace();
+			}
+		}
+		return isFlagCommit;		
+	}
+
+	public boolean toggleAdvisorVisibilty(int advisorId) {
+		logger.info("Entered toggleAdvisorVisibilty method of AdminAdvisorDAO");
+		Boolean isFlagCommit = false;
+		
+		try {
+			conn = ConnectionFactory.getConnection();
+			conn.setAutoCommit(false);
+			String query = "UPDATE advisordetails SET ISVISIBLE = NOT ISVISIBLE WHERE ADVISOR_ID = ?";
+			PreparedStatement pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, advisorId);
+			int result = pstmt.executeUpdate();
+			if (result > 0) {
+				conn.commit();
+				isFlagCommit = true;
+			}
+			logger.info("Exit toggleAdvisorVisibilty method of AdminAdvisorDAO");
+		} catch (Exception e) {
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				try {
+					conn.rollback();
+				} catch (SQLException e2) {
+					logger.error("toggleAdvisorVisibilty method of AdminAdvisorDAO threw error:"
+							+ e2.getMessage());
+					e2.printStackTrace();
+				}
+				logger.error("toggleAdvisorVisibilty method of AdminAdvisorDAO threw error:"
+						+ e1.getMessage());
+				e1.printStackTrace();
+			}
+			logger.error("toggleAdvisorVisibilty method of AdminAdvisorDAO threw error:"
+					+ e.getMessage());
+			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				logger.error("toggleAdvisorVisibilty method of AdminAdvisorDAO threw error:" + e.getMessage());
 				e.printStackTrace();
 			}
 		}

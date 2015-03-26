@@ -79,27 +79,49 @@ public class AdminAdvisorsController extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		logger.info("Entered doPost method of AdminAdvisorsController");
 		
-		int updatedPriorityLevel = Integer.parseInt(request.getParameter("updatedPriorityLevel"));
-		int advisorId = Integer.parseInt(request.getParameter("advisorId"));
+		String operation = request.getParameter("operation");
+				
+		if(operation.equalsIgnoreCase("updatePriorityLevel")){
+			int updatedPriorityLevel = Integer.parseInt(request.getParameter("updatedPriorityLevel"));
+			int advisorId = Integer.parseInt(request.getParameter("advisorId"));
 
-		Boolean isAdmin = false;
-		Boolean isError = false;
-		try{
-			isAdmin = (Boolean) request.getSession().getAttribute("admin"); 
-		}catch(Exception e){
-				response.sendRedirect("Error");
+			Boolean isAdmin = false;
+			Boolean isError = false;
+			try{
+				isAdmin = (Boolean) request.getSession().getAttribute("admin"); 
+			}catch(Exception e){
+					response.sendRedirect("Error");
+					isError = true;
+			}
+			if(isAdmin == null){
 				isError = true;
-		}
-		if(isAdmin == null){
-			isError = true;
-			response.sendRedirect("Error");
-		}
+				response.sendRedirect("Error");
+			}
 
-		AdminAdvisorDAO advisor = new AdminAdvisorDAO();
-		advisor.updatePriorityLevel(advisorId, updatedPriorityLevel);
+			AdminAdvisorDAO advisor = new AdminAdvisorDAO();
+			advisor.updatePriorityLevel(advisorId, updatedPriorityLevel);			
+		}else if(operation.equalsIgnoreCase("toggleAdvisorVisibilty")){
+			int advisorId = Integer.parseInt(request.getParameter("advisorId"));
+
+			Boolean isAdmin = false;
+			Boolean isError = false;
+			try{
+				isAdmin = (Boolean) request.getSession().getAttribute("admin"); 
+			}catch(Exception e){
+					response.sendRedirect("Error");
+					isError = true;
+			}
+			if(isAdmin == null){
+				isError = true;
+				response.sendRedirect("Error");
+			}
+
+			AdminAdvisorDAO advisor = new AdminAdvisorDAO();
+			advisor.toggleAdvisorVisibilty(advisorId);			
+		}
+		
 		
 		logger.info("Exit doPost method of AdminAdvisorsController");
 	}
-
 
 }

@@ -173,7 +173,7 @@ public class SearchDAO {
 	 *
 	 ***************************************************************************************************/	
 	
-	public List<AdvisorServiceDTO> getAdvisorUsingService( String service){		
+	public List<AdvisorServiceDTO> getAdvisorsByService( String service){		
 		//
 		logger.info("Entered getAdvisorUsingService method of SearchDAO");
 		List<AdvisorServiceDTO> advisorService = new ArrayList<AdvisorServiceDTO>();
@@ -245,7 +245,8 @@ public class SearchDAO {
 			conn.setAutoCommit(false);
 			if(advisorId.size() >0){
 				String q4in = generateQsForIn(advisorId.size());			
-				String query ="SELECT ADVISOR_ID,NAME,INDUSTRY,INTRODUCTION,IMAGE,RATING FROM advisordetails WHERE ADVISOR_ID IN ( " + q4in + " ) AND ISACTIVE=?";
+				String query ="SELECT ADVISOR_ID,NAME,INDUSTRY,INTRODUCTION,IMAGE,RATING FROM advisordetails "
+						+ "WHERE ADVISOR_ID IN ( " + q4in + " ) AND ISACTIVE=? AND ISVISIBLE = true";
 				PreparedStatement pstmt;
 				pstmt = conn.prepareStatement(query);
 				int i = 1;
@@ -262,7 +263,13 @@ public class SearchDAO {
 			    	advisor.setIntroduction(results.getString("INTRODUCTION"));
 			    	advisor.setImage(results.getString("IMAGE"));
 			    	advisor.setRatings(results.getInt("RATING"));
-			    	list.add(advisor);
+			    	
+//			    	boolean isVisible = results.getBoolean("ISVISIBLE");
+//			    	
+//			    	if(isVisible){
+				    	list.add(advisor);			    		
+//			    	}
+			    	
 			    }
 			    conn.commit();
 			}
