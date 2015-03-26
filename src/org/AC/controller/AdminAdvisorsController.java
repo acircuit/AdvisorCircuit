@@ -74,5 +74,32 @@ public class AdminAdvisorsController extends HttpServlet {
 		}
 		logger.info("Exit doGet method of AdminAdvisorsController");
 	}
+	
+	
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		logger.info("Entered doPost method of AdminAdvisorsController");
+		
+		int updatedPriorityLevel = Integer.parseInt(request.getParameter("updatedPriorityLevel"));
+		int advisorId = Integer.parseInt(request.getParameter("advisorId"));
+
+		Boolean isAdmin = false;
+		Boolean isError = false;
+		try{
+			isAdmin = (Boolean) request.getSession().getAttribute("admin"); 
+		}catch(Exception e){
+				response.sendRedirect("Error");
+				isError = true;
+		}
+		if(isAdmin == null){
+			isError = true;
+			response.sendRedirect("Error");
+		}
+
+		AdminAdvisorDAO advisor = new AdminAdvisorDAO();
+		advisor.updatePriorityLevel(advisorId, updatedPriorityLevel);
+		
+		logger.info("Exit doPost method of AdminAdvisorsController");
+	}
+
 
 }

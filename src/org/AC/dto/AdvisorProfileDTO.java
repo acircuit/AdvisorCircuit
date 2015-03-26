@@ -1,6 +1,6 @@
 package org.AC.dto;
 
-public class AdvisorProfileDTO {
+public class AdvisorProfileDTO implements Comparable<AdvisorProfileDTO> {
 
 	private int advisorId;
 	private String Name;
@@ -10,12 +10,6 @@ public class AdvisorProfileDTO {
 	private String email;
 	private String city;
 	private String state;
-	public String getState() {
-		return state;
-	}
-	public void setState(String state) {
-		this.state = state;
-	}
 	private String nationalty;
 	private String industry;
 	private String nameOfOrganisation;
@@ -37,7 +31,21 @@ public class AdvisorProfileDTO {
 	private String knowYourAdvisor;
 	private int ratings;
 	private Boolean isActive;
+	private int pageRank;
 	String status;
+
+	public int getPageRank() {
+		return pageRank;
+	}
+	public void setPageRank(int pageRank) {
+		this.pageRank = pageRank;
+	}
+	public String getState() {
+		return state;
+	}
+	public void setState(String state) {
+		this.state = state;
+	}
 	public String getStatus() {
 		return status;
 	}
@@ -230,5 +238,25 @@ public class AdvisorProfileDTO {
 	public void setAchievementsStringArray(String[] achievementsStringArray) {
 		this.achievementsStringArray = achievementsStringArray;
 	}
+	
+	
+	@Override
+	public String toString() {
+		return "advisorId"+ getAdvisorId()+ "Name" + getName() + "gender" + getGender() + "age" + getAge() + "phone" + getPhone() +
+		"email" + getEmail() + "city"+ getCity() + "state" + getState() + "nationalty" + getNationalty() + "industry" + getIndustry() 
+		+ "nameOfOrganisation" + getNameOfOrganisation() + "jobTitle" + getJobTitle() + "experience" + getExperience() + "image" + getImage() 
+		+ "ug"+ getUg() + 
+		
+//		"pg" + getPg() +"others"+ get +"othersStringArray"+ get +"achievements"+ get +"achievementsStringArray"+ get +"keyskill"+ get +"keyskills"+ get +"hobbies"+ get +"funfact"+ get +"occupation"+ get +"introduction"+ get +"knowYourAdvisor"+ get +"ratings"+ get
+		
+		"isActive" + getServices() +"pageRank" + getPageRank() + "status" + getStatus();
+		 
+		
+	}
+	@Override
+	public int compareTo(AdvisorProfileDTO obj) {
+		return obj.getPageRank() - this.getPageRank();
+	}
+	
 	
 }

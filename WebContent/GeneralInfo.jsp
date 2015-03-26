@@ -14,7 +14,7 @@
     <title>Advisor Registration</title>
   		 
     <!-- Bootstrap core CSS -->
-    <link href="assets/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
 
     <!-- Custom styles for this template -->
     <link href="assets/css/main.css" rel="stylesheet">
@@ -347,7 +347,7 @@
 </body>
 <script src="assets/js/jquery-1.11.0.js"></script>
 <script type='assets/js/jquery.min.js'></script>
-<script src="assets/js/bootstrap.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 <script>
     // popover demo
     $("[data-toggle=popover]")

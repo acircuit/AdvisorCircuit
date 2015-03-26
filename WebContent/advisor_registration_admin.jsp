@@ -67,7 +67,7 @@
 		}
 		 </style>  		 
     <!-- Bootstrap core CSS -->
-    <link href="assets/css/bootstrap.css" rel="stylesheet">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
 
     <!-- Custom styles for this template -->
     <link href="assets/css/main.css" rel="stylesheet">
@@ -579,9 +579,8 @@
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
-    <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
-    <script src="assets/js/bootstrap.min.js"></script>
-   	<script src="assets/js/jquery-1.11.0.js"></script>
+   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+   <script src="https://code.jquery.com/jquery-1.11.0.min.js"></script>
    	<script type="text/javascript">
    	$(document).ready(function(){
 		 var checked= $("#careerTalkCheckBox").is(':checked'); 

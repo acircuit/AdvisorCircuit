@@ -18,7 +18,7 @@
     <title>Upcoming Message</title>  		 
 
     <!-- Bootstrap Core CSS -->
-    <link href="assets/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
 	<!--<link rel="stylesheet" href="assets/css/flipclock.css">-->
 	
     <!-- MetisMenu CSS -->
@@ -158,13 +158,12 @@
 	</div>
 
     <!-- jQuery Version 1.11.0 -->
-    <script src="assets/js/jquery-1.11.0.js"></script>
-
-	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-		<script src="assets/js/flipclock.js"></script>
+	<script src="https://code.jquery.com/jquery-1.11.0.min.js"></script>
+	
+	<script src="assets/js/flipclock.js"></script>
+    
     <!-- Bootstrap Core JavaScript -->
-    <script src="assets/js/bootstrap.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 
     <!-- Metis Menu Plugin JavaScript -->
     <script src="assets/plugins/metisMenu/metisMenu.min.js"></script>

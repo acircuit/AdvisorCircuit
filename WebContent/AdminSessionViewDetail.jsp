@@ -57,7 +57,7 @@
 		 </style>  		 
 
     <!-- Bootstrap Core CSS -->
-    <link href="assets/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
 	<link href="assets/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
 	
     <!-- MetisMenu CSS -->
@@ -68,7 +68,6 @@
 	
     <!-- Custom CSS -->
     <link href="assets/css/sb-admin-2.css" rel="stylesheet">
-	<!--<link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.2/css/bootstrap-combined.min.css" rel="stylesheet">-->
 	<!-- Custom styles for this template -->
     
     <!-- Fonts from Google Fonts -->
