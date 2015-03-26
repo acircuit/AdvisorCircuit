@@ -22,7 +22,10 @@
 		%>    <!-- Fixed navbar -->
   <head>
       <title><%= request.getParameter("title") %> </title>
+      
   </head>
+<fmt:bundle basename="Resources.Dependency" prefix="path.">
+  
 <div class="user-link">
         <div>
     	<c:choose>
@@ -52,11 +55,9 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-           <fmt:bundle basename="Resources.Dependency" prefix="path.">
+           
            	<a class="navbar-brand" href=<fmt:message key="home"/>><img src="assets/img/logo-black.png" width="150"></a>
-           </fmt:bundle>
-        </div>
-
+         </div>
 		<div id="navbar" class="navbar-collapse collapse" aria-expanded="true">
         	<ul class="nav navbar-nav">
             	<li class="orange dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Advisors &#9662</a>
@@ -101,7 +102,8 @@
 		<!--/.nav-collapse -->
 
     </div>
-
+	   	</fmt:bundle>
+	
     
 <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
 <script>

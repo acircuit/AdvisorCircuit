@@ -6,6 +6,13 @@ public class AdvisorModeDTO {
 	private String service;
 	private String modeOfCommunication;
 	private String price;
+	private double discounted_price;
+	public double getDiscounted_price() {
+		return discounted_price;
+	}
+	public void setDiscounted_price(double discounted_price) {
+		this.discounted_price = discounted_price;
+	}
 	public int getAdvisorId() {
 		return advisorId;
 	}

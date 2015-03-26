@@ -163,10 +163,17 @@
                                     <p name="optionsRadiosInlinem" id="optionsRadiosInlinem1">${userRequest.getDuration()}</p>	
                                 </div>
                             </div>
+                            <div class="form-group">
+                            	<label for="icode" class="col-md-2 control-label">Amount (Rs):</label>
+                                <div class="col-md-10">	
+                                    <p name="optionsRadiosInlinem" id="optionsRadiosInlinem1">${userRequest.getAmount()}</p>	
+                                </div>
+                            </div>
                             
                             <c:if test="${userRequest.getService().equals('mockinterview') || userRequest.getService().equals('cvcritique')}">
-                                <div class="col-md-12">
-                                	<a href="DownloadFile?rid=<%=rId %>" class="btn btn-info">CLICK TO DOWNLOAD <%=userName.toUpperCase() %>'s CV</a>
+                                <div class="col-md-12" style="padding-left: 0px">
+                                	<a  href="DownloadFile?rid=<%=rId %>" class="btn btn-info">CLICK TO DOWNLOAD <%=userName.toUpperCase() %>'s CV</a>
+                                	<div style="height:10px"></div>
                                 </div>
                             </c:if>	
 										<c:if test="${userRequest.getStatus().equals('PENDING FOR ADVISOR APPROVAL') }">
@@ -308,17 +315,17 @@
 												<div class="form-group">
 															
 													<div class="col-md-6" >
-															<div class="radio">
+															<div >
 		                                                <label>
 		                                                    <c:out value="${date.getNewDateString1()}"></c:out>
 		                                                </label>
 		                                            </div>
-		                                            <div class="radio">
+		                                            <div >
 		                                                <label>
 		                                                    <c:out value="${date.getNewDateString2()}"></c:out>
 		                                                </label>
 		                                            </div>
-		                                            <div class="radio">
+		                                            <div >
 		                                                <label>
 		                                                    <c:out value="${date.getNewDateString3()}"></c:out>
 		                                                </label>

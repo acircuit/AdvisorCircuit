@@ -86,7 +86,9 @@ public class UserMyAccountUpcomingSessionController extends HttpServlet {
 				for (SessionDTO sessionDTO : list) {
 					if(sessionDTO.getRequestId() == userRequestDTO.getRequestId()){
 						userRequestDTO.setReviewMesage(sessionDTO.getReviewMessage());
+						userRequestDTO.setRating(sessionDTO.getIsRating());
 						userRequestDTO.setSessionId(sessionDTO.getSessionId());
+						userRequestDTO.setReviewMessageStatus(sessionDTO.getReviewMessageStatus());
 						Timestamp sessionDate = sessionDTO.getAcceptedDate();
 						sessionDTO.setAcceptedDateString(new SimpleDateFormat("dd-MMM-yyyy' 'h:mm a").format(new Date(sessionDTO.getAcceptedDate().getTime())));
 						userRequestDTO.setAcceptedDate(sessionDTO.getAcceptedDateString());

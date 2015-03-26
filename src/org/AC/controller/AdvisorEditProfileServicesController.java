@@ -238,7 +238,7 @@ public class AdvisorEditProfileServicesController extends HttpServlet {
 		 content = "Hi, <br><br>An Advisor just edited his profile. Following are the details: <br> Advisor Id : "+advisorId+"<br>Section : Services <br><img src=http://www.advisorcircuit.com/assets/img/logo_black.png\" style='float:right' width='25%'>";
 		 SendMail mail = new SendMail(subject, content,prop.getProperty("MAIL_ADMIN") ,prop.getProperty("MAIL_ADMIN"));
 		 mail.start();
-		response.sendRedirect("Image?edit=true");
+		response.sendRedirect("ImageEdit?edit=true");
 		logger.info("Exit doPost method of AdvisorEditProfileServicesController");		
 
 	}

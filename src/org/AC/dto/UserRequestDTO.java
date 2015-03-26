@@ -20,6 +20,12 @@ public class UserRequestDTO {
 	public int getSessionId() {
 		return sessionId;
 	}
+	public double getAmount() {
+		return amount;
+	}
+	public void setAmount(double amount) {
+		this.amount = amount;
+	}
 	public void setSessionId(int sessionId) {
 		this.sessionId = sessionId;
 	}
@@ -30,7 +36,21 @@ public class UserRequestDTO {
 	String acceptedDate;
 	String reviewMesage;
 	int sessionId;
-
+	double amount;
+	Boolean rating;
+	String reviewMessageStatus;
+	public String getReviewMessageStatus() {
+		return reviewMessageStatus;
+	}
+	public void setReviewMessageStatus(String reviewMessageStatus) {
+		this.reviewMessageStatus = reviewMessageStatus;
+	}
+	public Boolean getRating() {
+		return rating;
+	}
+	public void setRating(Boolean rating) {
+		this.rating = rating;
+	}
 	public String getReviewMesage() {
 		return reviewMesage;
 	}

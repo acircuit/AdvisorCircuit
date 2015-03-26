@@ -128,15 +128,15 @@
                                 <c:if test="${sessionDetails.size() > 0}">
 											<c:forEach items="${sessionDetails}" var="session">
 											<c:set var="sessionId" value="${session.getSessionId()}"></c:set>
+											<c:set var="accdate" value="${session.getAcceptedDateString()}"></c:set>
 											<input type="hidden" value="${session.getSessionId()}" name="sessionId">
-												
 												<div class="form-group">
 													<label for="icode" class="col-md-2 control-label">Session Plan :</label>
 													<div class="col-md-10">
 														<textarea class="form-control" rows="3" readonly><c:out value="${session.getSessionPlan()}"/></textarea>
 													</div>
 												</div>
-												<input type="hidden" value="${session.getAcceptedDate() }" name="acceptedDate">
+												<input type="hidden"  value="${session.getAcceptedDate() }" name="acceptedDate">
 												<c:if test="${session.getAcceptedDate() != null && !session.getAcceptedDate().equals('')}">
 													<div class="form-group">
 													<label for="icode" class="col-md-2 control-label">Accepted Date:</label>
@@ -171,9 +171,15 @@
                                 </div>				
 										 
                                 <div class="form-group">
-                                	<label for="icode" class="col-md-2 control-label">Duration (Hrs):</label>
+                                	<label for="icode" class="col-md-2 control-label">DURATION (Hrs):</label>
                                     <div class="col-md-10">
                                         <p><c:out value="${userRequest.getDuration()}"></c:out></p>	
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                	<label for="icode" class="col-md-2 control-label">AMOUNT (Rs):</label>
+                                    <div class="col-md-10">
+                                        <p><c:out value="${userRequest.getAmount()}"></c:out></p>	
                                     </div>
                                 </div>
                                 
@@ -196,7 +202,7 @@
 												<div class="col-md-6" >
 													  <ol>
 													  		<li>
-																<div class="radio">
+																<div >
 					                                                <label>
 					                                                    <c:out value="${userRequest.getTimeString1()}"></c:out>
 					                                                </label>
@@ -215,42 +221,42 @@
 												  <div class="col-md-6" >
 													  <ol>
 													  		<li>
-																<div class="radio">
+																<div >
 					                                                <label>
 					                                                    <c:out value="${userRequest.getTimeString1()}"></c:out>
 					                                                </label>
 					                                            </div>
 				                                            </li>
 				                                            <li>
-					                                            <div class="radio">
+					                                            <div >
 					                                                <label>
 					                                                    <c:out value="${userRequest.getTimeString2()}"></c:out>
 					                                                </label>
 					                                            </div>
 				                                            </li>
 				                                            <li>
-					                                            <div class="radio">
+					                                            <div >
 					                                                <label>
 					                                                    <c:out value="${userRequest.getTimeString3()}"></c:out>
 					                                                </label>
 					                                            </div>
 				                                            </li>
 				                                            <li>
-					                                            <div class="radio">
+					                                            <div >
 					                                                <label>
 					                                                    <c:out value="${userRequest.getTimeString4()}"></c:out>
 					                                                </label>
 					                                            </div>
 				                                            </li>
 				                                            <li>
-					                                            <div class="radio">
+					                                            <div >
 					                                                <label>
 					                                                    <c:out value="${userRequest.getTimeString5()}"></c:out>
 					                                                </label>
 					                                            </div>
 				                                            </li>
 				                                            <li>
-					                                            <div class="radio">
+					                                            <div >
 					                                                <label>
 					                                                    <c:out value="${userRequest.getTimeString6()}"></c:out>
 					                                                </label>
@@ -317,13 +323,90 @@
                                         <!-- Button -->                    
                                         <div class="row">
                                             <div class="col-md-12 text-center">
-                                               <button id="btn" type="submit" class="btn btn-info">Confirm Session</button>
+                                              <a href="#" data-toggle="modal" data-target="#invoice"><button id="btn" type="submit" class="btn btn-info">Confirm Session</button></a>
                                             </div>
                                             
                                         </div>
                                     </div>
                                 </c:if>
-                                
+                                <div class="modal fade" id="invoice" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+							<div class="modal-dialog modal-lg">
+								<div class="modal-content">
+									<div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+									<h4 class="modal-title" id="myModalLabel">Invoice</h4>
+									</div>
+								<div class="modal-body">
+										<div class="form-group" id="dname">
+											<label for="name" class="col-md-3 control-label">Session Id :</label>
+											<h4 class="col-md-9 ">${sessionId}</h4>
+										</div>
+										<div class="form-group" id="dname">
+											<label for="name" class="col-md-3 control-label">Advisor Name :</label>
+											<h4 class="col-md-9 "><%=advisorname.toUpperCase()%></h4>
+										</div>
+										<div class="form-group" id="dservice">
+											<label for="service" class="col-md-3 control-label">Service</label>
+											   	<c:if test="${userRequest.getService().equals('careertalk')}">
+						                            <h4 class="col-md-9 ">Career Talk</h4>
+						                        </c:if>
+						                        <c:if test="${userRequest.getService().equals('mockinterview')}">
+						                            <h4 class="col-md-9 ">Mock Interview</h4>
+						                        </c:if>
+						                        <c:if test="${userRequest.getService().equals('cvcritique')}">
+						                            <h4 class="col-md-9 ">Resume Critique</h4>
+						                        </c:if>
+						                        <c:if test="${userRequest.getService().equals('personalworkshops')}">
+						                            <h4 class="col-md-9 ">Personal Workshop</h4>
+						                        </c:if>
+										</div>
+										<div class="form-group" id="daccepteddate">
+											<label for="accepteddate" class="col-md-3 control-label">Accepted Date:</label>
+											<h4 class="col-md-9 ">${accdate}</h4>
+										</div>
+										<div class="form-group">
+                                	<label for="icode" class="col-md-3 control-label">Mode:</label>
+	                                     <c:if test="${userRequest.getMode().equals('phone')}">
+	                                		<h4 class="col-md-9 ">PHONE</h4>	
+	                              		 </c:if>
+	                                    <c:if test="${userRequest.getMode().equals('email')}">
+	                                    	<h4 class="col-md-9 ">EMAIL</h4>	
+	                                    </c:if>
+	                                    <c:if test="${userRequest.getMode().equals('webchat')}">
+	                                    	<h4 class="col-md-9 ">WEBCHAT</h4>	
+	                                    </c:if>
+                                </div>				
+										 
+                                <div class="form-group">
+                                	<label for="icode" class="col-md-3 control-label">DURATION (Hrs):</label>
+                                    <h4 class="col-md-9 "><c:out value="${userRequest.getDuration()}"></c:out></h4>	
+                                </div>
+                                <div class="form-group">
+                                	<label for="icode" class="col-md-3 control-label">AMOUNT (Rs):</label>
+                                    <h4 class="col-md-9 "><c:out value="${userRequest.getAmount()}"></c:out></h4	>	
+                                </div>	
+									  	<div class="form-group">
+											<!-- Button -->                                        
+											<div class="col-md-offset-3 col-md-9">
+													<c:choose>
+														<c:when test="${userRequest.getAmount() != 0.0}">
+															<c:url var="pay" value="payment">
+																<c:param name="order_id" value="${sessionId}"></c:param>
+																<c:param name="amount" value="${userRequest.getAmount()}"></c:param>
+															</c:url>
+														<a href="${pay}" id="btn-signup" type="submit" class="btn btn-info">PAY</a>
+														</c:when>
+														<c:otherwise>
+															<input type="submit" id="btn-signup" type="submit" class="btn btn-info">
+														</c:otherwise>
+												</c:choose>
+												<div style="height:5px"></div>  
+											</div>
+										</div>
+								</div>
+							</div>
+                     	</div>
+                   	</div>
                                 <div class="form-group">
                                     <c:url value="UserRequestViewDetailForm" var="cancel">
                                           <c:param name="rId" value="${userRequest.getRequestId()}"/>

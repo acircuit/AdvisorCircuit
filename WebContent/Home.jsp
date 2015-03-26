@@ -8,8 +8,7 @@
     <meta name="description" content="Use Advisor Circuit network to connect with industry experts. Reach out for career advice, resume critiques, mock interviews and workshops. Land a job. Get shortlisted. Grow in your career. Understand how to choose a career">
     <meta name="author" content="Advisor Circuit">
     <meta name="keywords" content="prepare interview, career guidance, telephonic interview, career options, how to prepare for an interview, career growth, how to choose a career, career guidance after 12th, how to make a good resume, online career counselling.">
-    <link rel="shortcut icon" href="assets/img/favicon.png">
-
+	
     <title>Career Growth Online | Counselling | Advisor Circuit</title>
 	 
     <!-- Bootstrap core CSS -->
@@ -21,7 +20,9 @@
     <!-- Fonts from Google Fonts -->
 	<link href='http://fonts.googleapis.com/css?family=Lato:300,400,900' rel='stylesheet' type='text/css'>
     <link href="assets/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-  
+  	<fmt:bundle basename="Resources.Dependency" prefix="path.">
+  		 <link rel="shortcut icon" href=<fmt:message key="shortcuticon"/>>	
+  	</fmt:bundle>
   </head>
 
   <body>
@@ -112,7 +113,7 @@
 										  <input id ="industry" type="text" name="industry" class="form-control" maxlength="200">
 									 </div>
                                 </div>
-                                <h4 style="font-family:'custom_light' !important;color:#555">3.Which Service do you want [Visit How It Works page for details]</h4>
+                                <h4 style="font-family:'custom_light' !important;color:#555">3.Which Service do you want [Visit <a href="howitworks" target="blank">How It Works </a>page for details]</h4>
                                 <div class="form-group">
                                      <div class="col-md-9 radio-inline" style="margin-left: 5%">
 										<li style ="display: inline;float:left;margin-right:30px;font-family:'custom_light' !important;color:#555"><input type="radio" name="service"  id="optionsRadiosInlinem1" value="CareerTalk"/>Career Talk</li>
@@ -455,7 +456,7 @@ $(document).ready(function() {
 		     	    type : 'POST',
 		     	    dataType : 'html', // Returns HTML as plain text; included script tags are evaluated when inserted in the DOM.
 		     	    success : function(response) {
-		     	    	  $('#here').html(response);
+		     	    	  alert(response);
 		     	    },
 		     	    error : function(request, textStatus, errorThrown) {
 		     	    }

@@ -7,6 +7,7 @@
 
 <%@ page import="java.util.*" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <html lang="en">
 
 <head>
@@ -15,7 +16,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="shortcut icon" href="assets/img/favicon.png">
+    <fmt:bundle basename="Resources.Dependency" prefix="path.">
+  		 <link rel="shortcut icon" href=<fmt:message key="shortcuticon"/>>	
+  	</fmt:bundle>
   	<title>ProfilePage</title>
     <!-- Bootstrap core CSS -->
     <link href="assets/css/bootstrap.min.css" rel="stylesheet">
@@ -86,7 +89,7 @@
 						<div class="modal-dialog modal-lg">
 							<div class="modal-content">
 								<div class="modal-header">
-									<button type="button" class="close" data-dismiss="modal" aria-hidden="true">�</button>
+									<button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
 									<h4 class="modal-title" id="myModalLabel">Introduction</h4>
 								</div>
 								<div class="modal-body">
@@ -194,7 +197,7 @@
 						<div class="modal-dialog modal-lg">
 							<div class="modal-content">
 								<div class="modal-header">
-									<button type="button" class="close" data-dismiss="modal" aria-hidden="true">�</button>
+									<button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
 									<h4 class="modal-title" id="myModalLabel">Career Talk Description</h4>
 								</div>
 								<div class="modal-body">
@@ -240,7 +243,7 @@
 						<div class="modal-dialog modal-lg">
 							<div class="modal-content">
 								<div class="modal-header">
-									<button type="button" class="close" data-dismiss="modal" aria-hidden="true">�</button>
+									<button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
 									<h4 class="modal-title" id="myModalLabel">Mock Interview Description</h4>
 								</div>
 								<div class="modal-body">
@@ -286,7 +289,7 @@
 						<div class="modal-dialog modal-lg">
 							<div class="modal-content">
 								<div class="modal-header">
-									<button type="button" class="close" data-dismiss="modal" aria-hidden="true">�</button>
+									<button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
 									<h4 class="modal-title" id="myModalLabel">Resume Critique Description</h4>
 								</div>
 								<div class="modal-body">
@@ -332,7 +335,7 @@
 						<div class="modal-dialog modal-lg">
 							<div class="modal-content">
 								<div class="modal-header">
-									<button type="button" class="close" data-dismiss="modal" aria-hidden="true">�</button>
+									<button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
 									<h4 class="modal-title" id="myModalLabel">Personal Workshop Description</h4>
 								</div>
 								<div class="modal-body">

@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <html lang="en">
   <head>
     <meta charset="utf-8">
@@ -7,7 +8,9 @@
     <meta name="description" content="Be a mentor, career counsellor or coach. Earn while doing something of value. Work from anywhere. Choose your own timings. Become an advisor now! ">
     <meta name="author" content="Advisor Circuit">
     <meta name="keywords" content="advisor, career, mentoring, career expert, career advisor, career coach, online mentoring, career counsellor, career guide, career advisor, mentor">
-    <link rel="shortcut icon" href="assets/img/favicon.png">
+   	<fmt:bundle basename="Resources.Dependency" prefix="path.">
+  		 <link rel="shortcut icon" href=<fmt:message key="shortcuticon"/>>	
+  	</fmt:bundle>
 
     <title>Drive career growth | Become an Advisor | Join Advisor Circuit</title>
   		 

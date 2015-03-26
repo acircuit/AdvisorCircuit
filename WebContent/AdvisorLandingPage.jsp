@@ -5,6 +5,7 @@
 <%@ page import="java.util.*"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -12,7 +13,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="">
 <meta name="author" content="">
-<link rel="shortcut icon" href="assets/img/favicon.png">
+<fmt:bundle basename="Resources.Dependency" prefix="path.">
+  <link rel="shortcut icon" href=<fmt:message key="shortcuticon"/>>	
+ </fmt:bundle>
 
 <!-- Bootstrap core CSS -->
 <link href="assets/css/bootstrap.min.css" rel="stylesheet">
@@ -233,7 +236,7 @@
 									</div>
 								</div>
 								<h4 style="font-family: 'custom_light' !important; color: #555">3.Which
-									Service do you want [Visit How It Works page for details]</h4>
+									Service do you want [Visit <a href="howitworks" target="blank">How It Works </a> page for details]</h4>
 								<div class="form-group">
 									<div class="col-md-9 radio-inline" style="margin-left: 5%">
 										<li
@@ -933,7 +936,7 @@
 		     	    type : 'POST',
 		     	    dataType : 'html', // Returns HTML as plain text; included script tags are evaluated when inserted in the DOM.
 		     	    success : function(response) {
-		     	    	  $('#here').html(response);
+		     	    	  	alert(response);
 		     	    },
 		     	    error : function(request, textStatus, errorThrown) {
 		     	    }

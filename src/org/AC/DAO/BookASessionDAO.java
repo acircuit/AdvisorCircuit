@@ -55,7 +55,7 @@ public class BookASessionDAO {
 	 *
 	 ***************************************************************************************************/
 
-	public int  setBookASessionDetails(String advisorId,String service,String mode,String duration ,String datetimepicker1,String datetimepicker2,String datetimepicker3,String datetimepicker4,String datetimepicker5,String datetimepicker6,String userQuery,int userId) { 
+	public int  setBookASessionDetails(String advisorId,String service,String mode,String duration ,String datetimepicker1,String datetimepicker2,String datetimepicker3,String datetimepicker4,String datetimepicker5,String datetimepicker6,String userQuery,int userId,String price) { 
 		
 		
 		logger.info("Entered setBookASessionDetails method of BookASessionDAO");
@@ -121,7 +121,7 @@ public class BookASessionDAO {
 				conn =ConnectionFactory.getConnection();
 				conn.setAutoCommit(false);
 				if(mode.equals("email")){
-					String query = "insert into userrequest"+"(ADVISOR_ID,SERVICE,MODE_OF_COMMUNICATION,QUERY,DURATION,BOOKING_TIME,DATE_TIME1,STATUS,USER_ID) values" + "(?,?,?,?,?,?,?,?,?)";
+					String query = "insert into userrequest"+"(ADVISOR_ID,SERVICE,MODE_OF_COMMUNICATION,QUERY,DURATION,BOOKING_TIME,DATE_TIME1,STATUS,USER_ID,AMOUNT) values" + "(?,?,?,?,?,?,?,?,?,?)";
 					pstmt = conn.prepareStatement(query,Statement.RETURN_GENERATED_KEYS);
 					pstmt.setString(1,advisorId);
 					pstmt.setString(2,service);
@@ -132,9 +132,10 @@ public class BookASessionDAO {
 					pstmt.setTimestamp(7, new java.sql.Timestamp(date1.getTime()));
 					pstmt.setString(8,status);
 					pstmt.setInt(9, userId);
+					pstmt.setString(10, price);
 					result = pstmt.executeUpdate(); 
 				}else{
-					String query = "insert into userrequest"+"(ADVISOR_ID,SERVICE,MODE_OF_COMMUNICATION,QUERY,DURATION,BOOKING_TIME,DATE_TIME1,DATE_TIME2,DATE_TIME3,DATE_TIME4,DATE_TIME5,DATE_TIME6,STATUS,USER_ID) values" + "(?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+					String query = "insert into userrequest"+"(ADVISOR_ID,SERVICE,MODE_OF_COMMUNICATION,QUERY,DURATION,BOOKING_TIME,DATE_TIME1,DATE_TIME2,DATE_TIME3,DATE_TIME4,DATE_TIME5,DATE_TIME6,STATUS,USER_ID,AMOUNT) values" + "(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 					pstmt = conn.prepareStatement(query,Statement.RETURN_GENERATED_KEYS);
 					pstmt.setString(1,advisorId);
 					pstmt.setString(2,service);
@@ -150,6 +151,7 @@ public class BookASessionDAO {
 					pstmt.setTimestamp(12, new java.sql.Timestamp(date6.getTime()));
 					pstmt.setString(13,status);
 					pstmt.setInt(14, userId);
+					pstmt.setString(15, price);
 					result = pstmt.executeUpdate(); 
 				}
 				if(result >0) {
@@ -230,5 +232,46 @@ public class BookASessionDAO {
 		}
 		return isCvCommit;
 		
+	}
+	public Boolean  DecrementIsFree(String aId, String service) { 
+		logger.info("Entered DecrementIsFree method of BookASessionDAO");
+		Boolean isFlagCommit = false ;
+		try {
+			conn =ConnectionFactory.getConnection();
+			conn.setAutoCommit(false);
+			String query ="UPDATE advisorservices SET ISFREE = ISFREE-1 WHERE ADVISOR_ID = ? AND SERVICE=?";
+			PreparedStatement pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, aId);
+			pstmt.setString(2, service);
+			int result = pstmt.executeUpdate(); 
+			if(result >0) {
+				conn.commit();
+				isFlagCommit = true;
+			}
+		}catch(Exception e){
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				try {
+					conn.rollback();
+				} catch (SQLException e2) {
+					logger.error("DecrementIsFree method of BookASessionDAO threw error:"+e2.getMessage());
+					e2.printStackTrace();
+				}
+				logger.error("DecrementIsFree method of BookASessionDAO threw error:"+e1.getMessage());
+				e1.printStackTrace();
+			}
+			logger.error("DecrementIsFree method of BookASessionDAO threw error:"+e.getMessage());
+			e.printStackTrace();
+		}finally{
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				logger.error("DecrementIsFree method of BookASessionDAO threw error:"+e.getMessage());
+				e.printStackTrace();
+			}
+		}
+		logger.info("Exit DecrementIsFree method of BookASessionDAO");
+		return isFlagCommit;
 	}
 }

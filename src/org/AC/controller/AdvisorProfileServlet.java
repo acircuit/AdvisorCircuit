@@ -69,7 +69,7 @@ public class AdvisorProfileServlet extends HttpServlet {
 		description = desc.GetProfessionalDescription(advisorId);
 		for (ProfessionalBackgroundDTO professional : list1) {
 			int i=0;
-			String[] descript = new String[10];
+			String[] descript = new String[50];
 			for (ProfessionalBackgroundDTO profession : description) {
 				if(professional.getProfId() == profession.getProfId()){
 					descript[i]=profession.getDescription();
@@ -97,6 +97,13 @@ public class AdvisorProfileServlet extends HttpServlet {
 			if(!mode.getModeOfCommunication().equals("email")){
 				int price = Integer.parseInt(mode.getPrice())/2;
 				mode.setPrice(String.valueOf(price));
+			}
+			for (AdvisorServiceDTO services : list2) {
+				if(mode.getService().equals(services.getService())){
+					int discount = services.getDiscount();
+					double discountedPrice = 	Integer.parseInt(mode.getPrice()) - (discount * Integer.parseInt(mode.getPrice()) /100);
+					mode.setDiscounted_price(discountedPrice);
+				}
 			}
 		}
 		

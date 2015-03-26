@@ -60,7 +60,7 @@ public class RegistrationPDFController extends HttpServlet {
 		description = desc.GetProfessionalDescription(advisorId);
 		for (ProfessionalBackgroundDTO professional : list1) {
 			int i=0;
-			String[] descript = new String[10];
+			String[] descript = new String[50];
 			for (ProfessionalBackgroundDTO profession : description) {
 				if(professional.getProfId() == profession.getProfId()){
 					descript[i]=profession.getDescription();

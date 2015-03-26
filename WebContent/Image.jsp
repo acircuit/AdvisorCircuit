@@ -27,6 +27,7 @@
 			String professional= "";
 			String other = "";
 			String service= "";
+			Boolean isShow = true;
 			if(edit != null &&  edit.equals("true")){
 				action = "ImageEdit";
 				general ="GeneralInfoEdit";
@@ -34,6 +35,7 @@
 				professional="ProfessionalBackgroundEdit";
 				other="OtherInfoEdit";
 				service="ServicesEdit";
+				isShow = false;
 			}else{
 				action = "AdvisorRegistrationImages";
 				general ="AdvisorRegistrationGeneralInfo";
@@ -42,6 +44,7 @@
 				other="AdvisorRegistrationOtherInfo";
 				service="AdvisorRegistrationServices";
 			} 
+			String path = request.getParameter("path");
 	%>
 </head>
 <body>
@@ -72,6 +75,14 @@
                         </ul>
                         <h4>Picture</h4>
                         <hr>
+                        <c:if test="<%=!isShow %>">
+	                       	<div class="form-group">
+	                            <label for="icode" class="col-md-3 control-label">Uploaded Picture</label>
+	                            <div id = "fileupload" class="col-md-9">
+	                            	<img alt="" src="<%=path%>">
+	                            </div>
+	                        </div>
+                        </c:if>
                         <div class="form-group">
                             <label for="icode" class="col-md-3 control-label">Upload Picture</label>
                             <div id = "fileupload" class="col-md-9">
@@ -79,14 +90,14 @@
                                 <p class="help-block">Max Size 2.5MB</p>
                             </div>
                         </div>
-                        
-                        <h4>Terms & Conditions</h4>
-                        <hr>
-                        <div class="col-md-3"></div>
-                        <div class="col-md-9">
-                			<input type="checkbox" id="agree" name="agree"><span style="padding:1%; font-size:16px;">I agree with the <a href="terms" target="blank">Terms & Conditions.</a> & <a href="nda" target="blank">Non-Disclosure Agreement.</a></span>        	
-                        </div>
-
+                        <c:if test="<%=isShow %>">
+	                        <h4>Terms & Conditions</h4>
+	                        <hr>
+	                        <div class="col-md-3"></div>
+	                        <div class="col-md-9">
+	                			<input type="checkbox" id="agree" name="agree"><span style="padding:1%; font-size:16px;">I agree with the <a href="terms" target="blank">Terms & Conditions.</a> & <a href="nda" target="blank">Non-Disclosure Agreement.</a></span>        	
+	                        </div>
+						</c:if>
                          <div class="form-group">
                             <!-- Button -->                                        
                             <div class="col-md-offset-3 col-md-9">

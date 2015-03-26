@@ -5,6 +5,7 @@
 <%@page import="org.AC.dto.SessionFeedBackDTO"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ page import="java.util.*" %>
 <html lang="en">
 
@@ -38,7 +39,9 @@
 	
     <!-- Custom Fonts -->
     <link href="assets/font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-
+	<fmt:bundle basename="Resources.Dependency" prefix="path.">
+  		 <link rel="shortcut icon" href=<fmt:message key="shortcuticon"/>>	
+  	</fmt:bundle>
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>

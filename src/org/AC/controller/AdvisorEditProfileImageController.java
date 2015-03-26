@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.AC.DAO.AdvisorEditProfileDAO;
 import org.AC.DAO.AdvisorRegistrationDAO;
 import org.AC.JDBC.ConnectionFactory;
+import org.AC.Util.GetRelativeImageURL;
 import org.AC.Util.SendMail;
 import org.AC.Util.SetFormImage;
 import org.apache.log4j.Logger;
@@ -30,12 +31,30 @@ public class AdvisorEditProfileImageController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final Logger logger = Logger.getLogger(AdvisorEditProfileImageController.class); 
 
-
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		logger.info("Entered doGet method of AdvisorEditProfileServicesController");
+		int advisorId = 0;
+		String path = "";
+		try{
+	    advisorId = (int) request.getSession().getAttribute("advisorId");
+		}catch(Exception e){
+			response.sendRedirect("Error");
+		}
+		if(advisorId != 0){
+			AdvisorRegistrationDAO image = new AdvisorRegistrationDAO();
+			path = image.GetImagePath(advisorId);
+			GetRelativeImageURL relImage = new GetRelativeImageURL();
+			path = relImage.getImageURL(path);
+		}
+		request.setAttribute("edit",true);
+		request.setAttribute("path",path);
+		logger.info("Exit doGet method of AdvisorEditProfileServicesController");
+	}
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		logger.info("Entered doPost method of AdvisorEditProfileImageController");	
+		logger.info("Entered doPost method of AdvisorEditProfileImageController");		
 		String email = "";
 		int aId = 0;
 			try{

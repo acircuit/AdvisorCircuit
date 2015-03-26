@@ -3,6 +3,7 @@
 <%@page import="org.AC.dto.SessionDTO"%>
 <%@page import="org.AC.dto.AdvisorNewDatesDTO"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ page import="java.util.*" %>
 <html lang="en">
 
@@ -36,7 +37,9 @@
 	
     <!-- Custom Fonts -->
     <link href="assets/font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-
+	<fmt:bundle basename="Resources.Dependency" prefix="path.">
+  		 <link rel="shortcut icon" href=<fmt:message key="shortcuticon"/>>	
+  	</fmt:bundle>
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -183,7 +186,7 @@
                                         <div class="col-md-6" >
                                               <ol>
                                                     <li>
-                                                        <div class="radio">
+                                                        <div>
                                                             <label>
                                                                <c:out value="${userRequest.getTimeString1()}"></c:out>
                                                             </label>
@@ -205,42 +208,42 @@
                                       <div class="col-md-6" >
                                       <ol>
                                         <li>
-                                            <div class="radio">
+                                            <div >
                                                 <label>
                                                     <c:out value="${userRequest.getTimeString1()}"></c:out>
                                                 </label>
                                             </div>
                                         </li>
                                         <li>
-                                            <div class="radio">
+                                            <div >
                                                 <label>
                                                     <c:out value="${userRequest.getTimeString2()}"></c:out>
                                                 </label>
                                             </div>
                                         </li>
                                         <li>
-                                            <div class="radio">
+                                            <div >
                                                 <label>
                                                     <c:out value="${userRequest.getTimeString3()}"></c:out>
                                                 </label>
                                             </div>
                                         </li>
                                         <li>
-                                            <div class="radio">
+                                            <div >
                                                 <label>
                                                     <c:out value="${userRequest.getTimeString4()}"></c:out>
                                                 </label>
                                             </div>
                                         </li>
                                         <li>
-                                            <div class="radio">
+                                            <div >
                                                 <label>
                                                     <c:out value="${userRequest.getTimeString5()}"></c:out>
                                                 </label>
                                             </div>
                                         </li>
                                         <li>
-                                            <div class="radio">
+                                            <div >
                                                 <label>
                                                     <c:out value="${userRequest.getTimeString6()}"></c:out>
                                                 </label>
@@ -274,17 +277,17 @@
                                                 <h4>New Dates Provided By Advisor</h4>
                                                     <c:forEach var="dates" items="${advisorNewDates}">
                                                         <div class="col-md-6" >
-                                                            <div class="radio">
+                                                            <div >
                                                                 <label>
                                                                     <c:out value="${dates.getNewDateString1()}"></c:out>
                                                                 </label>
                                                             </div>
-                                                            <div class="radio">
+                                                            <div >
                                                                 <label>
                                                                     <c:out value="${dates.getNewDateString2()}"></c:out>
                                                                 </label>
                                                             </div>
-                                                             <div class="radio">
+                                                             <div >
                                                                 <label>
                                                                     <c:out value="${dates.getNewDateString3()}"></c:out>
                                                                 </label>

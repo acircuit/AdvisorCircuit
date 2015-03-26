@@ -353,7 +353,7 @@ $("#btn-login").click(function(event){
 			        	validations(event);
 			        	$("#mailnotavailable").hide();}
 			        else {
-			        	$("#mailnotavailable").show();
+			        	alert("Whoa! Looks like your email id already exists with us.");
 			        	validate(event);
 			        }
 			    }).fail(function() {

@@ -22,8 +22,6 @@ public class ChangeSessionStatusDAO {
 	
 	//This function  will set the session status in the "session_table" table
 	public Boolean  setStatus(String status,  String sessionId ) { 
-		
-		
 		logger.info("Entered setStatus method of ChangeSessionStatusDAO");
 		Boolean isStatusCommit = false;
 		int result = 0;
@@ -96,6 +94,43 @@ public class ChangeSessionStatusDAO {
 						conn.close();
 					} catch (SQLException e) {
 						logger.error("setStatus method of ChangeSessionStatusDAO threw error:"+e.getMessage());
+						e.printStackTrace();
+					}
+				}
+				return isStatusCommit;		
+		}
+		
+		public Boolean  UpdateSessionPayment(String sId) { 
+			logger.info("Entered UpdateSessionPayment method of ChangeSessionStatusDAO");
+			Boolean isStatusCommit = false;
+			int result = 0;
+				
+				try {
+					conn =ConnectionFactory.getConnection();
+					conn.setAutoCommit(false);
+					String query = "UPDATE session_table  SET CCAV_STATUS=? WHERE SESSION_ID = ?";
+					PreparedStatement pstmt = conn.prepareStatement(query);
+					pstmt.setString(1, "SUCCESS");
+					pstmt.setString(2, sId);
+				    if(result > 0){
+				    	conn.commit();
+				    	isStatusCommit = true;
+				    }
+					logger.info("Exit UpdateSessionPayment method of ChangeSessionStatusDAO");
+				} catch (SQLException e) {
+					logger.error("UpdateSessionPayment method of ChangeSessionStatusDAO threw error:"+e.getMessage());
+					e.printStackTrace();
+				} catch (IOException e) {
+					logger.error("UpdateSessionPayment method of ChangeSessionStatusDAO threw error:"+e.getMessage());
+					e.printStackTrace();
+				} catch (PropertyVetoException e) {
+					logger.error("UpdateSessionPayment method of ChangeSessionStatusDAO threw error:"+e.getMessage());
+					e.printStackTrace();
+				}finally{
+					try {
+						conn.close();
+					} catch (SQLException e) {
+						logger.error("UpdateSessionPayment method of ChangeSessionStatusDAO threw error:"+e.getMessage());
 						e.printStackTrace();
 					}
 				}

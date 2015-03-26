@@ -81,7 +81,7 @@ public class AdvisorEditOtherinfoController extends HttpServlet {
 		Boolean isHobbyCommit = false;
 		Boolean isAchieve= true;
 		if(aId != 0){
-			if(!hobbies.isEmpty() && keyskills.length >0){
+			if(keyskills.length >0){
 				//Deleting Previous Achievements.
 				AdvisorRegistrationDAO achieve = new AdvisorRegistrationDAO();
 				Boolean isDelete = achieve.RemoveAwards(aId);
@@ -98,9 +98,11 @@ public class AdvisorEditOtherinfoController extends HttpServlet {
 				AdvisorRegistrationDAO skills = new AdvisorRegistrationDAO();
 				Boolean isSkillCommit = skills.setSkills(aId, keyskills);
 				if(isSkillCommit){
-					//Setting the Hobbies
-					AdvisorRegistrationDAO hobby = new AdvisorRegistrationDAO();
-					isHobbyCommit = hobby.setHobbies(aId, hobbies);
+					if(!hobbies.isEmpty()){
+						//Setting the Hobbies
+						AdvisorRegistrationDAO hobby = new AdvisorRegistrationDAO();
+						isHobbyCommit = hobby.setHobbies(aId, hobbies);
+					}
 				}
 				if(isHobbyCommit){
 					Properties prop = new Properties();

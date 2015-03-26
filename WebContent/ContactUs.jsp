@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <html lang="en">
   <head>
     <meta charset="utf-8">
@@ -7,7 +8,9 @@
     <meta name="description" content="We would love to hear from you! Call us +91 9999828839 or mail us at contactus@advisorcircuit.com">
     <meta name="author" content="Advisor Circuit">
     <link rel="shortcut icon" href="assets/img/favicon.png">
-
+	<fmt:bundle basename="Resources.Dependency" prefix="path.">
+  		 <link rel="shortcut icon" href=<fmt:message key="shortcuticon"/>>	
+  	</fmt:bundle>
     <title>Contact us | Advisor Circuit</title>
 	  		 
     <!-- Bootstrap core CSS -->

@@ -1371,7 +1371,8 @@ ul.tab-list li {
 	font-size:18px;
 	text-align:center;
 }
-
+.originalPrice {text-decoration: line-through;color: #c84c4e;}
+.discountedPrice {color: #c84c4e}
 
 @media only screen and (max-width: 480px) {
 	.ex-page img {

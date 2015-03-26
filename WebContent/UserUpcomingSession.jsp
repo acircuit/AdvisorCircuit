@@ -149,8 +149,11 @@
 					                                    <label for="icode" class="col-md-3 control-label" style="font-size:19px">Review Message</label>
 					                                     <div class="col-md-9">
 					                                     		<c:choose>
-						                                		<c:when test="${request.getReviewMesage() != null}">
-					                                     			<textarea rows="3" id="reviewmessage" name="reviewmessage" class="form-control" maxlength="400">${request.getReviewMesage()}</textarea>						                                		
+						                                		<c:when test="${request.getReviewMesage() != null && !request.getReviewMessageStatus().equals('REJECTED')}">
+					                                     			<textarea rows="3" id="reviewmessage" name="reviewmessage" class="form-control" maxlength="400" readonly="readonly">${request.getReviewMesage()}</textarea>						                                		
+						                                		</c:when>
+						                                		<c:when test="">
+					                                     			<textarea rows="3" id="reviewmessage" name="reviewmessage" class="form-control" maxlength="400" readonly="readonly">${request.getReviewMesage()}</textarea>						                                								                                		
 						                                		</c:when>
 				                                				<c:otherwise>
 					                                     			<textarea rows="3" id="reviewmessage" name="reviewmessage" class="form-control" maxlength="400"></textarea>						                                						                                				
@@ -160,17 +163,32 @@
 					                                </div>
 												 	     <div class="col-md-10" style="padding-left:0px;">
 								                            <label for="icode" class="col-md-3 control-label" style="margin-top:30px; font-size:19px">Recommend</label>
-								                            <a id="${request.getSessionId()}" onclick="recommend(this)"><img alt="" src="assets/img/services/Icon_Ranking.png" width="40px" height="40px" style="margin-top:30px; margin-left:60px"></a>
+								                            <c:choose>
+						                                		<c:when test="${request.getRating() != null && request.getRating()}">
+								                            		<a id="${request.getSessionId()}" onclick="recommend(this)"><img alt="" src="assets/img/Icon_Ranking_BW.png" width="40px" height="40px" style="margin-top:30px; margin-left:60px"></a>
+								                            		<div style="font: bold;" class="col-md-8" id ="error${request.getSessionId()}">
+									                        		</div>
+								                       			</c:when>
+								                       			<c:otherwise>
+								                            		<a id="${request.getSessionId()}" onclick="recommend(this)"><img alt="" src="assets/img/services/Icon_Ranking.png" width="40px" height="40px" style="margin-top:30px; margin-left:60px"></a>
+								                            		<div style="font: bold;" class="col-md-8" id ="error${request.getSessionId()}">
+									                        		</div>								                       				
+								                       			</c:otherwise>	
+								                       		</c:choose>
 								                        </div>
+								                        	<c:out value="${request.getReviewMesage()}"></c:out>
+								                        		<c:out value="${request.getReviewMessageStatus()}"></c:out>
 								                        <c:choose>
-						                                		<c:when test="${request.getReviewMesage() != null}">
+								                        	
+						                                		<c:when test="${request.getReviewMesage() != null && !request.getReviewMessageStatus().equals('REJECTED')}">
+						                                			
 						                                		</c:when>
 						                                		<c:otherwise>
 						                                				<div class="form-group">
 										                                    <!-- Button -->                                        
 										                                    <div class="col-md-offset-3 col-md-9" style="margin-top: 20px">
-										                                        <button id="${request.getSessionId()}" type="button" onclick="review(this)" class="btn btn-info" style="font-size:17px">Submit</button>
-																				<!--<button id="btn" type="button"  class="btn btn-info">Cancel</button>	-->
+										                                        <button id="${request.getSessionId()}" type="button" onclick="review(this)" class="btn btn-info reviewbutton" style="font-size:17px">Submit</button>
+																				<!--<button id="review_btn" type="button"  class="btn btn-info">Cancel</button>	-->
 										                                    </div>
 									                                	</div>
 									     	                        	<div style="font: bold;" class="col-md-8" id ="error${request.getSessionId()}">
@@ -245,6 +263,7 @@
 			document.getElementById('review').style.display = "none";
 		}
 		function recommend(elem){
+		debugger;
 		var sId = elem.id;
 			 $.ajax({
 	                url : 'Recommend', // Your Servlet mapping or JSP(not suggested)
@@ -261,6 +280,7 @@
 		}
 		function review(elem){
 		var sId = elem.id;
+		if($("#reviewmessage").val() ==  ""){
 			$.ajax({
                 url : 'Recommend', // Your Servlet mapping or JSP(not suggested)
                 data : {"sId" : sId,"review":"true","reviewmessage": $("#reviewmessage").val()},
@@ -275,9 +295,9 @@
                     
                 }
             }); 
-			
-			
-			
+		}else{
+			alert("Please enter review message");
+		}
 		}
 	</script>
 	<script type="text/javascript">

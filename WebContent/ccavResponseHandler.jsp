@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <%@ page import = "java.io.*,java.util.*,com.ccavenue.security.*" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -37,7 +38,14 @@
 				while(enumeration.hasMoreElements()) {
 					pname=""+enumeration.nextElement();
 					pvalue=""+ hs.get(pname);
-			%>
+					String sId = "";
+					if(pname.equals("order_id")){
+						sId = pvalue;
+					}
+			%>	
+				<c:if test="<%=pname.equals("order_status") && pvalue.equals("Success")%>">
+					<%response.sendRedirect("successfullpayment?sId="+sId); %>
+				</c:if>
 				<tr>
 					<td><%= pname %> </td>
 					<td> <%= pvalue %> </td>

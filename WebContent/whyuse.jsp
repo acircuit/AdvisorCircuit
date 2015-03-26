@@ -206,7 +206,7 @@
 										  <input id ="industry" type="text" name="industry" class="form-control" maxlength="200">
 									 </div>
                                 </div>
-                                <h4 style="font-family:'custom_light' !important;color:#555">3.Which Service do you want [Visit How It Works page for details]</h4>
+                                <h4 style="font-family:'custom_light' !important;color:#555">3.Which Service do you want [Visit <a href="howitworks" target="blank">How It Works </a>page for details]</h4>
                                 <div class="form-group">
                                      <div class="col-md-9 radio-inline" style="margin-left: 5%">
 										<li style ="display: inline;float:left;margin-right:30px;font-family:'custom_light' !important;color:#555"><input type="radio" name="service"  id="optionsRadiosInlinem1" value="CareerTalk"/>Career Talk</li>
@@ -423,7 +423,7 @@ $(document).ready(function() {
 		     	    type : 'POST',
 		     	    dataType : 'html', // Returns HTML as plain text; included script tags are evaluated when inserted in the DOM.
 		     	    success : function(response) {
-		     	    	  $('#here').html(response);
+		     	    	  	  alert(response);
 		     	    },
 		     	    error : function(request, textStatus, errorThrown) {
 		     	    }

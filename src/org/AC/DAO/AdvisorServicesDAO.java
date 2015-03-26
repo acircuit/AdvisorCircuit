@@ -116,6 +116,8 @@ public class AdvisorServicesDAO {
 				service.setAdvisorId(results.getInt("ADVISOR_ID"));
 				service.setService(results.getString("SERVICE"));
 				service.setDescription(results.getString("DESCRIPTION"));
+				service.setIsFree(results.getInt("ISFREE"));
+				service.setDiscount(results.getInt("DISCOUNT_AC"));
 				list.add(service);
 			}
 		} catch (SQLException e) {

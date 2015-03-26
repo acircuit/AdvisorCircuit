@@ -8,6 +8,7 @@
 <%@page import="org.AC.dto.UserDetailsDTO"%>
 <%@ page import="java.util.*" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <html lang="en">
 
 <head>
@@ -16,7 +17,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="shortcut icon" href="assets/img/favicon.png">
+    
+<fmt:bundle basename="Resources.Dependency" prefix="path.">
+  		 <link rel="shortcut icon" href=<fmt:message key="shortcuticon"/>>	
+  	</fmt:bundle>
   	<title>ProfilePage</title>
   
     <!-- Bootstrap core CSS -->
@@ -169,22 +173,39 @@
             
 				<div id="career-talk" class="col-md-6 service">
                 <div class="hpanel text-center">
-                <div class="free-session-cb"></div>
+                <c:if test="${service.getIsFree() != 0 || service.getDiscount() ==100}">
+                	<div class="free-session-cb"></div>
+                </c:if>
 			    	<h2>Career Talk </h2>
                     <p class="careertalkdescription">${service.getDescription()}</p>
 			        <div class="icon-group">
 			        	<ul class="list-unstyled">
 				        	<c:forEach items="${modes}" var="mode">
 				          	<c:if test="${service.getAdvisorId() == mode.getAdvisorId() && mode.getService().equals('careertalk') }">
-					        	<c:if test="${mode.getModeOfCommunication().equals('email')}">
-				            		<li><img src="assets/img/ProfileImages/Panel_4_Icon_Mail.png" width="50"><span>Email</br>Rs.${mode.getPrice()}</span></li>
-						        </c:if>
-						        <c:if test="${mode.getModeOfCommunication().equals('phone')}">
-						        	<li><img src="assets/img/ProfileImages/Panel_4_Icon_Phone.png" width="50"><span>Phone</br>Rs.${mode.getPrice()}<span></li>
-						        </c:if>
-	         					<c:if test="${mode.getModeOfCommunication().equals('webchat')}">
-						        	<li><img src="assets/img/ProfileImages/Panel_4_Icon_WebChat.png" width="50"><span>Webchat</br>Rs.${mode.getPrice()}<span></li>
-						        </c:if>
+				          		<c:choose>
+				          			<c:when test="${service.getDiscount() != 0}">
+				          				<c:if test="${mode.getModeOfCommunication().equals('email')}">
+						            		<li><img src="assets/img/ProfileImages/Panel_4_Icon_Mail.png" width="50"><span>Email</br><span class="originalPrice">Rs.${mode.getPrice()}</span>Rs.${mode.getDiscounted_price()}</span></li>
+								        </c:if>
+								        <c:if test="${mode.getModeOfCommunication().equals('phone')}">
+								        	<li><img src="assets/img/ProfileImages/Panel_4_Icon_Phone.png" width="50"><span>Phone</br><span class="originalPrice">Rs.${mode.getPrice()}</span>Rs.${mode.getDiscounted_price()}</span></li>
+								        </c:if>
+			         					<c:if test="${mode.getModeOfCommunication().equals('webchat')}">
+								        	<li><img src="assets/img/ProfileImages/Panel_4_Icon_WebChat.png" width="50"><span>Webchat</br><span class="originalPrice">Rs.${mode.getPrice()}</span>Rs.${mode.getDiscounted_price()}</span></li>
+								        </c:if>
+				          			</c:when>
+				          			<c:otherwise>
+				          				<c:if test="${mode.getModeOfCommunication().equals('email')}">
+						            		<li><img src="assets/img/ProfileImages/Panel_4_Icon_Mail.png" width="50"><span>Email</br>Rs.${mode.getPrice()}</span></li>
+								        </c:if>
+								        <c:if test="${mode.getModeOfCommunication().equals('phone')}">
+								        	<li><img src="assets/img/ProfileImages/Panel_4_Icon_Phone.png" width="50"><span>Phone</br>Rs.${mode.getPrice()}</span></li>
+								        </c:if>
+			         					<c:if test="${mode.getModeOfCommunication().equals('webchat')}">
+								        	<li><img src="assets/img/ProfileImages/Panel_4_Icon_WebChat.png" width="50"><span>Webchat</br>Rs.${mode.getPrice()}</span></li>
+								        </c:if>
+				          			</c:otherwise>
+				          		</c:choose>
 					        </c:if>
 				            </c:forEach>
 		       			</ul>
@@ -216,7 +237,9 @@
 	        <c:if test="${service.getService().equals('mockinterview')}">
 				<div id="mock-interview" class="col-md-6 service">
                 <div class="hpanel text-center">
+                <c:if test="${service.getIsFree() != 0 || service.getDiscount() ==100}">
                 	<div class="free-session-cb"></div>
+                </c:if>
 			    	<h2>Mock Interview</h2>
                     <p class="mockinterviewdescription">${service.getDescription()}</p>
                     
@@ -224,15 +247,30 @@
 			          	<ul class="list-unstyled">
 				           	<c:forEach items="${modes}" var="mode">
 				          	<c:if test="${service.getAdvisorId() == mode.getAdvisorId() && mode.getService().equals('mockinterview') }">
-					        	<c:if test="${mode.getModeOfCommunication().equals('email')}">
-				            		<li><img src="assets/img/ProfileImages/Panel_4_Icon_Mail.png" height="50"><span>Email<br/>Rs.${mode.getPrice()}</span></li>
-						        </c:if>
-						        <c:if test="${mode.getModeOfCommunication().equals('phone')}">
-						        	<li><img src="assets/img/ProfileImages/Panel_4_Icon_Phone.png" height="50"><span>Phone<br/>Rs.${mode.getPrice()}</span></li>
-						        </c:if>
-	         					<c:if test="${mode.getModeOfCommunication().equals('webchat')}">
-						        	<li><img src="assets/img/ProfileImages/Panel_4_Icon_WebChat.png" height="50"><span>Webchat<br/>Rs.${mode.getPrice()}</span></li>
-						    	</c:if>
+					        	<c:choose>
+				          			<c:when test="${service.getDiscount() != 0}">
+				          				<c:if test="${mode.getModeOfCommunication().equals('email')}">
+						            		<li><img src="assets/img/ProfileImages/Panel_4_Icon_Mail.png" width="50"><span>Email</br><span class="originalPrice">Rs.${mode.getPrice()}</span>Rs.${mode.getDiscounted_price()}</span></li>
+								        </c:if>
+								        <c:if test="${mode.getModeOfCommunication().equals('phone')}">
+								        	<li><img src="assets/img/ProfileImages/Panel_4_Icon_Phone.png" width="50"><span>Phone</br><span class="originalPrice">Rs.${mode.getPrice()}</span>Rs.${mode.getDiscounted_price()}</span></li>
+								        </c:if>
+			         					<c:if test="${mode.getModeOfCommunication().equals('webchat')}">
+								        	<li><img src="assets/img/ProfileImages/Panel_4_Icon_WebChat.png" width="50"><span>Webchat</br><span class="originalPrice">Rs.${mode.getPrice()}</span>Rs.${mode.getDiscounted_price()}</span></li>
+								        </c:if>
+				          			</c:when>
+				          			<c:otherwise>
+				          				<c:if test="${mode.getModeOfCommunication().equals('email')}">
+						            		<li><img src="assets/img/ProfileImages/Panel_4_Icon_Mail.png" width="50"><span>Email</br>Rs.${mode.getPrice()}</span></li>
+								        </c:if>
+								        <c:if test="${mode.getModeOfCommunication().equals('phone')}">
+								        	<li><img src="assets/img/ProfileImages/Panel_4_Icon_Phone.png" width="50"><span>Phone</br>Rs.${mode.getPrice()}</span></li>
+								        </c:if>
+			         					<c:if test="${mode.getModeOfCommunication().equals('webchat')}">
+								        	<li><img src="assets/img/ProfileImages/Panel_4_Icon_WebChat.png" width="50"><span>Webchat</br>Rs.${mode.getPrice()}</span></li>
+								        </c:if>
+				          			</c:otherwise>
+				          		</c:choose>
 					        </c:if>
 				            </c:forEach>
 		       			</ul>
@@ -264,7 +302,9 @@
    	        <c:if test="${service.getService().equals('cvcritique')}">
 				<div id="cv" class="col-md-6 service">
                 <div class="hpanel text-center">
-                <div class="free-session-cb"></div>
+                <c:if test="${service.getIsFree() != 0 || service.getDiscount() ==100}">
+                	<div class="free-session-cb"></div>
+                </c:if>
 			    	<h2>Resume Critique </h2>
                     <p class="cvcritiquedescription">${service.getDescription()}</p>
                     
@@ -272,15 +312,30 @@
 			        	<ul class="list-unstyled">
 				           	<c:forEach items="${modes}" var="mode">
 				          	<c:if test="${service.getAdvisorId() == mode.getAdvisorId() && mode.getService().equals('cvcritique') }">
-					        	<c:if test="${mode.getModeOfCommunication().equals('email')}">
-				            		<li><img src="assets/img/ProfileImages/Panel_4_Icon_Mail.png" height="50"><span>Email<br/>Rs.${mode.getPrice()}</span></li>
-						        </c:if>
-						        <c:if test="${mode.getModeOfCommunication().equals('phone')}">
-						        	<li><img src="assets/img/ProfileImages/Panel_4_Icon_Phone.png" height="50"><span>Phone<br/>Rs.${mode.getPrice()}</span></li>
-						       	</c:if>
-	         					<c:if test="${mode.getModeOfCommunication().equals('webchat')}">
-						        	<li><img src="assets/img/ProfileImages/Panel_4_Icon_WebChat.png" height="50"><span>Webchat<br/>Rs.${mode.getPrice()}</span></li>
-						        </c:if>
+					        	<c:choose>
+				          			<c:when test="${service.getDiscount() != 0}">
+				          				<c:if test="${mode.getModeOfCommunication().equals('email')}">
+						            		<li><img src="assets/img/ProfileImages/Panel_4_Icon_Mail.png" width="50"><span>Email</br><span class="originalPrice">Rs.${mode.getPrice()}</span>Rs.${mode.getDiscounted_price()}</span></li>
+								        </c:if>
+								        <c:if test="${mode.getModeOfCommunication().equals('phone')}">
+								        	<li><img src="assets/img/ProfileImages/Panel_4_Icon_Phone.png" width="50"><span>Phone</br><span class="originalPrice">Rs.${mode.getPrice()}</span>Rs.${mode.getDiscounted_price()}</span></li>
+								        </c:if>
+			         					<c:if test="${mode.getModeOfCommunication().equals('webchat')}">
+								        	<li><img src="assets/img/ProfileImages/Panel_4_Icon_WebChat.png" width="50"><span>Webchat</br><span class="originalPrice">Rs.${mode.getPrice()}</span>Rs.${mode.getDiscounted_price()}</span></li>
+								        </c:if>
+				          			</c:when>
+				          			<c:otherwise>
+				          				<c:if test="${mode.getModeOfCommunication().equals('email')}">
+						            		<li><img src="assets/img/ProfileImages/Panel_4_Icon_Mail.png" width="50"><span>Email</br>Rs.${mode.getPrice()}</span></li>
+								        </c:if>
+								        <c:if test="${mode.getModeOfCommunication().equals('phone')}">
+								        	<li><img src="assets/img/ProfileImages/Panel_4_Icon_Phone.png" width="50"><span>Phone</br>Rs.${mode.getPrice()}</span></li>
+								        </c:if>
+			         					<c:if test="${mode.getModeOfCommunication().equals('webchat')}">
+								        	<li><img src="assets/img/ProfileImages/Panel_4_Icon_WebChat.png" width="50"><span>Webchat</br>Rs.${mode.getPrice()}</span></li>
+								        </c:if>
+				          			</c:otherwise>
+				          		</c:choose>
 					        </c:if>
 				            </c:forEach>
 		       			</ul>
@@ -312,7 +367,9 @@
 	        <c:if test="${service.getService().equals('personalworkshops')}">
 				<div id="workshop" class="col-md-6 service">
                 <div class="hpanel text-center">
-                <div class="free-session-cb"></div>
+                <c:if test="${service.getIsFree() != 0 || service.getDiscount() ==100}">
+                	<div class="free-session-cb"></div>
+                </c:if>
 			    	<h2>Personal Workshop </h2>
 			        <p class="personalworkshopsdescription">${service.getDescription()}</p>
                     
@@ -452,6 +509,7 @@
                                     <p>Error:</p>
                                     <span></span>
                                 </div>
+                                <input type="hidden" id="isfree" name="isFree">
                                 <div class="form-group">
                                     <label for="icode" style="font-family:'custom_light' !important;" class="col-md-3 control-label">Services</label>
                                      <div class="col-md-6">
@@ -512,7 +570,7 @@
                                     <label for="icode" style="font-family:'custom_light' !important;" class="col-md-3 control-label">Price(Rs)</label>
                                     <div class="col-md-9">
                                         <input type="text" name="price" style="font-family:'custom_light' !important;" class="form-control" id="disabledInput" placeholder="" readOnly="true">
-					     <h4 style="font-family:'custom_light' !important;color: #c84c4e;text-align: left;">Great news ! This session for you is free. </h4> 
+					     				<h4 id="freesession" style="font-family:'custom_light' !important;color: #c84c4e;text-align: left;display: none;">Great news ! This session for you is free. </h4> 
                                     </div>
                                 </div>		
 								  
@@ -888,9 +946,22 @@
 			document.getElementById('emailslot').style.display = "block";
     	}
 	var price;
+	var free= false;
     	<c:forEach items="${modes}" var="mode">
     		if("${mode.getModeOfCommunication()}" == valuemode && "${mode.getService()}" ==  document.getElementById('services_dropdown').value){
-    			price = "${mode.getPrice()}";
+    			<c:forEach items="${services}" var="service">
+    				if("${mode.getService()}" == "${service.getService()}"){
+    					if("${service.getIsFree()}" > 0 && $('input:radio[name=duration]:checked').val()== "0.5" || "${service.getIsFree()}" > 0 && valuemode=="email" ){
+    						price= "0.0";
+    						free = true;
+    					}else if("${mode.getDiscounted_price()}" == 0 && "${service.getDiscount()}" == 0){
+    	    				price = "${mode.getPrice()}";
+    	    			}else{
+    	    				price = "${mode.getDiscounted_price()}";
+    	    			}			
+    				} 			
+    			</c:forEach>
+    			
     		}
     	</c:forEach>
     	if(valuemode != "email"){
@@ -902,6 +973,11 @@
     		$("#complete-query").show();
 	}else{
 		$("#disabledInput").val(price * 2);
+	}
+	if(free){
+		$("#freesession").show();
+	}else{
+		$("#freesession").hide();
 	}
     }
  
@@ -927,9 +1003,18 @@
 		$('#datetimepickeremail').data("DateTimePicker").setMaxDate(dt1);
 		$("#submit_btn").click(function(event){
 			var drop = $("#services_dropdown").val();
+			<c:forEach items="${services}" var="service">
+			if("${service.getService()}" == drop && $('input:radio[name=duration]:checked').val()== "0.5" || "${service.getService()}" == drop && $('input:radio[name=mode]:checked').val() == "email"){
+				if("${service.getIsFree()}" > 0){
+					$("#isfree").val("true");
+				}else{
+					$("#isfree").val("false");
+				}
+			}
+			</c:forEach>
 			if(drop=="Select a Service")
 			{
-				alert("please select service");
+				alert("Please select a service");
 				event.preventDefault();
 			}else if($("#optionsRadiosInlinem1").is(':checked') == true || $("#optionsRadiosInlinem2").is(':checked') == true || $("#optionsRadiosInlinem3").is(':checked') == true)
 				{	
@@ -982,7 +1067,7 @@
 							}	
 				}	
 			else{
-					alert("Please select mode");
+					alert("Please select a mode");
 					event.preventDefault();
 				}
 		});

@@ -28,13 +28,14 @@ public class ReviewAndRecommendationDAO {
 		try {
 			conn =ConnectionFactory.getConnection();
 			conn.setAutoCommit(false);
-			String query ="SELECT RATING,REVIEW_MESSAGE FROM session_table WHERE SESSION_ID = ?";
+			String query ="SELECT RATING,REVIEW_MESSAGE,REVIEW_MESSAGE_STATUS FROM session_table WHERE SESSION_ID = ?";
 			PreparedStatement pstmt = conn.prepareStatement(query);
 			pstmt.setString(1,sId);
 		    results = pstmt.executeQuery();
 		    if(results.first()){
 		    	recommend.setRatings(results.getBoolean("RATING"));
 				recommend.setReviewMessage(results.getString("REVIEW_MESSAGE"));
+				recommend.setReviewMessageStatus(results.getString("REVIEW_MESSAGE_STATUS"));
 		    }			
 		logger.info("Exit CheckIsRecommended method of ReviewAndRecommendationDAO");
 		}catch(Exception e){
@@ -116,10 +117,11 @@ public Boolean  UpdateReviewMessage(String sId,String message) {
 	try {
 		conn =ConnectionFactory.getConnection();
 		conn.setAutoCommit(false);
-		String query ="UPDATE session_table SET REVIEW_MESSAGE = ? WHERE SESSION_ID = ?";
+		String query ="UPDATE session_table SET REVIEW_MESSAGE = ?,REVIEW_MESSAGE_STATUS=? WHERE SESSION_ID = ?";
 		PreparedStatement pstmt = conn.prepareStatement(query);
 		pstmt.setString(1, message);
-		pstmt.setString(2,sId);
+		pstmt.setString(2,null);
+		pstmt.setString(3,sId);
 	    results = pstmt.executeUpdate();
 	    if(results > 0){
 		conn.commit();

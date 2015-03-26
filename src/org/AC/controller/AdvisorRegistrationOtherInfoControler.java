@@ -111,7 +111,7 @@ public class AdvisorRegistrationOtherInfoControler extends HttpServlet {
 		}
 		Boolean isHobbyCommit = false;
 		if(aId != 0){
-			if(!hobbies.isEmpty() && keyskills.length >0){
+			if( keyskills.length >0){
 				//Deleting Previous Achievements.
 				AdvisorRegistrationDAO achieve = new AdvisorRegistrationDAO();
 				Boolean isDelete = achieve.RemoveAwards(aId);
@@ -128,9 +128,11 @@ public class AdvisorRegistrationOtherInfoControler extends HttpServlet {
 				AdvisorRegistrationDAO skills = new AdvisorRegistrationDAO();
 				Boolean isSkillCommit = skills.setSkills(aId, keyskills);
 				if(isSkillCommit){
-					//Setting the Hobbies
-					AdvisorRegistrationDAO hobby = new AdvisorRegistrationDAO();
-					isHobbyCommit = hobby.setHobbies(aId, hobbies);
+					if(!hobbies.isEmpty()){
+						//Setting the Hobbies
+						AdvisorRegistrationDAO hobby = new AdvisorRegistrationDAO();
+						isHobbyCommit = hobby.setHobbies(aId, hobbies);
+					}
 				}
 				if(!isError){
 					if(isHobbyCommit  && edit.equals("true") ){

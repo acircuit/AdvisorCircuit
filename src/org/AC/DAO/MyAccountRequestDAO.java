@@ -122,7 +122,8 @@ public class MyAccountRequestDAO {
 		    	user.setTime4(results.getTimestamp("DATE_TIME4"));
 		    	user.setTime5(results.getTimestamp("DATE_TIME5"));
 		    	user.setTime6(results.getTimestamp("DATE_TIME6"));
-		    	user.setStatus(results.getString("STATUS"));	    	
+		    	user.setStatus(results.getString("STATUS"));
+		    	user.setAmount(results.getDouble("AMOUNT"));
 		    	list.add(user);
 		    }
 		} catch (SQLException e) {

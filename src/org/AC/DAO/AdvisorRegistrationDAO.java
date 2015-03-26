@@ -889,7 +889,7 @@ public int setEmail(String email,String pass){
 				service.setAdvisorId(results.getInt("ADVISOR_ID"));
 				service.setService(results.getString("SERVICE"));
 				service.setDescription(results.getString("DESCRIPTION"));
-				service.setIsFree(results.getBoolean("ISFREE"));
+				service.setIsFree(results.getInt("ISFREE"));
 				list.add(service);
 			}
 		} catch (SQLException e) {
@@ -1620,6 +1620,41 @@ public int setEmail(String email,String pass){
 		
 		logger.info("Entered RemoveAwards method of AdvisorRegistrationDAO");
 		return isDeleted;
+	}
+	
+	public String GetImagePath(int aId){
+		logger.info("Entered GetImagePath method of AdvisorRegistrationDAO");
+		String path="";
+		try {
+			conn =ConnectionFactory.getConnection();
+			conn.setAutoCommit(false);
+			String query ="SELECT IMAGE FROM advisordetails WHERE ADVISOR_ID=?";
+			PreparedStatement pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, aId);
+			ResultSet results = pstmt.executeQuery();
+			if(results.first()){
+				path = results.getString("IMAGE");
+			}
+		} catch (SQLException e) {
+			logger.error("GetImagePath method of AdvisorRegistrationDAO threw error:"+e.getMessage());
+			e.printStackTrace();
+		} catch (IOException e) {
+			logger.error("GetImagePath method of AdvisorRegistrationDAO threw error:"+e.getMessage());
+			e.printStackTrace();
+		} catch (PropertyVetoException e) {
+			logger.error("GetImagePath method of AdvisorRegistrationDAO threw error:"+e.getMessage());
+			e.printStackTrace();
+		}finally{
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				logger.error("GetImagePath method of AdvisorRegistrationDAO threw error:"+e.getMessage());
+				e.printStackTrace();
+			}
+		}
+		
+		logger.info("Entered GetImagePath method of AdvisorRegistrationDAO");
+		return path;
 	}
 	
 	

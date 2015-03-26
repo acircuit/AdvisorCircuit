@@ -146,8 +146,15 @@
 	                                	<div class="form-group" id="dhobby">
 											<label for="icode" class="col-md-3 control-label">Know Your Advisor Better(HOBBIES & INTERESTS)</label>
 		                                    <div class="col-md-5">
-		                                        <textarea id="hobby" class="form-control" name="hobbies" rows="3" maxlength="1200"><%=knowYourAdvisor %></textarea>
-		                                        <p class="required" id="required_hobby">Field Required</p>																		
+		                                        <c:choose>
+													<c:when test="<%=knowYourAdvisor != null %>">
+					                                        <textarea id="hobby" class="form-control" name="hobbies" rows="3" maxlength="1200"><%=knowYourAdvisor %></textarea>
+													</c:when>
+	                               					<c:otherwise>
+															<textarea id="hobby" class="form-control" name="hobbies" rows="3" maxlength="1200"></textarea>
+													</c:otherwise>
+												</c:choose>
+												<p class="required" id="required_hobby">Field Required</p>																		
 											</div>
 											<div class="col-md-2">
 		                                        <button type="button" class="btn btn-default" data-container="body" data-toggle="popover" data-trigger="focus" data-placement="right" data-content="Example: I am an avid reader and love fiction. I also am a big fan of the theatre and try catching plays whenever I can.">
@@ -272,16 +279,7 @@
 					}
 				}
 			});
-			$("#btn-signup").click(function(event){
-				var input_city = $("#hobby").val();
-				if (input_city==''){
-					$("#required_hobby").show();
-					event.preventDefault(); 
-				}	
-				else{
-					$("#required_hobby").hide();
-				}
-			});
+
 			
 			$("#btn-signup").click(function(event){
 				var i=0;

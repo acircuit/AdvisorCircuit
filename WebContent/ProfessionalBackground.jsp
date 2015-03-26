@@ -389,7 +389,7 @@
 				}
 			});
 			$("#btn-signup").click(function(event){
-				var input_city = $("#description").val();
+			/*	var input_city = $("#description").val();
 				var j=0;
 				while(j<=10){
 					if ($("#description"+j).val() =='' && $("#description"+j).is(':visible')){
@@ -415,22 +415,22 @@
 							$('.desc'+i).val("");
 						}
 					}
-				}
+				}*/
 				var i=0;
 				while(i <= 10) {
 						var k=0;
 					  while(k <= 10){
-						var input_city1 = $('#description'+i+k).val();
+						/*var input_city1 = $('#description'+i+k).val();
 						if (input_city1=='' && $('#description'+i+k).is(':visible')){
 							$('.de'+i+k).show();
 							event.preventDefault(); 
-						}	
-						else{
+						}	*/
+						/*else{*/
 							$('.de'+i+k).hide();
 							if(!$('#description'+i+k).is(':visible')){
 								$('#description'+i+k).val("");
-							}	
-						}
+							}
+							/*}*/	
 						k++;
 					}
 					  i++;

@@ -68,7 +68,7 @@ public class Recommendation extends HttpServlet {
 					if(ratings && reviewMessage != null){
 						response.getWriter().write("YOU HAVE ALREADY RECOMMENDED THIS ADVISOR.");
 					}else if (ratings && reviewMessage == null) {
-						response.getWriter().write("YOU HAVE ALREADY RECOMMENDED THIS ADVISOR.PLEASE REVIEW THE ADVISOR");
+						response.getWriter().write("YOU HAVE ALREADY RECOMMENDED THIS ADVISOR.");
 					}else{
 						Boolean isRatingsCommit = false;
 						ReviewAndRecommendationDAO updateRating = new ReviewAndRecommendationDAO();
@@ -81,7 +81,7 @@ public class Recommendation extends HttpServlet {
 							Boolean isCommit = updateRatingForAdvsisor.UpdateRecommendationForAdvisor(advisorId);
 							if(isCommit){
 								if(reviewMessage == null){
-								response.getWriter().write("THANK YOU FOR RECOMMENDING.PLEASE REVIEW THE ADVISOR");
+								response.getWriter().write("THANK YOU FOR RECOMMENDING.");
 								}else{
 									response.getWriter().write("THANK YOU FOR RECOMMENDING.");
 								}
@@ -97,10 +97,11 @@ public class Recommendation extends HttpServlet {
 				reviewMessages = message.CheckIsRecommended(sId);
 				String reviews = "";
 					Boolean ratings= reviewMessages.getRatings();
-					String reviewMessage = reviewMessages.getReviewMessage();	
-						if(ratings && reviewMessage != null){
+					String reviewMessage = reviewMessages.getReviewMessage();
+					String reviewMessageStatus = reviewMessages.getReviewMessageStatus();
+						if(ratings && (reviewMessage != null && !reviewMessageStatus.equals("REJECTED"))){
 							reviews = "YOU HAVE ALREADY REVIEWED THE ADVISOR.";
-						}else if (ratings && reviewMessage == null) {
+						}else if (ratings && (reviewMessage == null || (reviewMessage != null && reviewMessageStatus.equals("REJECTED")))) {
 							Boolean isReviewCommit = false;
 							ReviewAndRecommendationDAO messages = new ReviewAndRecommendationDAO();
 							isReviewCommit = message.UpdateReviewMessage(sId, reviewmessage);
@@ -125,10 +126,10 @@ public class Recommendation extends HttpServlet {
 									content = "Hi, <br><br>An advisor just got reviewed. Following are the details : <br> For SessionId : " +sId+ "<br>Review Message : " +reviewmessage+"<br><img src=\"http://www.advisorcircuit.com/Test/assets/img/logo_black.png\" style='float:right' width='25%'>";
 									SendMail mail = new SendMail(subject, content, prop.getProperty("MAIL_ADMIN"),prop.getProperty("MAIL_ADMIN"));
 									mail.start();
-									reviews = "THANK YOU FOR YOUR REVIEW.PLEASE RECOMMEND THE ADVISOR";
+									reviews = "THANK YOU FOR YOUR REVIEW.";
 								}
 							}else{
-								reviews = "YOU HAVE ALREADY REVIEWED THE ADVISOR.PLEASE RECOMMEND THE ADVISOR";
+								reviews = "YOU HAVE ALREADY REVIEWED THE ADVISOR.";
 							}
 						}
 						if(!("").equals(reviews)){

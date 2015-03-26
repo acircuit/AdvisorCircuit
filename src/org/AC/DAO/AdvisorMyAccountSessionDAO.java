@@ -153,6 +153,8 @@ public List<SessionDTO> getSessionDetailsUsingUserId(int uId, String status){
 				session.setAcceptedDate(results.getTimestamp("ACCEPTED_DATE"));
 				session.setStatus(results.getString("STATUS"));
 				session.setReviewMessage(results.getString("REVIEW_MESSAGE"));
+				session.setIsRating(results.getBoolean("RATING"));
+				session.setReviewMessageStatus(results.getString("REVIEW_MESSAGE_STATUS"));
 				list.add(session);
 				}
 				conn.commit();

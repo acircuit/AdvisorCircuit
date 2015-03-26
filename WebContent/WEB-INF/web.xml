@@ -864,7 +864,7 @@
   <servlet>
     <servlet-name>Error</servlet-name>
     <jsp-file>/Error.jsp</jsp-file>
-  </servlet>
+  </servlet>	
   <servlet-mapping>
     <servlet-name>Error</servlet-name>
     <url-pattern>/Error</url-pattern>
@@ -1004,5 +1004,21 @@
   <servlet-mapping>
     <servlet-name>nda</servlet-name>
     <url-pattern>/nda</url-pattern>
+  </servlet-mapping>
+        <servlet>
+    <servlet-name>payment</servlet-name>
+    <jsp-file>/ccavRequestHandler.jsp</jsp-file>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>payment</servlet-name>
+    <url-pattern>/payment</url-pattern>
+  </servlet-mapping>
+   <servlet>
+    <servlet-name>adminlogin</servlet-name>
+    <jsp-file>/AdminLogin.jsp</jsp-file>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>adminlogin</servlet-name>
+    <url-pattern>/adminlogin</url-pattern>
   </servlet-mapping>
 </web-app>
