@@ -58,11 +58,13 @@ public class SessionFileController extends HttpServlet {
 		String getFile = (String)request.getParameter("getFile");
 		String isAdvisor = (String)request.getParameter("advisor");
 		String fromUser = (String) request.getParameter("fromUser");
+		
 		List<FilesDTO> files = new ArrayList<FilesDTO>();
 		Properties prop1 = new Properties();
 	    InputStream resourceAsStream1 = Thread.currentThread().getContextClassLoader().getResourceAsStream("Resources/mail.properties");
 	    prop1.load(resourceAsStream1);
-		if(sId != null && getFile == null){
+		
+	    if(sId != null && getFile == null){
 			Properties prop = new Properties();
 		    InputStream resourceAsStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("Resources/Path.properties");
 		    prop.load(resourceAsStream);
@@ -99,8 +101,6 @@ public class SessionFileController extends HttpServlet {
 				}
 				//FileName
 				String fileURL = filesDTO.getFileURL();
-				//System.out.println(fileURL);
-				//String[] strArray = fileURL.split("\\/");
 				String fileName = fileURL.substring(fileURL.lastIndexOf("/")+1, fileURL.length());
 				//Href for the html
 				String href = "DownloadFile?id="+filesDTO.getId();

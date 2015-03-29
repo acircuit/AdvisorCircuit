@@ -170,7 +170,6 @@ public class SessionMssagesDAO {
 	}
 	public List<AdvisorMessageDTO>  GetAdvisorMessages(String sId, String flag) { 
 		
-		
 		logger.info("Entered GetAdvisorMessages method of SessionMssagesDAO");
 		ResultSet results = null;
 		String query = "";

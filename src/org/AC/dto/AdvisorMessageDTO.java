@@ -5,17 +5,18 @@ import java.sql.Timestamp;
 public class AdvisorMessageDTO {
 	
 	int messageId;
+	int sessionId;
+	String advisorMessage;
+	Timestamp advisorMessageTime;
+	String advisorMessageTimeString;
+	String status;
+	
 	public int getMessageId() {
 		return messageId;
 	}
 	public void setMessageId(int messageId) {
 		this.messageId = messageId;
 	}
-	int sessionId;
-	String advisorMessage;
-	Timestamp advisorMessageTime;
-	String advisorMessageTimeString;
-	String status;
 	public int getSessionId() {
 		return sessionId;
 	}

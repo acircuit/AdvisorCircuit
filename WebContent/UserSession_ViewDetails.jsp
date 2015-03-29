@@ -971,6 +971,7 @@
 			}
 		}
 
+		
 		function getmessages() {
 			$.ajax({
 				url : 'SessionMessages', // Your Servlet mapping or JSP(not suggested)
@@ -988,6 +989,9 @@
 				}
 			});
 		}
+		
+		
+		
 		function setmessage() {
 			var input = document.getElementById("usermessage");
 			if ($("#usermessage").val() != "") {

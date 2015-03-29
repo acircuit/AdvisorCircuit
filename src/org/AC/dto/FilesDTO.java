@@ -14,6 +14,7 @@ public class FilesDTO {
 	private String timeString;
 	private String href;
 	private String fileName;
+	
 	public String getFileName() {
 		return fileName;
 	}
