@@ -313,7 +313,7 @@
                                 			<a data-toggle="modal" data-target="#messageuser" onclick="getmessages()" class="btn btn-career">Chat with the User</a>
 	                          		</c:otherwise>
                                	</c:choose>
-                                	<a data-toggle="modal" data-target="#uploadfile" onclick="getFiles()" class="btn btn-career">Upload Files</a>
+                                	<!-- <a data-toggle="modal" data-target="#uploadfile" onclick="getFiles()" class="btn btn-career">Upload Files</a> -->
                                 </div>
                             </c:if>
                             <c:if test="${ fromPreviousSession && request.getMode().equals('email') || !fromCancelledSession && emailUser.getId() != 0}">
@@ -615,7 +615,15 @@
                     
 		 		</c:forEach>
 			
-				<div class="modal fade" id="messageuser" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			
+			
+			
+			
+			
+			
+			
+			
+			<div class="modal fade" id="messageuser" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 				<div class="modal-dialog modal-lg">
 					<div class="modal-content"  style="background-color:#E5E5E5">
 						<div class="modal-header">
@@ -642,14 +650,26 @@
 				                        <c:if test="${(!fromPreviousSession)}">
 					                        <form >
 						                        <!-- /.panel-body -->
-						                        <div class="panel-footer">
-						                            <div class="input-group">
+							                        <div class="panel-footer col-xs-12">
+														<form class="form-inline">
+															  <div class="form-group col-xs-11">
+																	<input id="advisormessage" onkeypress="checkkey(event)" type="text" class="form-control" style="width: 100%;" name="advisormessage" placeholder="Type your message here..." maxlength="350" />
+																	<span class="glyphicon glyphicon-paperclip" aria-hidden="true" style="cursor: pointer; float: right;margin-left: 93%;position: absolute;margin-top: 1.5%;" title="Attach File" onclick="initFileSelectionDialogue()"></span>
+															  </div>
+															  <div class="form-group col-xs-1">
+																	<input type="button" id="send" onclick="setmessage()" class="btn btn-warning btn-sm" id="btn-chat" value="Send">
+															  </div>
+														</form>
+														<input type="file" id="uploadFileViaMsgModal" style="display: none;" name="file"/>
+														
+													</div>
+																
+						                            <!-- <div class="input-group">
 						                                <input  id ="advisormessage" onkeypress="checkkey(event)" type="text" class="form-control input-sm" name="advisormessage" placeholder="Type your message here..." maxlength="350"/>
 						                                <span class="input-group-btn">
 						                                <input type="button" id="send" onclick="setmessage()" class="btn btn-warning btn-sm" id="btn-chat" value="Send">	
 						                                </span>
-						                            </div>
-						                        </div>
+						                            </div> -->
 					                        </form>
 				                        </c:if>
 				                        <!-- /.panel-footer -->
@@ -658,12 +678,66 @@
 				           		 </div>
 				            <!-- /.row -->
 				        		</div>
-						
-						
 						</div>						
 					</div>
 				</div>
 			</div>
+			
+
+
+								<script type="text/javascript">
+								
+									function initFileSelectionDialogue(){
+										$('#uploadFileViaMsgModal').click();
+									}
+									
+									$('#uploadFileViaMsgModal').change(function () {
+										
+										if($("#uploadFileViaMsgModal").val()){
+											if($("#uploadFileViaMsgModal").val().trim().length > 0){
+												var confirmUpload = confirm("Are you sure you want to upload attached file ?");		
+												
+												if(confirmUpload){
+													uploadFileViaAjax();
+												}else{
+													$("#uploadFileViaMsgModal").val("");
+												}											
+											}
+										}
+									});
+									
+									
+									function uploadFileViaAjax() {
+										var file = document.getElementById("uploadFileViaMsgModal");
+										if (file.value == "") {
+											alert("Please upload a valid file");
+										} else if (document.getElementById('uploadFileViaMsgModal').files[0] && $('#uploadFileViaMsgModal')[0].files[0].size > 2621440) {
+											alert("Please upload a file less than 2.5 MB");
+										}else{
+											var formData = new FormData();
+											formData.append("myFile", document.getElementById("uploadFileViaMsgModal").files[0]);
+											formData.append("sId", $("#sId").val());
+											formData.append("fromUser", false);
+											formData.append("purpose", "File uploaded via msg modal.");
+
+											var xhr = new XMLHttpRequest();
+											xhr.open("POST", "SessionFiles");
+											xhr.send(formData);
+											xhr.onreadystatechange = function() {
+												if (xhr.readyState == 4 && xhr.status == 200) {
+													console.log("file uploaded successfully.");
+													getmessages();
+
+												//	document.getElementById("response").innerHTML = xhr.responseText;
+												//	getFiles();
+												}
+											}
+										}
+									}
+								</script>			
+			
+			
+			
             
 				<div class="modal fade" id="uploadfile" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 				<div class="modal-dialog modal-lg">

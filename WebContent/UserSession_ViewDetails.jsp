@@ -342,7 +342,7 @@
 												</c:otherwise>
 											</c:choose>
 
-											<a data-toggle="modal" data-target="#uploadfile" onclick="getFiles()" class="btn btn-career margin-10">Upload Files</a>
+											<!-- <a data-toggle="modal" data-target="#uploadfile" onclick="getFiles()" class="btn btn-career margin-10">Upload Files</a> -->
 										</div>
 									</c:if>
 									<c:if
@@ -399,17 +399,7 @@
 																		  <div class="form-group col-xs-1">
 	  																			<input type="button" id="send" onclick="setmessage()" class="btn btn-warning btn-sm" id="btn-chat" value="Send">
 																		  </div>
-																		
-																	<!-- /.panel-body -->
-																		<!-- <div class="input-group"> 
-																			<input id="usermessage" onkeypress="checkkey(event)" type="text" class="form-control input-sm" name="usermessage" placeholder="Type your message here..." maxlength="350" />
-																			<span class="glyphicon glyphicon-paperclip" aria-hidden="true"></span>
-																		</div> 
-																		<span class="input-group-btn">
-																			<input type="button" id="send" onclick="setmessage()" class="btn btn-warning btn-sm" id="btn-chat" value="Send">
-																		</span> -->
 																	</form>
-																	
 																	<input type="file" id="uploadFileViaMsgModal" style="display: none;" name="file"/>
 																	
 																</div>
@@ -468,17 +458,13 @@
 											xhr.send(formData);
 											xhr.onreadystatechange = function() {
 												if (xhr.readyState == 4 && xhr.status == 200) {
-													console.log("file uploaded successfully.")
-												//	document.getElementById("response").innerHTML = xhr.responseText;
-												//	getFiles();
+													console.log("file uploaded successfully.");
+													getmessages();
 												}
 											}
 										}
 									}
 								</script>
-								
-								
-								
 								
 								<div class="modal fade" id="uploadfile" tabindex="-1"
 									role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
