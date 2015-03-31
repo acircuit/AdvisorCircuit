@@ -517,7 +517,7 @@
 			                                            <div class="form-group">
 			                                                <label for="icode" class="col-md-2 control-label">Body</label>
 			                                                <div id = "feedbackbody" class="col-md-10">
-			                                                    <textarea rows="10" id="advisorbodyemail"  name="body" style="width:100%;" maxlength="3000">${emailAdvisor.getAdvisorBody()}</textarea>                                   
+			                                                    <textarea rows="10" id="advisorbodyemail"  name="body" style="width:100%;" maxlength="6000">${emailAdvisor.getAdvisorBody()}</textarea>                                   
 			                                                </div>
 			                                            </div>
 			                                             <c:if test="${!emailAdvisor.getAdvisorFile().equals('') && emailAdvisor.getAdvisorFile() != null }">

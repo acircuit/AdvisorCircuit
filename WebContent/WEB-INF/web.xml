@@ -45,7 +45,7 @@
     <servlet-name>LogoutServlet</servlet-name>
     <url-pattern>/Logout</url-pattern>
   </servlet-mapping>
-    <servlet>
+  <servlet>
     <servlet-name>AdminSetNoUserPayment</servlet-name>
     <servlet-class>org.AC.controller.AdminMyAccountSetStatusNoUserPayment</servlet-class>
   </servlet>
@@ -814,6 +814,30 @@
     <url-pattern>/usermyaccount</url-pattern>
   </servlet-mapping>
   <servlet>
+    <servlet-name>userpayment</servlet-name>
+    <servlet-class>org.AC.controller.UserMyAccountPaymentHistoryController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>userpayment</servlet-name>
+    <url-pattern>/userpayment</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>advisorpayment</servlet-name>
+    <servlet-class>org.AC.controller.AdvisorMyAccountPaymentHistoryController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>advisorpayment</servlet-name>
+    <url-pattern>/advisorpayment</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>AdminPayment</servlet-name>
+    <servlet-class>org.AC.controller.AdminMyAccountPaymentHistoryController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>AdminPayment</servlet-name>
+    <url-pattern>/AdminPayment</url-pattern>
+  </servlet-mapping>
+  <servlet>
     <servlet-name>NewPassword</servlet-name>
     <jsp-file>/NewPassword.jsp</jsp-file>
   </servlet>
@@ -864,7 +888,7 @@
   <servlet>
     <servlet-name>Error</servlet-name>
     <jsp-file>/Error.jsp</jsp-file>
-  </servlet>	
+  </servlet>
   <servlet-mapping>
     <servlet-name>Error</servlet-name>
     <url-pattern>/Error</url-pattern>
@@ -989,7 +1013,7 @@
     <servlet-name>dashboard</servlet-name>
     <url-pattern>/dashboard</url-pattern>
   </servlet-mapping>
-    <servlet>
+  <servlet>
     <servlet-name>userdashboard</servlet-name>
     <jsp-file>/UserMyAccount.jsp</jsp-file>
   </servlet>
@@ -997,7 +1021,7 @@
     <servlet-name>userdashboard</servlet-name>
     <url-pattern>/userdashboard</url-pattern>
   </servlet-mapping>
-      <servlet>
+  <servlet>
     <servlet-name>nda</servlet-name>
     <jsp-file>/NDA.jsp</jsp-file>
   </servlet>
@@ -1005,7 +1029,7 @@
     <servlet-name>nda</servlet-name>
     <url-pattern>/nda</url-pattern>
   </servlet-mapping>
-        <servlet>
+  <servlet>
     <servlet-name>payment</servlet-name>
     <jsp-file>/ccavRequestHandler.jsp</jsp-file>
   </servlet>
@@ -1013,7 +1037,7 @@
     <servlet-name>payment</servlet-name>
     <url-pattern>/payment</url-pattern>
   </servlet-mapping>
-   <servlet>
+  <servlet>
     <servlet-name>adminlogin</servlet-name>
     <jsp-file>/AdminLogin.jsp</jsp-file>
   </servlet>
@@ -1021,4 +1045,28 @@
     <servlet-name>adminlogin</servlet-name>
     <url-pattern>/adminlogin</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <servlet-name>paymenthistrory</servlet-name>
+    <jsp-file>/Payment.jsp</jsp-file>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>paymenthistrory</servlet-name>
+    <url-pattern>/paymenthistrory</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>userpaymenthistrory</servlet-name>
+    <jsp-file>/UserPayment.jsp</jsp-file>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>userpaymenthistrory</servlet-name>
+    <url-pattern>/userpaymenthistrory</url-pattern>
+  </servlet-mapping>
+    <servlet>
+    <servlet-name>adminpaymenthistrory</servlet-name>
+    <jsp-file>/AdminPayment.jsp</jsp-file>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>adminpaymenthistrory</servlet-name>
+    <url-pattern>/adminpaymenthistrory</url-pattern>
+  </servlet-mapping>  
 </web-app>

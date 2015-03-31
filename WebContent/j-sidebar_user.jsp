@@ -12,11 +12,12 @@
         	</ul>
         	<!-- /.nav-second-level -->
     	</li>
+    	<li><a href="userpayment"><span class="request"></span>Payment</a></li>
 	</ul>
 </div>
 </div>
 <!-- /.sidebar-collapse -->
-
+	
 <script>
 $(document).ready(function() {
 	$(".selectServices").click(function(e) {

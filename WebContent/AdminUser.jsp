@@ -59,12 +59,15 @@
     	
         <div class="row">
         	<div class="col-md-3">&nbsp;</div>
-            <div class="col-md-9">
+            <div class="col-md-6">
             	<h4></h4>
             	<h1 class="page-header">Users</h1>
             </div>
+             <div class="col-md-3">
+				<input type="text" id="search" style="float: right;" placeholder="SEARCH" onkeyup="searchTable(this.value)"/>
+			</div>
         </div>
-        
+          
         <div class="row">
         	
             <div class="col-md-3">
@@ -74,7 +77,7 @@
             <div class="col-md-9">
             	<div id="page-wrapper">
                     <div class="table-responsive">
-                        <table style="text-align:center" class="table table-bordered">
+                        <table style="text-align:center" class="table table-bordered" id="tblData">
                             <tr><th style="text-align:center">ID</th><th style="text-align:center">NAME</th><th style="text-align:center">EMAIL</th><th style="text-align:center">ISACTIVE</th><th style="text-align:center">PHONE</th><th style="text-align:center">DATE OF REGISTRATION</th><th style="text-align:center">ACTION</th></tr>
                                 <c:forEach items="${users}" var="user">
                                     <tr><td><p>${user.getUserId()}</p></td><td><p>${user.getFullName()}</p></td><td><p>${user.getEmail()}</p></td>
@@ -190,6 +193,7 @@
         }); 		
 	}
 	</script>
+	<script src="assets/js/gridSearch.js"></script>
 
 </body>
 

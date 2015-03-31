@@ -118,8 +118,62 @@ public class AdminAdvisorsController extends HttpServlet {
 
 			AdminAdvisorDAO advisor = new AdminAdvisorDAO();
 			advisor.toggleAdvisorVisibilty(advisorId);			
+		}else if(operation.equalsIgnoreCase("updateFreeSessions")){
+			
+			int advisorId = Integer.parseInt(request.getParameter("advisorId"));
+			int noOfFreeSessions = Integer.parseInt(request.getParameter("noOfFreeSessions"));
+			Boolean isAdmin = false;
+			Boolean isError = false;
+			try{
+				isAdmin = (Boolean) request.getSession().getAttribute("admin"); 
+			}catch(Exception e){
+					response.sendRedirect("Error");
+					isError = true;
+			}
+			if(isAdmin == null){
+				isError = true;
+				response.sendRedirect("Error");
+			}
+			
+			AdminAdvisorDAO advisor = new AdminAdvisorDAO();
+			advisor.UpdateFreeSessions(advisorId,noOfFreeSessions);
+		}else if(operation.equalsIgnoreCase("updateDiscount")){
+			
+			int advisorId = Integer.parseInt(request.getParameter("advisorId"));
+			int discount = Integer.parseInt(request.getParameter("updateDiscount"));
+			Boolean isAdmin = false;
+			Boolean isError = false;
+			try{
+				isAdmin = (Boolean) request.getSession().getAttribute("admin"); 
+			}catch(Exception e){
+					response.sendRedirect("Error");
+					isError = true;
+			}
+			if(isAdmin == null){
+				isError = true;
+				response.sendRedirect("Error");
+			}
+			
+			AdminAdvisorDAO advisor = new AdminAdvisorDAO();
+			advisor.UpdateDiscount(advisorId,discount);
+		}else if(operation.equalsIgnoreCase("discountToAll")){
+			int discount = Integer.parseInt(request.getParameter("discount"));
+			Boolean isAdmin = false;
+			Boolean isError = false;
+			try{
+				isAdmin = (Boolean) request.getSession().getAttribute("admin"); 
+			}catch(Exception e){
+					response.sendRedirect("Error");
+					isError = true;
+			}
+			if(isAdmin == null){
+				isError = true;
+				response.sendRedirect("Error");
+			}
+			
+			AdminAdvisorDAO advisor = new AdminAdvisorDAO();
+			advisor.UpdateDiscountToAll(discount);
 		}
-		
 		
 		logger.info("Exit doPost method of AdminAdvisorsController");
 	}

@@ -50,7 +50,7 @@ public class AdvisorProfileServlet extends HttpServlet {
 		List<AdvisorServiceDTO> list2 = new ArrayList<AdvisorServiceDTO>();
 		List<AdvisorModeDTO> list3 = new ArrayList<AdvisorModeDTO>();
 		
-		
+		System.out.println(advisorId);
 		//This is to get the profile details for the advisor profile
 		AdvisorProfileDetailsDAO dao = new AdvisorProfileDetailsDAO();
 		list = dao.getAdvisorProfileDetails(advisorId);

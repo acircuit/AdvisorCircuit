@@ -39,6 +39,36 @@ public class UserRequestDTO {
 	double amount;
 	Boolean rating;
 	String reviewMessageStatus;
+	Timestamp bookingTime;
+	Timestamp time1;
+	Timestamp time2;
+	Timestamp time3;
+	Timestamp time4;
+	Timestamp time5;
+	Timestamp time6;
+	String bookingTimeString;
+	String acceptedDateForClock;
+	Boolean isFree;
+	int discount;
+	double price;
+	public Boolean getIsFree() {
+		return isFree;
+	}
+	public void setIsFree(Boolean isFree) {
+		this.isFree = isFree;
+	}
+	public int getDiscount() {
+		return discount;
+	}
+	public void setDiscount(int discount) {
+		this.discount = discount;
+	}
+	public double getPrice() {
+		return price;
+	}
+	public void setPrice(double price) {
+		this.price = price;
+	}
 	public String getReviewMessageStatus() {
 		return reviewMessageStatus;
 	}
@@ -99,15 +129,7 @@ public class UserRequestDTO {
 	public void setTimeString1(String timeString1) {
 		this.timeString1 = timeString1;
 	}
-	Timestamp bookingTime;
-	Timestamp time1;
-	Timestamp time2;
-	Timestamp time3;
-	Timestamp time4;
-	Timestamp time5;
-	Timestamp time6;
-	String bookingTimeString;
-	String acceptedDateForClock;
+	
 	public String getAcceptedDateForClock() {
 		return acceptedDateForClock;
 	}

@@ -160,6 +160,18 @@
 		</c:otherwise>
 		</c:choose>
 		
+		<div class="input-append date" id="searchByDateDiv" style="float: right;" data-date-format="dd-mm-yyyy">
+        	<form action="AdminPreviousSessions" method="post">
+        		<div>
+	        		<input id="fromDate" name="fromDate" type="text" placeholder="From Date"/>
+					<!-- span class="add-on"><i class="icon-calendar"></i></span -->
+        		&nbsp;
+	        		<input id="toDate" name="toDate" type="text" placeholder="To Date" />
+	        		<!-- span class="add-on"><i class="icon-calendar"></i></span -->
+        		&nbsp;
+        		<input type="submit" value="search"/>
+        	</form>
+        </div>
             
         </div>
             </div><!-- /right area -->

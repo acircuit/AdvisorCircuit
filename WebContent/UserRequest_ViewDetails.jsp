@@ -128,6 +128,7 @@
                                 <c:if test="${sessionDetails.size() > 0}">
 											<c:forEach items="${sessionDetails}" var="session">
 											<c:set var="sessionId" value="${session.getSessionId()}"></c:set>
+											<c:set var="accepdate" value="${session.getAcceptedDate()}"></c:set>
 											<c:set var="accdate" value="${session.getAcceptedDateString()}"></c:set>
 											<input type="hidden" value="${session.getSessionId()}" name="sessionId">
 												<div class="form-group">
@@ -360,10 +361,12 @@
 						                            <h4 class="col-md-9 ">Personal Workshop</h4>
 						                        </c:if>
 										</div>
-										<div class="form-group" id="daccepteddate">
-											<label for="accepteddate" class="col-md-3 control-label">Accepted Date:</label>
-											<h4 class="col-md-9 ">${accdate}</h4>
-										</div>
+										<c:if test="${accdate != null}">
+											<div class="form-group" id="daccepteddate">
+												<label for="accepteddate" class="col-md-3 control-label">Accepted Date:</label>
+												<h4 class="col-md-9 ">${accdate}</h4>
+											</div>
+										</c:if>
 										<div class="form-group">
                                 	<label for="icode" class="col-md-3 control-label">Mode:</label>
 	                                     <c:if test="${userRequest.getMode().equals('phone')}">
@@ -384,20 +387,24 @@
                                 <div class="form-group">
                                 	<label for="icode" class="col-md-3 control-label">AMOUNT (Rs):</label>
                                     <h4 class="col-md-9 "><c:out value="${userRequest.getAmount()}"></c:out></h4	>	
-                                </div>	
+                                </div>                                	
+                                <input type="hidden" name="amount" value="${userRequest.getAmount()}">
 									  	<div class="form-group">
 											<!-- Button -->                                        
 											<div class="col-md-offset-3 col-md-9">
 													<c:choose>
-														<c:when test="${userRequest.getAmount() != 0.0}">
+														<c:when test="${userRequest.getAmount() != 0.0 && accdate != null && !accdate.equals('')}">
 															<c:url var="pay" value="payment">
-																<c:param name="order_id" value="${sessionId}"></c:param>
+																<c:param  name="order_id" value="${sessionId}"></c:param>
 																<c:param name="amount" value="${userRequest.getAmount()}"></c:param>
 															</c:url>
 														<a href="${pay}" id="btn-signup" type="submit" class="btn btn-info">PAY</a>
 														</c:when>
+														<c:when test="${userRequest.getAmount() != 0.0 }">
+															<input type="submit" id="btn-signup" value="PAY" class="btn btn-info">
+														</c:when>
 														<c:otherwise>
-															<input type="submit" id="btn-signup" type="submit" class="btn btn-info">
+															<input type="submit" id="btn-signup" value="submit" class="btn btn-info">
 														</c:otherwise>
 												</c:choose>
 												<div style="height:5px"></div>  

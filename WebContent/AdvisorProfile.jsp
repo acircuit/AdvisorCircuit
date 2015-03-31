@@ -508,6 +508,8 @@
                                     <span></span>
                                 </div>
                                 <input type="hidden" id="isfree" name="isFree">
+                                <input type="hidden" id="registrationPrice" name="registrationPrice">
+                                <input type="hidden" id="discount" name="discount">
                                 <div class="form-group">
                                     <label for="icode" style="font-family:'custom_light' !important;" class="col-md-3 control-label">Services</label>
                                      <div class="col-md-6">
@@ -655,7 +657,7 @@
 								<div class="form-group">
                                     <label id="query-label" for="icode" style="font-family:'custom_light' !important;" class="col-md-3 control-label">Enter Your Query :</label>
                                     <div class="col-md-6">
-                                        <textarea class="form-control" style="font-family:'custom_light' !important;" id="query" name="query" rows="3" maxlength="1200"></textarea>
+                                        <textarea class="form-control" style="font-family:'custom_light' !important;" id="query" name="query" rows="3" maxlength="6000"></textarea>
                                         <p class="required" id="complete-query">Please write your complete email.</p>
                                     </div>
                                     <div class="col-md-2">
@@ -685,8 +687,7 @@
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-    <script src="https://code.jquery.com/jquery-1.11.0.min.js"></script>    
+    <script src="assets/js/bootstrap.min.js"></script>
     <script src="assets/js/moment.js"></script>
 	<script type="text/javascript" src="assets/js/bootstrap3-datetimepicker.js"></script>
 	<script>
@@ -953,11 +954,18 @@
     						price= "0.0";
     						free = true;
     					}else if("${mode.getDiscounted_price()}" == 0 && "${service.getDiscount()}" == 0){
-    	    				price = "${mode.getPrice()}";
+    	    				price = "${mode.getPrice()}"  * 2;
     	    			}else{
     	    				price = "${mode.getDiscounted_price()}";
-    	    			}			
-    				} 			
+    	    			}
+    					if(valuemode != "email"){
+    						$("#registrationPrice").val("${mode.getPrice()}" * 2  * valueduration);
+    					}else{
+    						$("#registrationPrice").val("${mode.getPrice()}");
+    					}
+        				$("#discount").val("${service.getDiscount()}");
+    				}
+    				
     			</c:forEach>
     			
     		}

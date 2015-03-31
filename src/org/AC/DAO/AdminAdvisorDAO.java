@@ -167,7 +167,7 @@ public class AdminAdvisorDAO {
 		try {
 			conn = ConnectionFactory.getConnection();
 			conn.setAutoCommit(false);
-			String query = "SELECT ADVISOR_ID,NAME,EMAIL,PHONE_NUMBER,ISACTIVE,PAGE_RANK,ISVISIBLE FROM advisordetails";
+			String query = "SELECT ADVISOR_ID,NAME,EMAIL,PHONE_NUMBER,ISACTIVE,PAGE_RANK,ISVISIBLE,INDUSTRY FROM advisordetails";
 			PreparedStatement pstmt = conn.prepareStatement(query);
 			results = pstmt.executeQuery();
 			while (results.next()) {
@@ -179,7 +179,7 @@ public class AdminAdvisorDAO {
 				advisor.setIsActive(results.getBoolean("ISACTIVE"));
 				advisor.setPageRank(results.getInt("PAGE_RANK"));
 				advisor.setIsVisible(results.getBoolean("ISVISIBLE"));
-				
+				advisor.setIndustry(results.getString("INDUSTRY"));
 				advisors.add(advisor);
 			}
 			Collections.sort(advisors);
@@ -622,6 +622,142 @@ public class AdminAdvisorDAO {
 				conn.close();
 			} catch (SQLException e) {
 				logger.error("toggleAdvisorVisibilty method of AdminAdvisorDAO threw error:" + e.getMessage());
+				e.printStackTrace();
+			}
+		}
+		return isFlagCommit;		
+	}
+	
+	public boolean UpdateFreeSessions(int advisorId, int noOfFreeSessions) {
+		logger.info("Entered UpdateFreeSessions method of AdminAdvisorDAO");
+		Boolean isFlagCommit = false;
+		
+		try {
+			conn = ConnectionFactory.getConnection();
+			conn.setAutoCommit(false);
+			String query = "UPDATE advisorservices SET ISFREE = ? WHERE ADVISOR_ID = ?";
+			PreparedStatement pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, noOfFreeSessions);
+			pstmt.setInt(2, advisorId);
+			int result = pstmt.executeUpdate();
+			if (result > 0) {
+				conn.commit();
+				isFlagCommit = true;
+			}
+			logger.info("Exit UpdateFreeSessions method of AdminAdvisorDAO");
+		} catch (Exception e) {
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				try {
+					conn.rollback();
+				} catch (SQLException e2) {
+					logger.error("UpdateFreeSessions method of AdminAdvisorDAO threw error:"
+							+ e2.getMessage());
+					e2.printStackTrace();
+				}
+				logger.error("UpdateFreeSessions method of AdminAdvisorDAO threw error:"
+						+ e1.getMessage());
+				e1.printStackTrace();
+			}
+			logger.error("UpdateFreeSessions method of AdminAdvisorDAO threw error:"
+					+ e.getMessage());
+			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				logger.error("UpdateFreeSessions method of AdminAdvisorDAO threw error:" + e.getMessage());
+				e.printStackTrace();
+			}
+		}
+		return isFlagCommit;		
+	}
+	
+	public boolean UpdateDiscount(int advisorId, int discount) {
+		logger.info("Entered UpdateDiscount method of AdminAdvisorDAO");
+		Boolean isFlagCommit = false;
+		
+		try {
+			conn = ConnectionFactory.getConnection();
+			conn.setAutoCommit(false);
+			String query = "UPDATE advisorservices SET DISCOUNT_AC = ? WHERE ADVISOR_ID = ?";
+			PreparedStatement pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, discount);
+			pstmt.setInt(2, advisorId);
+			int result = pstmt.executeUpdate();
+			if (result > 0) {
+				conn.commit();
+				isFlagCommit = true;
+			}
+			logger.info("Exit UpdateDiscount method of AdminAdvisorDAO");
+		} catch (Exception e) {
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				try {
+					conn.rollback();
+				} catch (SQLException e2) {
+					logger.error("UpdateDiscount method of AdminAdvisorDAO threw error:"
+							+ e2.getMessage());
+					e2.printStackTrace();
+				}
+				logger.error("UpdateDiscount method of AdminAdvisorDAO threw error:"
+						+ e1.getMessage());
+				e1.printStackTrace();
+			}
+			logger.error("UpdateDiscount method of AdminAdvisorDAO threw error:"
+					+ e.getMessage());
+			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				logger.error("UpdateDiscount method of AdminAdvisorDAO threw error:" + e.getMessage());
+				e.printStackTrace();
+			}
+		}
+		return isFlagCommit;		
+	}
+	public boolean UpdateDiscountToAll(int discount) {
+		logger.info("Entered UpdateDiscountToAll method of AdminAdvisorDAO");
+		Boolean isFlagCommit = false;
+		
+		try {
+			conn = ConnectionFactory.getConnection();
+			conn.setAutoCommit(false);
+			String query = "UPDATE advisorservices SET DISCOUNT_AC = ?";
+			PreparedStatement pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, discount);
+			int result = pstmt.executeUpdate();
+			if (result > 0) {
+				conn.commit();
+				isFlagCommit = true;
+			}
+			logger.info("Exit UpdateDiscountToAll method of AdminAdvisorDAO");
+		} catch (Exception e) {
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				try {
+					conn.rollback();
+				} catch (SQLException e2) {
+					logger.error("UpdateDiscountToAll method of AdminAdvisorDAO threw error:"
+							+ e2.getMessage());
+					e2.printStackTrace();
+				}
+				logger.error("UpdateDiscountToAll method of AdminAdvisorDAO threw error:"
+						+ e1.getMessage());
+				e1.printStackTrace();
+			}
+			logger.error("UpdateDiscountToAll method of AdminAdvisorDAO threw error:"
+					+ e.getMessage());
+			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				logger.error("UpdateDiscountToAll method of AdminAdvisorDAO threw error:" + e.getMessage());
 				e.printStackTrace();
 			}
 		}

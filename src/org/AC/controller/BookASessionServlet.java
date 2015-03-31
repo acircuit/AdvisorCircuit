@@ -86,6 +86,8 @@ public class BookASessionServlet extends HttpServlet {
 		String datetimeemail = request.getParameter("datetimepickeremail");
 		String price = request.getParameter("price");
 		String isFree =request.getParameter("isFree");
+		String registrationPrice = request.getParameter("registrationPrice");
+		String discount = request.getParameter("discount");
 		int requestId = 0;
 		String aId = (String) request.getParameter("aId");
 		String datetimepicker1 = "";
@@ -121,7 +123,7 @@ public class BookASessionServlet extends HttpServlet {
 		Boolean isCvCommit = false;
 		//Instantiate Book a session dao class for setting the value in the userrequest table.
 		BookASessionDAO dao = new BookASessionDAO();
-		requestId = dao.setBookASessionDetails(aId, service,mode,duration,datetimepicker1,datetimepicker2,datetimepicker3,datetimepicker4,datetimepicker5,datetimepicker6,query,userId,price);
+		requestId = dao.setBookASessionDetails(aId, service,mode,duration,datetimepicker1,datetimepicker2,datetimepicker3,datetimepicker4,datetimepicker5,datetimepicker6,query,userId,price,isFree,registrationPrice,discount);
 		//If the service was cvcritique or moack interview then the user would have uploaded the Cv.
 		//So need to set the CV in the required folder and put the CV details in the user_cv table.
 		if(("mockinterview").equals(service) || ("cvcritique").equals(service) ){

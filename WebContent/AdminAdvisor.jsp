@@ -57,11 +57,17 @@
     <div id="wrapper" class="content">
     
     	<div class="row">
-        	<div class="col-md-3">&nbsp;</div>
-            <div class="col-md-9">
+        		<div class="col-md-3">&nbsp;</div>
+            <div class="col-md-4">
             	<h4></h4>
             	<h1 class="page-header">Advisors</h1>
             </div>
+            <div class="col-md-2">
+				<a id="discount" class="btn btn-primary" onclick="openDiscountToAllModal(this)">Discount to ALL</a>
+			</div>
+            <div class="col-md-3">
+				<input type="text" id="search" style="float: right;" placeholder="SEARCH" onkeyup="searchTable(this.value)"/>
+			</div>
         </div>
     
     	<div class="row">
@@ -74,7 +80,7 @@
             	<div id="page-wrapper">
 					
                     <div class="table-responsive">
-                    <table style="text-align:center" class="table table-bordered">
+                    <table style="text-align:center" class="table table-bordered" id="tblData">
 												<tr>
 													<th style="text-align:center">ID</th>
 													<th style="text-align:center">NAME</th>
@@ -125,6 +131,8 @@
 																	<li><a id="${advisor.getAdvisorId()}" onclick="activate(this)">Activate Account</a></li>	
 																	<li><a id="${advisor.getAdvisorId()}" onclick="openChangePriorityModal(${advisor.getAdvisorId()},${advisor.getPageRank()})">Change Priority</a></li>
 																	<li><a id="${advisor.getAdvisorId()}" onclick="changeVisibility(this)">Change Visibility</a></li>
+																	<li><a id="${advisor.getAdvisorId()}" onclick="openFreeSessionModal(this)">Update Free Sessions</a></li>
+																	<li><a id="${advisor.getAdvisorId()}" onclick="openDiscountModal(this)">Update Discount</a></li>
 																</ul>
 															</li>
 														</ul>
@@ -177,8 +185,59 @@
 	    </div>
 	  </div>
 	</div>
+	<div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="freeSession">
+	  <div class="modal-dialog modal-sm">
+	    <div class="modal-content">
+	    	<div class="modal-header">
+          		<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          			<h4 class="modal-title" id="mySmallModalLabel">Update Free Sessions</h4>
+       		</div>
+        	<div class="modal-body">
+          		No of Free Sessions : <input type="text" name="updateFreeSessions" id="updateFreeSession"/>
+          		<input type="hidden" name="advisorId" id="advisorId"/>
+          		<br/>
+          		<br/>
+          		<button type="button" class="btn btn-primary" onclick="updateFreeSessions()">Change</button>        		
+          		<br/>
+        	</div>
+	    </div>
+	  </div>
+	</div>
 	
-	
+	<div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="discount">
+	  <div class="modal-dialog modal-sm">
+	    <div class="modal-content">
+	    	<div class="modal-header">
+          		<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          			<h4 class="modal-title" id="mySmallModalLabel">Update Discount</h4>
+       		</div>
+        	<div class="modal-body">
+          		Discount(%) : <input type="text" name="updateDiscount" id="updateDiscount"/>
+          		<input type="hidden" name="advisorId" id="advisorId"/>
+          		<br/>
+          		<br/>
+          		<button type="button" class="btn btn-primary" onclick="updateDiscount()">Change</button>        		
+          		<br/>
+        	</div>
+	    </div>
+	  </div>
+	</div>
+	<div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="discountToAll">
+	  <div class="modal-dialog modal-sm">
+	    <div class="modal-content">
+	    	<div class="modal-header">
+          		<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          			<h4 class="modal-title" id="mySmallModalLabel">Update Discount</h4>
+       		</div>
+        	<div class="modal-body">
+          		Discount(%) : <input type="text" name="updateDiscountToAll" id="updateDiscountToAll"/>
+          		<br/>
+          		<br/>
+          		<button type="button" class="btn btn-primary" onclick="updateDiscountToAll()">Change</button>        		
+          		<br/>
+        	</div>
+	    </div>
+	  </div>
 	</div>
 	<!-- /#container -->
 
@@ -248,7 +307,55 @@
 		$('#updatedPriorityLevel').val(pageRank); 
 		$('#advisorId').val(advisorId);
 	}
-
+	
+	function openFreeSessionModal(elem){
+		var id = elem.id;
+		$('#freeSession').modal();
+		$('#advisorId').val(id); 		
+	}
+	
+	function openDiscountModal(elem){
+		var id = elem.id;
+		$('#discount').modal();
+		$('#advisorId').val(id); 
+	}
+	function openDiscountToAllModal(){
+		$('#discountToAll').modal();
+	}
+	function updateFreeSessions(){
+		var advisorId = $('#advisorId').val();
+		var updateFreeSessions= $('#updateFreeSession').val();
+		$.ajax({
+            url : 'AdminAdvisors',
+            data : {"operation": "updateFreeSessions", "advisorId" : advisorId, "noOfFreeSessions" : updateFreeSessions},
+            type : 'POST',
+            success : function(response) {
+            	$('#freeSession').modal('hide'); 
+            	location.reload();
+            },
+            error : function(request, textStatus, errorThrown) {
+            	$('#freeSession').modal('hide'); 
+            }
+        }); 
+	}
+	
+	function updateDiscount(){
+		var advisorId = $('#advisorId').val();
+		var updateDiscount= $('#updateDiscount').val();
+		$.ajax({
+            url : 'AdminAdvisors',
+            data : {"operation": "updateDiscount", "advisorId" : advisorId, "updateDiscount" : updateDiscount},
+            type : 'POST',
+            success : function(response) {
+            	$('#discount').modal('hide'); 
+            	location.reload();
+            },
+            error : function(request, textStatus, errorThrown) {
+            	$('#discount').modal('hide'); 
+            }
+        }); 
+	}
+	
 	function changePriority(){
 		var advisorId = $('#advisorId').val();
 		var updatedPriorityLevel = $('#updatedPriorityLevel').val(); 
@@ -274,6 +381,7 @@
             data : {"operation": "toggleAdvisorVisibilty", "advisorId" : obj.id},
             type : 'POST',
             success : function(response) {
+            	$('#discountToAll').modal('hide'); 
             	location.reload();
             },
             error : function(request, textStatus, errorThrown) {
@@ -282,9 +390,23 @@
         }); 	
 		
 	}
+	function updateDiscountToAll(){
+		var updateDiscount= $('#updateDiscountToAll').val();
+		$.ajax({
+            url : 'AdminAdvisors',
+            data : {"operation": "discountToAll","discount" : updateDiscount},
+            type : 'POST',
+            success : function(response) {
+            	location.reload();
+            },
+            error : function(request, textStatus, errorThrown) {
+            	alert("Error in updating discount.")
+            }
+        }); 	
+	}
 	
 	</script>
-
+<script src="assets/js/gridSearch.js"></script>
 </body>
 
 </html>

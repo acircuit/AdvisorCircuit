@@ -1,7 +1,5 @@
 <!DOCTYPE html>
-<%@page import="org.AC.dto.UserRequestDTO"%>
-<%@page import="org.AC.dto.AdvisorProfileDTO"%>
-<%@page import="org.AC.dto.UserDetailsDTO"%>
+<%@page import="org.AC.dto.PaymentDTO"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="java.util.*" %>
 <html lang="en">
@@ -37,9 +35,13 @@
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
-    <%
-    	AdvisorProfileDTO advisor = (AdvisorProfileDTO)request.getAttribute("advisor");
-    	pageContext.setAttribute("advisor", advisor);
+     <%
+		List<PaymentDTO> sessions= (List<PaymentDTO>)request.getAttribute("session");
+		List<PaymentDTO> requests= (List<PaymentDTO>)request.getAttribute("request");
+		List<PaymentDTO> payments= (List<PaymentDTO>)request.getAttribute("payment");
+		pageContext.setAttribute("sessions", sessions);
+		pageContext.setAttribute("requests", requests);
+		pageContext.setAttribute("payments", payments);
     %>
 </head>
 
@@ -69,37 +71,48 @@
 					
                     <div class="row">
                         <div class="col-md-12">
-                            <div class="btn-group" role="group" style="margin-bottom:15px;">
-                              <button type="button" class="btn btn-default">Month</button>
-                              <button type="button" class="btn btn-default">Year</button>
-                            </div>
-                        </div>
-                    	
-                        <div class="col-md-12">
             				<div class="table-responsive">
                     	<table style="text-align:center" class="table table-bordered">
                         	<tr>
-                            	<th>S.NO</th>
+                            	<th>Session Id</th>
                                 <th>Session Date & Time</th>
                                 <th>Service Type</th>
                                 <th>Service Mode</th>
-                                <th>Price</th>
-                                <th>Amount Payable</th>
-                                <th>Amount Paid</th>
-                                <th>Date of Payment</th>
-                                <th>Bank Account</th>
+                                <th>Price(Rs)</th>
+                                <th>Discount(%)</th>
+                                <th>Amount Paid(Rs)</th>
+                                <th>Amount Payable(Rs)</th>
+                                <th>Paid/Unpaid</th>
                             </tr>
-                            <tr>
-                            	<td>1</td>
-                                <td>1</td>
-                                <td>1</td>
-                                <td>1</td>
-                                <td>1</td>
-                                <td>1</td>
-                                <td>1</td>
-                                <td>1</td>
-                                <td>1</td>
-                            </tr>
+                          
+                            	<c:forEach var="session" items="${sessions}">
+                            	   <tr>
+                            		<td>${session.getSessionId()}</td>
+                            		<td>${session.getAcceptedDateString()}</td>
+                            		<c:forEach var="request" items="${requests}">
+                            			<c:if test="${request.getRequestId() == session.getRequestId()}">
+		                            		<td>${request.getService()}</td>
+		                             		<td>${request.getMode()}</td>
+		                           			<td>${request.getPrice()}</td>
+		                           			<td>${request.getDiscount()}</td>
+		                           			<td>${request.getAmount()}</td>
+	                           			</c:if>
+	                           		</c:forEach>
+                           			<c:forEach var="payment" items="${payments}">
+                           				<c:if test="${payment.getSessionId() == session.getSessionId()}">
+                           					<td>${payment.getAmountPayable()}</td>
+                           					<c:choose>
+                           						<c:when test="${payment.getPaidToAdvisor()}">
+                           							<td>PAID</td>	                           							
+                           						</c:when>
+                           						<c:otherwise>
+                           							<td>UNPAID</td>
+                           						</c:otherwise>
+                           					</c:choose>                           					
+                           				</c:if>
+                           			</c:forEach>
+                           			</tr>
+                            	</c:forEach>
                         </table>
                     </div>
                     	</div>

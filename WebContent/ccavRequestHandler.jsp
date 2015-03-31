@@ -16,7 +16,10 @@
 	 int merchant_id = 60380; 
 	 //Put in the 32 Bit Working Key provided by CCAVENUES.  
 	 Enumeration enumeration=request.getParameterNames();
-	 String ccaRequest="merchant_id="+merchant_id+ "&currency=INR&" +"language=EN&", pname="", pvalue="";
+	 Properties prop = new Properties();
+	 InputStream resourceAsStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("Resources/Dependency.properties");
+	 prop.load(resourceAsStream);
+	 String ccaRequest="merchant_id="+merchant_id+ "&currency=INR&" +"language=EN&" + "redirect_url=" +prop.getProperty("redirecturl") +"cancel_url="+prop.getProperty("cancelurl"), pname="", pvalue="";
 	 while(enumeration.hasMoreElements()) {
 	      pname = ""+enumeration.nextElement();
 	      pvalue = request.getParameter(pname);
@@ -29,6 +32,7 @@
 	<form id="nonseamless" method="post" name="redirect" action="https://test.ccavenue.com/transaction/transaction.do?command=initiateTransaction"/> 
 		<input type="hidden" id="encRequest" name="encRequest" value="<%= encRequest %>">
 		<input type="hidden" name="access_code" id="access_code" value="<%= accessCode %>">
+		<input type="hidden" name="redirect_url" id="redirect_url" value="http://192.168.2.49:8081/MCPG_JSP_KIT_2/ccavResponseHandler.jsp">
 		<script language='javascript'>document.redirect.submit();</script>
 	</form>
 	

@@ -55,9 +55,7 @@ public class BookASessionDAO {
 	 *
 	 ***************************************************************************************************/
 
-	public int  setBookASessionDetails(String advisorId,String service,String mode,String duration ,String datetimepicker1,String datetimepicker2,String datetimepicker3,String datetimepicker4,String datetimepicker5,String datetimepicker6,String userQuery,int userId,String price) { 
-		
-		
+	public int  setBookASessionDetails(String advisorId,String service,String mode,String duration ,String datetimepicker1,String datetimepicker2,String datetimepicker3,String datetimepicker4,String datetimepicker5,String datetimepicker6,String userQuery,int userId,String price,String isFree, String registrationPrice, String discount) { 
 		logger.info("Entered setBookASessionDetails method of BookASessionDAO");
 		System.out.println(userId);
 		System.out.println(advisorId);
@@ -121,7 +119,7 @@ public class BookASessionDAO {
 				conn =ConnectionFactory.getConnection();
 				conn.setAutoCommit(false);
 				if(mode.equals("email")){
-					String query = "insert into userrequest"+"(ADVISOR_ID,SERVICE,MODE_OF_COMMUNICATION,QUERY,DURATION,BOOKING_TIME,DATE_TIME1,STATUS,USER_ID,AMOUNT) values" + "(?,?,?,?,?,?,?,?,?,?)";
+					String query = "insert into userrequest"+"(ADVISOR_ID,SERVICE,MODE_OF_COMMUNICATION,QUERY,DURATION,BOOKING_TIME,DATE_TIME1,STATUS,USER_ID,AMOUNT,IS_FREE_FROM_ADVISOR,PRICE,DISCOUNT) values" + "(?,?,?,?,?,?,?,?,?,?,?,?,?)";
 					pstmt = conn.prepareStatement(query,Statement.RETURN_GENERATED_KEYS);
 					pstmt.setString(1,advisorId);
 					pstmt.setString(2,service);
@@ -133,9 +131,20 @@ public class BookASessionDAO {
 					pstmt.setString(8,status);
 					pstmt.setInt(9, userId);
 					pstmt.setString(10, price);
+					if(isFree.equals("true")){
+						pstmt.setBoolean(11,true);
+					}else{
+						pstmt.setBoolean(11,false);
+					}
+					pstmt.setDouble(12, Double.parseDouble(registrationPrice));
+					if(isFree.equals("true")){
+						pstmt.setInt(13, 100);
+					}else{
+						pstmt.setInt(13, Integer.parseInt(discount));
+					}
 					result = pstmt.executeUpdate(); 
 				}else{
-					String query = "insert into userrequest"+"(ADVISOR_ID,SERVICE,MODE_OF_COMMUNICATION,QUERY,DURATION,BOOKING_TIME,DATE_TIME1,DATE_TIME2,DATE_TIME3,DATE_TIME4,DATE_TIME5,DATE_TIME6,STATUS,USER_ID,AMOUNT) values" + "(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+					String query = "insert into userrequest"+"(ADVISOR_ID,SERVICE,MODE_OF_COMMUNICATION,QUERY,DURATION,BOOKING_TIME,DATE_TIME1,DATE_TIME2,DATE_TIME3,DATE_TIME4,DATE_TIME5,DATE_TIME6,STATUS,USER_ID,AMOUNT,IS_FREE_FROM_ADVISOR,PRICE,DISCOUNT) values" + "(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 					pstmt = conn.prepareStatement(query,Statement.RETURN_GENERATED_KEYS);
 					pstmt.setString(1,advisorId);
 					pstmt.setString(2,service);
@@ -152,6 +161,17 @@ public class BookASessionDAO {
 					pstmt.setString(13,status);
 					pstmt.setInt(14, userId);
 					pstmt.setString(15, price);
+					if(isFree.equals("true")){
+						pstmt.setBoolean(16,true);
+					}else{
+						pstmt.setBoolean(16,false);
+					}
+					pstmt.setDouble(17, Double.parseDouble(registrationPrice));
+					if(isFree.equals("true")){
+						pstmt.setInt(18, 100);
+					}else{
+						pstmt.setInt(18, Integer.parseInt(discount));
+					}
 					result = pstmt.executeUpdate(); 
 				}
 				if(result >0) {

@@ -30,7 +30,7 @@
             <!-- /.nav-second-level -->
         </li>
         <li><a href="GeneralInfoEdit"><span class="editprofile"></span> EditProfile</a></li>
-        <li><a href="payment"><span class="payment"></span> Payment</a></li>
+        <li><a href="advisorpayment"><span class="request"></span> Payment</a></li>
     </ul>
 </div>
 </div>

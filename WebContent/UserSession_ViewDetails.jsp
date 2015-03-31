@@ -758,7 +758,7 @@
 																			<div id="emailbody" class="col-md-9"
 																				style="width: 100px">
 																				<textarea rows="15" cols="90" id="bodyemail"
-																					name="body" maxlength="3000">${emailUser.getUserBody()}</textarea>
+																					name="body" maxlength="6000">${emailUser.getUserBody()}</textarea>
 																			</div>
 																		</div>
 																		<c:if

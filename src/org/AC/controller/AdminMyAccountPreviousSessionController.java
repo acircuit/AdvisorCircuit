@@ -120,4 +120,72 @@ public class AdminMyAccountPreviousSessionController extends HttpServlet {
 		logger.info("Exit doGet method of AdminMyAccountPreviousSessionController");
 	}
 
+	
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		logger.info("Entered doPost method of AdminMyAccountPreviousSessionController");
+		List<Integer> requestIds = new ArrayList<Integer>();
+		List<Integer> userIds = new ArrayList<Integer>();
+		List<Integer> advisorIds = new ArrayList<Integer>();
+		List<AdvisorProfileDTO> advisorDetails = new ArrayList<AdvisorProfileDTO>();
+		
+
+		//Get all the session details having status = "SESSION COMPLETE"
+		String status = "SESSION COMPLETE";
+		List<SessionDTO> sessionList = new ArrayList<SessionDTO>();
+		List<TimeDTO> difference = new ArrayList<TimeDTO>();
+		List<UserRequestDTO> userRequest = new ArrayList<UserRequestDTO>();
+		List<UserDetailsDTO> userDetailsList = new ArrayList<UserDetailsDTO>();
+		Boolean isAdmin = false;
+		Boolean isError = false;
+		try{
+			isAdmin = (Boolean) request.getSession().getAttribute("admin"); 
+			}catch(Exception e){
+				response.sendRedirect("Error");
+				isError = true;
+			}
+		if(isAdmin == null){
+			isError = true;
+			response.sendRedirect("Error");
+		}
+		if(isError != null && ! isError) {
+			
+			String fromDate = request.getParameter("fromDate");
+			String toDate = request.getParameter("toDate");
+			
+			AdminSessionDAO session = new AdminSessionDAO();
+			sessionList = session.SearchSessionDetailsByDate(status, fromDate, toDate);					// calling search method
+			
+			for (SessionDTO sessionDTO : sessionList) {
+				requestIds.add(sessionDTO.getRequestId());
+				userIds.add(sessionDTO.getUserId());
+				advisorIds.add(sessionDTO.getAdvisorId());
+			}
+			//Getting Request Details
+			if(requestIds.size() > 0){
+				MyAccountRequestDAO dao = new MyAccountRequestDAO();
+				userRequest = dao.getRequestDetails(requestIds);	
+			}
+			//Getting the User Details
+			if(userIds.size() > 0){
+				//Fetching user details from the userdetails table
+				UserDetailsDAO user1 = new UserDetailsDAO();
+				userDetailsList = user1.getUserDetails(userIds);
+			}
+			
+			//Getting Advisor Details
+			if(advisorIds.size() > 0){
+				AdminRequestDAO advisorDetail = new AdminRequestDAO();
+				advisorDetails= advisorDetail.getAdvisorDetailsUsingAdvisorId(advisorIds);
+			}
+			
+			request.setAttribute("requestDetails", userRequest);
+			request.setAttribute("userDetails", userDetailsList);
+			request.setAttribute("advisorDetails", advisorDetails);
+			
+			RequestDispatcher rd = getServletContext().getRequestDispatcher("/AdminPreviousSessions.jsp");
+	        rd.forward(request, response);
+		}
+		logger.info("Exit doPost method of AdminMyAccountPreviousSessionController");
+	}
+
 }

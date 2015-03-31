@@ -180,25 +180,26 @@
         <div class="input-append date" id="searchByDateDiv" style="float: right;" data-date-format="dd-mm-yyyy">
         	<form action="AdminMyUpcomingSessions" method="post">
         		<div>
-	        		<input id="fromDate" name="fromDate" type="text" placeholder="From Date" onclick="showFromDate()"/>
+	        		<input id="fromDate" name="fromDate" type="text" placeholder="From Date" />
 					<!-- span class="add-on"><i class="icon-calendar"></i></span -->
-        		&nbsp;
-	        		<input id="toDate" name="toDate" type="text" placeholder="To Date" onclick="showToDate()"/>
+        			&nbsp;
+	        		<input id="toDate" name="toDate" type="text" placeholder="To Date" />
 	        		<!-- span class="add-on"><i class="icon-calendar"></i></span -->
-        		&nbsp;
-        		<input type="submit" value="search"/>
+        			&nbsp;
+        			<input type="submit" value="search"/>
+        		</div>
         	</form>
         </div>
         
         
         <script type="text/javascript">
-       		function showFromDate(){
-    			$('#fromDate').datepicker();        		
-    		}
+//       		function showFromDate(){
+//    			$('#fromDate').datepicker();        		
+//    		}
         
-       		function showToDate(){
-    			$('#toDate').datepicker();        		
-    		}
+//       		function showToDate(){
+//    			$('#toDate').datepicker();        		
+//    		}
         
         </script>
         

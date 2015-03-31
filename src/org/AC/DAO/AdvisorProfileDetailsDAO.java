@@ -32,7 +32,7 @@ public class AdvisorProfileDetailsDAO {
 
 			java.util.List<AdvisorProfileDTO> list = new ArrayList<AdvisorProfileDTO>();
 			try{
-				if(!advisorId.isEmpty()) {
+				if(advisorId != null && !advisorId.isEmpty()) {
 					
 					conn =ConnectionFactory.getConnection();
 					conn.setAutoCommit(false);

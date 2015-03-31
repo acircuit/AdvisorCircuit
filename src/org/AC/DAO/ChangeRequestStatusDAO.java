@@ -15,6 +15,7 @@ import org.AC.JDBC.ConnectionFactory;
 import org.AC.JDBC.Util;
 import org.AC.Util.ConvertStringToDate;
 import org.AC.dto.ProfessionalBackgroundDTO;
+import org.AC.dto.UserRequestDTO;
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Logger;
 
@@ -129,5 +130,69 @@ public class ChangeRequestStatusDAO {
 			logger.info("Entered SetFeedBack method of ChangeRequestStatusDAO");
 			return isFeedbackFormCommit;
 
+		}
+	
+		public int  GetRequestIdFromSessionId(String sId) { 
+			logger.info("Entered GetRequestIdFromSessionId method of ChangeRequestStatusDAO");
+			ResultSet results = null;
+			Connection conn = null;
+			String service = "";
+			int requestId = 0;
+			try {
+				conn =ConnectionFactory.getConnection();
+				conn.setAutoCommit(false);
+				String query ="SELECT REQUEST_ID from session_table WHERE SESSION_ID = ?";
+				PreparedStatement pstmt = conn.prepareStatement(query);
+				pstmt.setString(1,sId);
+			    results = pstmt.executeQuery();
+			    if(results.first()){
+			    	requestId = results.getInt("REQUEST_ID");
+			    }
+			logger.info("Exit GetRequestIdFromSessionId method of ChangeRequestStatusDAO");
+			}catch(Exception e){
+				logger.error("GetRequestIdFromSessionId method of ChangeRequestStatusDAO threw error:"+e.getMessage());
+				e.printStackTrace();
+			}finally{
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					logger.error("GetRequestIdFromSessionId method of ChangeRequestStatusDAO threw error:"+e.getMessage());
+					e.printStackTrace();
+				}
+			}
+		return requestId;
+		}
+		
+		public UserRequestDTO  GetPaymentInfo(int rId) { 
+			logger.info("Entered GetPaymentInfo method of ChangeRequestStatusDAO");
+			ResultSet results = null;
+			Connection conn = null;
+			String service = "";
+			UserRequestDTO req = new UserRequestDTO();
+			try {
+				conn =ConnectionFactory.getConnection();
+				conn.setAutoCommit(false);
+				String query ="SELECT PRICE,DISCOUNT,IS_FREE_FROM_ADVISOR from userrequest WHERE REQUEST_ID = ?";
+				PreparedStatement pstmt = conn.prepareStatement(query);
+				pstmt.setInt(1, rId);
+			    results = pstmt.executeQuery();
+			    if(results.first()){
+			    	req.setIsFree(results.getBoolean("IS_FREE_FROM_ADVISOR"));
+			    	req.setDiscount(results.getInt("DISCOUNT"));
+			    	req.setPrice(results.getDouble("PRICE"));
+			    }
+			logger.info("Exit GetPaymentInfo method of ChangeRequestStatusDAO");
+			}catch(Exception e){
+				logger.error("GetPaymentInfo method of ChangeRequestStatusDAO threw error:"+e.getMessage());
+				e.printStackTrace();
+			}finally{
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					logger.error("GetPaymentInfo method of ChangeRequestStatusDAO threw error:"+e.getMessage());
+					e.printStackTrace();
+				}
+			}
+		return req;
 		}
 }

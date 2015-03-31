@@ -25,6 +25,7 @@ function searchTable(inputVal) {
 
 
 function searchDiv(inputVal){
+	
 	var $div = $('#containerDiv');
 	if(inputVal){
 		$div.find('.grey-panel').hide();
