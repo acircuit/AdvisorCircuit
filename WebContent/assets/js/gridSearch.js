@@ -34,3 +34,21 @@ function searchDiv(inputVal){
 		$div.find('.grey-panel').show();
 	}
 }
+
+
+
+
+//Code for overloading the :contains selector to be case insensitive:
+//Without the overload on the :contains selector jquery would normaly only underline the second line
+
+//New selector
+jQuery.expr[':'].Contains = function(a, i, m) {
+return jQuery(a).text().toUpperCase()
+   .indexOf(m[3].toUpperCase()) >= 0;
+};
+
+//Overwrites old selecor
+jQuery.expr[':'].contains = function(a, i, m) {
+return jQuery(a).text().toUpperCase()
+   .indexOf(m[3].toUpperCase()) >= 0;
+};
