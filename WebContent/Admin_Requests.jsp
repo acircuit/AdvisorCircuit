@@ -60,11 +60,15 @@
     
     	<div class="row">
         	<div class="col-md-3">&nbsp;</div>
-            <div class="col-md-9">
+            <div class="col-md-6">
             	<h4></h4>
             	<h1 class="page-header">Approved Request</h1>
             </div>
+            <div class="col-md-3">
+				<input type="text" id="search" style="float: right;" placeholder="SEARCH" onkeyup="searchDiv(this.value)"/>
+			</div>
         </div>
+
     
     	<div class="row">
         	
@@ -73,7 +77,7 @@
             </div><!-- /sidebar -->
             
             <div class="col-md-9">
-            	<div id="page-wrapper">
+            	<div class="page-wrapper" id="containerDiv">
 			<!-- Blog Post Row -->
 			<c:choose>
 			<c:when test="${userDetails.size() > 0 && requests.size() > 0 && advisorDetails.size() > 0 }">
@@ -204,6 +208,9 @@
     $("[data-toggle=popover]")
         .popover()
     </script>
+    
+   	<script src="assets/js/gridSearch.js"></script>
+    
 </body>
 
 </html>
