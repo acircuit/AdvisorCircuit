@@ -52,10 +52,12 @@ public class SessionMessagesController extends HttpServlet {
 		String sId = request.getParameter("sId");
 		String user = request.getParameter("user");
 		String data = "";
+		
 		Properties prop = new Properties();
 	    InputStream resourceAsStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("Resources/mail.properties");
 	    prop.load(resourceAsStream);
-		if(inputMessage == null && isAdvisor == null && sId != null){
+	    
+		if(inputMessage == null && sId != null){
 			List<UserMessageDTO> usermessages = new ArrayList<UserMessageDTO>();
 			List<AdvisorMessageDTO> advisormessages = new ArrayList<AdvisorMessageDTO>();
 
@@ -117,7 +119,18 @@ public class SessionMessagesController extends HttpServlet {
 				List<FilesDTO> filesDTOList = sessionMsgDAO.GetFilesList(sId);
 				
 				if (filesDTOList.size() > 0) {
+						
 					for (FilesDTO fileDTOObj : filesDTOList) {
+						
+						String fileName = "";
+						if(fileDTOObj.getFileURL().contains("\\")){
+							fileName = fileDTOObj.getFileURL().split("\\\\")[1];
+						}else{
+							String fileURL = fileDTOObj.getFileURL();
+							fileName = fileDTOObj.getFileURL().substring(fileURL.lastIndexOf("/")+1, fileURL.length());
+						}
+						
+						
 						
 						SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MMM-yyyy' 'h:mm a");
 						if(fileDTOObj.getTime() != null){
@@ -126,12 +139,12 @@ public class SessionMessagesController extends HttpServlet {
 						
 						if(("true").equals(isAdvisor)){
 							if((("APPROVED").equals(fileDTOObj.getStatus()) && ("USER").equals(fileDTOObj.getUploadedBy())) || ("ADVISOR").equals(fileDTOObj.getUploadedBy())){
-								MsgAndFileDTO msgAndFileDTOObj = new MsgAndFileDTO(fileDTOObj.getTimeString(), "<a href='DownloadFile?id="+fileDTOObj.getId()+"'>"+fileDTOObj.getFileURL().split("\\\\")[1]+"</a>", "file", fileDTOObj.getUploadedBy(), fileDTOObj.getTime());
+								MsgAndFileDTO msgAndFileDTOObj = new MsgAndFileDTO(fileDTOObj.getTimeString(), "<a href='DownloadFile?id="+fileDTOObj.getId()+"'>"+fileName+"</a>", "file", fileDTOObj.getUploadedBy(), fileDTOObj.getTime());
 								listMsgAndFile.add(msgAndFileDTOObj);
 							}
 						}else{
 							if((("APPROVED").equals(fileDTOObj.getStatus()) && ("ADVISOR").equals(fileDTOObj.getUploadedBy())) || ("USER").equals(fileDTOObj.getUploadedBy())){
-								MsgAndFileDTO msgAndFileDTOObj = new MsgAndFileDTO(fileDTOObj.getTimeString(), "<a href='DownloadFile?id="+fileDTOObj.getId()+"'>"+fileDTOObj.getFileURL().split("\\\\")[1]+"</a>", "file", fileDTOObj.getUploadedBy(), fileDTOObj.getTime());
+								MsgAndFileDTO msgAndFileDTOObj = new MsgAndFileDTO(fileDTOObj.getTimeString(), "<a href='DownloadFile?id="+fileDTOObj.getId()+"'>"+fileName+"</a>", "file", fileDTOObj.getUploadedBy(), fileDTOObj.getTime());
 								listMsgAndFile.add(msgAndFileDTOObj);
 							}				
 						}
