@@ -254,7 +254,7 @@ public class SessionMessagesController extends HttpServlet {
 						fileDTOObj.setTimeString(dateFormat.format(fileDTOObj.getTime()));
 					}
 					
-					MsgAndFileDTO msgAndFileDTOObj = new MsgAndFileDTO(fileDTOObj.getTimeString(), "<a href='DownloadFile?id="+fileDTOObj.getId()+"'>"+fileDTOObj.getFileURL().substring(fileDTOObj.getFileURL().lastIndexOf("/")+1, fileDTOObj.getFileURL().length())+"</a>", "file", fileDTOObj.getUploadedBy(), fileDTOObj.getTime());
+					MsgAndFileDTO msgAndFileDTOObj = new MsgAndFileDTO(fileDTOObj.getTimeString(), "<a href='DownloadFile?id="+fileDTOObj.getId()+"'>"+fileDTOObj.getFileURL().split("\\\\")[1]+"</a>", "file", fileDTOObj.getUploadedBy(), fileDTOObj.getTime());
 					listMsgAndFile.add(msgAndFileDTOObj);
 				}
 			}
