@@ -11,7 +11,6 @@ import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
 
@@ -26,13 +25,8 @@ import org.AC.Util.SendMail;
 import org.AC.dto.AdvisorMessageDTO;
 import org.AC.dto.FilesDTO;
 import org.AC.dto.MsgAndFileDTO;
-import org.AC.dto.MsgAndFileDTO;
-import org.AC.dto.UserAdvisorMessageDTO;
 import org.AC.dto.UserMessageDTO;
-import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Logger;
-
-import com.sun.java.swing.plaf.windows.WindowsTreeUI.CollapsedIcon;
 
 /********************************CLASS SUMMARY*****************************************************
 * 
@@ -64,9 +58,7 @@ public class SessionMessagesController extends HttpServlet {
 		if(inputMessage == null && isAdvisor == null && sId != null){
 			List<UserMessageDTO> usermessages = new ArrayList<UserMessageDTO>();
 			List<AdvisorMessageDTO> advisormessages = new ArrayList<AdvisorMessageDTO>();
-//			int advisorMessageCounter = 0;
-//			int userMessageCounter = 0;
-			
+
 			if(user == null){
 				//Getting Advisor Messages List.
 				SessionMssagesDAO advisormessage = new SessionMssagesDAO();
@@ -100,255 +92,57 @@ public class SessionMessagesController extends HttpServlet {
 				}
 			}
 			
-			//If there are no message from the advisor and the user message list is not empty
-//			if(advisormessages.size() == 0 && usermessages.size() > 0 && user == null){
-//				for (UserMessageDTO userMessageDTO : usermessages) {
-//					String data1 = "<li class='left clearfix'><span class='chat-img pull-right'><i class='glyphicon glyphicon-user'></i></span><div class='chat-body clearfix' style='margin-left:0px'><div class='header'><small><i class='fa fa-clock-o fa-fw gray' style='width:inherit; font-size:12px'>"+userMessageDTO.getUserMessageTimeString()+"</i></small><strong class='pull-right primary-font'>User</strong></div><p class = 'pull-right'>"+userMessageDTO.getUserMessage()+"</p></div></li>";
-//					data = data.concat(data1);
-//				}
-//			}
-//			else if (advisormessages.size() > 0 && usermessages.size() == 0  && user == null) {
-//				for (AdvisorMessageDTO advisorMessageDTO : advisormessages) {
-//					String data2= "<li class='left clearfix'><span class='chat-img pull-left'><i class='glyphicon glyphicon-user red'></i></span><div class='chat-body clearfix' style='margin-left:0px'><div class='header'><strong class='primary-font'>Advisor</strong><small class='pull-right text-muted'><i class='fa fa-clock-o fa-fw gray'  style='width:inherit; font-size:12px'>"+advisorMessageDTO.getAdvisorMessageTimeString()+"</i></small></div><p>"+advisorMessageDTO.getAdvisorMessage()+"</p></div></li>";
-//					data = data.concat(data2);
-//				}
-//			}
-//			else if (advisormessages.size() > 0 || usermessages.size() > 0  && user == null) {
-//				
-//				Iterator<AdvisorMessageDTO> advisorMessagesItr =  advisormessages.iterator();
-//				Iterator<UserMessageDTO> userMessagesItr =  usermessages.iterator();
-//				
-//				Boolean isAdvisorNext = true;
-//				Boolean isUserNext = true;
-//				AdvisorMessageDTO advisorMessage = null; 
-//				UserMessageDTO userMessage = null;
+			
+			if((advisormessages.size() > 0 || usermessages.size() > 0)){
+	
+				List<MsgAndFileDTO> listMsgAndFile = new ArrayList<MsgAndFileDTO>();
 				
-//				while(advisorMessagesItr.hasNext() && userMessagesItr.hasNext()){
-//					if(isAdvisorNext){
-//						advisorMessage = (AdvisorMessageDTO) advisorMessagesItr.next();
-//						isAdvisorNext = false;
-//					}
-//					if(isUserNext){
-//						userMessage = (UserMessageDTO) userMessagesItr.next();
-//						isUserNext = false;
-//					}
-//					if(advisorMessage.getAdvisorMessageTime().after(userMessage.getUserMessageTime())){
-//						String data1 = "<li class='left clearfix'><span class='chat-img pull-right'><i class='glyphicon glyphicon-user'></i></span><div class='chat-body clearfix' style='margin-left:0px'><div class='header'><small ><i class='fa fa-clock-o fa-fw gray'  style='width:inherit; font-size:12px'>"+userMessage.getUserMessageTimeString()+"</i></small><strong class='pull-right primary-font'>User</strong></div><p class = 'pull-right'>"+userMessage.getUserMessage()+"</p></div></li>";
-//						data = data.concat(data1);
-//						isUserNext = true;
-//					}else{
-//						String data2= "<li class='left clearfix'><span class='chat-img pull-left'><i class='glyphicon glyphicon-user red'></i></span><div class='chat-body clearfix' style='margin-left:0px'><div class='header'><strong class='primary-font'>Advisor</strong><small class='pull-right text-muted'><i class='fa fa-clock-o fa-fw gray'  style='width:inherit; font-size:12px'>"+advisorMessage.getAdvisorMessageTimeString()+"</i></small></div><p>"+advisorMessage.getAdvisorMessage()+"</p></div></li>";
-//						data = data.concat(data2);
-//						isAdvisorNext = true;
-//					}
-//				}
-//				if(!userMessagesItr.hasNext()){
-//					Boolean flow = true;
-//					if(isAdvisorNext ){
-//						while(flow &&  advisorMessagesItr.hasNext()){
-//							advisorMessage = (AdvisorMessageDTO) advisorMessagesItr.next();
-//							if(advisorMessage.getAdvisorMessageTime().after(userMessage.getUserMessageTime())){
-//								String data1 = "<li class='left clearfix'><span class='chat-img pull-right'><i class='glyphicon glyphicon-user'></i></span><div class='chat-body clearfix' style='margin-left:0px'><div class='header'><small ><i class='fa fa-clock-o fa-fw gray' style='width:inherit; font-size:12px'>"+userMessage.getUserMessageTimeString()+"</i></small><strong class='pull-right primary-font'>User</strong></div><p class = 'pull-right'>"+userMessage.getUserMessage()+"</p></div></li>";
-//								data = data.concat(data1);
-//								flow = false;
-//							}else{
-//					String data2= "<li class='left clearfix'><span class='chat-img pull-left'><i class='glyphicon glyphicon-user red'></i></span><div class='chat-body clearfix' style='margin-left:0px'><div class='header'><strong class='primary-font'>Advisor</strong><small class='pull-right text-muted'><i class='fa fa-clock-o fa-fw gray'  style='width:inherit; font-size:12px'>"+advisorMessage.getAdvisorMessageTimeString()+"</i></small></div><p>"+advisorMessage.getAdvisorMessage()+"</p></div></li>";
-//								data = data.concat(data2);
-//							}
-//						}
-//						if(flow){
-//							String data1 = "<li class='left clearfix'><span class='chat-img pull-right'><i class='glyphicon glyphicon-user'></i></span><div class='chat-body clearfix' style='margin-left:0px'><div class='header'><small ><i class='fa fa-clock-o fa-fw gray' style='width:inherit; font-size:12px'>"+userMessage.getUserMessageTimeString()+"</i></small><strong class='pull-right primary-font'>User</strong></div><p class = 'pull-right'>"+userMessage.getUserMessage()+"</p></div></li>";
-//							data = data.concat(data1);
-//						}else if (!flow) {
-//							String data3= "<li class='left clearfix'><span class='chat-img pull-left'><i class='glyphicon glyphicon-user red'></i></span><div class='chat-body clearfix' style='margin-left:0px'><div class='header'><strong class='primary-font'>Advisor</strong><small class='pull-right text-muted'><i class='fa fa-clock-o fa-fw gray'  style='width:inherit; font-size:12px'>"+advisorMessage.getAdvisorMessageTimeString()+"</i></small></div><p>"+advisorMessage.getAdvisorMessage()+"</p></div></li>";
-//							data = data.concat(data3);
-//							while (advisorMessagesItr.hasNext()) {
-//								advisorMessage = (AdvisorMessageDTO) advisorMessagesItr.next();
-//								String data2= "<li class='left clearfix'><span class='chat-img pull-left'><i class='glyphicon glyphicon-user red'></i></span><div class='chat-body clearfix' style='margin-left:0px'><div class='header'><strong class='primary-font'>Advisor</strong><small class='pull-right text-muted'><i class='fa fa-clock-o fa-fw gray'  style='width:inherit; font-size:12px'>"+advisorMessage.getAdvisorMessageTimeString()+"</i></small></div><p>"+advisorMessage.getAdvisorMessage()+"</p></div></li>";
-//								data = data.concat(data2);
-//							}
-//						}
-//					}
-//					if(isUserNext){
-//						String data2= "<li class='left clearfix'><span class='chat-img pull-left'><i class='glyphicon glyphicon-user red'></i></span><div class='chat-body clearfix' style='margin-left:0px'><div class='header'><strong class='primary-font'>Advisor</strong><small class='pull-right text-muted'><i class='fa fa-clock-o fa-fw gray'  style='width:inherit; font-size:12px'>"+advisorMessage.getAdvisorMessageTimeString()+"</i></small></div><p>"+advisorMessage.getAdvisorMessage()+"</p></div></li>";
-//						data = data.concat(data2);
-//						while(advisorMessagesItr.hasNext()){
-//							advisorMessage = (AdvisorMessageDTO) advisorMessagesItr.next();
-//							String data1= "<li class='left clearfix'><span class='chat-img pull-left'><i class='glyphicon glyphicon-user red'></i></span><div class='chat-body clearfix' style='margin-left:0px'><div class='header'><strong class='primary-font'>Advisor</strong><small class='pull-right text-muted'><i class='fa fa-clock-o fa-fw gray'  style='width:inherit; font-size:12px'>"+advisorMessage.getAdvisorMessageTimeString()+"</i></small></div><p>"+advisorMessage.getAdvisorMessage()+"</p></div></li>";
-//							data = data.concat(data1);
-//						}
-//					}
-//				}
-//				else if (!advisorMessagesItr.hasNext()){
-//					if(isAdvisorNext){
-//						String data1 = "<li class='left clearfix'><span class='chat-img pull-right'><i class='glyphicon glyphicon-user'></i></span><div class='chat-body clearfix' style='margin-left:0px'><div class='header'><small ><i class='fa fa-clock-o fa-fw gray' style='width:inherit; font-size:12px'>"+userMessage.getUserMessageTimeString()+"</i></small><strong class='pull-right primary-font'>User</strong></div><p class = 'pull-right'>"+userMessage.getUserMessage()+"</p></div></li>";
-//						data = data.concat(data1);
-//						while(userMessagesItr.hasNext()){
-//							userMessage = (UserMessageDTO) userMessagesItr.next();
-//							String data2 = "<li class='left clearfix'><span class='chat-img pull-right'><i class='glyphicon glyphicon-user'></i></span><div class='chat-body clearfix' style='margin-left:0px'><div class='header'><small ><i class='fa fa-clock-o fa-fw gray' style='width:inherit; font-size:12px'>"+userMessage.getUserMessageTimeString()+"</i></small><strong class='pull-right primary-font'>User</strong></div><p class = 'pull-right'>"+userMessage.getUserMessage()+"</p></div></li>";
-//							data = data.concat(data2);
-//						}
-//					}
-//					Boolean flow = true;
-//					if(isUserNext){
-//						while(flow &&  userMessagesItr.hasNext()){
-//							userMessage = (UserMessageDTO) userMessagesItr.next();
-//							if(advisorMessage.getAdvisorMessageTime().after(userMessage.getUserMessageTime())){
-//								String data1 = "<li class='left clearfix'><span class='chat-img pull-right'><i class='glyphicon glyphicon-user'></i></span><div class='chat-body clearfix' style='margin-left:0px'><div class='header'><small ><i class='fa fa-clock-o fa-fw gray' style='width:inherit; font-size:12px'>"+userMessage.getUserMessageTimeString()+"</i></small><strong class='pull-right primary-font'>User</strong></div><p class = 'pull-right'>"+userMessage.getUserMessage()+"</p></div></li>";
-//								data = data.concat(data1);
-//							}else{
-//								String data2= "<li class='left clearfix'><span class='chat-img pull-left'><i class='glyphicon glyphicon-user red'></i></span><div class='chat-body clearfix' style='margin-left:0px'><div class='header'><strong class='primary-font'>Advisor</strong><small class='pull-right text-muted'><i class='fa fa-clock-o fa-fw gray'  style='width:inherit; font-size:12px'>"+advisorMessage.getAdvisorMessageTimeString()+"</i></small></div><p>"+advisorMessage.getAdvisorMessage()+"</p></div></li>";
-//								data = data.concat(data2);
-//								flow = false;
-//							}
-//						}
-//						if(flow ){
-//							String data1= "<li class='left clearfix'><span class='chat-img pull-left'><i class='glyphicon glyphicon-user red'></i></span><div class='chat-body clearfix' style='margin-left:0px'><div class='header'><strong class='primary-font'>Advisor</strong><small class='pull-right text-muted'><i class='fa fa-clock-o fa-fw gray'  style='width:inherit; font-size:12px'>"+advisorMessage.getAdvisorMessageTimeString()+"</i></small></div><p>"+advisorMessage.getAdvisorMessage()+"</p></div></li>";
-//							data = data.concat(data1);
-//						}else if (!flow) {
-//					String data2 = "<li class='left clearfix'><span class='chat-img pull-right'><i class='glyphicon glyphicon-user'></i></span><div class='chat-body clearfix' style='margin-left:0px'><div class='header'><small ><i class='fa fa-clock-o fa-fw gray'  style='width:inherit; font-size:12px'>"+userMessage.getUserMessageTimeString()+"</i></small><strong class='pull-right primary-font'>User</strong></div><p class = 'pull-right'>"+userMessage.getUserMessage()+"</p></div></li>";
-//							data = data.concat(data2);
-//							while (userMessagesItr.hasNext()) {
-//								userMessage = (UserMessageDTO) userMessagesItr.next();
-//								String data1 = "<li class='left clearfix'><span class='chat-img pull-right'><i class='glyphicon glyphicon-user'></i></span><div class='chat-body clearfix' style='margin-left:0px'><div class='header'><small ><i class='fa fa-clock-o fa-fw gray' style='width:inherit; font-size:12px'>"+userMessage.getUserMessageTimeString()+"</i></small><strong class='pull-right primary-font'>User</strong></div><p class = 'pull-right'>"+userMessage.getUserMessage()+"</p></div></li>";
-//								data = data.concat(data1);
-//							}
-//						}
-//					}
-//				}
-//			}
-//			
-//			else 
-			
-			
-			
-			
-		if((advisormessages.size() > 0 || usermessages.size() > 0)){
-
-			List<MsgAndFileDTO> listMsgAndFile = new ArrayList<MsgAndFileDTO>();
-			
-			if(advisormessages.size() > 0){
-				for(AdvisorMessageDTO advisorMessageObj: advisormessages) {
-					MsgAndFileDTO msgAndFileDTOObj = new MsgAndFileDTO(advisorMessageObj.getAdvisorMessageTimeString(), advisorMessageObj.getAdvisorMessage(), "text", "advisor", advisorMessageObj.getAdvisorMessageTime());
-					listMsgAndFile.add(msgAndFileDTOObj);
-				}
-			}
-			
-			if(usermessages.size() > 0){
-				for(UserMessageDTO userMessageObj: usermessages) {
-					MsgAndFileDTO msgAndFileDTOObj = new MsgAndFileDTO(userMessageObj.getUserMessageTimeString(), userMessageObj.getUserMessage(), "text", "user", userMessageObj.getUserMessageTime());
-					listMsgAndFile.add(msgAndFileDTOObj);
-				}
-			}
-			
-			
-			// retrieve file list
-			SessionMssagesDAO sessionMsgDAO = new SessionMssagesDAO();
-			List<FilesDTO> filesDTOList = sessionMsgDAO.GetFilesList(sId);
-			
-			if (filesDTOList.size() > 0) {
-				for (FilesDTO fileDTOObj : filesDTOList) {
-					
-					SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MMM-yyyy' 'h:mm a");
-					if(fileDTOObj.getTime() != null){
-						fileDTOObj.setTimeString(dateFormat.format(fileDTOObj.getTime()));
+				if(advisormessages.size() > 0){
+					for(AdvisorMessageDTO advisorMessageObj: advisormessages) {
+						MsgAndFileDTO msgAndFileDTOObj = new MsgAndFileDTO(advisorMessageObj.getAdvisorMessageTimeString(), advisorMessageObj.getAdvisorMessage(), "text", "advisor", advisorMessageObj.getAdvisorMessageTime());
+						listMsgAndFile.add(msgAndFileDTOObj);
 					}
-					
-					MsgAndFileDTO msgAndFileDTOObj = new MsgAndFileDTO(fileDTOObj.getTimeString(), "<a href='DownloadFile?id="+fileDTOObj.getId()+"'>"+fileDTOObj.getFileURL().split("\\\\")[1]+"</a>", "file", fileDTOObj.getUploadedBy(), fileDTOObj.getTime());
-					listMsgAndFile.add(msgAndFileDTOObj);
 				}
-			}
-			
-			Collections.sort(listMsgAndFile);
-			
-			
-			data = listMsgAndFile.toString().replace("[", "").replace(",", "").replace("]", "");
-		}
-			
-			
-//			if((advisormessages.size() > 0 || usermessages.size() > 0) && user != null && ("true").equals(user)){
-//				
-//				List<MsgAndFileDTO> listMsgAndFile = new ArrayList<MsgAndFileDTO>();
-//				
-//				if(advisormessages.size() > 0){
-//					for(AdvisorMessageDTO advisorMessageObj: advisormessages) {
-//						MsgAndFileDTO msgAndFileDTOObj = new MsgAndFileDTO(advisorMessageObj.getAdvisorMessageTimeString(), advisorMessageObj.getAdvisorMessage(), "text", "advisor", advisorMessageObj.getAdvisorMessageTime());
-//						listMsgAndFile.add(msgAndFileDTOObj);
-//					}
-//				}
-//				
-//				if(usermessages.size() > 0){
-//					for(UserMessageDTO userMessageObj: usermessages) {
-//						MsgAndFileDTO msgAndFileDTOObj = new MsgAndFileDTO(userMessageObj.getUserMessageTimeString(), userMessageObj.getUserMessage(), "text", "user", userMessageObj.getUserMessageTime());
-//						listMsgAndFile.add(msgAndFileDTOObj);
-//					}
-//				}
-//				
-//				
-//				// retrieve file list
-//				SessionMssagesDAO sessionMsgDAO = new SessionMssagesDAO();
-//				List<FilesDTO> filesDTOList = sessionMsgDAO.GetFilesList(sId);
-//				
-//				if (filesDTOList.size() > 0) {
-//					for (FilesDTO fileDTOObj : filesDTOList) {
-//						
-//						SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MMM-yyyy' 'h:mm a");
-//						if(fileDTOObj.getTime() != null){
-//							fileDTOObj.setTimeString(dateFormat.format(fileDTOObj.getTime()));
-//						}
-//						
-//						MsgAndFileDTO msgAndFileDTOObj = new MsgAndFileDTO(fileDTOObj.getTimeString(), "<a href='DownloadFile?id="+fileDTOObj.getId()+"'>"+fileDTOObj.getFileURL().substring(fileDTOObj.getFileURL().lastIndexOf("/")+1, fileDTOObj.getFileURL().length())+"</a>", "file", fileDTOObj.getUploadedBy(), fileDTOObj.getTime());
-//						listMsgAndFile.add(msgAndFileDTOObj);
-//					}
-//				}
-//				
-//				Collections.sort(listMsgAndFile);
-//				
-//				
-//				data = listMsgAndFile.toString().replace("[", "").replace(",", "").replace("]", "");
-//				
-//			} else if((advisormessages.size() > 0 || usermessages.size() > 0) && user == null){
-//				List<MsgAndFileDTO> listMsgAndFile = new ArrayList<MsgAndFileDTO>();
-//				
-//				if(advisormessages.size() > 0){
-//					for(AdvisorMessageDTO advisorMessageObj: advisormessages) {
-//						MsgAndFileDTO msgAndFileDTOObj = new MsgAndFileDTO(advisorMessageObj.getAdvisorMessageTimeString(), advisorMessageObj.getAdvisorMessage(), "text", "advisor", advisorMessageObj.getAdvisorMessageTime());
-//						listMsgAndFile.add(msgAndFileDTOObj);
-//					}
-//				}
-//				
-//				if(usermessages.size() > 0){
-//					for(UserMessageDTO userMessageObj: usermessages) {
-//						MsgAndFileDTO msgAndFileDTOObj = new MsgAndFileDTO(userMessageObj.getUserMessageTimeString(), userMessageObj.getUserMessage(), "text", "user", userMessageObj.getUserMessageTime());
-//						listMsgAndFile.add(msgAndFileDTOObj);
-//					}
-//				}
-//				
-//				
-//				// retrieve file list
-//				SessionMssagesDAO sessionMsgDAO = new SessionMssagesDAO();
-//				List<FilesDTO> filesDTOList = sessionMsgDAO.GetFilesList(sId);
-//				
-//				if (filesDTOList.size() > 0) {
-//					for (FilesDTO fileDTOObj : filesDTOList) {
-//						
-//						SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MMM-yyyy' 'h:mm a");
-//						if(fileDTOObj.getTime() != null){
-//							fileDTOObj.setTimeString(dateFormat.format(fileDTOObj.getTime()));
-//						}
-//						
-//						MsgAndFileDTO msgAndFileDTOObj = new MsgAndFileDTO(fileDTOObj.getTimeString(), "<a href='DownloadFile?id="+fileDTOObj.getId()+"'>"+fileDTOObj.getFileURL().substring(fileDTOObj.getFileURL().lastIndexOf("/")+1, fileDTOObj.getFileURL().length())+"</a>", "file", fileDTOObj.getUploadedBy(), fileDTOObj.getTime());
-//						listMsgAndFile.add(msgAndFileDTOObj);
-//					}
-//				}
-//				
-//				Collections.sort(listMsgAndFile);
-//				
-//				
-//				data = listMsgAndFile.toString().replace("[", "").replace(",", "").replace("]", "");
-//			}
-			
-			else{
+				
+				if(usermessages.size() > 0){
+					for(UserMessageDTO userMessageObj: usermessages) {
+						MsgAndFileDTO msgAndFileDTOObj = new MsgAndFileDTO(userMessageObj.getUserMessageTimeString(), userMessageObj.getUserMessage(), "text", "user", userMessageObj.getUserMessageTime());
+						listMsgAndFile.add(msgAndFileDTOObj);
+					}
+				}
+				
+				
+				// retrieve file list
+				SessionMssagesDAO sessionMsgDAO = new SessionMssagesDAO();
+				List<FilesDTO> filesDTOList = sessionMsgDAO.GetFilesList(sId);
+				
+				if (filesDTOList.size() > 0) {
+					for (FilesDTO fileDTOObj : filesDTOList) {
+						
+						SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MMM-yyyy' 'h:mm a");
+						if(fileDTOObj.getTime() != null){
+							fileDTOObj.setTimeString(dateFormat.format(fileDTOObj.getTime()));
+						}
+						
+						if(("true").equals(isAdvisor)){
+							if((("APPROVED").equals(fileDTOObj.getStatus()) && ("USER").equals(fileDTOObj.getUploadedBy())) || ("ADVISOR").equals(fileDTOObj.getUploadedBy())){
+								MsgAndFileDTO msgAndFileDTOObj = new MsgAndFileDTO(fileDTOObj.getTimeString(), "<a href='DownloadFile?id="+fileDTOObj.getId()+"'>"+fileDTOObj.getFileURL().split("\\\\")[1]+"</a>", "file", fileDTOObj.getUploadedBy(), fileDTOObj.getTime());
+								listMsgAndFile.add(msgAndFileDTOObj);
+							}
+						}else{
+							if((("APPROVED").equals(fileDTOObj.getStatus()) && ("ADVISOR").equals(fileDTOObj.getUploadedBy())) || ("USER").equals(fileDTOObj.getUploadedBy())){
+								MsgAndFileDTO msgAndFileDTOObj = new MsgAndFileDTO(fileDTOObj.getTimeString(), "<a href='DownloadFile?id="+fileDTOObj.getId()+"'>"+fileDTOObj.getFileURL().split("\\\\")[1]+"</a>", "file", fileDTOObj.getUploadedBy(), fileDTOObj.getTime());
+								listMsgAndFile.add(msgAndFileDTOObj);
+							}				
+						}
+					}
+				}
+				
+				Collections.sort(listMsgAndFile);
+				
+				
+				data = listMsgAndFile.toString().replace("[", "").replace(",", "").replace("]", "");
+			} else{
 				data = "You Have No messages";
 			}
 			
