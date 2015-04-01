@@ -61,12 +61,14 @@
             }
 
             $(this).attr('id', options.ParentID + '_li_' + options.noOfPage);
-            $("#" + options.PagingArea).append('<a id="Page_' + options.noOfPage + '" href=\"javascript:void(0);\">' + options.noOfPage + '</a>');
-            $("#Page_" + options.noOfPage).click(function () {
-                $("#Page_" + options.curPage).removeClass("activePageLink");
+            
+            $("#" + options.PagingArea).append('<a id="Page2_' + options.noOfPage + '" href=\"javascript:void(0);\">' + options.noOfPage + '</a>');
+            
+            $("#Page2_" + options.noOfPage).click(function () {
+                $("#Page2_" + options.curPage).removeClass("activePageLink");
                 $("#" + options.ParentID + " li:nth-child(" + options.curPage + ")").hide();
                 options.curPage = $(this).text()
-                $("#Page_" + options.curPage).addClass("activePageLink");
+                $("#Page2_" + options.curPage).addClass("activePageLink");
                 $("#" + options.ParentID + " li:nth-child(" + options.curPage + ")").fadeIn("slow");
 
             });

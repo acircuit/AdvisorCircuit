@@ -57,7 +57,7 @@ public class AdvisorsTabController extends HttpServlet {
 		String service = request.getParameter("service");
 		List<Integer> advisorIds = new ArrayList<Integer>();
 		List<AdvisorServiceDTO> advisorsByServices = new ArrayList<AdvisorServiceDTO>();
-		List<AdvisorProfileDTO> advisorProfile = new ArrayList<AdvisorProfileDTO>();
+		List<AdvisorProfileDTO> advisorProfileList = new ArrayList<AdvisorProfileDTO>();
 		if(("CVCritique").equals(service)){
 			//Get the Details of all the advisor who are offering CVCritique as a service
 			String services = "cvcritique";
@@ -95,13 +95,14 @@ public class AdvisorsTabController extends HttpServlet {
 				advisorIds.add(advisorServiceDTO.getAdvisorId());
 			}
 		}
+		
 		//Getting advisor details using advisorId
 		SearchDAO advisorInfo = new SearchDAO();
-		advisorProfile = advisorInfo.getAdvisorDetails(advisorIds);
+		advisorProfileList = advisorInfo.getAdvisorDetails(advisorIds);
 		
 		String ids= "";
-		if(advisorProfile.size() > 0){
-			for (AdvisorProfileDTO advisorProfileDTO : advisorProfile) {
+		if(advisorProfileList.size() > 0){
+			for (AdvisorProfileDTO advisorProfileDTO : advisorProfileList) {
 				advisorIds.add(advisorProfileDTO.getAdvisorId());
 				ids = ids.concat( Integer.toString(advisorProfileDTO.getAdvisorId())+',');
 				String picture = advisorProfileDTO.getImage();
@@ -132,7 +133,7 @@ public class AdvisorsTabController extends HttpServlet {
 		}*/
 		
 		// Sorting results for featured advisors
-		Collections.sort(advisorProfile);
+		Collections.sort(advisorProfileList);
 		
 		//Getting the Services of the advisors
 		List<AdvisorServiceDTO> services = new ArrayList<AdvisorServiceDTO>();
@@ -140,7 +141,7 @@ public class AdvisorsTabController extends HttpServlet {
 		services = advisorServices.getAdvisorServices(advisorIds);
 		request.setAttribute("ids", ids);
 		request.setAttribute("profession", profession);
-		request.setAttribute("advisorProfile", advisorProfile);
+		request.setAttribute("advisorProfile", advisorProfileList);
 		request.setAttribute("advisorService", services);
 		RequestDispatcher rd = getServletContext().getRequestDispatcher("/AdvisorLandingPage.jsp");
         rd.forward(request, response);

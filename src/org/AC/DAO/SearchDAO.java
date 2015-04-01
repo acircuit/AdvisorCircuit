@@ -17,16 +17,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.AC.JDBC.ConnectionFactory;
-import org.AC.JDBC.Util;
 import org.AC.dto.AdvisorProfileDTO;
 import org.AC.dto.AdvisorServiceDTO;
 import org.AC.dto.ProfessionalBackgroundDTO;
-import org.AC.dto.SearchDTO;
-import org.AC.dto.UserDetailsDTO;
-import org.AC.dto.UserRequestDTO;
-import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Logger;
-import org.apache.tomcat.jni.OS;
 
 /* *******************************CLASS SUMMARY****************************************************
 * 
@@ -245,7 +239,7 @@ public class SearchDAO {
 			conn.setAutoCommit(false);
 			if(advisorId.size() >0){
 				String q4in = generateQsForIn(advisorId.size());			
-				String query ="SELECT ADVISOR_ID,NAME,INDUSTRY,INTRODUCTION,IMAGE,RATING FROM advisordetails "
+				String query ="SELECT ADVISOR_ID,NAME,INDUSTRY,INTRODUCTION,IMAGE,RATING, PAGE_RANK FROM advisordetails "
 						+ "WHERE ADVISOR_ID IN ( " + q4in + " ) AND ISACTIVE=? AND ISVISIBLE = true";
 				PreparedStatement pstmt;
 				pstmt = conn.prepareStatement(query);
@@ -263,7 +257,7 @@ public class SearchDAO {
 			    	advisor.setIntroduction(results.getString("INTRODUCTION"));
 			    	advisor.setImage(results.getString("IMAGE"));
 			    	advisor.setRatings(results.getInt("RATING"));
-			    	
+			    	advisor.setPageRank(results.getInt("PAGE_RANK"));
 //			    	boolean isVisible = results.getBoolean("ISVISIBLE");
 //			    	
 //			    	if(isVisible){
