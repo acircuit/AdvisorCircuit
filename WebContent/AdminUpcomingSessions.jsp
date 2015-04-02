@@ -36,9 +36,6 @@
     <!-- Custom Fonts -->
     <link href="assets/font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
-
-    <link href="assets/css/bootstrap-datetimepicker.min.css" rel="stylesheet"/>
-
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -55,6 +52,8 @@
 
 
     %>
+
+	<link rel="stylesheet" href="https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
 
 </head>
 
@@ -177,33 +176,18 @@
 		</c:otherwise>
 		</c:choose>
 	
-        <div class="input-append date" id="searchByDateDiv" style="float: right;" data-date-format="dd-mm-yyyy">
+        <div id="searchByDateDiv" style="float: right;" >			<!-- class="input-append date" data-date-format="dd-mm-yyyy" -->
         	<form action="AdminMyUpcomingSessions" method="post">
         		<div>
-	        		<input id="fromDate" name="fromDate" type="text" placeholder="From Date" />
-					<!-- span class="add-on"><i class="icon-calendar"></i></span -->
+					<input id="fromDate" name="fromDate" type="text" placeholder="From Date">
         			&nbsp;
-	        		<input id="toDate" name="toDate" type="text" placeholder="To Date" />
-	        		<!-- span class="add-on"><i class="icon-calendar"></i></span -->
+	        		<input id="toDate" name="toDate" type="text" placeholder="To Date"/>
+	        		<!-- <span class="add-on"><i class="icon-calendar"></i></span> -->
         			&nbsp;
         			<input type="submit" value="search"/>
         		</div>
         	</form>
         </div>
-        
-        
-        <script type="text/javascript">
-//       		function showFromDate(){
-//    			$('#fromDate').datepicker();        		
-//    		}
-        
-//       		function showToDate(){
-//    			$('#toDate').datepicker();        		
-//    		}
-        
-        </script>
-        
-            
         </div>
             </div><!-- /right area -->
             
@@ -217,7 +201,6 @@
 	<!-- /#container -->
 
     <!-- jQuery Version 1.11.0 -->
-	<script src="https://code.jquery.com/jquery-1.11.0.min.js"></script>
 
     <!-- Bootstrap Core JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
@@ -243,8 +226,24 @@
 
 	<script src="assets/js/gridSearch.js"></script>
 	
-	<script src="assets/js/bootstrap-datetimepicker.min.js"></script>
-
+	
+	<script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+	
+	<script src="https://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+	 
+  
+  	<script type="text/javascript">
+	  $(function() {
+		    $("#fromDate").datepicker();
+		    $("#fromDate").datepicker("option", "dateFormat", "yy-mm-dd");
+		    
+		    $( "#toDate" ).datepicker();
+		    $( "#toDate" ).datepicker("option", "dateFormat", "yy-mm-dd");
+		    
+	  });
+  	</script>
+  
+  
 </body>
 
 </html>
