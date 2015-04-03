@@ -76,11 +76,32 @@ public class UserMyAccountPaymentController extends HttpServlet {
 		Properties prop1 = new Properties();
 	    InputStream resourceAsStream1 = Thread.currentThread().getContextClassLoader().getResourceAsStream("Resources/mail.properties");
 	    prop1.load(resourceAsStream1);
+		Properties prop = new Properties();
+	    InputStream resourceAsStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("Resources/Path.properties");
+	    prop.load(resourceAsStream);
 		if(sId!= null && rId != null && acceptedDate == null){
-			Properties prop = new Properties();
-		    InputStream resourceAsStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("Resources/Path.properties");
-		    prop.load(resourceAsStream);
-			
+
+			double advisorPayment = 0.0;
+			double fee = 0.0;
+			double amount =0.0;
+			String trackingId = "N/A";
+			String paymentMode = "N/A";
+			String order_status = "N/A";
+			UserRequestDTO req = new UserRequestDTO();
+		    ChangeRequestStatusDAO pay = new ChangeRequestStatusDAO();
+			req = pay.GetPaymentInfo(Integer.parseInt(rId));
+			if(req.getIsFree() != null && req.getIsFree()){
+				advisorPayment = 0.0;
+				fee = 0.0;
+			}else{
+				advisorPayment =  (req.getPrice() * 100)/(130);
+				fee = req.getAmount() - advisorPayment;
+			}
+			//Entering values in Payment table
+			ChangeSessionStatusDAO success = new ChangeSessionStatusDAO();
+			Boolean isSessionUpdate = success.UpdateSessionPayment(sId,Integer.parseInt(rId),amount,advisorPayment,fee,trackingId,paymentMode,order_status);
+		    
+		    
 			//Changing the request status to "USER PAYMENT DONE"
 			String status = "USER PAYMENT DONE";
 			ChangeRequestStatusDAO requestStatus = new ChangeRequestStatusDAO();
@@ -126,6 +147,26 @@ public class UserMyAccountPaymentController extends HttpServlet {
 						e.printStackTrace();
 					}
 					*/
+					double advisorPayment = 0.0;
+					double fee = 0.0;
+					double amount =0.0;
+					String trackingId = "N/A";
+					String paymentMode = "N/A";
+					String order_status = "N/A";
+					UserRequestDTO req = new UserRequestDTO();
+				    ChangeRequestStatusDAO pay = new ChangeRequestStatusDAO();
+					req = pay.GetPaymentInfo(Integer.parseInt(rId));
+					if(req.getIsFree() != null && req.getIsFree()){
+						advisorPayment = 0.0;
+						fee = 0.0;
+					}else{
+						advisorPayment =  (req.getPrice() * 100)/(100 + req.getDiscount());
+						fee = req.getAmount() - advisorPayment;
+					}
+					//Entering values in Payment table
+					ChangeSessionStatusDAO success = new ChangeSessionStatusDAO();
+					Boolean isSessionUpdate = success.UpdateSessionPayment(sId,Integer.parseInt(rId),amount,advisorPayment,fee,trackingId,paymentMode,order_status);
+				    
 					//Changing the session status to "WAITING FOR SESSION" and the accepted date
 					String status1 ="WAITING FOR SESSION";
 					ChangeSessionStatusDAO sessionStatus = new ChangeSessionStatusDAO();
@@ -145,7 +186,7 @@ public class UserMyAccountPaymentController extends HttpServlet {
 				}
 			}
 		}else if (encResp != null) {
-			String workingKey = "18F62D2A438A259C8D85C9DB06C73485";		//32 Bit Alphanumeric Working Key should be entered here so that data can be decrypted.
+			String workingKey = prop.getProperty("WORKING_KEY");		//32 Bit Alphanumeric Working Key should be entered here so that data can be decrypted.
 			AesCryptUtil aesUtil=new AesCryptUtil(workingKey);
 			String decResp = aesUtil.decrypt(encResp);
 			StringTokenizer tokenizer = new StringTokenizer(decResp, "&");
@@ -207,12 +248,7 @@ public class UserMyAccountPaymentController extends HttpServlet {
 						fee = 0.0;
 					}else{
 						advisorPayment =  (req.getPrice() * 100)/(100 + req.getDiscount());
-						if(req.getDiscount() > 30){
-							fee = 0.0;						
-						}else{
-							int disc = 30 - req.getDiscount();
-							fee = (disc * req.getPrice())/100;
-						}
+						fee = req.getAmount() - advisorPayment;
 					}
 						//Entering values in Payment table
 						ChangeSessionStatusDAO success = new ChangeSessionStatusDAO();

@@ -24,11 +24,10 @@ public class AdvisorPaymentHistoryDAO {
 		try {
 			conn =ConnectionFactory.getConnection();
 			conn.setAutoCommit(false);
-			String query ="SELECT SESSION_ID,REQUEST_ID,ACCEPTED_DATE FROM session_table WHERE STATUS=? AND ADVISOR_ID=? AND CCAV_STATUS=?";
+			String query ="SELECT SESSION_ID,REQUEST_ID,ACCEPTED_DATE FROM session_table WHERE STATUS=? AND ADVISOR_ID=?";
 			PreparedStatement pstmt = conn.prepareStatement(query);
 			pstmt.setString(1,"WAITING FOR SESSION");
 			pstmt.setInt(2, userId);
-			pstmt.setString(3,"SUCCESS");
 			ResultSet results = pstmt.executeQuery();
 			while(results.next()){
 				PaymentDTO pay = new PaymentDTO();
@@ -155,10 +154,9 @@ public class AdvisorPaymentHistoryDAO {
 		try {
 			conn =ConnectionFactory.getConnection();
 			conn.setAutoCommit(false);
-			String query ="SELECT SESSION_ID,REQUEST_ID,ACCEPTED_DATE FROM session_table WHERE STATUS=? AND CCAV_STATUS=?";
+			String query ="SELECT SESSION_ID,REQUEST_ID,ACCEPTED_DATE FROM session_table WHERE STATUS=?";
 			PreparedStatement pstmt = conn.prepareStatement(query);
 			pstmt.setString(1,"WAITING FOR SESSION");
-			pstmt.setString(2,"SUCCESS");
 			ResultSet results = pstmt.executeQuery();
 			while(results.next()){
 				PaymentDTO pay = new PaymentDTO();

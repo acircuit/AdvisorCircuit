@@ -33,12 +33,15 @@ public class ConnectionFactory {
 	        comboPooledDataSource.setMinPoolSize(Integer.parseInt(prop.getProperty("CON_POOL_MIN_SIZE")));
 	        comboPooledDataSource.setMaxPoolSize(Integer.parseInt(prop.getProperty("CON_POOL_MAX_SIZE")));
 	        
-	        comboPooledDataSource.setMaxStatements(50);
+	        comboPooledDataSource.setMaxStatements(1000);
 	        comboPooledDataSource.setAcquireIncrement(5);
 	        //comboPooledDataSource.setPreferredTestQuery("select 1;");
 	        comboPooledDataSource.setIdleConnectionTestPeriod(300);
 	        //comboPooledDataSource.setAcquireRetryAttempts(30);
 	        comboPooledDataSource.setMaxIdleTime(300);
+	        comboPooledDataSource.setNumHelperThreads(10);
+	        comboPooledDataSource.setMaxStatementsPerConnection(100);
+	        comboPooledDataSource.setMaxAdministrativeTaskTime (5);
 	        
 	    }
 

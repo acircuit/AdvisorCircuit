@@ -385,7 +385,7 @@
 						</div>
 					</div>
 					<!--end pagination-->
-
+					
 
 					<div class="row users-list">
 
@@ -620,10 +620,8 @@
 														</div>
 													</div>
 												</div>
-
 												<c:if test="${counter == 6}">
 													</li>
-
 													<c:set var="counter" value="0"></c:set>
 												</c:if>
 											</c:forEach>
@@ -692,7 +690,6 @@
 	<script src="https://code.jquery.com/jquery-1.11.0.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 	<script src="assets/js/bootstrap-slider.js"></script>
-	<script src="assets/js/list.pagination.min.js"></script>
 	<script src="assets/js/list.min.js"></script>
 	<script src="assets/js/DoublePagination.js"></script>
 	<!-- Menu Toggle Script -->
@@ -780,11 +777,11 @@
 	     	    success : function(response) {
 	     	    	var responses = response.split(":::");
 	     	    	//ids = responses[1];
-	     	    	$('#PageList').html("");
 	     	    	$('#PageList2').html("");
+	     	    	$('#PageList').html("");
 	     	       	$('#gallary').html(responses[0]);// create an empty div in your page with some id
 	     	      	$("#gallary").Pagination();
-	     	       	
+	     	      	$("#gallary").Pagination2();
 	     	    },
 	     	    error : function(request, textStatus, errorThrown) {
 	     	        alert(errorThrown);

@@ -164,6 +164,8 @@ public class AdvisorProfileServlet extends HttpServlet {
 			request.setAttribute("reviews", reviews);
 			request.setAttribute("reviewUserDetails", reviewUserDetails);
 		}
+		response.setCharacterEncoding("UTF-8");
+		request.setCharacterEncoding("UTF-8");
 		
 		if(!("true").equals(isAdmin)){
 			RequestDispatcher rd = getServletContext().getRequestDispatcher("/AdvisorProfile.jsp");

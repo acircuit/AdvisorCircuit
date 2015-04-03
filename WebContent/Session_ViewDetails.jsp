@@ -853,7 +853,7 @@
 	  function getmessages(){
 			  $.ajax({
 	              url : 'SessionMessages', // Your Servlet mapping or JSP(not suggested)
-	              data : {"sId" : $("#sId").val()},
+	              data : {"sId" : $("#sId").val(),"advisor": "true"},
 	              type : 'POST',
 	              dataType : 'html', // Returns HTML as plain text; included script tags are evaluated when inserted in the DOM.
 	              success : function(response) {

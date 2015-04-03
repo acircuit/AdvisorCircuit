@@ -52,6 +52,9 @@ public class ContactUsController extends HttpServlet {
 		String email = request.getParameter("email");
 		String phone = request.getParameter("phone");
 		String message = request.getParameter("message");
+		message = message.replaceAll("\r\n", "<br>");
+		message = message.replaceAll( "\r", "<br>");
+		message = message.replaceAll("\n", "<br>"); 
 		if(name != null && email != null && phone != null && message != null ){
 			//Putting the values in the table
 			Boolean isCommit = false;

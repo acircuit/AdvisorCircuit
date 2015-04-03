@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" id="WebApp_ID" version="3.0">
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:jsp="http://java.sun.com/xml/ns/javaee/jsp" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" id="WebApp_ID" version="3.0">
   <display-name>AdvisorCircuit</display-name>
   <welcome-file-list>
     <welcome-file>Home.jsp</welcome-file>
@@ -9,6 +9,24 @@
 			org.AC.listeners.LogConfigListeners
 		</listener-class>
   </listener>
+  <jsp-config>
+    <jsp-property-group>
+      <url-pattern>*.jsp</url-pattern>
+      <page-encoding>UTF-8</page-encoding>
+    </jsp-property-group>
+  </jsp-config>
+  <filter>
+    <filter-name>CharEncoding</filter-name>
+    <filter-class>org.AC.Filters.CharEncoding</filter-class>
+    <init-param>
+        <param-name>encoding</param-name>
+        <param-value>UTF-8</param-value>
+    </init-param>
+</filter>
+<filter-mapping>
+    <filter-name>CharEncoding</filter-name>
+    <url-pattern>/*</url-pattern>
+</filter-mapping>
   <session-config>
     <session-timeout>30</session-timeout>
   </session-config>
@@ -1061,12 +1079,12 @@
     <servlet-name>userpaymenthistrory</servlet-name>
     <url-pattern>/userpaymenthistrory</url-pattern>
   </servlet-mapping>
-    <servlet>
+  <servlet>
     <servlet-name>adminpaymenthistrory</servlet-name>
     <jsp-file>/AdminPayment.jsp</jsp-file>
   </servlet>
   <servlet-mapping>
     <servlet-name>adminpaymenthistrory</servlet-name>
     <url-pattern>/adminpaymenthistrory</url-pattern>
-  </servlet-mapping>  
+  </servlet-mapping>
 </web-app>
