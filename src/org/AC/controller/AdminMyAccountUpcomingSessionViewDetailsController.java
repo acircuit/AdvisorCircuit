@@ -89,6 +89,7 @@ public class AdminMyAccountUpcomingSessionViewDetailsController extends HttpServ
 			String path ="";
 			Boolean isFeedback =false;
 			int sessionId = 0;
+			String modeDetails = "";
 			SessionFeedBackDTO feed = new SessionFeedBackDTO();
 			SessionFeedBackDTO mail = new SessionFeedBackDTO();
 			List<UserRequestDTO> requestDetails = new ArrayList<UserRequestDTO>();
@@ -150,6 +151,7 @@ public class AdminMyAccountUpcomingSessionViewDetailsController extends HttpServ
 				for (SessionDTO sessionDTO : sessionDetail) {
 					sessionId =sessionDTO.getSessionId();
 					sessionDTO.setAcceptedDateString(new SimpleDateFormat("dd-MMM-yyyy' 'h:mm a").format(new Date(sessionDTO.getAcceptedDate().getTime())));
+					modeDetails = sessionDTO.getModeDetails();
 				}
 				if(isFeedback){
 					//Getting the FeedBack Form Path
@@ -173,6 +175,7 @@ public class AdminMyAccountUpcomingSessionViewDetailsController extends HttpServ
 			request.setAttribute("advisorName", advisorName);
 			request.setAttribute("requestDetails", requestDetails);
 			request.setAttribute("sessionDetail", sessionDetail);
+			request.setAttribute("modeDetails", modeDetails);
 	
 			RequestDispatcher rd = getServletContext().getRequestDispatcher("/Admin_Upcoming_ViewDetails.jsp");
 	        rd.forward(request, response);

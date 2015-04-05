@@ -3,6 +3,7 @@
 <%@page import="org.AC.dto.AdvisorProfileDTO"%>
 <%@page import="org.AC.dto.UserDetailsDTO"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ page import="java.util.*" %>
 <html lang="en">
 
@@ -13,7 +14,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
-
+	<fmt:bundle basename="Resources.Dependency" prefix="path.">
+  		 <link rel="shortcut icon" href=<fmt:message key="shortcuticon"/>>	
+  	</fmt:bundle>
     <title>Upcoming Sessions</title>  		 
 
     <!-- Bootstrap Core CSS -->
@@ -149,14 +152,14 @@
 					                                    <label for="icode" class="col-md-3 control-label" style="font-size:19px">Review Message</label>
 					                                     <div class="col-md-9">
 					                                     		<c:choose>
-						                                		<c:when test="${request.getReviewMesage() != null && !request.getReviewMessageStatus().equals('REJECTED')}">
-					                                     			<textarea rows="3" id="reviewmessage" name="reviewmessage" class="form-control" maxlength="400" readonly="readonly">${request.getReviewMesage()}</textarea>						                                		
+						                                		<c:when test="${request.getReviewMesage() != null && !request.getReviewMesage().equals('') && !request.getReviewMessageStatus().equals('REJECTED')}">
+					                                     			<textarea rows="3" id="reviewmessage${request.getSessionId()}" name="reviewmessage" class="form-control" maxlength="400" readonly="readonly">${request.getReviewMesage()}</textarea>						                                		
 						                                		</c:when>
-						                                		<c:when test="">
-					                                     			<textarea rows="3" id="reviewmessage" name="reviewmessage" class="form-control" maxlength="400" readonly="readonly">${request.getReviewMesage()}</textarea>						                                								                                		
+						                                		<c:when test="${request.getReviewMesage() != null && request.getReviewMessageStatus().equals('REJECTED')}">
+					                                     			<textarea rows="3" id="reviewmessage${request.getSessionId()}" name="reviewmessage" class="form-control" maxlength="400">${request.getReviewMesage()}</textarea>						                                								                                		
 						                                		</c:when>
 				                                				<c:otherwise>
-					                                     			<textarea rows="3" id="reviewmessage" name="reviewmessage" class="form-control" maxlength="400"></textarea>						                                						                                				
+					                                     			<textarea rows="3" id="reviewmessage${request.getSessionId()}" name="reviewmessage" class="form-control" maxlength="400"></textarea>						                                						                                				
 				                                				</c:otherwise>
 				                                				</c:choose>
 														 </div>
@@ -176,11 +179,9 @@
 								                       			</c:otherwise>	
 								                       		</c:choose>
 								                        </div>
-								                        	<c:out value="${request.getReviewMesage()}"></c:out>
-								                        		<c:out value="${request.getReviewMessageStatus()}"></c:out>
 								                        <c:choose>
 								                        	
-						                                		<c:when test="${request.getReviewMesage() != null && !request.getReviewMessageStatus().equals('REJECTED')}">
+						                                		<c:when test="${request.getReviewMesage() != null   && !request.getReviewMessageStatus().equals('REJECTED')}">
 						                                			
 						                                		</c:when>
 						                                		<c:otherwise>
@@ -277,10 +278,10 @@
 		}
 		function review(elem){
 		var sId = elem.id;
-		if($("#reviewmessage").val() ==  ""){
+		if($("#reviewmessage"+sId).val() !=  ""){
 			$.ajax({
                 url : 'Recommend', // Your Servlet mapping or JSP(not suggested)
-                data : {"sId" : sId,"review":"true","reviewmessage": $("#reviewmessage").val()},
+                data : {"sId" : sId,"review":"true","reviewmessage": $("#reviewmessage"+sId).val()},
                 type : 'POST',
                 dataType : 'html', // Returns HTML as plain text; included script tags are evaluated when inserted in the DOM.
                 success : function(response) {

@@ -182,8 +182,8 @@
         .popover()
     </script>
    <script type="text/javascript">
-	function approve(e){
-		var id = e.id;
+	function approve(elem){
+		var id = elem.id;
 			$.ajax({
                 url : 'AdminAdvisorReview', // Your Servlet mapping or JSP(not suggested)
                 data : {"sId" :id,"approveorreject" :"APPROVE"},
@@ -201,8 +201,9 @@
             }); 
 		}
 	
-	function reject(e){
-		var id = e.id;
+	function reject(elem){
+		debugger;
+		var id = elem.id;
 		$.ajax({
             url : 'AdminAdvisorReview', // Your Servlet mapping or JSP(not suggested)
             data : {"sId" :id,"approveorreject" :"REJECT"},

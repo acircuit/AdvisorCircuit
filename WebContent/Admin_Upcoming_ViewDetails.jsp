@@ -55,6 +55,7 @@
 						String advisorname = (String)request.getAttribute("advisorName");
 						String isSessionPast = (String)request.getAttribute("isSessionPast");
 						String path	 = (String)request.getAttribute("path");
+						String modeDetails	 = (String)request.getAttribute("modeDetails");
 						SessionFeedBackDTO feedback	 = (SessionFeedBackDTO)request.getAttribute("feed");
 						SessionFeedBackDTO mail	 = (SessionFeedBackDTO)request.getAttribute("mail");
 						List<UserRequestDTO> userRequestDetails = (List<UserRequestDTO>)request.getAttribute("requestDetails");
@@ -177,38 +178,47 @@
                                                         <span class="form-control"><c:out value="${userRequest.getDuration()}"/></span>
                                                     </div>
                                                 </div>
-                                                
-                                                <c:choose>
-                                                    <c:when test="${userRequest.getMode().equals('phone')}">
-                                                        <div class="form-group">
-                                                            <label for="icode" class="col-md-2 control-label">Pin:</label>
-                                                            <div class="col-md-10">
-                                                                <input class="form-control" id="details"></input>	
-                                                            </div>
-                                                        </div>
-                                                        
-                                                        <div class="col-md-12">
-                                                        	<h4><a class="btn btn-info" onclick="SubmitModeDetails()">Submit Pin</a></h4>												
-                                                        </div>
-                                                    </c:when>
-                                                    
-                                                    <c:when test="${userRequest.getMode().equals('webchat')}">
-                                                        <div class="form-group">
-                                                            <label for="icode" class="col-md-2 control-label">Link:</label>
-                                                            <div class="col-md-10">
-                                                                <input class="form-control" id="details"></input>	
-                                                            </div>
-                                                        </div>
-                                                        
-                                                        <div class="col-md-12">
-                                                        	<h4><a class="btn btn-info" onclick="SubmitModeDetails()">Submit Link</a></h4>
-                                                        </div>
-                                                        
-                                                        <div id="message" style="float: right"></div>
-                                                        
-                                                    </c:when>									
-                                                </c:choose>
-                                                
+                                                <c:if test="${userRequest.getMode().equals('phone') || userRequest.getMode().equals('webchat') }">
+                                                    	<c:choose>
+                                                    		<c:when test="${modeDetails != null && !modeDetails.equals('')}">
+                                                    			 <div class="form-group">
+                                                    			 	<c:choose>
+                                                    			 		<c:when test="${userRequest.getMode().equals('phone')}">
+ 		                                                            		<label for="icode" class="col-md-2 control-label">Pin:</label>                                                   			 		
+                                                    			 		</c:when>
+                                                    			 		<c:otherwise>
+                                                    			 			<label for="icode" class="col-md-2 control-label">Link:</label> 
+                                                    			 		</c:otherwise>
+                                                    			 	</c:choose>
+		                                                            <div class="col-md-10">
+		                                                                <input class="form-control" id="details" value="${modeDetails}"></input>	
+		                                                            </div>
+		                                                             <div class="col-md-12">
+		                                                        		<h4><a class="btn btn-info" onclick="SubmitModeDetails()">Submit Pin</a></h4>												
+		                                                       		 </div>
+		                                                        </div>
+                                                    		</c:when>
+                                                    		<c:otherwise>
+                                                    			 <div class="form-group">
+		                                                            <c:choose>
+                                                    			 		<c:when test="${userRequest.getMode().equals('phone')}">
+ 		                                                            		<label for="icode" class="col-md-2 control-label">Pin:</label>                                                   			 		
+                                                    			 		</c:when>
+                                                    			 		<c:otherwise>
+                                                    			 			<label for="icode" class="col-md-2 control-label">Link:</label> 
+                                                    			 		</c:otherwise>
+                                                    			 	</c:choose>
+		                                                            <div class="col-md-10">
+		                                                                <input class="form-control" id="details"></input>	
+		                                                            </div>
+		                                                        </div>
+		                                                        
+		                                                        <div class="col-md-12">
+		                                                        	<h4><a class="btn btn-info" onclick="SubmitModeDetails()">Submit Pin</a></h4>												
+		                                                        </div>
+                                                    		</c:otherwise>
+                                                    	</c:choose>
+                                                    </c:if>
                                                 <input type="hidden" name="rId" value="${userRequest.getRequestId()}">
                                                 
                                                 <c:if test="${userRequest.getService().equals('mockinterview') || userRequest.getService().equals('cvcritique')}">										
@@ -662,7 +672,7 @@ function SubmitModeDetails(){
 	    type : 'POST',
 	    dataType : 'html', // Returns HTML as plain text; included script tags are evaluated when inserted in the DOM.
 	    success : function(response) {
-	        $('#message').html(response); // create an empty div in your page with some id
+	        alert("The Mode details has been submitted"); // create an empty div in your page with some id
 	    },
 	    error : function(request, textStatus, errorThrown) {
 	        alert(errorThrown);

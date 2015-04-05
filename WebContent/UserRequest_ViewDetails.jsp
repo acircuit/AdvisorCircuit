@@ -5,6 +5,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import = "java.io.*,java.util.*,com.ccavenue.security.*" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ page import="java.util.*" %>
 <html lang="en">
 
@@ -15,7 +16,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
-
+	<fmt:bundle basename="Resources.Dependency" prefix="path.">
+  		 <link rel="shortcut icon" href=<fmt:message key="shortcuticon"/>>	
+  	</fmt:bundle>
     <title>Request View Details</title>  		 
 
     <!-- Bootstrap Core CSS -->
@@ -324,7 +327,7 @@
                                         <!-- Button -->                    
                                         <div class="row">
                                             <div class="col-md-12 text-center">
-                                              <a href="#" data-toggle="modal" data-target="#invoice"><button id="btn" type="submit" class="btn btn-info">Confirm Session</button></a>
+                                              <button id="btn" type="button" class="btn btn-info" onclick="pay()">Confirm Session</button>
                                             </div>
                                             
                                         </div>
@@ -487,14 +490,14 @@
         format: 'dd/MM/yyyy hh:mm:ss',
         language:'en'
       });
-  $(document).ready(function() {
-		  $("#btn").click(function(event){
-			  	  if($("#optionsRadios1").is(':visible') && $("#optionsRadios2").is(':visible') && $("#optionsRadios3").is(':visible') && $("#optionsRadios1").is(':checked') == false && $("#optionsRadios2").is(':checked') == false && $("#optionsRadios3").is(':checked') == false ){
-				  alert("Please select a date and time");
-				  event.preventDefault();
-			  }
-		  });
-	  });
+	  function pay(){
+		  if($("#optionsRadios1").is(':visible') && $("#optionsRadios2").is(':visible') && $("#optionsRadios3").is(':visible') && $("#optionsRadios1").is(':checked') == false && $("#optionsRadios2").is(':checked') == false && $("#optionsRadios3").is(':checked') == false ){
+			  alert("Please select a date and time");
+			  event.preventDefault();
+		  }else{
+			  $("#invoice").modal();
+		  }
+	}
     </script>
     <!-- Page-Level Demo Scripts - Notifications - Use for reference -->
     <script>

@@ -95,7 +95,17 @@
                             		<td>${session.getAcceptedDateString()}</td>
                             		<c:forEach var="request" items="${requests}">
                             			<c:if test="${request.getRequestId() == session.getRequestId()}">
-		                            		<td>${request.getService()}</td>
+		                            		<c:choose>
+                            					<c:when test="${request.getService().equals('careertalk')}">
+                            						<td>Career Talk</td>
+                            					</c:when>
+                            					<c:when test="${request.getService().equals('mockinterview')}">
+                            						<td>Mock Interview</td>
+                            					</c:when>
+                            					<c:when test="${request.getService().equals('cvcritique')}">
+                            						<td>Resume Critique</td>
+                            					</c:when>
+                            				</c:choose>
 		                             		<td>${request.getMode()}</td>
 		                           			<td>${request.getPrice()}</td>
 		                           			<td>${request.getDiscount()}</td>

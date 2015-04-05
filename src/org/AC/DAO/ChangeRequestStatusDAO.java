@@ -180,7 +180,7 @@ public class ChangeRequestStatusDAO {
 			    	req.setIsFree(results.getBoolean("IS_FREE_FROM_ADVISOR"));
 			    	req.setDiscount(results.getInt("DISCOUNT"));
 			    	req.setPrice(results.getDouble("PRICE"));
-			    	req.setAmount(results.getDouble("PRICE"));
+			    	req.setAmount(results.getDouble("AMOUNT"));
 			    }
 			logger.info("Exit GetPaymentInfo method of ChangeRequestStatusDAO");
 			}catch(Exception e){

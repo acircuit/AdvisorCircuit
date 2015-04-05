@@ -11,6 +11,13 @@ public class SessionDTO {
 	Boolean isRating;
 	String reviewMessage;
 	String reviewMessageStatus;
+	String modeDetails;
+	public String getModeDetails() {
+		return modeDetails;
+	}
+	public void setModeDetails(String modeDetails) {
+		this.modeDetails = modeDetails;
+	}
 	public int getRatings() {
 		return ratings;
 	}

@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <html lang="en">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -7,7 +8,9 @@
     <meta name="description" content="School, College or On the Job. Everyone needs career advice. Learn how our Advisors can help you.">
     <meta name="author" content="">
     <meta name="keywords" content="career counsellor, how to choose a career, career guidance, how to prepare a resume, telephonic mock interview, interview preparation, how to prepare for an interview, career guidance after 12th, career change.">
-    <link rel="shortcut icon" href="assets/img/favicon.png">
+    <fmt:bundle basename="Resources.Dependency" prefix="path.">
+  		 <link rel="shortcut icon" href=<fmt:message key="shortcuticon"/>>	
+  	</fmt:bundle>
     <title>Why Use Advisor Circuit | Advisor Circuit</title>
 	 
     <!-- Bootstrap core CSS -->

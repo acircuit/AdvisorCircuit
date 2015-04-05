@@ -19,45 +19,8 @@
 	<fmt:bundle basename="Resources.Dependency" prefix="path.">
   		 <link rel="shortcut icon" href=<fmt:message key="shortcuticon"/>>	
   	</fmt:bundle>
-    <title>View Details</title>
-	<style type="text/css"> 
-		.form-control{width:100% !important;}
-		body{background-color:#fff !important}
-		@font-face {
-			font-family:"custom_light";
-			src: url("assets/fonts/NGCDMC__.TTF") /* EOT file for IE */
-		}
-		
-		@font-face {
-			font-family:"custom_bold";
-			src: url("assets/fonts/NGCDBC__.TTF") /* TTF file for CSS3 browsers */
-		}
-
-		h1,h2,h3,h5{
-			font-family:'custom_bold' !important;
-			}
-			
-		h4{ font-family:'custom_light' !important;
-			font-size:19px !important;
-			}	
-		 p{font-family:'custom_light' !important;}
-		 div{font-family:'custom_light' !important;}
-		.fa-lg{font-size:1.4em !important;}
-		.social{padding-bottom:9px !important;}
-		.foot-size{font-size:14px !important;}
-		.foot-color{color:#717171;}
-		.gray{color:#575758;}		
-		@media only screen and (max-width:700px){
-		
-		}
-		@media only screen and (min-width: 320px) and (max-width: 470px) {
-		}
-		
-		@media only screen and (min-width: 470px) and (max-width: 700px) {
-		}
-		 </style>  		 
-
-
+     <title>Session View Details</title> 
+	
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
 	<link href="assets/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
@@ -65,7 +28,7 @@
     <!-- MetisMenu CSS -->
     <link href="assets/plugins/metisMenu/metisMenu.min.css" rel="stylesheet">
 	
-		<!-- Custom styles for this template -->
+	<!-- Custom styles for this template -->
     <link href="assets/css/main.css" rel="stylesheet">
 	
     <!-- Custom CSS -->
@@ -77,20 +40,15 @@
 	
     <!-- Custom Fonts -->
     <link href="assets/font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-
+	<fmt:bundle basename="Resources.Dependency" prefix="path.">
+  		 <link rel="shortcut icon" href=<fmt:message key="shortcuticon"/>>	
+  	</fmt:bundle>
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
-	<style type="text/css"> 
-		.bdesign{font-size:20px !important;}
-		.dropreg{height:30px;width:40%;}
-		input[type="text"]{height:40px !important}
-		.add-on{height:40px !important;cursor:pointer !important}
-		.control-label{width:130px !important}
-	</style>		
 	<%	      			
 						String advisorImage = (String)request.getAttribute("advisorImage");
 						String userImage = (String)request.getAttribute("userImage");
@@ -110,35 +68,29 @@
 </head>
 
 <body>
-
-    <div style="margin-left:5.9%;margin-right:5.9%">
+    <div class="container">
 	<%@include file="/Header.jsp" %>
-    <div id="wrapper">
-
-        <!-- Navigation -->
-        <nav class=" navbar-static-top" role="navigation" style="margin-bottom: 0">
-
-			<div id="j_sidebar">
-			<%@ include file="j-sidebar_admin.jsp" %>
-			</div>
-        </nav>
-
-        <div id="page-wrapper">
-            <div class="row">
-                <div class="col-lg-12">
-                    <h1 class="page-header"></h1>
-                </div>
-                <!-- /.col-lg-12 -->
+    
+    <div id="wrapper" class="content">
+    
+    	<div class="row">
+        	<div class="col-md-3">&nbsp;</div>
+            <div class="col-md-9">
+            	<h4></h4>
+            	<h1 class="page-header"></h1>
             </div>
-            <!-- /.row -->
-			<div class="row">    
-				<div class="col-lg-8">
-					<div class="mainbox">
-							<div class="panel panel-info">
-								<div class="panel-heading" style="background-color:#f8f8f8">
-									<div class="panel-title" style="font-size:26px">Session Details</div>   
-								</div> 
-							</div> 
+        </div>
+        
+        <div class="row">
+        	
+            <div class="col-md-3">
+				<%@ include file="j-sidebar_admin.jsp" %>
+            </div><!-- /sidebar -->
+            
+            <div class="col-md-9">
+            	<div id="page-wrapper" class="grey-panel">
+        
+                    <h3 class="ses-detail">Session Details</h3>
 
 					<c:forEach items="${userRequestDetails}" var="userRequest">					
 						
@@ -458,15 +410,17 @@
 									</form>
 								</div>
 							</c:forEach>	
-						 </div>
-					</div> 
-				 </div> 
-			</div>
-
+							</div>
+			</div><!-- /right area -->
+            
+		</div><!-- /row -->
 			
-        </div> 
-            <%@include file="/Footer.jsp" %>   
-        </div>
+    </div> 
+    <!-- /#wrapper -->
+    
+    <%@include file="/Footer.jsp" %>   
+    </div>
+	<!-- /#container -->
 
 
     <!-- jQuery Version 1.11.0 -->

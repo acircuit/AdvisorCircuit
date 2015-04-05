@@ -98,6 +98,7 @@ public List<SessionDTO> getSessionDetails(String rId){
 					session.setSessionPlan(results.getString("SESSION_PLAN"));
 					session.setAcceptedDate(results.getTimestamp("ACCEPTED_DATE"));
 					session.setStatus(results.getString("STATUS"));
+					session.setModeDetails(results.getString("MODE_DETAILS"));
 					list.add(session);
 					}
 					conn.commit();
