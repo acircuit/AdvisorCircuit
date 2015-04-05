@@ -70,7 +70,6 @@ public class AdvisorEditProfileGeneralInfoController extends HttpServlet {
 		}catch(Exception e){
 			response.sendRedirect("Error");
 		}
-		response.setCharacterEncoding("UTF-8");
 			String name = request.getParameter("name");
 			String gender = request.getParameter("gender");
 			String age = request.getParameter("age");
@@ -84,9 +83,11 @@ public class AdvisorEditProfileGeneralInfoController extends HttpServlet {
 			if(edit == null){
 				edit = "false";
 			}
-			intro = intro.replaceAll("\r\n", "");
-			intro = intro.replaceAll( "\r", "");
-			intro = intro.replaceAll("\n", ""); 
+			if(intro != null){
+				intro = intro.replaceAll("\r\n", "");
+				intro = intro.replaceAll( "\r", "");
+				intro = intro.replaceAll("\n", ""); 
+			}
 			try{
 				if( name != null && gender != null && age != null  && city != null && state != null && nationality != null && phone != null &&
 						industry != null && intro != null && !name.isEmpty() && !gender.isEmpty() && !age.isEmpty()   && !city.isEmpty() 

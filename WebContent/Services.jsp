@@ -119,7 +119,7 @@
                                                     </div>
                                                 </div>
                                                 <c:choose>
-                                                   	<c:when test="${service.getIsFree()}">
+                                                   	<c:when test="${service.getIsFree() > 0}">
                                                     	<div class="form-group">
                                             				<input type="checkbox" id="careertalkfreecheckbox" name="careertalkfreecheckbox" value="true" checked="checked"/> Please check if you want to give a free 30 mins introductory session.                                                    	
                                                     	</div>
@@ -236,7 +236,7 @@
                                                         </div> 
                                                     </div>
                                                     <c:choose>
-                                                    	<c:when test="${service.getIsFree()}">
+                                                    	<c:when test="${service.getIsFree() >0}">
                                                     	<div class="form-group">
                                             				<input type="checkbox" id="mockinterviewfreecheckbox" name="mockinterviewfreecheckbox" value="true" checked="checked"/> Please check if you want to give a free 30 mins introductory session.                                                    	
                                                     	</div>
@@ -335,7 +335,7 @@
                                                   
                                             </div>
                                             <c:choose>
-                                                    	<c:when test="${service.getIsFree()}">
+                                                    	<c:when test="${service.getIsFree() > 0}">
                                                     	<div class="form-group">
                                             				<input type="checkbox" id="resumecritiquefreecheckbox" name="resumecritiquefreecheckbox" value="true" checked="checked"/> Please check if you want to give a free 30 mins introductory session.                                                    	
                                                     	</div>

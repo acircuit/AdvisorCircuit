@@ -109,6 +109,11 @@ public class AdvisorRegistrationOtherInfoControler extends HttpServlet {
 		if(edit == null){
 			edit = "false";
 		}
+		if(hobbies != null){
+			hobbies = hobbies.replaceAll("\r\n", "");
+			hobbies = hobbies.replaceAll( "\r", "");
+			hobbies = hobbies.replaceAll("\n", ""); 
+		}
 		Boolean isHobbyCommit = false;
 		if(aId != 0){
 			if( keyskills.length >0){

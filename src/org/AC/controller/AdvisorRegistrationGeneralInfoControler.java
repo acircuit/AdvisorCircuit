@@ -79,6 +79,11 @@ public class AdvisorRegistrationGeneralInfoControler extends HttpServlet {
 			String industry = request.getParameter("industry");
 			String intro = request.getParameter("intro");
 			String edit = request.getParameter("edit");
+			if(intro != null){
+				intro = intro.replaceAll("\r\n", "");
+				intro = intro.replaceAll( "\r", "");
+				intro = intro.replaceAll("\n", ""); 
+			}
 			try{
 				if( name != null && gender != null && age != null  && city != null && state != null && nationality != null && phone != null &&
 						industry != null && intro != null && !name.isEmpty() && !gender.isEmpty() && !age.isEmpty()   && !city.isEmpty() 

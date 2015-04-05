@@ -139,6 +139,24 @@
 														</td>
 														<div id ="deactivate"></div>
 														</tr>
+														<div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="discount${advisor.getAdvisorId()}">
+														  <div class="modal-dialog modal-sm">
+														    <div class="modal-content">
+														    	<div class="modal-header">
+													          		<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+													          			<h4 class="modal-title" id="mySmallModalLabel">Update Discount</h4>
+													       		</div>
+													        	<div class="modal-body">
+													          		Discount(%) : <input type="text" name="updateDiscount" id="updateDiscount${advisor.getAdvisorId()}"/>
+													          		<input type="hidden" name="advisorId" id="advisorId"/>
+													          		<br/>
+													          		<br/>
+													          		<button type="button" class="btn btn-primary"  onclick="updateDiscount(${advisor.getAdvisorId()})">Change</button>        		
+													          		<br/>
+													        	</div>
+														    </div>
+														  </div>
+														</div>
 													</c:forEach>
 												</table>
 					</div>
@@ -204,24 +222,7 @@
 	  </div>
 	</div>
 	
-	<div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="discount">
-	  <div class="modal-dialog modal-sm">
-	    <div class="modal-content">
-	    	<div class="modal-header">
-          		<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-          			<h4 class="modal-title" id="mySmallModalLabel">Update Discount</h4>
-       		</div>
-        	<div class="modal-body">
-          		Discount(%) : <input type="text" name="updateDiscount" id="updateDiscount"/>
-          		<input type="hidden" name="advisorId" id="advisorId"/>
-          		<br/>
-          		<br/>
-          		<button type="button" class="btn btn-primary" onclick="updateDiscount()">Change</button>        		
-          		<br/>
-        	</div>
-	    </div>
-	  </div>
-	</div>
+	
 	<div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="discountToAll">
 	  <div class="modal-dialog modal-sm">
 	    <div class="modal-content">
@@ -316,7 +317,7 @@
 	
 	function openDiscountModal(elem){
 		var id = elem.id;
-		$('#discount').modal();
+		$('#discount'+id).modal();
 		$('#advisorId').val(id); 
 	}
 	function openDiscountToAllModal(){
@@ -339,12 +340,11 @@
         }); 
 	}
 	
-	function updateDiscount(){
-		var advisorId = $('#advisorId').val();
-		var updateDiscount= $('#updateDiscount').val();
+	function updateDiscount(id){
+		var updateDiscount= $('#updateDiscount'+id).val();
 		$.ajax({
             url : 'AdminAdvisors',
-            data : {"operation": "updateDiscount", "advisorId" : advisorId, "updateDiscount" : updateDiscount},
+            data : {"operation": "updateDiscount", "advisorId" : id, "updateDiscount" : updateDiscount},
             type : 'POST',
             success : function(response) {
             	$('#discount').modal('hide'); 

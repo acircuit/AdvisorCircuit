@@ -96,7 +96,11 @@ public class BookASessionServlet extends HttpServlet {
 		String datetimepicker4 = "";
 		String datetimepicker5 = "";
 		String datetimepicker6 = "";
-
+		if(query != null){
+			query = query.replaceAll("\r\n", "");
+			query = query.replaceAll( "\r", "");
+			query = query.replaceAll("\n", "");
+		}
 		if(mode.equals("email")){
 			duration = "N/A";
 			DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");

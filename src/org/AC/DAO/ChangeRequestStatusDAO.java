@@ -172,7 +172,7 @@ public class ChangeRequestStatusDAO {
 			try {
 				conn =ConnectionFactory.getConnection();
 				conn.setAutoCommit(false);
-				String query ="SELECT PRICE,DISCOUNT,IS_FREE_FROM_ADVISOR from userrequest WHERE REQUEST_ID = ?";
+				String query ="SELECT PRICE,DISCOUNT,IS_FREE_FROM_ADVISOR,AMOUNT from userrequest WHERE REQUEST_ID = ?";
 				PreparedStatement pstmt = conn.prepareStatement(query);
 				pstmt.setInt(1, rId);
 			    results = pstmt.executeQuery();
@@ -180,6 +180,7 @@ public class ChangeRequestStatusDAO {
 			    	req.setIsFree(results.getBoolean("IS_FREE_FROM_ADVISOR"));
 			    	req.setDiscount(results.getInt("DISCOUNT"));
 			    	req.setPrice(results.getDouble("PRICE"));
+			    	req.setAmount(results.getDouble("PRICE"));
 			    }
 			logger.info("Exit GetPaymentInfo method of ChangeRequestStatusDAO");
 			}catch(Exception e){

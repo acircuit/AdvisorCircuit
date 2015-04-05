@@ -82,7 +82,7 @@
         	<img src="${advisor.getImage()}" class="img-responsive"/>
         </div>
         <div class="col-md-6 intro text-center">
-            <h1>${advisor.getName()} 
+            <h1>${advisor.getName()}
             	<span class="rating">
 					<img src="assets/img/services/Icon_Ranking.png" style="width:40px; height:40px;" align="absmiddle">
 					<c:out value="${advisor.getRatings()}"></c:out>
@@ -98,7 +98,7 @@
 								<h4 class="modal-title" id="myModalLabel">Introduction</h4>
 							</div>
 							<div class="modal-body">
-									<p style = "font-size: 18px!important">${advisor.getIntroduction()}</p>
+									<p style = "font-size: 18px!important" id="intr"></p>
 							</div>
 						</div>
 					</div>
@@ -736,11 +736,12 @@
         interval: 5000 //changes the speed
     });
 	 <c:forEach items="${advisors}" var="advisor">
-    var intro = "${advisor.getIntroduction()}"
+    var intro = "${advisor.getIntroduction()}";
     var length = intro.length;
     if(length > 500){
     	intro = intro.substring(0,500);
     	$('#selfintroduction').html(intro+" .. <a style='float:none !important;text-decoration:underline !important' data-toggle='modal' data-target='#intro'>View More</a>")
+    	$('#intr').html(intro);
     }else{
     	$('#selfintroduction').html(intro);
     }
@@ -944,6 +945,23 @@
 			document.getElementById('notemail').style.display = "none";
 			document.getElementById('emailslot').style.display = "block";
     	}
+    	function addslashes(str) {
+    		  //  discuss at: http://phpjs.org/functions/addslashes/
+    		  // original by: Kevin van Zonneveld (http://kevin.vanzonneveld.net)
+    		  // improved by: Ates Goral (http://magnetiq.com)
+    		  // improved by: marrtins
+    		  // improved by: Nate
+    		  // improved by: Onno Marsman
+    		  // improved by: Brett Zamir (http://brett-zamir.me)
+    		  // improved by: Oskar Larsson Högfeldt (http://oskar-lh.name/)
+    		  //    input by: Denny Wardhana
+    		  //   example 1: addslashes("kevin's birthday");
+    		  //   returns 1: "kevin\\'s birthday"
+
+    		  return (str + '')
+    		    .replace(/[\\"']/g, '\\$&')
+    		    .replace(/\u0000/g, '\\0');
+    		}
 	var price;
 	var free= false;
     	<c:forEach items="${modes}" var="mode">

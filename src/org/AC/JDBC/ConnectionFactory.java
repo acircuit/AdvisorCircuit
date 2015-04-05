@@ -39,9 +39,9 @@ public class ConnectionFactory {
 	        comboPooledDataSource.setIdleConnectionTestPeriod(300);
 	        //comboPooledDataSource.setAcquireRetryAttempts(30);
 	        comboPooledDataSource.setMaxIdleTime(300);
-	        comboPooledDataSource.setNumHelperThreads(10);
-	        comboPooledDataSource.setMaxStatementsPerConnection(100);
-	        comboPooledDataSource.setMaxAdministrativeTaskTime (5);
+	        //comboPooledDataSource.setNumHelperThreads(10);
+	       // comboPooledDataSource.setMaxStatementsPerConnection(100);
+	        //comboPooledDataSource.setMaxAdministrativeTaskTime (5);
 	        
 	    }
 

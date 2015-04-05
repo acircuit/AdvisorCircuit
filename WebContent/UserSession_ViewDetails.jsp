@@ -1177,7 +1177,6 @@
 			}
 		}
 		function resendemailagain() {
-			debugger;
 			var isError = false;
 			if ($("#subjectemail").val() == "") {
 				alert("Please Enter Subject");

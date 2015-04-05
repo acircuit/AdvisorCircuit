@@ -28,6 +28,7 @@ import org.AC.dto.AdvisorServiceDTO;
 import org.AC.dto.ProfessionalBackgroundDTO;
 import org.AC.dto.RecommendationDTO;
 import org.AC.dto.UserDetailsDTO;
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.log4j.Logger;
 
 /**
@@ -49,14 +50,14 @@ public class AdvisorProfileServlet extends HttpServlet {
 		List<ProfessionalBackgroundDTO> list1 = new ArrayList<ProfessionalBackgroundDTO>();
 		List<AdvisorServiceDTO> list2 = new ArrayList<AdvisorServiceDTO>();
 		List<AdvisorModeDTO> list3 = new ArrayList<AdvisorModeDTO>();
-		
-		System.out.println(advisorId);
 		//This is to get the profile details for the advisor profile
 		AdvisorProfileDetailsDAO dao = new AdvisorProfileDetailsDAO();
 		list = dao.getAdvisorProfileDetails(advisorId);
 		for (AdvisorProfileDTO advisorProfileDTO : list) {
 			GetRelativeImageURL image = new GetRelativeImageURL();
 			advisorProfileDTO.setImage(image.getImageURL(advisorProfileDTO.getImage()));
+			advisorProfileDTO.setIntroduction(StringEscapeUtils.escapeJava(advisorProfileDTO.getIntroduction())); 
+			System.out.println(advisorProfileDTO.getIntroduction());
 		}
 		//This is to get the professional background for the advisor profile
 		//Getting the company,designation and duration

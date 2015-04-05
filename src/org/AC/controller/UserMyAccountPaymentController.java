@@ -160,7 +160,7 @@ public class UserMyAccountPaymentController extends HttpServlet {
 						advisorPayment = 0.0;
 						fee = 0.0;
 					}else{
-						advisorPayment =  (req.getPrice() * 100)/(100 + req.getDiscount());
+						advisorPayment =  (req.getPrice() * 100)/(130);
 						fee = req.getAmount() - advisorPayment;
 					}
 					//Entering values in Payment table
@@ -247,7 +247,7 @@ public class UserMyAccountPaymentController extends HttpServlet {
 						advisorPayment = 0.0;
 						fee = 0.0;
 					}else{
-						advisorPayment =  (req.getPrice() * 100)/(100 + req.getDiscount());
+						advisorPayment =  (req.getPrice() * 100)/(130);
 						fee = req.getAmount() - advisorPayment;
 					}
 						//Entering values in Payment table

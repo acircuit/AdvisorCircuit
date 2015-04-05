@@ -80,6 +80,11 @@ public class AdvisorEditOtherinfoController extends HttpServlet {
 		String hobbies =request.getParameter("hobbies");
 		Boolean isHobbyCommit = false;
 		Boolean isAchieve= true;
+		if(hobbies != null){
+			hobbies = hobbies.replaceAll("\r\n", "");
+			hobbies = hobbies.replaceAll( "\r", "");
+			hobbies = hobbies.replaceAll("\n", ""); 
+		}
 		if(aId != 0){
 			if(keyskills.length >0){
 				//Deleting Previous Achievements.

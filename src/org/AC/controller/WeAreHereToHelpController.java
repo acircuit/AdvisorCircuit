@@ -38,6 +38,16 @@ public class WeAreHereToHelpController extends HttpServlet {
 		String webchat = request.getParameter("webchat");
 		String query = request.getParameter("query");
 		String other = request.getParameter("other");
+		if(query != null){
+			query = query.replaceAll("\r\n", "");
+			query = query.replaceAll( "\r", "");
+			query = query.replaceAll("\n", ""); 
+		}
+		if(other!= null){
+			query = query.replaceAll("\r\n", "");
+			query = query.replaceAll( "\r", "");
+			query = query.replaceAll("\n", ""); 
+		}
 		Properties prop = new Properties();
 	    InputStream resourceAsStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("Resources/mail.properties");
 	    prop.load(resourceAsStream);
