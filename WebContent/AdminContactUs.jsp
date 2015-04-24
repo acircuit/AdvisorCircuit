@@ -56,7 +56,16 @@
 	<%@include file="/Header.jsp" %>
     
     <div id="wrapper" class="content">
-    
+    	<div class="row">
+        	<div class="col-md-3">&nbsp;</div>
+            <div class="col-md-6">
+            	<h4></h4>
+            	<h1 class="page-header">Contact Us</h1>
+            </div>
+            <div class="col-md-3">
+				<input type="text" id="search" style="float: right;" placeholder="SEARCH" onkeyup="searchTable(this.value)"/>
+			</div>
+        </div>
     	<div class="row">
         	
             <div class="col-md-3">
@@ -67,7 +76,7 @@
             	<div id="page-wrapper">
 			
                     <div class="table-responsive">
-                        <table style="text-align: center" class="table table-bordered">
+                        <table style="text-align: center" class="table table-bordered" id="tblData">
                             <tr>
                                 <th style="text-align: center">Name</th>
                                 <th style="text-align: center">Email</th>
@@ -143,6 +152,8 @@
         $('#dataTables-example').dataTable();
     });
     </script>
+    	<script src="assets/js/gridSearch.js"></script>
+    
 </body>
 
 </html>

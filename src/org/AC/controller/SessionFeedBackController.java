@@ -65,8 +65,8 @@ public class SessionFeedBackController extends HttpServlet {
 				SessionFeedBackDAO feedback = new SessionFeedBackDAO();
 				Boolean isFeedbackCommit= feedback.SetUserFeedBack(sId,body,subject,fileURL);
 				if(isFeedbackCommit){
-					 String subjects = "Session FeedBack given by User";
-					 String content = "Hi, <br><br>A session feedback has been recieved for: <br>Session Id : " +sId+ "<br>Given By : USER"+"<br><img src=\"http://www.advisorcircuit.com/Test/assets/img/logo_black.png\" style='float:right' width='25%'>";
+					 String subjects = "Follow Up Mail sent by User";
+					 String content = "Hi, <br><br>A Follow Up Mail has been sent by the User to the Advisor for: <br>Session Id : " +sId+ "<br>Given By : USER"+"<br><img src=\"http://www.advisorcircuit.com/Test/assets/img/logo_black.png\" style='float:right' width='25%'>";
 					 SendMail mail = new SendMail(subjects, content, prop1.getProperty("MAIL_ADMIN"),prop1.getProperty("MAIL_ADMIN"));
 					 mail.start();
 					 response.getWriter().write("<p style='color: #c84c4e'>Your Follow Up Mail has been sent</p>");
@@ -87,8 +87,8 @@ public class SessionFeedBackController extends HttpServlet {
 					SessionFeedBackDAO feedback = new SessionFeedBackDAO();
 					Boolean isFeedbackCommit= feedback.SetUserFeedBackAgain(sId,body,subject,fileURL);
 					if(isFeedbackCommit){
-						 String subjects = "Session FeedBack given by User again after rejection";
-						 String content = "Hi, <br><br>A session feedback has been recieved again after rejection for: <br>Session Id : " +sId+ "<br>Given By : USER"+"<br><img src=\"http://www.advisorcircuit.com/Test/assets/img/logo_black.png\" style='float:right' width='25%'>";
+						 String subjects = "Follow Up Mail sent by User after rejection";
+						 String content = "Hi, <br><br>A Follow Up Mail has been sent by the User to the Advisor after rejection for: <br>Session Id : " +sId+ "<br>Given By : USER"+"<br><img src=\"http://www.advisorcircuit.com/Test/assets/img/logo_black.png\" style='float:right' width='25%'>";
 						 SendMail mail = new SendMail(subjects, content, prop1.getProperty("MAIL_ADMIN"),prop1.getProperty("MAIL_ADMIN"));
 						 mail.start();
 						 response.getWriter().write("<p style='color: #c84c4e'>Your Follow Up Mail has been sent</p>");
@@ -120,8 +120,8 @@ public class SessionFeedBackController extends HttpServlet {
 			SessionFeedBackDAO feedback = new SessionFeedBackDAO();
 			Boolean isFeedbackCommit= feedback.SetAdvisorFeedBack(sId,body,subject,fileURL);
 			if(isFeedbackCommit){
-				 String subjects = "Session FeedBack Reply By Advisor";
-				 String content = "Hi, <br><br>A session feedback reply has been recieved for:<br>Session Id : " +sId+ "<br>Given By : ADVISOR"+"<br><img src=\"http://www.advisorcircuit.com/Test/assets/img/logo_black.png\" style='float:right' width='25%'>";
+				 String subjects = "Follow Up Mail sent by Advisor";
+				 String content = "Hi, <br><br>A Follow Up Mail has been sent by the Advisor to the User for:<br>Session Id : " +sId+ "<br>Given By : ADVISOR"+"<br><img src=\"http://www.advisorcircuit.com/Test/assets/img/logo_black.png\" style='float:right' width='25%'>";
 				 SendMail mail = new SendMail(subjects, content, prop1.getProperty("MAIL_ADMIN"),prop1.getProperty("MAIL_ADMIN"));
 				 mail.start();
 				 response.getWriter().write("<p style='color: #c84c4e'>Your Feedback has been sent</p>");

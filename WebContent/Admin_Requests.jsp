@@ -47,7 +47,15 @@
 				pageContext.setAttribute("requests", requests);
 				pageContext.setAttribute("userDetails", userDetails);
 				pageContext.setAttribute("advisorDetails", advisorDetails);
-
+				Boolean isPending =false;
+				String pending = request.getParameter("pending");
+				if(pending != null && pending.equals("true")){
+					isPending = true;
+				}
+				String approved = request.getParameter("approved");
+				if(approved != null && approved.equals("true")){
+					isPending = false;
+				}
 	%>
 </head>
 
@@ -62,7 +70,14 @@
         	<div class="col-md-3">&nbsp;</div>
             <div class="col-md-6">
             	<h4></h4>
-            	<h1 class="page-header">Approved Request</h1>
+            	<c:choose>
+            		<c:when test="<%=isPending %>">
+            			<h1 class="page-header">Pending Request</h1>
+            		</c:when>
+            		<c:otherwise>
+            			<h1 class="page-header">Approved Request</h1>
+            		</c:otherwise>
+            	</c:choose>
             </div>
             <div class="col-md-3">
 				<input type="text" id="search" style="float: right;" placeholder="SEARCH" onkeyup="searchDiv(this.value)"/>
@@ -168,7 +183,15 @@
 			 </c:forEach>
 			</c:when>
 			<c:otherwise>
-				<c:out value="There are no approved requests"></c:out>			
+				<c:choose>
+            		<c:when test="<%=isPending %>">
+            			<c:out value="There are no pending requests"></c:out>	
+            		</c:when>
+            		<c:otherwise>
+            			<c:out value="There are no approved requests"></c:out>	
+            		</c:otherwise>
+            	</c:choose>
+						
 			</c:otherwise>
 			</c:choose>	
             

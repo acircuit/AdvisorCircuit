@@ -1,3 +1,4 @@
+<%@page import="com.sun.org.apache.xpath.internal.operations.Bool"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!DOCTYPE html>
 <%@ page import="java.util.*" %>
@@ -22,7 +23,7 @@
   	</fmt:bundle>
     <!-- Fonts from Google Fonts -->
 	<link href='http://fonts.googleapis.com/css?family=Lato:300,400,900' rel='stylesheet' type='text/css'>
-	<%		String edit = (String)request.getParameter("edit");
+	<%		Boolean edit = (Boolean)request.getAttribute("edit");
 			String action ="";
 			String general="";
 			String education ="";
@@ -30,7 +31,7 @@
 			String other = "";
 			String service= "";
 			Boolean isShow = true;
-			if(edit != null &&  edit.equals("true")){
+			if(edit != null &&  edit){
 				action = "ImageEdit";
 				general ="GeneralInfoEdit";
 				education="EducationInfoEdit";
@@ -46,7 +47,7 @@
 				other="AdvisorRegistrationOtherInfo";
 				service="AdvisorRegistrationServices";
 			} 
-			String path = request.getParameter("path");
+			String path = (String)request.getAttribute("path");
 	%>
 </head>
 <body>
@@ -81,7 +82,7 @@
 	                       	<div class="form-group">
 	                            <label for="icode" class="col-md-3 control-label">Uploaded Picture</label>
 	                            <div id = "fileupload" class="col-md-9">
-	                            	<img alt="" src="<%=path%>">
+	                            	<img alt="" src="<%=path%>" width="50%">
 	                            </div>
 	                        </div>
                         </c:if>
@@ -125,6 +126,7 @@
         </div>
 
 </body>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 <script type="text/javascript">
 $(document).ready(function() {
 	
@@ -152,7 +154,7 @@ $("#btn-signup").click(function(event){
 		avatarok = 1;
 		//success all ok
 	}
-	if(!($("#agree").is(':checked'))){
+	if( $("#agree").is(':visible') && !($("#agree").is(':checked'))){
 		event.preventDefault();
 		alert("Hey!! You forgot to accept the Terms & Condition");
 	}

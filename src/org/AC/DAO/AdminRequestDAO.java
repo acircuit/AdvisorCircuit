@@ -76,8 +76,6 @@ public class AdminRequestDAO {
 			    	request.setTime2(results.getTimestamp("DATE_TIME2"));
 			    	request.setTime3(results.getTimestamp("DATE_TIME3"));
 			    	request.setTime4(results.getTimestamp("DATE_TIME4"));
-			    	request.setTime5(results.getTimestamp("DATE_TIME5"));
-			    	request.setTime6(results.getTimestamp("DATE_TIME6"));
 			    	request.setStatus(results.getString("STATUS"));
 			    	requests.add(request);
 			    }

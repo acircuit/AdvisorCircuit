@@ -39,7 +39,7 @@
 				professional="ProfessionalBackgroundEdit";
 				other="OtherInfoEdit";
 				service="ServicesEdit";
-				image = "Image?edit=true";
+				image = "ImageEdit";
 			}else{
 				action = "AdvisorRegistrationGeneralInfo";
 				general ="AdvisorRegistrationGeneralInfo";
@@ -47,7 +47,7 @@
 				professional="AdvisorRegistrationProfessionalBackground";
 				other="AdvisorRegistrationOtherInfo";
 				service="AdvisorRegistrationServices";
-				image = "Image";
+				image = "AdvisorRegistrationImage";
 			}
 	%>
 </head>
@@ -82,7 +82,7 @@
                                         <div class="form-group" id="dfname">
                                             <label for="fname" class="col-md-3 control-label">Name</label>
                                             <div class="col-md-5">
-                                                <input id="fname" type="text" class="form-control" name="name" placeholder="Name" value="${profile.getName()}">
+                                                <input id="fname" type="text" class="form-control" name="name" placeholder="Name" value="${profile.getName()}" maxlength="100">
                                             </div>
                                             <div class="col-md-2">
                                                 <p class="required" id="required_name">Field Required</p>
@@ -113,7 +113,7 @@
                                          <div class="form-group" id="dage">
                                             <label for="icode" class="col-md-3 control-label">Age</label>
                                             <div class="col-md-5">
-                                                <input id="age" type="text" class="form-control" name="age" placeholder="" value="${profile.getAge()}">
+                                                <input id="age" type="text" class="form-control" name="age" placeholder="" value="${profile.getAge()}" maxlength="15">
                                             </div>
                                             <div class="col-md-2">
                                                 <p class="required" id="invalid_age">Invalid Age</p>
@@ -135,7 +135,7 @@
                                             <div class="form-group" id="dcity">
                                             <label for="icode" class="col-md-3 control-label">City</label>
                                             <div class="col-md-5">
-                                                <input id="city" type="text" class="form-control" name="city" placeholder="" required="required" value="${profile.getCity()}">
+                                                <input id="city" type="text" class="form-control" name="city" placeholder="" required="required" value="${profile.getCity()}" maxlength="40">
                                             </div>
                                             <div class="col-md-2">
                                                 <p class="required" id="required_city">Field Required</p>
@@ -145,7 +145,7 @@
                                                 <div class="form-group" id="dstate">
                                             <label for="icode" class="col-md-3 control-label">State</label>
                                             <div class="col-md-5">
-                                                <input id="state" type="text" class="form-control" name="state" placeholder="" required="required" value="${profile.getState()}">
+                                                <input id="state" type="text" class="form-control" name="state" placeholder="" required="required" value="${profile.getState()}" maxlength="40">
                                             </div>
                                             <div class="col-md-2">
                                                 <p class="required" id="required_state">Field Required</p>
@@ -153,21 +153,12 @@
                                             </div>
                                             </div>
                                             
-                                         <div class="form-group" id="dnation">
-                                            <label for="icode" class="col-md-3 control-label">Nationality</label>
-                                            <div class="col-md-5">
-                                                <input id="nation" type="text" class="form-control" name="nationality" placeholder="" value="${profile.getNationalty()}">
-                                            </div>
-                                            <div class="col-md-2">
-                                                <p class="required" id="required_nation">Field Required</p>
-                                                <p class="required" id="invalid_nation">Invalid Nationality</p>																				
-                                            </div>
-                                        </div>
+                                        
                                         
                                         <div class="form-group" id="dindustry">
                                             <label for="icode" class="col-md-3 control-label">Industry</label>
                                             <div class="col-md-5">
-                                                <input id="industry" type="text" class="form-control" name="industry" placeholder="" value="${profile.getIndustry()}">
+                                                <input id="industry" type="text" class="form-control" name="industry" placeholder="" value="${profile.getIndustry()}" maxlength="200">
                                             </div>
                                             <div class="col-md-2">
                                                 <p class="required" id="required_industry">Field Required</p>
@@ -177,7 +168,7 @@
                                         <div class="form-group" id="dintro">
                                             <label for="icode" class="col-md-3 control-label">Introduction</label>
                                             <div class="col-md-5">
-                                                <textarea id="intro" name="intro"  class="form-control" rows="" cols="" placeholder="" maxlength="1200" >${profile.getIntroduction()}</textarea>
+                                                <textarea id="intro" name="intro"  class="form-control" rows="" cols="" placeholder="" maxlength="3000" >${profile.getIntroduction()}</textarea>
                                             </div>
                                             <div class="col-md-2">
                                                 <p class="required" id="required_intro">Field Required</p>
@@ -219,7 +210,7 @@
                         <div class="form-group" id="dfname">
                             <label for="fname" class="col-md-3 control-label">Name</label>
                             <div class="col-md-5">
-                                <input id="fname" type="text" class="form-control" name="name" placeholder="Name">
+                                <input id="fname" type="text" class="form-control" name="name" placeholder="Name" maxlength="100">
                             </div>
                             <div class="col-md-2">
                                 <p class="required" id="required_name">Field Required</p>
@@ -243,7 +234,7 @@
                          <div class="form-group" id="dage">
                             <label for="icode" class="col-md-3 control-label">Age</label>
                             <div class="col-md-5">
-                                <input id="age" type="text" class="form-control" name="age" placeholder="">
+                                <input id="age" type="text" class="form-control" name="age" placeholder="" maxlength="15">
                             </div>
                             <div class="col-md-2">
                                 <p class="required" id="invalid_age">Invalid Age</p>
@@ -265,7 +256,7 @@
                             <div class="form-group" id="dcity">
                             <label for="icode" class="col-md-3 control-label">City</label>
                             <div class="col-md-5">
-                                <input id="city" type="text" class="form-control" name="city" placeholder="" required="required">
+                                <input id="city" type="text" class="form-control" name="city" placeholder="" required="required" maxlength="40">
                             </div>
                             <div class="col-md-2">
                                 <p class="required" id="required_city">Field Required</p>
@@ -275,7 +266,7 @@
                                 <div class="form-group" id="dstate">
                             <label for="icode" class="col-md-3 control-label">State</label>
                             <div class="col-md-5">
-                                <input id="state" type="text" class="form-control" name="state" placeholder="" required="required">
+                                <input id="state" type="text" class="form-control" name="state" placeholder="" required="required" maxlength="40">
                             </div>
                             <div class="col-md-2">
                                 <p class="required" id="required_state">Field Required</p>
@@ -283,21 +274,11 @@
                             </div>
                             </div>
                             
-                         <div class="form-group" id="dnation">
-                            <label for="icode" class="col-md-3 control-label">Nationality</label>
-                            <div class="col-md-5">
-                                <input id="nation" type="text" class="form-control" name="nationality" placeholder="">
-                            </div>
-                            <div class="col-md-2">
-                                <p class="required" id="required_nation">Field Required</p>
-                                <p class="required" id="invalid_nation">Invalid Nationality</p>																				
-                            </div>
-                        </div>
-                        
+                         
                         <div class="form-group" id="dindustry">
                             <label for="icode" class="col-md-3 control-label">Industry</label>
                             <div class="col-md-5">
-                                <input id="industry" type="text" class="form-control" name="industry" placeholder="">
+                                <input id="industry" type="text" class="form-control" name="industry" placeholder="" maxlength="200">
                             </div>
                             <div class="col-md-2">
                                 <p class="required" id="required_industry">Field Required</p>
@@ -307,7 +288,7 @@
                         <div class="form-group" id="dintro">
                             <label for="icode" class="col-md-3 control-label">Introduction</label>
                             <div class="col-md-5">
-                                <textarea id="intro" name="intro"  class="form-control" rows="" cols="" placeholder="" maxlength="1200"></textarea>
+                                <textarea id="intro" name="intro"  class="form-control" rows="" cols="" placeholder="" maxlength="3000"></textarea>
                             </div>
                             <div class="col-md-2">
                                 <p class="required" id="required_intro">Field Required</p>
@@ -488,21 +469,7 @@ $(document).ready(function() {
 		}
 	});
 	
-	<!--nation can't be blank-->
-	$("#btn-signup").click(function(event){
-		var input_city = $("#nation").val();
-		if(input_city=='')
-		{
-			$("#required_nation").show();
-			$("#dnation").addClass("has-error");
-			event.preventDefault();
-		}
-		else{
-			$("#required_nation").hide();
-			nation_flag=0;
-			$("#dnation").removeClass("has-error");
-		}		
-	});
+
 	<!--industry can't be blank-->
 	$("#btn-signup").click(function(event){
 		var input_city = $("#industry").val();

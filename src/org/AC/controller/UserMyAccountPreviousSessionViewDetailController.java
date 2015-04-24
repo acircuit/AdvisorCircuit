@@ -74,6 +74,8 @@ public class UserMyAccountPreviousSessionViewDetailController extends HttpServle
 		String relImage = "";
 		String userName= "";
 		String mode="";
+		Boolean isFeedback = false;
+		String path="";
 		int sId = 0;
 		Timestamp acceptedDate = null;
 	    rId = (String) request.getParameter("rId");
@@ -123,6 +125,9 @@ public class UserMyAccountPreviousSessionViewDetailController extends HttpServle
 			difference = time.getHoursAndMinutes(acceptedDate);
 			for (UserRequestDTO userRequestDTO : list1) {
 				mode= userRequestDTO.getMode();
+				if(userRequestDTO.getService().equals("cvcritique") || userRequestDTO.getService().equals("mockinterview")){
+					isFeedback = true;
+				}
 				if(difference.size() > 0){
 					for (TimeDTO timeDTO : difference) {
 						userRequestDTO.setDays(timeDTO.getDay());
@@ -153,6 +158,11 @@ public class UserMyAccountPreviousSessionViewDetailController extends HttpServle
 				 date = "NOT FIXED";
 				 time1 = "NOT FIXED";
 			}
+			if(isFeedback){
+				//Getting the FeedBack Form Path
+				MyAccountRequestDAO form = new MyAccountRequestDAO();
+				path = form.GetFeedbackPathForUser(sId);
+			}
 			SessionFeedBackDTO feedUser = new SessionFeedBackDTO();
 			SessionFeedBackDTO feedAdvisor = new SessionFeedBackDTO();
 			//Check if the user has given any feedback
@@ -180,6 +190,7 @@ public class UserMyAccountPreviousSessionViewDetailController extends HttpServle
 				request.setAttribute("isFromPreviousSession", true);
 				request.setAttribute("date", date);
 				request.setAttribute("requests", list1);
+				request.setAttribute("path", path);
 				request.setAttribute("userdetails", list2);
 				request.setAttribute("sessionDate", sessionDate);
 				RequestDispatcher rd = getServletContext().getRequestDispatcher("/UserSession_ViewDetails.jsp");

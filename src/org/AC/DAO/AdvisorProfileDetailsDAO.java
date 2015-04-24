@@ -54,7 +54,6 @@ public class AdvisorProfileDetailsDAO {
 						profile.setPhone(results.getString("PHONE_NUMBER"));
 						profile.setCity(results.getString("CITY"));
 						profile.setState(results.getString("STATE"));
-						profile.setNationalty(results.getString("NATIONALITY"));
 						profile.setExperience(results.getString("EXPERIENCE"));
 						profile.setRatings(results.getInt("RATING"));
 						list.add(profile);

@@ -106,8 +106,6 @@ public class AdminMyAccountCancelledSessionViewDetailsController extends HttpSer
 						userRequestDTO.setTimeString2(new SimpleDateFormat("dd-MMM-yyyy' 'h:mm a").format(new Date(userRequestDTO.getTime2().getTime())));
 						userRequestDTO.setTimeString3(new SimpleDateFormat("dd-MMM-yyyy' 'h:mm a").format(new Date(userRequestDTO.getTime3().getTime())));
 						userRequestDTO.setTimeString4(new SimpleDateFormat("dd-MMM-yyyy' 'h:mm a").format(new Date(userRequestDTO.getTime4().getTime())));
-						userRequestDTO.setTimeString5(new SimpleDateFormat("dd-MMM-yyyy' 'h:mm a").format(new Date(userRequestDTO.getTime5().getTime())));
-						userRequestDTO.setTimeString6(new SimpleDateFormat("dd-MMM-yyyy' 'h:mm a").format(new Date(userRequestDTO.getTime6().getTime())));
 					}
 				}
 				//Getting user details to show on the view details page.

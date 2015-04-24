@@ -312,6 +312,18 @@
 	<script src="https://code.jquery.com/jquery-1.11.0.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 	<a href="https://plus.google.com/111112371994148232700" rel="publisher"></a>
+	<script>
+    // popover demo
+    $("[data-toggle=popover]")
+        .popover()
+    </script>
+	<script>
+      $(function () { $('.popover-show').popover('show');});
+      $(function () { $('.popover-hide').popover('hide');});
+      $(function () { $('.popover-destroy').popover('destroy');});
+      $(function () { $('.popover-toggle').popover('toggle');});
+     $(function () { $(".popover-options a").popover({html : true });});
+   </script>
 <script type="text/javascript">
 var _urq = _urq || [];
 _urq.push(['initSite', '8571f59c-9c67-4ac9-a169-0eb6aa49f203']);
@@ -338,7 +350,6 @@ $(document).ready(function() {
 			var filter = /^\d{10}$/; 
 			var is_phone = filter.test(input_p);
 			
-			
 			if(input_n=='')
 			{
 				alert("Full Name Required");
@@ -361,14 +372,8 @@ $(document).ready(function() {
 				alert("Invalid Email");
 				event.preventDefault();
 				ajax = false;
-			}else if(input_p=='')
-			{	
-				 if (!is_phone){
-					alert("Please Enter a Valid Phone Number");
-					event.preventDefault();
-					ajax = false;
-				}
-			}else if($("#occupation").val() == ""){
+			}
+			else if($("#occupation").val() == ""){
 				alert("Please Enter Your Occupation");
 				event.preventDefault();
 				ajax = false;
@@ -408,6 +413,14 @@ $(document).ready(function() {
 						ajax = false;
 					}
 					i++;
+				}
+				 if(input_p !='')
+				{	
+					 if (!is_phone){
+						alert("Please Enter a Valid Phone Number");
+						event.preventDefault();
+						ajax = false;
+					}
 				}
 			}
 			if(ajax){

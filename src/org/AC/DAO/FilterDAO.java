@@ -271,8 +271,6 @@ public class FilterDAO {
 		    	advisor.setModeOfCommunication(results.getString("MODE_OF_COMMUNICATION"));	
 		    	list.add(advisor);
 		    }
-		    conn.commit();
-		logger.info("Exit getAdvisorMode method of FilterDAO");
 		} catch (SQLException e) {
 			try {
 				conn.rollback();

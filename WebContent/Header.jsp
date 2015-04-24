@@ -6,7 +6,10 @@
 			String username="";
 			int  userd =0;
 			int advisord = 0;
-				if(session.getAttribute("userId") !=null ){
+			if( session.getAttribute("admin") != null &&  (Boolean)session.getAttribute("admin")){
+				isLoggedIn=true;
+				username = "Admin";
+			}else if(session.getAttribute("userId") !=null ){
 					isLoggedIn=true;
 					username=(String)session.getAttribute("username");
 					userd = (Integer)session.getAttribute("userId");
@@ -14,10 +17,7 @@
 					isLoggedIn=true;
 					username = "Admin";
 					advisord = (Integer)session.getAttribute("advisorId");
-				}else if( session.getAttribute("admin") != null &&  (Boolean)session.getAttribute("admin")){
-					isLoggedIn=true;
-					username = "Admin";
-				}
+				} 
 				pageContext.setAttribute("isLoggedIn", isLoggedIn);
 		%>    <!-- Fixed navbar -->
   <head>
@@ -87,6 +87,7 @@
             	<li class="green"><a href="becomeanadvisor">Become an Advisor</a></li>
                 <li class="blue"><a href="whyusac">Why use Advisor Circuit</a></li>
 				<li class="red"><a href="howitworks">How it Works</a></li>
+				<li class="orange"><a href="http://www.advisorcircuit.com/blog/" target="blank">Blog<sup style="color: #2dabc2">New</sup></a></li>
 			</ul>
         	<div class="navbar-form navbar-right">
             <form class="" role="form" action="Search" method="post" id="searchform">

@@ -25,7 +25,6 @@
 
     <!-- Custom CSS -->
     <link href="assets/css/sb-admin-2.css" rel="stylesheet">
-
     <!-- Custom Fonts -->
     <link href="assets/font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
@@ -81,13 +80,15 @@
                                 <th>Service Mode</th>
                                 <th>Price(Rs)</th>
                                 <th>Discount(%)</th>
-                                <th>Amount Paid(Rs)</th>
-                                <th>Amount Payable(Rs)</th>
+                                <th>Amount Paid by Customer(Rs)</th>
+                                <th>Amount Due to Advisor(Rs)</th>
                                 <th>Fee</th>
                                 <th>Date of Payment</th>
                                 <th>Payment Mode</th>
                                 <th>Tracking Id</th>
                                 <th>Paid/Unpaid</th>
+                                <th>User Comment</th>
+                                <th>Advisor Comment</th>
                             </tr>
                             	<c:forEach var="session" items="${sessions}">
                             	  <tr>
@@ -121,17 +122,76 @@
 	                           					<td>${payment.getTrackingId()}</td>	
 	                           					<c:choose>
 	                           						<c:when test="${payment.getPaidToAdvisor()}">
-	                           							<td>PAID</td>	                           							
+	                           							<td>PAID<br><a id="${session.getSessionId()}" onclick="UpdatePaidToAdvisor(this,false)">toggle</a>
+	                           							</td>	                           							
 	                           						</c:when>
 	                           						<c:otherwise>
-	                           							<td>UNPAID</td>
+	                           							<td>UNPAID<br><a id="${session.getSessionId()}" onclick="UpdatePaidToAdvisor(this,true)">toggle</a></td>
 	                           						</c:otherwise>
 	                           					</c:choose>                                      					
 	                           				</c:if>
                             		</c:forEach>
+                            		<td><a data-toggle="modal" data-target="#ucomment${session.getSessionId() }"> User's Comment</a></td>
+                            		<td><a data-toggle="modal" data-target="#acomment${session.getSessionId() }">Advisor's Comment</a></td>
                             		</tr>
+                            			<div class="modal fade" id="ucomment${session.getSessionId()}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+										<div class="modal-dialog modal-lg">
+											<div class="modal-content" style="overflow-y :hidden">
+												<div class="modal-header">
+													<button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+													<h4 class="modal-title" id="myModalLabel" style="text-align: center;">Add Comment for User</h4>
+												</div>
+												<div class="modal-body">
+                            		
+												<form id="forgot_password_form" class="form-horizontal" role="form"  method="post">
+					                                <div class="form-group">
+					                                    <label for="icode" class="col-md-3 control-label">Comment</label>
+					                                     <div class="col-md-9">
+					                                     	  <textarea rows="5" cols="50" id="usercomment${session.getSessionId()}" maxlength="750"></textarea>
+														 </div>
+					                                </div>
+					                                <div class="form-group">
+					                                    <!-- Button -->                                        
+					                                    <div class="col-md-offset-3 col-md-9">
+					                                        <button id="${session.getSessionId()}" onclick="SetUserComment(this)" type="button" class="btn btn-info">Submit</button>
+															<!--<button id="btn" type="submit"  class="btn btn-info">Cancel</button>	-->
+					                                    </div>
+					                                </div>
+					                            </form>
+											</div>
+										</div>
+			                     	</div>
+                   				</div>
+                   				<div class="modal fade" id="acomment${session.getSessionId()}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+										<div class="modal-dialog modal-lg">
+											<div class="modal-content" style="overflow-y :hidden">
+												<div class="modal-header">
+													<button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+													<h4 class="modal-title" id="myModalLabel" style="text-align: center;">Add Comment for Advisor</h4>
+												</div>
+												<div class="modal-body">
+												<form id="forgot_password_form" class="form-horizontal" role="form"  method="post">
+					                                <div class="form-group">
+					                                    <label for="icode" class="col-md-3 control-label">Comment</label>
+					                                     <div class="col-md-9">
+					                                     	  <textarea rows="5" cols="50" id="advisorcomment${session.getSessionId()}" maxlength="750"></textarea>
+														 </div>
+					                                </div>
+					                                <div class="form-group">
+					                                    <!-- Button -->                                        
+					                                    <div class="col-md-offset-3 col-md-9">
+					                                        <button id="${session.getSessionId()}" onclick="SetAdvisorComment(this)" type="button" class="btn btn-info">Submit</button>
+															<!--<button id="btn" type="submit"  class="btn btn-info">Cancel</button>	-->
+					                                    </div>
+					                                </div>
+					                            </form>
+											</div>
+										</div>
+			                     	</div>
+                   				</div>
                             	</c:forEach>
                         </table>
+                        
                     </div>
                     	</div>
                         
@@ -151,16 +211,14 @@
 
     <!-- jQuery Version 1.11.0 -->
 	<script src="https://code.jquery.com/jquery-1.11.0.min.js"></script>   
-    
+    <script src="assets/js/bootstrap-slider.js"></script>
     <!-- Bootstrap Core JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 
-    <!-- Metis Menu Plugin JavaScript -->
-    <script src="assets/js/plugins/metisMenu/metisMenu.min.js"></script>
 
     <!-- Custom Theme JavaScript -->
     <script src="assets/js/sb-admin-2.js"></script>
-
+	
     <!-- Page-Level Demo Scripts - Notifications - Use for reference -->
     <script>
     // tooltip demo
@@ -172,6 +230,54 @@
     // popover demo
     $("[data-toggle=popover]")
         .popover()
+    </script>
+    <script type="text/javascript">
+    	function UpdatePaidToAdvisor(elem,update){
+    		var sessionId = elem.id;
+    		$.ajax({
+    		    url : 'AdminPayment', // Your Servlet mapping or JSP(not suggested)
+    		    data : {"sid" : sessionId,"update" : update},
+    		    type : 'POST',
+    		    dataType : 'html', // Returns HTML as plain text; included script tags are evaluated when inserted in the DOM.
+    		    success : function(response) {
+    		    	      location.reload(); // create an empty div in your page with some id
+    		    },
+    		    error : function(request, textStatus, errorThrown) {
+    		        alert(errorThrown);
+    		    }
+    		}); 
+    	}
+    	function SetUserComment(elem){
+    		var sessionId = elem.id;
+    		$.ajax({
+    		    url : 'AdminPayment', // Your Servlet mapping or JSP(not suggested)
+    		    data : {"sid" : sessionId,"usercomment" : $("#usercomment"+sessionId).val()},
+    		    type : 'POST',
+    		    dataType : 'html', // Returns HTML as plain text; included script tags are evaluated when inserted in the DOM.
+    		    success : function(response) {
+    		    	      location.reload(); // create an empty div in your page with some id
+    		    },
+    		    error : function(request, textStatus, errorThrown) {
+    		        alert(errorThrown);
+    		    }
+    		}); 
+    	}
+    	
+    	function SetAdvisorComment(elem){
+    		var sessionId = elem.id;
+    		$.ajax({
+    		    url : 'AdminPayment', // Your Servlet mapping or JSP(not suggested)
+    		    data : {"sid" : sessionId,"advisorcomment" : $("#advisorcomment"+sessionId).val()},
+    		    type : 'POST',
+    		    dataType : 'html', // Returns HTML as plain text; included script tags are evaluated when inserted in the DOM.
+    		    success : function(response) {
+    		    	      location.reload(); // create an empty div in your page with some id
+    		    },
+    		    error : function(request, textStatus, errorThrown) {
+    		        alert(errorThrown);
+    		    }
+    		}); 
+    	}
     </script>
     </body>
 

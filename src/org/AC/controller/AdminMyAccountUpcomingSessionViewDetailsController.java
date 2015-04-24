@@ -7,6 +7,7 @@
 package org.AC.controller;
 
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -23,10 +24,12 @@ import org.AC.DAO.AdvisorMyAccountSessionDAO;
 import org.AC.DAO.MyAccountRequestDAO;
 import org.AC.DAO.SessionFeedBackDAO;
 import org.AC.Util.GetRelativeImageURL;
+import org.AC.Util.GetTimeLeftForReply;
 import org.AC.dto.AdvisorNewDatesDTO;
 import org.AC.dto.AdvisorProfileDTO;
 import org.AC.dto.SessionDTO;
 import org.AC.dto.SessionFeedBackDTO;
+import org.AC.dto.TimeDTO;
 import org.AC.dto.UserDetailsDTO;
 import org.AC.dto.UserRequestDTO;
 import org.apache.log4j.BasicConfigurator;
@@ -98,7 +101,7 @@ public class AdminMyAccountUpcomingSessionViewDetailsController extends HttpServ
 			List<SessionDTO> sessionDetail = new ArrayList<SessionDTO>();
 			List<AdvisorNewDatesDTO> advisorNewDates = new ArrayList<AdvisorNewDatesDTO>();
 		    rId = (String)request.getParameter("rId");
-		    String isSessionPast = (String)request.getParameter("pastsession");
+		    String isSessionPast = "";
 		    if(rId != null && !("").equals(rId)){	
 				MyAccountRequestDAO dao = new MyAccountRequestDAO();
 				requestDetails = dao.getUserRequestDetails(rId);
@@ -116,8 +119,6 @@ public class AdminMyAccountUpcomingSessionViewDetailsController extends HttpServ
 						userRequestDTO.setTimeString2(new SimpleDateFormat("dd-MMM-yyyy' 'h:mm a").format(new Date(userRequestDTO.getTime2().getTime())));
 						userRequestDTO.setTimeString3(new SimpleDateFormat("dd-MMM-yyyy' 'h:mm a").format(new Date(userRequestDTO.getTime3().getTime())));
 						userRequestDTO.setTimeString4(new SimpleDateFormat("dd-MMM-yyyy' 'h:mm a").format(new Date(userRequestDTO.getTime4().getTime())));
-						userRequestDTO.setTimeString5(new SimpleDateFormat("dd-MMM-yyyy' 'h:mm a").format(new Date(userRequestDTO.getTime5().getTime())));
-						userRequestDTO.setTimeString6(new SimpleDateFormat("dd-MMM-yyyy' 'h:mm a").format(new Date(userRequestDTO.getTime6().getTime())));
 					}
 				}
 				//Getting user details to show on the view details page.
@@ -145,6 +146,7 @@ public class AdminMyAccountUpcomingSessionViewDetailsController extends HttpServ
 					 advisorRelImage = image.getImageURL(advisorPicture);
 	
 				}
+				List<TimeDTO> difference = new ArrayList<TimeDTO>();
 				//Getting the session details
 				AdvisorMyAccountSessionDAO sessionDetails = new AdvisorMyAccountSessionDAO();
 				sessionDetail = sessionDetails.getSessionDetails(rId);
@@ -152,6 +154,14 @@ public class AdminMyAccountUpcomingSessionViewDetailsController extends HttpServ
 					sessionId =sessionDTO.getSessionId();
 					sessionDTO.setAcceptedDateString(new SimpleDateFormat("dd-MMM-yyyy' 'h:mm a").format(new Date(sessionDTO.getAcceptedDate().getTime())));
 					modeDetails = sessionDTO.getModeDetails();
+					Timestamp sessionDate = sessionDTO.getAcceptedDate();
+					GetTimeLeftForReply time = new GetTimeLeftForReply();
+					difference = time.getTimeLeftForSession(sessionDate);
+					if(difference.size() > 0){
+						isSessionPast = "false";	
+					}else{
+						isSessionPast = "true";
+					}
 				}
 				if(isFeedback){
 					//Getting the FeedBack Form Path

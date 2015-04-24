@@ -175,9 +175,25 @@
                                 </div>				
 										 
                                 <div class="form-group">
-                                	<label for="icode" class="col-md-2 control-label">DURATION (Hrs):</label>
+                                	<label for="icode" class="col-md-2 control-label">DURATION :</label>
                                     <div class="col-md-10">
-                                        <p><c:out value="${userRequest.getDuration()}"></c:out></p>	
+                                    	<c:choose>
+                                    		<c:when test="${userRequest.getDuration().equals('0.5')}">
+                                        		<p>30 mins</p>	                                    		
+                                    		</c:when>
+                                    		<c:when test="${userRequest.getDuration().equals('0.75')}">
+                                        		<p>45 mins</p>	                                    		
+                                    		</c:when>
+                                    		<c:when test="${userRequest.getDuration().equals('1')}">
+                                        		<p>1 hour</p>	                                    		
+                                    		</c:when>
+                                    		<c:when test="${userRequest.getDuration().equals('1.5')}">
+                                        		<p>1.5 hour</p>	                                    		
+                                    		</c:when>
+                                    		<c:otherwise>
+                                    			<p>N/A</p>	
+                                    		</c:otherwise>
+                                    	</c:choose>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -189,9 +205,8 @@
                                 
                                 <c:if test="${userRequest.getService().equals('mockinterview') || userRequest.getService().equals('cvcritique')}">
                                     <div class="form-group">
-                                        <label for="icode" class="col-md-2 control-label"></label>
-                                        <div class="col-md-10">
-                                            <h4 class="text-center"><a href="DownloadFile?rid=<%=rId %>">YOUR RESUME</a></h4>
+                                        <div class="col-md-12">
+                                            <h4 class="text-left btn btn-info"><a href="DownloadFile?rid=<%=rId %>">YOUR RESUME</a></h4>
                                         </div>
                                     </div>
                                 </c:if>	
@@ -249,20 +264,6 @@
 					                                            <div >
 					                                                <label>
 					                                                    <c:out value="${userRequest.getTimeString4()}"></c:out>
-					                                                </label>
-					                                            </div>
-				                                            </li>
-				                                            <li>
-					                                            <div >
-					                                                <label>
-					                                                    <c:out value="${userRequest.getTimeString5()}"></c:out>
-					                                                </label>
-					                                            </div>
-				                                            </li>
-				                                            <li>
-					                                            <div >
-					                                                <label>
-					                                                    <c:out value="${userRequest.getTimeString6()}"></c:out>
 					                                                </label>
 					                                            </div>
 				                                            </li>
@@ -384,30 +385,49 @@
                                 </div>				
 										 
                                 <div class="form-group">
-                                	<label for="icode" class="col-md-3 control-label">DURATION (Hrs):</label>
-                                    <h4 class="col-md-9 "><c:out value="${userRequest.getDuration()}"></c:out></h4>	
+                                	<label for="icode" class="col-md-3 control-label">DURATION:</label>
+                                	<c:choose>
+                                   		<c:when test="${userRequest.getDuration().equals('0.5')}">
+                                       		<h4 class="col-md-9 ">30 mins</h4>		                                    		
+                                   		</c:when>
+                                   		<c:when test="${userRequest.getDuration().equals('0.75')}">
+                                       		<h4 class="col-md-9 ">45 mins</h4>		                                    		
+                                   		</c:when>
+                                   		<c:when test="${userRequest.getDuration().equals('1')}">
+                                       		<h4 class="col-md-9 ">1 hour</h4>		                                    		
+                                   		</c:when>
+                                   		<c:when test="${userRequest.getDuration().equals('1.5')}">
+                                       		<h4 class="col-md-9 ">1.5 hour</h4>	                                    		
+                                   		</c:when>
+                                   		<c:otherwise>
+                                   			<h4 class="col-md-9 ">N/A</h4>	
+                                   		</c:otherwise>
+                                   	</c:choose>                                  			
                                 </div>
+     
                                 <div class="form-group">
-                                	<label for="icode" class="col-md-3 control-label">AMOUNT (Rs):</label>
+                                	<label for="icode" class="col-md-3 control-label">AMOUNT TO PAY(Rs):</label>
                                     <h4 class="col-md-9 "><c:out value="${userRequest.getAmount()}"></c:out></h4	>	
                                 </div>                                	
                                 <input type="hidden" name="amount" value="${userRequest.getAmount()}">
 									  	<div class="form-group">
 											<!-- Button -->                                        
 											<div class="col-md-offset-3 col-md-9">
+														
 													<c:choose>
+											
 														<c:when test="${userRequest.getAmount() != 0.0 && accdate != null && !accdate.equals('')}">
 															<c:url var="pay" value="payment">
-																<c:param  name="order_id" value="${sessionId}"></c:param>
-																<c:param name="amount" value="${userRequest.getAmount()}"></c:param>
-															</c:url>
-														<a href="${pay}" id="btn-signup" type="submit" class="btn btn-info">PAY</a>
+															<c:param  name="order_id" value="${sessionId}"></c:param>
+															<c:param name="amount" value="${userRequest.getAmount()}"></c:param>
+														</c:url>
+														<a href="${pay}" id="btn-signup" type="button" class="btn btn-info"> Proceed to payment</a>
 														</c:when>
 														<c:when test="${userRequest.getAmount() != 0.0 }">
-															<input type="submit" id="btn-signup" value="PAY" class="btn btn-info">
+															<input type="submit" id="btn-signup"   value="Proceed to payment" class="btn btn-info" >
 														</c:when>
 														<c:otherwise>
-															<input type="submit" id="btn-signup" value="submit" class="btn btn-info">
+																<input type="submit" id="btn-signup"   value="I want my free session" class="btn btn-info" >														
 														</c:otherwise>
 												</c:choose>
 												<div style="height:5px"></div>  
@@ -424,6 +444,9 @@
                                           <c:if test="${sessionId != null}">
                                             <c:param name="sessionId" value="${sessionId}"/>
                                           </c:if>
+                                          <c:param name="isFree" value="${userRequest.getIsFree()}"/>
+                                          <c:param name="aId" value="${userRequest.getAdvisorId()}"/>
+                                          <c:param name="service" value="${userRequest.getService()}"/>
                                       </c:url>
                                       <div class="row">
                                         <div class="col-md-12 text-center">
@@ -448,10 +471,9 @@
 	</div>
 
     <!-- jQuery Version 1.11.0 -->
-    <script src="assets/js/jquery-1.11.0.js"></script>
-
+    <script src="https://code.jquery.com/jquery-1.11.0.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
     <!-- Bootstrap Core JavaScript -->
-    <script src="assets/js/bootstrap.min.js"></script>
 
     <!-- Metis Menu Plugin JavaScript -->
     <script src="assets/js/plugins/metisMenu/metisMenu.min.js"></script>
@@ -498,6 +520,10 @@
 			  $("#invoice").modal();
 		  }
 	}
+	  function GetAction(event){
+		  event.preventDefault();
+		  document.getElementById('signupform').submit();
+	  }
     </script>
     <!-- Page-Level Demo Scripts - Notifications - Use for reference -->
     <script>
@@ -519,6 +545,7 @@ var ur = document.createElement('script'); ur.type = 'text/javascript'; ur.async
 ur.src = ('https:' == document.location.protocol ? 'https://cdn.userreport.com/userreport.js' : 'http://cdn.userreport.com/userreport.js');
 var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ur, s);
 })();
+
 </script> 
 </body>
 

@@ -212,7 +212,6 @@
                     <div class="book-session text-center">
 			      		<a href="#" id="book_a_session2" onclick="div_show(this)"><img src="assets/img/ProfileImages/Panel_Services_Book.png" height="50"><br>Book a Session</a>
 			      	</div>
-                    
                 </div>
 			    </div>
                 
@@ -508,7 +507,6 @@
                                     <span></span>
                                 </div>
                                 <input type="hidden" id="isfree" name="isFree">
-                                <input type="hidden" id="registrationPrice" name="registrationPrice">
                                 <input type="hidden" id="discount" name="discount">
                                 <div class="form-group">
                                     <label for="icode" style="font-family:'custom_light' !important;" class="col-md-3 control-label">Services</label>
@@ -556,21 +554,28 @@
                                                 <input type="radio" style="font-family:'custom_light' !important;" onchange="getPrice()" name="duration" id="optionsRadiosInline1" value="0.5">Half Hour
                                             </label>
                                             <label class="radio-inline" font-family:'custom_light' !important;>
-                                                <input type="radio" style="font-family:'custom_light' !important;" onchange="getPrice()" name="duration" id="optionsRadiosInline2" value="1">1 hour
+                                                <input type="radio" style="font-family:'custom_light' !important;" onchange="getPrice()" name="duration" id="optionsRadiosInline2" value="0.75">45 mins
                                             </label>
                                          	 <label class="radio-inline" font-family:'custom_light' !important;>
-                                                <input type="radio" style="font-family:'custom_light' !important;" onchange="getPrice()" name="duration" id="optionsRadiosInline3" value="1.5">1.5 Hour
+                                                <input type="radio" style="font-family:'custom_light' !important;" onchange="getPrice()" name="duration" id="optionsRadiosInline3" value="1">1 Hour
                                             </label>
                                             <label class="radio-inline" font-family:'custom_light' !important;>
-                                                <input type="radio" style="font-family:'custom_light' !important;" onchange="getPrice()" name="duration" id="optionsRadiosInline4" value="2">2  Hour
+                                                <input type="radio" style="font-family:'custom_light' !important;" onchange="getPrice()" name="duration" id="optionsRadiosInline4" value="1.5">1.5  Hour
                                             </label>
 										</div>	
-                                </div>							
-								<div id="pricediv" class="form-group collapse">
+                                </div>
+                                <div id="regpricediv" class="form-group collapse">
                                     <label for="icode" style="font-family:'custom_light' !important;" class="col-md-3 control-label">Price(Rs)</label>
                                     <div class="col-md-9">
+                                        <input type="text" id="registrationPrice" name="registrationPrice" style="font-family:'custom_light' !important;" class="form-control" readonly="readonly">
+                                    </div>
+                                </div>								
+								<div id="pricediv" class="form-group collapse">
+                                    <label for="icode" style="font-family:'custom_light' !important;" class="col-md-3 control-label">Discounted Price(Rs)</label>
+                                    <div class="col-md-9">
                                         <input type="text" name="price" style="font-family:'custom_light' !important;" class="form-control" id="disabledInput" placeholder="" readOnly="true">
-					     				<h4 id="freesession" style="font-family:'custom_light' !important;color: #c84c4e;text-align: left;display: none;">Great news ! This session for you is free. </h4> 
+					     				<h4 id="freesession" style="font-family:'custom_light' !important;color: #c84c4e;text-align: left;display: none;">Great news ! The first 30 mins is free for you. </h4> 
+                                   		<h4 id="freesession1" style="font-family:'custom_light' !important;color: #c84c4e;text-align: left;display: none;">Great news ! This session is free for you. </h4> 
                                     </div>
                                 </div>		
 								  
@@ -620,24 +625,6 @@
 										  </span>
 										</div>
 								</div>
-								<div class="form-group">
-										<label for="icode" style="font-family:'custom_light' !important;" class="col-md-3 control-label">Slot 5</label>
-										<div id="datetimepicker5" class="input-append date">
-										  <input type="datetime" style="font-family:'custom_light' !important;" id="datepicker5" name="datetimepicker5" readonly="readonly"></input>
-										  <span class="add-on">
-											<i data-time-icon="icon-time" data-date-icon="icon-calendar" style="margin-top:7px"></i>
-										  </span>
-										</div>
-								</div>
-								<div class="form-group">
-										<label for="icode" style="font-family:'custom_light' !important;" class="col-md-3 control-label">Slot 6</label>
-										<div id="datetimepicker6"  class="input-append date">
-										  <input type="datetime" style="font-family:'custom_light' !important;" id="datepicker6" name="datetimepicker6" readonly="readonly"></input>
-										  <span class="add-on">
-											<i data-time-icon="icon-time" data-date-icon="icon-calendar" style="margin-top:7px"></i>
-										  </span>
-										</div>
-								</div>
 								</div>
 								<div id="emailslot" style="display: none">
 									<h3 style="font-family:'custom_light' !important;text-align: left;">Chose the date by which you want the reply</h3>
@@ -661,7 +648,7 @@
                                         <p class="required" id="complete-query">Please write your complete email.</p>
                                     </div>
                                     <div class="col-md-2">
-	                                    <button type="button" style="float:left" class="btn btn-default" data-container="#datacontent" data-toggle="popover" data-html="true" data-placement="bottom" data-content="<p>Write your query in detail and mention the following:<br>a. Background Info <br>b. Query & Doubts <br>c. How you want the advisor to help you <br>Example: Hi Mr. Rao, I'm pursuing Civil Engineering from ABC University. I am currently in my final year and want to take up this field professionally. I want to discuss:<br>1.Different specializations and Job Opportunities<br>2.Expected career growth<br>3.How should I plan my future<br>I want to especially focus on making a career plan. Looking forward to our session.</p>" data-trigger="focus" >
+	                                    <button type="button" style="float:left" class="btn btn-default" data-container="#datacontent" data-toggle="popover" data-html="true" data-placement="bottom" data-content="<p>Write your query in detail and mention the following:<br>a. Background Info <br>b. Query & Doubts <br>c. How you want the advisor to help you <br>Example: Hi Mr. Rao, I'm pursuing Civil Engineering from ABC University. I am currently in my final year and want to take up this field professionally. I want to discuss:<br>1.Different specializations and Job Opportunities<br>2.Expected career growth<br>3.How should I plan my future<br>I want to especially focus on making a career plan. Looking forward to our session.</p>" >
 							   			<span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> </button> 
 						   			</div>
                                 </div>
@@ -716,14 +703,6 @@
     	useCurrent:false
     });
     $('#datetimepicker4').datetimepicker({
-    	pick12HourFormat: false,
-    	useCurrent:false
-    });
-    $('#datetimepicker5').datetimepicker({
-    	pick12HourFormat: false,
-    	useCurrent:false
-    });
-    $('#datetimepicker6').datetimepicker({
     	pick12HourFormat: false,
     	useCurrent:false
     });
@@ -906,8 +885,18 @@
    	}
     $("#services_dropdown").change(function() { 
         var value = document.getElementById('services_dropdown').value;
+        if(document.getElementById('services_dropdown').value == "careertalk") {
+    	 	$("#cvdiv").hide();
+    	}
+        $("#optionsRadiosInline1").prop('checked', false);
+        $("#optionsRadiosInline2").prop('checked', false);
+        $("#optionsRadiosInline3").prop('checked', false);
+        $("#durationdiv").hide();
+        $("#complete-query").hide();
+        $("#pricediv").hide();
+        $("#regpricediv").hide();
         $("#modediv").show();
-        $("#modes ul").html('');
+        $("#modes ul").html('');     
         var i =1;
         <c:forEach items="${modes}" var="mode">
         if("${mode.getService()}" == value){
@@ -930,6 +919,16 @@
         }
         });
     function getDuration(){
+    	if(document.getElementById('services_dropdown').value == "careertalk") {
+    	 	$("#cvdiv").hide();
+    	}
+         $("#optionsRadiosInline1").prop('checked', false);
+         $("#optionsRadiosInline2").prop('checked', false);
+         $("#optionsRadiosInline3").prop('checked', false);
+         $("#durationdiv").hide();
+         $("#pricediv").hide();
+         $("#regpricediv").hide();
+         $("#complete-query").hide();
     	$("#durationdiv").show();
 		document.getElementById('notemail').style.display = "block";
 		document.getElementById('emailslot').style.display = "none";
@@ -945,63 +944,71 @@
 			document.getElementById('notemail').style.display = "none";
 			document.getElementById('emailslot').style.display = "block";
     	}
-    	function addslashes(str) {
-    		  //  discuss at: http://phpjs.org/functions/addslashes/
-    		  // original by: Kevin van Zonneveld (http://kevin.vanzonneveld.net)
-    		  // improved by: Ates Goral (http://magnetiq.com)
-    		  // improved by: marrtins
-    		  // improved by: Nate
-    		  // improved by: Onno Marsman
-    		  // improved by: Brett Zamir (http://brett-zamir.me)
-    		  // improved by: Oskar Larsson Högfeldt (http://oskar-lh.name/)
-    		  //    input by: Denny Wardhana
-    		  //   example 1: addslashes("kevin's birthday");
-    		  //   returns 1: "kevin\\'s birthday"
-
-    		  return (str + '')
-    		    .replace(/[\\"']/g, '\\$&')
-    		    .replace(/\u0000/g, '\\0');
-    		}
 	var price;
 	var free= false;
     	<c:forEach items="${modes}" var="mode">
     		if("${mode.getModeOfCommunication()}" == valuemode && "${mode.getService()}" ==  document.getElementById('services_dropdown').value){
     			<c:forEach items="${services}" var="service">
     				if("${mode.getService()}" == "${service.getService()}"){
-    					if("${service.getIsFree()}" > 0 && $('input:radio[name=duration]:checked').val()== "0.5" || "${service.getIsFree()}" > 0 && valuemode=="email" ){
-    						price= "0.0";
+    					if(("${service.getIsFree()}" > 0 && $('input:radio[name=duration]:checked').val()== "0.5") || ("${service.getIsFree()}" > 0 && valuemode=="email") ){
+    						price= "0";
     						free = true;
-    					}else if("${mode.getDiscounted_price()}" == 0 && "${service.getDiscount()}" == 0){
+    					}else if("${service.getIsFree()}" > 0 && $('input:radio[name=duration]:checked').val()== "0.75"){
+    						var price1 = "${mode.getPrice()}";
+    						price = Math.round(price1/2);
+    						free = true;
+    					}else if("${service.getIsFree()}" > 0 && $('input:radio[name=duration]:checked').val()== "1"){
+    						price = "${mode.getPrice()}";
+    						free = true;
+    					}else if("${service.getIsFree()}" > 0 && $('input:radio[name=duration]:checked').val()== "1.5"){
+    						price = "${mode.getPrice()}" * 2;
+    						free = true;
+    					}else if("${service.getIsFree()}" == 0 && valuemode=="email"){
+							price = "${mode.getPrice()}";			    						
+    					}
+    					else if("${mode.getDiscounted_price()}" == 0 && "${service.getDiscount()}" == 0){
     	    				price = "${mode.getPrice()}"  * 2;
     	    			}else{
     	    				price = "${mode.getDiscounted_price()}";
     	    			}
     					if(valuemode != "email"){
-    						$("#registrationPrice").val("${mode.getPrice()}" * 2  * valueduration);
+    						$("#registrationPrice").val(Math.round("${mode.getPrice()}" * valueduration * 2 ));
     					}else{
     						$("#registrationPrice").val("${mode.getPrice()}");
     					}
         				$("#discount").val("${service.getDiscount()}");
     				}
-    				
     			</c:forEach>
     			
     		}
     	</c:forEach>
-    	if(valuemode != "email"){
-    		price = price * valueduration;
+    	if(free){
+    		$("#isfree").val(true);
     	}
+    	if(valuemode != "email" &&  !free){
+    		price = Math.round(price * valueduration * 2);
+    	}
+    	$("#regpricediv").show();
     	$("#pricediv").show();
 	if(valuemode == "email"){
     		$("#disabledInput").val(price);
     		$("#complete-query").show();
+	}else if(valuemode != "email" && free){
+		$("#disabledInput").val(price);
 	}else{
-		$("#disabledInput").val(price * 2);
+		$("#disabledInput").val(price);
 	}
 	if(free){
-		$("#freesession").show();
+		if(valuemode == "email"){
+			$("#freesession1").show();
+			$("#freesession").hide();
+		}else{
+			$("#freesession").show();
+			$("#freesession1").hide();
+		}
 	}else{
 		$("#freesession").hide();
+		$("#freesession1").hide();
 	}
     }
  
@@ -1021,8 +1028,6 @@
 		$('#datetimepicker2').data("DateTimePicker").setMinDate(dt);
 		$('#datetimepicker3').data("DateTimePicker").setMinDate(dt);
 		$('#datetimepicker4').data("DateTimePicker").setMinDate(dt);
-		$('#datetimepicker5').data("DateTimePicker").setMinDate(dt);
-		$('#datetimepicker6').data("DateTimePicker").setMinDate(dt);
 		$('#datetimepickeremail').data("DateTimePicker").setMinDate(dt);
 		$('#datetimepickeremail').data("DateTimePicker").setMaxDate(dt1);
 		$("#submit_btn").click(function(event){
@@ -1038,7 +1043,7 @@
 			</c:forEach>
 			if(drop=="Select a Service")
 			{
-				alert("Please select a service");
+				alert("Please choose a service to move ahead !");
 				event.preventDefault();
 			}else if($("#optionsRadiosInlinem1").is(':checked') == true || $("#optionsRadiosInlinem2").is(':checked') == true || $("#optionsRadiosInlinem3").is(':checked') == true)
 				{	
@@ -1047,51 +1052,43 @@
 				var value2 = $("#datepicker2").val();
 				var value3 = $("#datepicker3").val();
 				var value4 = $("#datepicker4").val();
-				var value5 = $("#datepicker5").val();
-				var value6 = $("#datepicker6").val();
 				if(($("#optionsRadiosInline1").is(':checked') == false) && ($("#optionsRadiosInline2").is(':checked')== false) && ($("#optionsRadiosInline3").is(':checked') == false) && ($("#optionsRadiosInline4").is(':checked') == false) && $('input:radio[name=mode]:checked').val() != "email")
 							{
-									alert("Please Choose Duration");
+									alert("Please Choose a duration to move ahead !");
 									event.preventDefault();
-							}else if ($('#datepicker1').is(':visible') && $('#datepicker2').is(':visible') && $('#datepicker3').is(':visible') && $('#datepicker4').is(':visible') && $('#datepicker5').is(':visible') && $('#datepicker6').is(':visible') && (value1 == "" || value2=="" || value3=="" || value4=="" || value5=="" || value6=="") ) {
-								alert("Please enter the slot timing");
+							}else if ($('#datepicker1').is(':visible') && $('#datepicker2').is(':visible') && $('#datepicker3').is(':visible') && $('#datepicker4').is(':visible') && (value1 == "" || value2=="" || value3=="" || value4=="" )) {
+								alert("Please Enter the slot timing to move ahead !");
 								event.preventDefault();
 							}else if($('#datepickeremail').is(':visible') && $('#datepickeremail').val() == ""){
-								alert("Please enter the slot timing");
+								alert("Please Enter the slot timing to move ahead !");
 								event.preventDefault();
 							}else if($("#cvinput").is(':visible') && !document.getElementById('cvinput').files[0]){
-								alert("Please upload your cv");
+								alert("Please Upload your CV to move ahead !");
 								event.preventDefault();
 							}else if($("#query").val() == ""){
-								alert("Please enter your query");
+								alert("Please enter the Query you want to send to the Advisor.");
 								event.preventDefault();
 							}
 							else {
-								if($('#datepicker1').is(':visible') && $('#datepicker2').is(':visible') && $('#datepicker3').is(':visible') && $('#datepicker4').is(':visible') && $('#datepicker5').is(':visible') && $('#datepicker6').is(':visible')){
-									if(value1 == value2 || value1 == value3 || value1 == value4	 || value1 == value5 || value1 == value6 ){
-									alert("Please enter different time slots");
+								if($('#datepicker1').is(':visible') && $('#datepicker2').is(':visible') && $('#datepicker3').is(':visible') && $('#datepicker4').is(':visible')){
+									if(value1 == value2 || value1 == value3 || value1 == value4	){
+									alert("Oops, you've chosen two same date & time slots.");
 									event.preventDefault();
-									}else if (value2 == value1 || value2 == value3 || value2 == value4	 || value2 == value5 || value2 == value6) {
-										alert("Please enter different time slots");
+									}else if (value2 == value1 || value2 == value3 || value2 == value4) {
+										alert("Oops, you've chosen two same date & time slots.");
 										event.preventDefault();
-									} else if (value3 == value1 || value3 == value2 || value3 == value4	 || value3 == value5 || value3 == value6) {
-										alert("Please enter different time slots");
+									} else if (value3 == value1 || value3 == value2 || value3 == value4) {
+										alert("Oops, you've chosen two same date & time slots.");
 										event.preventDefault();
-									}else if (value4 == value1 || value4 == value2 || value4 == value3	 || value4 == value5 || value4 == value6) {
-										alert("Please enter different time slots");
-										event.preventDefault();
-									}else if (value5 == value1 || value5 == value2 || value5 == value3	 || value5 == value4 || value5 == value6) {
-										alert("Please enter different time slots");
-										event.preventDefault();
-									}else if (value6 == value1 || value6 == value2 || value6 == value3	 || value6 == value4 || value6 == value5) {
-										alert("Please enter different time slots");
+									}else if (value4 == value1 || value4 == value2 || value4 == value3) {
+										alert("Oops, you've chosen two same date & time slots.");
 										event.preventDefault();
 									}
 								}
 							}	
 				}	
 			else{
-					alert("Please select a mode");
+					alert("Choose a mode of communication ! Email, Phone or Webchat ?");
 					event.preventDefault();
 				}
 		});

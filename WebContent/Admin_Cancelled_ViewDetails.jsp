@@ -158,9 +158,25 @@
 										</div>				
 										 
 										<div class="form-group">
-											<label for="icode" class="col-md-2 control-label">Duration (Hrs):</label>
+											<label for="icode" class="col-md-2 control-label">Duration:</label>
                                             <div class="col-md-10">
-                                                <p class="form-control"><c:out value="${userRequest.getDuration()}"/></p>	
+                                            	<c:choose>
+		                                    		<c:when test="${userRequest.getDuration().equals('0.5')}">
+		                                        		<p class="form-control">30 mins</p>		                                    		
+		                                    		</c:when>
+		                                    		<c:when test="${userRequest.getDuration().equals('0.75')}">
+		                                        		<p class="form-control">45 mins</p>		                                    		
+		                                    		</c:when>
+		                                    		<c:when test="${userRequest.getDuration().equals('1')}">
+		                                        		<p class="form-control">1 hour</p>		                                    		
+		                                    		</c:when>
+		                                    		<c:when test="${userRequest.getDuration().equals('1.5')}">
+		                                        		<p class="form-control">1.5 hour</p>	                                    		
+		                                    		</c:when>
+		                                    		<c:otherwise>
+		                                    			<p class="form-control">N/A</p>	
+		                                    		</c:otherwise>
+		                                    	</c:choose>	
                                             </div>
 										</div>
                                         
@@ -233,20 +249,7 @@
 		                                                </label>
 		                                            </div>
 	                                            </li>
-	                                            <li>
-		                                            <div class="radio">
-		                                                <label>
-		                                                    <c:out value="${userRequest.getTimeString5()}"></c:out>
-		                                                </label>
-		                                            </div>
-	                                            </li>
-	                                            <li>
-		                                            <div class="radio">
-		                                                <label>
-		                                                    <c:out value="${userRequest.getTimeString6()}"></c:out>
-		                                                </label>
-		                                            </div>
-	                                            </li>
+
                                             </ol>
 										  </div>	
 										</div>
@@ -302,8 +305,6 @@
     <script src="assets/js/plugins/metisMenu/metisMenu.min.js"></script>
 
     <!-- Custom Theme JavaScript -->
-    <script src="assets/js/sb-admin-2.js"></script>
-    <script src="assets/js/bootstrap.min.js"></script>
 	<script src="assets/js/bootstrap-datetimepicker.min.js"></script>
     <script type="text/javascript">
     	function setImageSrc(){

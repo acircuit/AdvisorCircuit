@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.AC.DAO.AdvisorMyAccountRequestViewDetailsDAO;
 import org.AC.DAO.ChangeRequestStatusDAO;
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Logger;
@@ -62,11 +63,15 @@ public class AdminMyAccountRequestViewDetailsFormController extends HttpServlet 
 				isError = true;
 				response.sendRedirect("Error");
 			}
+			
 			if(isError!= null &&  !isError){
 				String rId = "";
 				String cancel = "";
 				rId = (String) request.getParameter("rId");
 				cancel = (String) request.getParameter("cancel");
+				 String isFree = request.getParameter("isFree");
+				 String aId = request.getParameter("aId");
+				 String service = request.getParameter("service");
 				//Check if the admin has accepted the request
 				if( cancel == null ){
 					String status = "PENDING FOR ADVISOR APPROVAL";
@@ -81,6 +86,11 @@ public class AdminMyAccountRequestViewDetailsFormController extends HttpServlet 
 					ChangeRequestStatusDAO requestStatus = new ChangeRequestStatusDAO();
 					Boolean isStatusCommit = requestStatus.setStatus(status, Integer.parseInt(rId));
 					if(isStatusCommit){
+						if(isFree.equals("true")){
+							//Decrement the free session count from the advisor services table
+							AdvisorMyAccountRequestViewDetailsDAO decrem = new AdvisorMyAccountRequestViewDetailsDAO();
+							decrem.DecrementFreeSession(Integer.parseInt(aId),service);
+						}
 						response.sendRedirect("AdminCancelledSessions");
 					}
 					

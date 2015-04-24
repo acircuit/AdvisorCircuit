@@ -46,7 +46,7 @@
 					professional="ProfessionalBackgroundEdit";
 					other="OtherInfoEdit";
 					service="ServicesEdit";
-					image = "Image?edit=true";
+					image = "ImageEdit";
 
 				}else{
 					action = "AdvisorRegistrationProfessionalBackground";
@@ -55,7 +55,7 @@
 					professional="AdvisorRegistrationProfessionalBackground";
 					other="AdvisorRegistrationOtherInfo";
 					service="AdvisorRegistrationServices";
-					image = "Image";
+					image = "AdvisorRegistrationImage";
 				}
 	%>
 </head>
@@ -94,7 +94,7 @@
                                 <div class="form-group" id="dexperience">
                                     <label for="icode" class="col-md-3 control-label">Experience In  Relevant Industry (Please Enter digits only. Eg: 10)</label>
                                     <div class="col-md-5">
-                                        <input id="experience" type="text"  class="form-control" name="experience" placeholder="" value="${experience}" maxlength='20'>
+                                        <input id="experience" type="text"  class="form-control" name="experience" placeholder="" value="${experience}" maxlength="20">
                                         <p class="required" id="required_experience">Field Required</p>																			                                        
                                         <p class="required" id="invalid_experience">Invalid Experience</p>	 
                                     </div>	
@@ -102,7 +102,10 @@
                                     <c:set value="0" var="counter"></c:set>											
                                     <c:forEach var="prof" items="${professionalBackground}">
                                         <c:if test="${prof.getCompany() != null}">
-                                                
+                                        	<div id ="professional${counter }">
+                                                <c:if test="${counter >0 }">
+                                                    <i class="glyphicon glyphicon-remove" id="${counter}" onclick="div_hide(this)" style="float: right"></i>
+                                                </c:if>
                                                 <div class="form-group" id="dcompany${counter}">
                                                 <label for="icode" class="col-md-3 control-label">Organisation</label>
                                                 <div class="col-md-5">
@@ -132,19 +135,29 @@
                                                         <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> </button>   
                                                     </div>
                                                 </div>
+                                                <c:set value="0" var="desccounter"></c:set>	
                                                  <c:forEach var="desc" items="${prof.getDescriptionArray()}">
                                                     <c:if test="${!desc.isEmpty() && !desc.equals('') && desc.length()> 0}">
-                                                         <div class="form-group" id="ddescription${counter}">
+                                                         <div class="form-group" id="ddescription${counter}${desccounter}">
                                                             <label for="icode" class="col-md-3 control-label">Description(Explain your work in bullet points)</label>
-                                                            <div class="col-md-5">
-                                                                <input id="description${counter}" class="form-control" name="description${counter}[]" value="${desc}" maxlength="350">
+                                                            <div class="col-md-5 col-xs-8">
+                                                                <input id="description${counter}${desccounter}" class="form-control" name="description${counter}[]" value="${desc}" maxlength="350">
                                                                 <p class="required" id="required_description${counter}">Field Required</p>																			                                        	                                        
                                                             </div>
                                                             <div class="col-md-2">
-                                                                <button type="button" class="btn btn-default" data-container="body" data-toggle="popover" data-placement="right" data-trigger="focus" data-content="Example: Manage and develop newspaper, magazine and internet advertising for existing and new accounts while building and cultivating client relations by continually updating my knowledge of the ever-changing media and market.Assist with the clients advertising strategy, ad message and creative development.Consistently grew business and established strong relationships with clients.">
-                                                                <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> </button>  
+                                                            	<c:choose>
+                                                            		<c:when test="${desccounter > 0 }">
+                                                            			<a id="hide${counter}${desccounter}" onclick="closedesc(this)"><img src="assets/img/close.png"></a>
+                                                            		</c:when>
+                                                            		<c:otherwise>
+                                                            			 <button type="button" class="btn btn-default" data-container="body" data-toggle="popover" data-placement="right" data-trigger="focus" data-content="Example: Manage and develop newspaper, magazine and internet advertising for existing and new accounts while building and cultivating client relations by continually updating my knowledge of the ever-changing media and market.Assist with the clients advertising strategy, ad message and creative development.Consistently grew business and established strong relationships with clients.">
+                                                               			 <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> </button>  
+                                                            		</c:otherwise>
+                                                            	</c:choose>
+                                                               
                                                             </div>
                                                         </div>
+                                                        <c:set value="${desccounter +1 }" var="desccounter"></c:set>					                                	
                                                     </c:if>
                                         </c:forEach>					                                	
                                                     
@@ -159,7 +172,8 @@
                                         </div>
                                         <hr>
                                         
-                                        <c:set value="${counter +1 }" var="counter"></c:set>					                                	
+                                        <c:set value="${counter +1 }" var="counter"></c:set>
+                                        </div>					                                	
                                         </c:if>	
                                     </c:forEach>
                                     <c:set value="true" var="isAdd"></c:set>
@@ -175,7 +189,7 @@
                             <div class="form-group" id="dexperience">
                             <label for="icode" class="col-md-3 control-label">Experience In  Relevant Industry (Please Enter digits only. Eg: 10)</label>
                             <div class="col-md-5">
-                                <input id="experience" type="text"  class="form-control" name="experience" placeholder="" maxlength='150'>
+                                <input id="experience" type="text"  class="form-control" name="experience" placeholder="" maxlength=20>
                                 <p class="required" id="required_experience">Field Required</p>																			                                        
                                 <p class="required" id="invalid_experience">Invalid Experience</p>	 
                             </div>	
@@ -213,7 +227,7 @@
                                 </div>
                             </div>
                             
-                            <div class="form-group" id="ddescription0">
+                            <div class="form-group" id="ddescription00">
                                 <label for="icode" class="col-md-3 control-label">Description(Explain your work in bullet points)</label>
                                 <div class="col-md-5">
                                     <input id="description0" class="form-control" name="description0[]" maxlength="350">
@@ -314,6 +328,13 @@
 					$("#required_experience").hide();
 					$("#invalid_experience").hide();
 				}
+				var k=0;
+				  while(k <= 10){
+					  if(!$("#company"+k).is(':visible')){
+						  $('#company'+k).val("");
+					  }
+					  k++;
+				  }
 				var j=0;
 				while(j<=10){
 					if ($("#company"+j).val() =='' && $("#company"+j).is(':visible')){
@@ -339,8 +360,16 @@
 						}
 					}
 				}
+				
 			});
 			$("#btn-signup").click(function(event){
+				var k=0;
+				  while(k <= 10){
+					  if(!$("#duration"+k).is(':visible')){
+						  $('#duration'+k).val("");
+					  }
+					  k++;
+				  }
 				var j=0;
 				while(j<=10){
 					if ($("#duration"+j).val()=='' && $("#duration"+j).is(':visible')){
@@ -366,8 +395,16 @@
 						}
 					}
 				}
+				
 			});
 			$("#btn-signup").click(function(event){
+				var k=0;
+				  while(k <= 10){
+					  if(!$("#designation"+k).is(':visible')){
+						  $('#designation'+k).val("");
+					  }
+					  k++;
+				  }
 				var j=0;
 				while(j<=10){
 					if ($("#designation"+j).val() =='' && $("#designation"+j).is(':visible')){
@@ -390,6 +427,7 @@
 						$('.desigs'+i).hide();
 					}
 				}
+
 			});
 			$("#btn-signup").click(function(event){
 			/*	var input_city = $("#description").val();
@@ -447,7 +485,7 @@
 				  e.preventDefault();
 				  if(i <= max_fields) {
 					  i++;
-					  var newprofessionalbackground = "<div id ='professional"+i+"'><img  id='"+i+"' onclick='div_hide(this)' src='assets/img/close.png' style='float: right'><div class='form-group'><label for='icode' class='col-md-3 control-label'>Organisation</label><div class='col-md-5'><input type='text' id='company"+i+"' class='form-control com"+i+"' name='company[]' placeholder='' maxlength='150'><p class='required coms"+i+"' id='required_company'>Field Required</p></div></div><div class='form-group'><label for='icode' class='col-md-3 control-label'>Duration</label><div class='col-md-5'><input type='text' id='duration"+i+"' class='form-control dur"+i+"' name='duration[]' placeholder='' maxlength='150'><p class='required durs"+i+"' id='required_duration'>Field Required</p></div></div><div class='form-group'><label for='icode' class='col-md-3 control-label'>Designation</label><div class='col-md-5'><input type='text' id='designation"+i+"' class='form-control desig"+i+"' name='designation[]' placeholder='' maxlength='150'><p class='required desigs"+i+"' id='required_designation'>Field Required</p></div></div><div class='form-group'><label for='icode' class='col-md-3 control-label'>Description</label><div class='col-md-5'><input class='form-control desc"+i+"' id ='description"+i+"' name='description"+i+"[]' maxlength='350'><p class='required descs"+i+"' id='required_description'>Field Required</p></div></div><div  id='adddescription"+i+"'></div ><div class='form-group'><label for='icode' class='col-md-3 control-label'></label><div class='col-md-5'><a href='' id='descript"+i+"' class='add-description' onclick='AddDescription(event,this)' style='float: right;margin-right: 5%'>+ Add Point</a></div></div></div>";
+					  var newprofessionalbackground = "<div id ='professional"+i+"'><i class='glyphicon glyphicon-remove' id='"+i+"' onclick='div_hide(this)' style='float: right'></i><div class='form-group'><label for='icode' class='col-md-3 control-label'>Organisation</label><div class='col-md-5'><input type='text' id='company"+i+"' class='form-control com"+i+"' name='company[]' placeholder='' maxlength='150'><p class='required coms"+i+"' id='required_company'>Field Required</p></div></div><div class='form-group'><label for='icode' class='col-md-3 control-label'>Duration</label><div class='col-md-5'><input type='text' id='duration"+i+"' class='form-control dur"+i+"' name='duration[]' placeholder='' maxlength='150'><p class='required durs"+i+"' id='required_duration'>Field Required</p></div></div><div class='form-group'><label for='icode' class='col-md-3 control-label'>Designation</label><div class='col-md-5'><input type='text' id='designation"+i+"' class='form-control desig"+i+"' name='designation[]' placeholder='' maxlength='150'><p class='required desigs"+i+"' id='required_designation'>Field Required</p></div></div><div class='form-group'><label for='icode' class='col-md-3 control-label'>Description</label><div class='col-md-5'><input class='form-control desc"+i+"' id ='description"+i+"' name='description"+i+"[]' maxlength='350'><p class='required descs"+i+"' id='required_description'>Field Required</p></div></div><div  id='adddescription"+i+"'></div ><div class='form-group'><label for='icode' class='col-md-3 control-label'></label><div class='col-md-5'><a href='' id='descript"+i+"' class='add-description' onclick='AddDescription(event,this)' style='float: right;margin-right: 5%'>+ Add Point</a></div></div></div>";
 					  $("#ProfessionalBackground0").append(newprofessionalbackground);
 				  }
 			  });
@@ -456,7 +494,7 @@
 			event.preventDefault();
 			var ids = elem.id;
 			if(ids <=9){
-				 var newprofessionalbackground = "<div id ='professional"+ids+"'><img  id='"+ids+"' onclick='div_hide(this)' src='assets/img/close.png' style='float: right'><div class='form-group'><label for='icode' class='col-md-3 control-label'>Organisation</label><div class='col-md-9'><input type='text' id='company"+ids+"' class='form-control com"+ids+"' name='company[]' placeholder='' maxlength='150'><p class='required coms"+ids+"' id='required_company'>Field Required</p></div></div><div class='form-group'><label for='icode' class='col-md-3 control-label'>Duration</label><div class='col-md-9'><input type='text' id='duration"+ids+"' class='form-control dur"+ids+"' name='duration[]' placeholder='' maxlength='150'><p class='required durs"+ids+"' id='required_duration'>Field Required</p></div></div><div class='form-group'><label for='icode' class='col-md-3 control-label'>Designation</label><div class='col-md-9'><input type='text' id='designation"+ids+"' class='form-control desig"+ids+"' name='designation[]' placeholder='' maxlength='150'><p class='required desigs"+ids+"' id='required_designation'>Field Required</p></div></div><div class='form-group'><label for='icode' class='col-md-3 control-label'>Description</label><div class='col-md-5'><input class='form-control desc"+ids+"' id ='description"+ids+"' name='description"+ids+"[]' maxlength='350'><p class='required descs"+ids+"' id='required_description'>Field Required</p></div></div><div  id='adddescription"+ids+"'></div ><div class='form-group'><label for='icode' class='col-md-3 control-label'></label><div class='col-md-5'><a href='' id='descript"+ids+"' class='add-description' onclick='AddDescription(event,this)' style='float: right;margin-right: 5%'>+ Add Point</a></div></div></div>";
+				 var newprofessionalbackground = "<div id ='professional"+ids+"'><i class='glyphicon glyphicon-remove' id='"+ids+"' onclick='div_hide(this)' style='float: right'></i><div class='form-group'><label for='icode' class='col-md-3 control-label'>Organisation</label><div class='col-md-5'><input type='text' id='company"+ids+"' class='form-control com"+ids+"' name='company[]' placeholder='' maxlength='150'><p class='required coms"+ids+"' id='required_company'>Field Required</p></div></div><div class='form-group'><label for='icode' class='col-md-3 control-label'>Duration</label><div class='col-md-5'><input type='text' id='duration"+ids+"' class='form-control dur"+ids+"' name='duration[]' placeholder='' maxlength='150'><p class='required durs"+ids+"' id='required_duration'>Field Required</p></div></div><div class='form-group'><label for='icode' class='col-md-3 control-label'>Designation</label><div class='col-md-5'><input type='text' id='designation"+ids+"' class='form-control desig"+ids+"' name='designation[]' placeholder='' maxlength='150'><p class='required desigs"+ids+"' id='required_designation'>Field Required</p></div></div><div class='form-group'><label for='icode' class='col-md-3 control-label'>Description</label><div class='col-md-5'><input class='form-control desc"+ids+"' id ='description"+ids+"' name='description"+ids+"[]' maxlength='350'><p class='required descs"+ids+"' id='required_description'>Field Required</p></div></div><div  id='adddescription"+ids+"'></div ><div class='form-group'><label for='icode' class='col-md-3 control-label'></label><div class='col-md-5'><a href='' id='descript"+ids+"' class='add-description' onclick='AddDescription(event,this)' style='float: right;margin-right: 5%'>+ Add Point</a></div></div></div>";
 				  $("#ProfessionalBackground0").append(newprofessionalbackground);
 				  ids++;
 				  elem.id = ids;
@@ -508,7 +546,7 @@
 				l=z
 			}
 			if(l <= max_description) {
-				  $("#adddescription"+no[1]).append("<div id='close"+no[1]+l+"'  class='form-group'><label for='icode' class='col-md-3 control-label'>Description</label><div class='col-md-9'><div class='row'><div class='col-md-6 col-xs-10' style='padding-right:10px;'><input id='description"+no[1]+l+"' class='form-control' name='description"+no[1]+"[]' maxlength='350'><p class='required de"+no[1]+l+"' id='required_description'>Field Required</p></div><div class='col-md-6 col-xs-2' style='padding-left:0; padding-top:4px;'><a id='hide"+no[1]+l+"' onclick=closediv(this)><img src='assets/img/close.png'></a></div></div></div></div>");	  
+				  $("#adddescription"+no[1]).append("<div id='close"+no[1]+l+"'  class='form-group'><label for='icode' class='col-md-3 control-label'>Description</label><div class='col-md-9'><div class='row'><div class='col-md-6 col-xs-10' style='padding-right:10px;'><input id='description"+no[1]+l+"' class='form-control' name='description"+no[1]+"[]' maxlength='350'><p class='required de"+no[1]+l+"' id='required_description'>Field Required</p></div><div class='col-md-6 col-xs-2' style='padding-left:0; padding-top:4px;'><a id='hide"+no[1]+l+"' onclick=closediv(this)><i class='glyphicon glyphicon-remove'></i></div></div></div></div>");	  
 				  if(no[1] == 0){
 						a++;
 					}else if (no[1] == 1) {
@@ -538,6 +576,11 @@
 			var id =elem.id;
 			var element = id.split("hide");
 			$('#close'+element[1]).hide();
+		}
+		function closedesc(elem){
+			var id =elem.id;
+			var element = id.split("hide");
+			$('#ddescription'+element[1]).hide();
 		}
 	</script>
 <script type="text/javascript">

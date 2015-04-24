@@ -19,6 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.AC.DAO.AdminAdvisorDAO;
 import org.AC.dto.AdvisorProfileDTO;
+import org.AC.dto.AdvisorServiceDTO;
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Logger;
 
@@ -64,11 +65,20 @@ public class AdminAdvisorsController extends HttpServlet {
 			response.sendRedirect("Error");
 		}
 		List<AdvisorProfileDTO> advisors = new ArrayList<AdvisorProfileDTO>();
+		List<Integer> advisorIds = new ArrayList<Integer>();
 		//Get all the details of the advisor
 		AdminAdvisorDAO advisor = new AdminAdvisorDAO();
 		advisors = advisor.GetAdvisors();
+		for (AdvisorProfileDTO adv : advisors) {
+			advisorIds.add(adv.getAdvisorId());
+		}
+		List<AdvisorServiceDTO> advisorServices = new ArrayList<AdvisorServiceDTO>();
+		//Getting services details of the advisors
+		AdminAdvisorDAO services = new AdminAdvisorDAO();
+		advisorServices = services.GetServices(advisorIds);
 		if( isError!= null &&  !isError){
 			request.setAttribute("advisors", advisors);
+			request.setAttribute("advisorServices", advisorServices);
 			RequestDispatcher rd = getServletContext().getRequestDispatcher("/AdminAdvisor.jsp");
 	        rd.forward(request, response);
 		}
@@ -121,7 +131,9 @@ public class AdminAdvisorsController extends HttpServlet {
 		}else if(operation.equalsIgnoreCase("updateFreeSessions")){
 			
 			int advisorId = Integer.parseInt(request.getParameter("advisorId"));
-			int noOfFreeSessions = Integer.parseInt(request.getParameter("noOfFreeSessions"));
+			String noOfFreeSessionsCT = request.getParameter("noOfFreeSessionsCT");
+			String noOfFreeSessionsMI = request.getParameter("noOfFreeSessionMI");
+			String noOfFreeSessionsRC = request.getParameter("noOfFreeSessionsRC");
 			Boolean isAdmin = false;
 			Boolean isError = false;
 			try{
@@ -134,13 +146,33 @@ public class AdminAdvisorsController extends HttpServlet {
 				isError = true;
 				response.sendRedirect("Error");
 			}
-			
+			List<AdvisorServiceDTO> advisors = new ArrayList<AdvisorServiceDTO>();
+			if(noOfFreeSessionsCT != null){
+				AdvisorServiceDTO service = new AdvisorServiceDTO();
+				service.setService("careertalk");
+				service.setIsFree(Integer.parseInt(noOfFreeSessionsCT));
+				advisors.add(service);
+			}
+			if(noOfFreeSessionsMI	 != null){
+				AdvisorServiceDTO service = new AdvisorServiceDTO();
+				service.setService("mockinterview");
+				service.setIsFree(Integer.parseInt(noOfFreeSessionsMI));
+				advisors.add(service);
+			}
+			if(noOfFreeSessionsRC != null){
+				AdvisorServiceDTO service = new AdvisorServiceDTO();
+				service.setService("cvcritique");
+				service.setIsFree(Integer.parseInt(noOfFreeSessionsRC));
+				advisors.add(service);
+			}
 			AdminAdvisorDAO advisor = new AdminAdvisorDAO();
-			advisor.UpdateFreeSessions(advisorId,noOfFreeSessions);
+			advisor.UpdateFreeSessions(advisorId,advisors);
 		}else if(operation.equalsIgnoreCase("updateDiscount")){
 			
 			int advisorId = Integer.parseInt(request.getParameter("advisorId"));
-			int discount = Integer.parseInt(request.getParameter("updateDiscount"));
+			String updateDiscountCT = request.getParameter("updateDiscountCT");
+			String updateDiscountMI = request.getParameter("updateDiscountMI");
+			String updateDiscountRC = request.getParameter("updateDiscountRC");
 			Boolean isAdmin = false;
 			Boolean isError = false;
 			try{
@@ -153,11 +185,31 @@ public class AdminAdvisorsController extends HttpServlet {
 				isError = true;
 				response.sendRedirect("Error");
 			}
-			
+			List<AdvisorServiceDTO> advisors = new ArrayList<AdvisorServiceDTO>();
+			if(updateDiscountCT != null){
+				AdvisorServiceDTO service = new AdvisorServiceDTO();
+				service.setService("careertalk");
+				service.setDiscount(Integer.parseInt(updateDiscountCT));
+				advisors.add(service);
+			}
+			if(updateDiscountMI	 != null){
+				AdvisorServiceDTO service = new AdvisorServiceDTO();
+				service.setService("mockinterview");
+				service.setDiscount(Integer.parseInt(updateDiscountMI));
+				advisors.add(service);
+			}
+			if(updateDiscountRC != null){
+				AdvisorServiceDTO service = new AdvisorServiceDTO();
+				service.setService("cvcritique");
+				service.setDiscount(Integer.parseInt(updateDiscountRC));
+				advisors.add(service);
+			}
 			AdminAdvisorDAO advisor = new AdminAdvisorDAO();
-			advisor.UpdateDiscount(advisorId,discount);
+			advisor.UpdateDiscount(advisorId,advisors);
 		}else if(operation.equalsIgnoreCase("discountToAll")){
-			int discount = Integer.parseInt(request.getParameter("discount"));
+			int discountCT = Integer.parseInt(request.getParameter("discountCT"));
+			int discountMI = Integer.parseInt(request.getParameter("discountMI"));
+			int discountRC = Integer.parseInt(request.getParameter("discountRC"));
 			Boolean isAdmin = false;
 			Boolean isError = false;
 			try{
@@ -170,9 +222,24 @@ public class AdminAdvisorsController extends HttpServlet {
 				isError = true;
 				response.sendRedirect("Error");
 			}
+			List<AdvisorServiceDTO> advisors = new ArrayList<AdvisorServiceDTO>();
+				AdvisorServiceDTO service1 = new AdvisorServiceDTO();
+				service1.setService("careertalk");
+				service1.setDiscount(discountCT);
+				advisors.add(service1);
+			
+				AdvisorServiceDTO service2 = new AdvisorServiceDTO();
+				service2.setService("mockinterview");
+				service2.setDiscount(discountMI);
+				advisors.add(service2);
+
+				AdvisorServiceDTO service3 = new AdvisorServiceDTO();
+				service3.setService("cvcritique");
+				service3.setDiscount(discountRC);
+				advisors.add(service3);
 			
 			AdminAdvisorDAO advisor = new AdminAdvisorDAO();
-			advisor.UpdateDiscountToAll(discount);
+			advisor.UpdateDiscountToAll(advisors);
 		}
 		
 		logger.info("Exit doPost method of AdminAdvisorsController");

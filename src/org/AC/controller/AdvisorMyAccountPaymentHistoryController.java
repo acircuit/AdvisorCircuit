@@ -52,13 +52,16 @@ public class AdvisorMyAccountPaymentHistoryController extends HttpServlet {
 				sessionId.add(paymentDTO.getSessionId());
 				requestId.add(paymentDTO.getRequestId());
 				paymentDTO.setAcceptedDateString((new SimpleDateFormat("dd-MMM-yyyy' 'h:mm a").format(new Date(paymentDTO.getAcceptedDate().getTime()))));
-
 			}
+			
 			
 			//Getting service,mode from request table
 			AdvisorPaymentHistoryDAO requestInfo = new AdvisorPaymentHistoryDAO();
 			requests = requestInfo.GetRequestInfo(requestId);
-			
+			for (PaymentDTO paymentDTO : requests) {
+				double discount = paymentDTO.getDiscount()* paymentDTO.getPrice() /100;
+				paymentDTO.setDiscount((int)discount);
+			}
 			//Getting date of payment, payment mode, and tracking id from payment table
 			AdvisorPaymentHistoryDAO paymentInfo = new AdvisorPaymentHistoryDAO();
 			payments = paymentInfo.GetPaymentInfo(sessionId);			

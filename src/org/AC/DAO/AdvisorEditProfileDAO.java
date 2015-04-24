@@ -14,7 +14,7 @@ public class AdvisorEditProfileDAO {
 	Connection conn = null;
 
 	//This function sets the General info of the advisor in the table.
-		public Boolean setGeneralInfo(String name,String gender,String age,String city,String nationality,String phone,String industry,String intro,int advisorId,String state){
+		public Boolean setGeneralInfo(String name,String gender,String age,String city,String phone,String industry,String intro,int advisorId,String state){
 			
 		
 		logger.info("Entered setGeneralInfo method of AdvisorEditProfileDAO");
@@ -24,18 +24,17 @@ public class AdvisorEditProfileDAO {
 		try {
 			conn =ConnectionFactory.getConnection();
 			conn.setAutoCommit(false);
-			String query = "UPDATE advisordetails  SET NAME=?,GENDER = ?,AGE = ?,PHONE_NUMBER = ?,CITY = ?,NATIONALITY = ?,INDUSTRY = ?,INTRODUCTION = ?,STATE = ? WHERE ADVISOR_ID = ?";
+			String query = "UPDATE advisordetails  SET NAME=?,GENDER = ?,AGE = ?,PHONE_NUMBER = ?,CITY = ?,INDUSTRY = ?,INTRODUCTION = ?,STATE = ? WHERE ADVISOR_ID = ?";
 			PreparedStatement pstmt = conn.prepareStatement(query);
 			pstmt.setString(1,name );
 			pstmt.setString(2, gender);
 			pstmt.setString(3, age);
 			pstmt.setString(4, phone);
 			pstmt.setString(5, city);
-			pstmt.setString(6, nationality);
-			pstmt.setString(7, industry);
-			pstmt.setString(8, intro);
-			pstmt.setString(9, state);
-			pstmt.setInt(10, advisorId);
+			pstmt.setString(6, industry);
+			pstmt.setString(7, intro);
+			pstmt.setString(8, state);
+			pstmt.setInt(9, advisorId);
 			int result = pstmt.executeUpdate(); 
 			if(result >0) {
 				conn.commit();

@@ -73,12 +73,12 @@
             	<div id="page-wrapper">
 					
                     <div class="row">
-                        <div class="col-md-12">
+                       <%-- <div class="col-md-12">
                             <div class="btn-group" role="group" style="margin-bottom:15px;">
                               <button type="button" class="btn btn-default">Month</button>
                               <button type="button" class="btn btn-default">Year</button>
                             </div>
-                        </div>
+                        </div>  --%>
                     	
                         <div class="col-md-12">
             				<div class="table-responsive">
@@ -88,19 +88,33 @@
                                 <th>Session Date & Time</th>
                                 <th>Service Type</th>
                                 <th>Service Mode</th>
-                                <th>Price(Rs)</th>
+                                <th>Price(Rs)</th>	
                                 <th>Discount(%)</th>
                                 <th>Amount Paid(Rs)</th>
                                 <th>Date of Payment</th>
                                 <th>Payment Mode</th>
                                 <th>Tracking Id</th>
+                                <th>Admin's Comment</th>
                             </tr>
                             	<c:forEach var="session" items="${sessions}">
+                            		<c:forEach var="request" items="${requests}">  
+                            			<c:if test="${request.getRequestId() == session.getRequestId()}">                          		
                             	  <tr>
-                            		<td>${session.getSessionId()}</td>
+                            	  	<td>
+                            	  	<c:choose>
+                            	  		<c:when test="${session.getStatus().equals('WAITING FOR SESSION') }">
+                            	  			<a href="UserUpcomingSessionViewDetails?rId=${request.getRequestId()}" target="blank">${session.getSessionId()}</a>
+                            	  		</c:when>
+                            	  		<c:when test="${session.getStatus().equals('SESSION COMPLETE') }">
+                            	  			<a href="UserPreviousSessionViewDetails?rId=${request.getRequestId()}" target="blank">${session.getSessionId()}</a>
+                            	  		</c:when>
+                            	  		<c:otherwise>
+                            	  			<a href="UserCancelledSessionViewDetails?rId=${request.getRequestId()}" target="blank">${session.getSessionId()}</a>                            	  		
+                            	  		</c:otherwise>
+                            	  	</c:choose>
+                            		</td>
                             		<td>${session.getAcceptedDateString()}</td>
-                            		<c:forEach var="request" items="${requests}">
-                            			<c:if test="${request.getRequestId() == session.getRequestId()}">
+                            			
                             				<c:choose>
                             					<c:when test="${request.getService().equals('careertalk')}">
                             						<td>Career Talk</td>
@@ -116,16 +130,47 @@
 		                           			<td>${request.getPrice()}</td>
 		                           			<td>${request.getDiscount()}</td>
 		                           			<td>${request.getAmount()}</td>
-	                           			</c:if>
-	                          		</c:forEach>
+	                           			
                            			<c:forEach var="payment" items="${payments}">
                            				<c:if test="${payment.getSessionId() == session.getSessionId()}">
                            					<td>${payment.getPurchaseDateString()}</td>
                            					<td>${payment.getPaymentMode()}</td>
-                           					<td>${payment.getTrackingId()}</td>	                           					
+                           					<td>${payment.getTrackingId()}</td>
+                           					<td><a data-toggle="modal" data-target="#ucomment${session.getSessionId() }"> Admin's Comment </a></td>
+                           					<div class="modal fade" id="ucomment${session.getSessionId()}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+												<div class="modal-dialog modal-lg">
+													<div class="modal-content" style="overflow-y :hidden">
+														<div class="modal-header">
+															<button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+															<h4 class="modal-title" id="myModalLabel" style="text-align: center;">Comment</h4>
+														</div>
+														<div class="modal-body">
+		                            		
+														<form id="forgot_password_form" class="form-horizontal" role="form"  method="post">
+							                                <div class="form-group">
+							                                    <label for="icode" class="col-md-3 control-label">Comment</label>
+							                                     <div class="col-md-9">
+							                                     	  <c:choose>
+							                                     	  		<c:when test="${session.getUserComment() != null && !session.getUserComment().equals('') }">
+							                                     	  			<textarea rows="5" cols="50" id="usercomment${session.getSessionId()}" maxlength="750" readonly="readonly">${session.getUserComment()}</textarea>							                                     	  		
+							                                     	  		</c:when>
+							                                     	  		<c:otherwise>
+							                                     	  			<c:out value="No Comments "></c:out>
+							                                     	  		</c:otherwise>
+							                                     	  </c:choose>
+																 </div>
+							                                </div>
+							                               
+							                            </form>
+													</div>
+												</div>
+					                     	</div>
+		                   				</div>	                           					
                            				</c:if>
                            			</c:forEach>
-                            	</tr>
+                           			</tr>
+                           		</c:if>
+                         		</c:forEach>
                             	</c:forEach>
                         </table>
                     </div>

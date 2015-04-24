@@ -205,7 +205,23 @@
 										<div class="form-group">
 													<label for="icode" class="col-md-3 control-label">Duration</label>
 												<div class="col-md-9">
-													<p class="form-control"><b><c:out value="${userRequest.getDuration()}"/></b></p>	
+													<c:choose>
+			                                    		<c:when test="${userRequest.getDuration().equals('0.5')}">
+			                                        		<p class="form-control"  name="optionsRadiosInlinem" id="optionsRadiosInlinem1">30 mins</p>	                                    		
+			                                    		</c:when>
+			                                    		<c:when test="${userRequest.getDuration().equals('0.75')}">
+			                                        		<p class="form-control" name="optionsRadiosInlinem" id="optionsRadiosInlinem1">45 mins</p>	                                    		
+			                                    		</c:when>
+			                                    		<c:when test="${userRequest.getDuration().equals('1')}">
+			                                        		<p class="form-control" name="optionsRadiosInlinem" id="optionsRadiosInlinem1">1 hour</p>	                                    		
+			                                    		</c:when>
+			                                    		<c:when test="${userRequest.getDuration().equals('1.5')}">
+			                                        		<p class="form-control"  name="optionsRadiosInlinem" id="optionsRadiosInlinem1">1.5 hour</p>	                                    		
+			                                    		</c:when>
+			                                    		<c:otherwise>
+			                                    			<p class="form-control" name="optionsRadiosInlinem" id="optionsRadiosInlinem1">N/A</p>	
+			                                    		</c:otherwise>
+			                                    	</c:choose>	
 												</div>
 										</div>
 										<input type="hidden" name="rId" value="${userRequest.getRequestId()}">

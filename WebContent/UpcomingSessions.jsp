@@ -64,7 +64,7 @@
         	<div class="col-md-3">&nbsp;</div>
             <div class="col-md-9">
             	<h4></h4>
-            	<h1 class="page-header">Upcoming Sessions</h1>
+            	<h1 class="page-header">Current Sessions</h1>
             </div>
         </div>
         
@@ -146,7 +146,7 @@
                         </c:forEach>
                     </c:when>
                     <c:otherwise>
-                        <c:out value="YOU HAVE NO UPCOMING SESSIONS"></c:out>
+                        <c:out value="YOU HAVE NO CURRENT SESSIONS"></c:out>
                     </c:otherwise>
                 </c:choose>
 		

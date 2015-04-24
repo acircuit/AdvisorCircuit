@@ -82,18 +82,27 @@
                                 <th>Service Type</th>
                                 <th>Service Mode</th>
                                 <th>Price(Rs)</th>
-                                <th>Discount(%)</th>
-                                <th>Amount Paid(Rs)</th>
-                                <th>Amount Payable(Rs)</th>
-                                <th>Paid/Unpaid</th>
+                                <th>Your due amount(Rs)</th>
+                                <th>Payment Status</th>
+                                <th>Admin's Comment</th>
                             </tr>
                           
                             	<c:forEach var="session" items="${sessions}">
                             	   <tr>
-                            		<td>${session.getSessionId()}</td>
-                            		<td>${session.getAcceptedDateString()}</td>
-                            		<c:forEach var="request" items="${requests}">
+                            	   <c:forEach var="request" items="${requests}">
                             			<c:if test="${request.getRequestId() == session.getRequestId()}">
+                            			 <td>
+		                            	  	<c:choose>
+		                            	  		<c:when test="${session.getStatus().equals('SESSION COMPLETE') }">
+		                            	  			<a href="AdvisorPreviousSessionViewDetail?rId=${request.getRequestId()}" target="blank">${session.getSessionId()}</a>
+		                            	  		</c:when>
+		                            	  		<c:otherwise>
+		                            	  			<a href="AdvisorCancelledSessionViewDetail?rId=${request.getRequestId()}" target="blank">${session.getSessionId()}</a>                            	  		
+		                            	  		</c:otherwise>
+		                            	  	</c:choose>
+		                            		</td>
+                            		       <td>${session.getAcceptedDateString()}</td>
+                            		
 		                            		<c:choose>
                             					<c:when test="${request.getService().equals('careertalk')}">
                             						<td>Career Talk</td>
@@ -107,8 +116,6 @@
                             				</c:choose>
 		                             		<td>${request.getMode()}</td>
 		                           			<td>${request.getPrice()}</td>
-		                           			<td>${request.getDiscount()}</td>
-		                           			<td>${request.getAmount()}</td>
 	                           			</c:if>
 	                           		</c:forEach>
                            			<c:forEach var="payment" items="${payments}">
@@ -121,9 +128,41 @@
                            						<c:otherwise>
                            							<td>UNPAID</td>
                            						</c:otherwise>
-                           					</c:choose>                           					
+                           					</c:choose> 
+                           					                          					
                            				</c:if>
+                           				
                            			</c:forEach>
+                           			<td><a data-toggle="modal" data-target="#ucomment${session.getSessionId() }"> Admin's Comment </a></td>
+                           			<div class="modal fade" id="ucomment${session.getSessionId()}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+												<div class="modal-dialog modal-lg">
+													<div class="modal-content" style="overflow-y :hidden">
+														<div class="modal-header">
+															<button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+															<h4 class="modal-title" id="myModalLabel" style="text-align: center;">Comment</h4>
+														</div>
+														<div class="modal-body">
+		                            		
+														<form id="forgot_password_form" class="form-horizontal" role="form"  method="post">
+							                                <div class="form-group">
+							                                    <label for="icode" class="col-md-3 control-label">Comment</label>
+							                                     <div class="col-md-9">
+							                                     	  <c:choose>
+							                                     	  		<c:when test="${session.getAdvisorComment() != null && !session.getAdvisorComment().equals('') }">
+							                                     	  			<textarea rows="5" cols="50" id="usercomment${session.getSessionId()}" maxlength="750" readonly="readonly">${session.getAdvisorComment()}</textarea>							                                     	  		
+							                                     	  		</c:when>
+							                                     	  		<c:otherwise>
+							                                     	  			<c:out value="No Comments "></c:out>
+							                                     	  		</c:otherwise>
+							                                     	  </c:choose>
+																 </div>
+							                                </div>
+							                               
+							                            </form>
+													</div>
+												</div>
+					                     	</div>
+		                   				</div>	                           	
                            			</tr>
                             	</c:forEach>
                         </table>

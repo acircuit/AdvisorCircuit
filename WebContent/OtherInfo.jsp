@@ -46,7 +46,7 @@
 				professional="ProfessionalBackgroundEdit";
 				other="OtherInfoEdit";
 				service="ServicesEdit";
-				image = "Image?edit=true";
+				image = "ImageEdit";
 			}else{
 				action = "AdvisorRegistrationOtherInfo";
 				general ="AdvisorRegistrationGeneralInfo";
@@ -54,7 +54,7 @@
 				professional="AdvisorRegistrationProfessionalBackground";
 				other="AdvisorRegistrationOtherInfo";
 				service="AdvisorRegistrationServices";
-				image = "Image";
+				image = "AdvisorRegistrationImage";
 			}
 	%>
 </head>
@@ -90,15 +90,23 @@
                                 			<c:when test="${achievements.size()>0}">
                                 			<c:set var="counter" value="0"></c:set>
                                 				<c:forEach var="achievement" items="${achievements}">
-	                                				<div class="form-group" id="daward">
+	                                				<div class="form-group" id="daward${counter }">
 														<label for="icode" class="col-md-3 control-label">Achievements and Awards</label>
 					                                    <div class="col-md-5">
 					                                        <input id="award${counter}" class="form-control" name="achievement[]" value="${achievement.getAchievements() }" maxlength='350' >
 															<p class="required" id="required_award${counter}">Field Required</p>																			                                        
 														</div>
 														<div class="col-md-2">	
-					                                         <button type="button" class="btn btn-default" data-html=" " data-container="body" data-toggle="popover" data-trigger="focus" data-placement="right"  data-content="Example: Award for <b>Excellent Salesmanship</b> in 2010. <br>Part of teams which got nominated and won several prestigious awards in advertising">
-														   	<span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> </button>
+															<c:choose>
+	                                                     		<c:when test="${counter > 0 }">
+	                                                     			<a id="hide${counter}" onclick="closeaward(this)"><i class="glyphicon glyphicon-remove"></i></a>
+	                                                     		</c:when>
+	                                                     		<c:otherwise>
+	                                                     			  <button type="button" class="btn btn-default" data-html=" " data-container="body" data-toggle="popover" data-trigger="focus" data-placement="right"  data-content="Example: Award for <b>Excellent Salesmanship</b> in 2010. <br>Part of teams which got nominated and won several prestigious awards in advertising">
+														   		    	<span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> </button>
+	                                                     		</c:otherwise>
+                                                   			 </c:choose>
+					                                         
 				                               			</div>
 			                                		</div>
 			                                		<c:set var="counter" value="${counter+1}"></c:set>
@@ -126,18 +134,25 @@
 				                                	<hr>
                                 			</c:otherwise>
                                 		</c:choose>
-                                		<c:set var="skillcounter" value="0"></c:set>
+                                		<c:set  var="skillcounter"  value="0"></c:set>
                                 		<c:forEach var="skill" items="${keySkill}">
-                                			<div class="form-group" id="dskill">
+                                			<div class="form-group" id="dskill${skillcounter}">
 												<label for="icode" class="col-md-3 control-label">Key Skills</label>
 			                                    <div class="col-md-5">
 			                                        <input id="skill${skillcounter}" class="form-control" name="keyskills[]" value="${skill.getKeyskill()}" maxlength='350'>  
 													<p class="required" id="required_skill">Field Required</p>																			                                        
 												</div>
 												<div class="col-md-2">
-			                                        <button type="button" class="btn btn-default" data-html=" " data-container="body" data-trigger="focus" data-toggle="popover" data-placement="right" data-content="Example: Specialise in market research and understanding consumer behaviour.<br>Extensive knowledge about the field of advertising.<br>How to prepare for a career in digital marketing.<br> How to work with multi-cultural teams. ">
-												   	<span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> </button>  
-			                               		</div>
+													<c:choose>
+                                                     		<c:when test="${skillcounter > 0 }">
+                                                     			<a id="hide${skillcounter}" onclick="closeskill(this)"><i class="glyphicon glyphicon-remove"></i></a>
+                                                     		</c:when>
+                                                     		<c:otherwise>
+                                                     			  <button type="button" class="btn btn-default" data-html=" " data-container="body" data-trigger="focus" data-toggle="popover" data-placement="right" data-content="Example: Specialise in market research and understanding consumer behaviour.<br>Extensive knowledge about the field of advertising.<br>How to prepare for a career in digital marketing.<br> How to work with multi-cultural teams. ">
+											   				  	  <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> </button>  
+                                                     		</c:otherwise>
+                                                    </c:choose>
+			                                    </div>
 		                                	</div>
 		                                	<c:set var="skillcounter" value="${skillcounter+1}"></c:set>
                                 		</c:forEach>
@@ -238,7 +253,8 @@
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
 	<script src="https://code.jquery.com/jquery-1.11.0.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>    <script src="assets/js/bootstrap.min.js"></script>            
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+    
     <script>
     // popover demo
     $("[data-toggle=popover]")
@@ -256,6 +272,13 @@
 		$(document).ready(function() {
 			<!--job can't be blank-->
 			$("#btn-signup").click(function(event){
+				var i =0;
+				while(i<=10){
+					if(!$('#skill'+i).is(':visible')){
+						$('#skill'+i).val("");	
+					}
+					i++;
+				}
 				var input_city = $("#skill0").val();
 				if (input_city==''){
 					$("#required_skill").show();
@@ -286,8 +309,11 @@
 				var i=0;
 				while(i<=10){
 					i++;
-					if(!$('.award'+i).is(':visible')){
-						$('.award'+i).val("");
+					if(!$('#award'+i).is(':visible')){
+						$('#award'+i).val("");
+					}
+					if(!$('#awards'+i).is(':visible')){
+						$('#awards'+i).val("");
 					}
 				}
 			});
@@ -303,20 +329,25 @@
 			if(i <= max_award) {
 				  i++;
 				  l++;
-				  $("#awards0").append("<div class='form-group' id='daward"+l+"'><label for='icode' class='col-md-3 control-label'>Achievements and Awards</label><div class='col-md-4'><input id='award"+i+"'  class='form-control award"+i+"' name='achievement[]' maxlength='350'><p class='required achieve"+i+"' id='required_award'>Field Required</p></div><div class='col-md-2'><a id='hide"+l+"' style='float:right' onclick=closediv(this)><img src='assets/img/close.png'></a></div></div>");	  	
+				  $("#awards0").append("<div class='form-group' id='dawards"+l+"'><label for='icode' class='col-md-3 control-label'>Achievements and Awards</label><div class='col-md-4'><input id='awards"+i+"'  class='form-control award"+i+"' name='achievement[]' maxlength='350'><p class='required achieve"+i+"' id='required_award'>Field Required</p></div><div class='col-md-2'><a id='hide"+l+"' style='float:right' onclick=closediv(this)><i class='glyphicon glyphicon-remove'></i></a></div></div>");	  	
 			}
 		}
-		var k=0;
+		var k="${skillcounter}";
 		function AddSkills(event){
 			var max_skill = 10;
 			event.preventDefault();
 			if(k <= max_skill) {
-				  k++;
-				  $("#skills0").append("<div class='form-group' id='dskill"+k+"'><label for='icode' class='col-md-3 control-label'>Key Skills</label><div class='col-md-4'><input id='skill"+k+"' class='form-control skill"+k+"' name='keyskills[]' maxlength='350' ><p class='required key"+k+"' id='required_skill'>Field Required</p></div><div class='col-md-2'><a id='hide"+k+"' style='float:right' onclick=closeskill(this)><img src='assets/img/close.png'></a></div></div>");	  	
+				$("#skills0").append("<div class='form-group' id='dskill"+k+"'><label for='icode' class='col-md-3 control-label'>Key Skills</label><div class='col-md-4'><input id='skill"+k+"' class='form-control skill"+k+"' name='keyskills[]' maxlength='350' ><p class='required key"+k+"' id='required_skill'>Field Required</p></div><div class='col-md-2'><a id='hide"+k+"' style='float:right' onclick=closeskill(this)><i class='glyphicon glyphicon-remove'></i></div></div>");	
+				k++;
 			}
 		}
 		
 		function closediv(elem){
+			var id =elem.id;
+			var element = id.split("hide");
+			$('#dawards'+element[1]).hide();
+		}
+		function closeaward(elem){
 			var id =elem.id;
 			var element = id.split("hide");
 			$('#daward'+element[1]).hide();

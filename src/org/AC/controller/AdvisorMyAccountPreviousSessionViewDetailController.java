@@ -34,6 +34,7 @@ import org.AC.DAO.SessionFeedBackDAO;
 import org.AC.Util.GetRelativeImageURL;
 import org.AC.Util.GetTimeLeftForReply;
 import org.AC.dto.AdvisorProfileDTO;
+import org.AC.dto.FeedbackDTO;
 import org.AC.dto.SessionDTO;
 import org.AC.dto.SessionFeedBackDTO;
 import org.AC.dto.TimeDTO;
@@ -77,6 +78,8 @@ public class AdvisorMyAccountPreviousSessionViewDetailController extends HttpSer
 		String userName= "";
 		String mode="";
 		int sId = 0;
+		FeedbackDTO feeds = new FeedbackDTO(); 
+		Boolean isFeedback = false;
 		Timestamp acceptedDate = null;
 		try{
 	    advisorId = (int) request.getSession().getAttribute("advisorId"); 
@@ -126,6 +129,9 @@ public class AdvisorMyAccountPreviousSessionViewDetailController extends HttpSer
 			difference = time.getTimeLeftForSession(acceptedDate);
 			for (UserRequestDTO userRequestDTO : list1) {
 				mode = userRequestDTO.getMode();
+				if(userRequestDTO.getService().equals("cvcritique") || userRequestDTO.getService().equals("mockinterview")){
+					isFeedback = true;
+				}
 				if(difference.size() > 0){
 					for (TimeDTO timeDTO : difference) {
 						userRequestDTO.setDays(timeDTO.getDay());
@@ -156,7 +162,6 @@ public class AdvisorMyAccountPreviousSessionViewDetailController extends HttpSer
 				 date = "NOT FIXED";
 				 time1 = "NOT FIXED";
 			}
-			SessionFeedBackDTO feed = new SessionFeedBackDTO();
 			//Check if the user has given any feedback
 			SessionFeedBackDTO feedUser = new SessionFeedBackDTO();
 			SessionFeedBackDTO feedAdvisor = new SessionFeedBackDTO();
@@ -165,7 +170,11 @@ public class AdvisorMyAccountPreviousSessionViewDetailController extends HttpSer
 			feedUser = feedback.GetUserFeedBackDetailsForUser(sId);
 			SessionFeedBackDAO feedbackAdvisor = new SessionFeedBackDAO();
 			feedAdvisor = feedbackAdvisor.GetAdvisorFeedbackDetailsForAdvisor(sId);
-			
+			if(isFeedback){
+				//Getting the FeedBack Form Path
+				MyAccountRequestDAO form = new MyAccountRequestDAO();
+				feeds = form.GetFeedbackPath(sId);
+			}
 			//Check if the user has sent any mail
 			SessionFeedBackDTO emailUser = new SessionFeedBackDTO();
 			SessionFeedBackDTO emailAdvisor = new SessionFeedBackDTO();
@@ -188,6 +197,7 @@ public class AdvisorMyAccountPreviousSessionViewDetailController extends HttpSer
 				request.setAttribute("requests", list1);
 				request.setAttribute("userdetails", list2);
 				request.setAttribute("sessionDate", sessionDate);
+				request.setAttribute("feed", feeds);
 				RequestDispatcher rd = getServletContext().getRequestDispatcher("/Session_ViewDetails.jsp");
 		        rd.forward(request, response);
 			}

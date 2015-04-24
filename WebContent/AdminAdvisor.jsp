@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <%@page import="org.AC.dto.AdvisorProfileDTO"%>
+<%@page import="org.AC.dto.AdvisorServiceDTO"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ page import="java.util.*" %>
@@ -45,7 +46,9 @@
     	
 	<%
 			List<AdvisorProfileDTO> advisors = (List<AdvisorProfileDTO>)request.getAttribute("advisors");
+			List<AdvisorServiceDTO> advisorServices = (List<AdvisorServiceDTO>)request.getAttribute("advisorServices");
 			pageContext.setAttribute("advisors", advisors);
+			pageContext.setAttribute("advisorServices", advisorServices);
 	%>
 </head>
 
@@ -82,34 +85,16 @@
                     <div class="table-responsive">
                     <table style="text-align:center" class="table table-bordered" id="tblData">
 												<tr>
+													<th style="text-align:center">ACTION</th>
 													<th style="text-align:center">ID</th>
 													<th style="text-align:center">NAME</th>
 													<th style="text-align:center">EMAIL</th>
 													<th style="text-align:center">ISACTIVE</th>
 													<th style="text-align:center">PHONE</th>
 													<th style="text-align:center">PRIORITY LEVEL</th>
-													<th style="text-align:center">ACTION</th></tr>
+												</tr>	
 													<c:forEach items="${advisors}" var="advisor">
 														<tr>
-														<td><p>${advisor.getAdvisorId()}</p></td>
-														<td style="color:
-														<c:choose>
-															<c:when test="${advisor.getIsVisible()}">black</c:when>
-															<c:otherwise>red</c:otherwise>
-														</c:choose>"><p>${advisor.getName()}</p></td>
-														<td><p>${advisor.getEmail()}</p></td>
-														<td>
-														<c:choose>
-															<c:when test="${advisor.getIsActive()}">
-																<p>ACTIVATED</p>
-															</c:when>
-															<c:otherwise>
-																<p>DEACTIVATED</p>
-															</c:otherwise>
-														</c:choose>
-														</td>
-														<td><p>${advisor.getPhone()}</p></td>
-														<td>${advisor.getPageRank()}</td>
 														<td style="padding-top:12px">
 														<ul style="list-style-type: none; padding-left:0px" class="action-btn">
 															<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Select Action</a>
@@ -137,29 +122,145 @@
 															</li>
 														</ul>
 														</td>
-														<div id ="deactivate"></div>
-														</tr>
-														<div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="discount${advisor.getAdvisorId()}">
-														  <div class="modal-dialog modal-sm">
-														    <div class="modal-content">
-														    	<div class="modal-header">
-													          		<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-													          			<h4 class="modal-title" id="mySmallModalLabel">Update Discount</h4>
-													       		</div>
+														<td><p>${advisor.getAdvisorId()}</p></td>
+														<td style="color:
+														<c:choose>
+															<c:when test="${advisor.getIsVisible()}">black</c:when>
+															<c:otherwise>red</c:otherwise>
+														</c:choose>"><p>${advisor.getName()}</p></td>
+														<td><p>${advisor.getEmail()}</p></td>
+														<td>
+														<c:choose>
+															<c:when test="${advisor.getIsActive()}">
+																<p>ACTIVATED</p>
+															</c:when>
+															<c:otherwise>
+																<p>DEACTIVATED</p>
+															</c:otherwise>
+														</c:choose>
+														</td>
+														<td><p>${advisor.getPhone()}</p></td>
+														<td>${advisor.getPageRank()}</td>
+													<div class="modal fade" id="freeSession${advisor.getAdvisorId()}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+													<div class="modal-dialog modal-lg">
+														<div class="modal-content">
+															<div class="modal-header">
+															<button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+															<h4 class="modal-title" id="myModalLabel">Update Free Session</h4>
+															</div>
+												        	<div class="modal-body">
+												        		<form action="">
+												        		<c:forEach items="${advisorServices}" var="service">
+												        			<c:if test="${service.getAdvisorId() ==  advisor.getAdvisorId()}">
+													        			<c:if test="${service.getService().equals('careertalk') }">
+													        				<h4 class="control-label">Career Talk</h4>
+													        				<div class="form-group">
+																				<label  class="col-md-3 control-label">No of Free Sessions : </label>
+																				<div class="col-md-9">
+																					<input type="text" name="updateFreeSessions" id="updateFreeSessionCT${advisor.getAdvisorId()}" value="${service.getIsFree()}"/>
+																				</div>
+																			</div>
+																			<br>
+																			<br>
+													        			</c:if>
+													        			<c:if test="${service.getService().equals('mockinterview') }">
+													        				<h4 class="" style="text-align: left">Mock Interview</h4>
+													        				<div class="form-group">
+																				<label  class="col-md-3 control-label">No of Free Sessions : </label>
+																				<div class="col-md-9">
+																					<input type="text" name="updateFreeSessions" id="updateFreeSessionMI${advisor.getAdvisorId() }" value="${service.getIsFree()}"/>
+																				</div>
+																			</div>
+																			<br>
+																			<br>
+													        			</c:if>
+													        			<c:if test="${service.getService().equals('cvcritique') }">
+													        				<h4>Resume Critique</h4>
+													        				<div class="form-group">
+																				<label  class="col-md-3 control-label">No of Free Sessions : </label>
+																				<div class="col-md-9">
+																					<input type="text" name="updateFreeSessions" id="updateFreeSessionRC${advisor.getAdvisorId()}" value="${service.getIsFree()}"/>
+																				</div>
+																			</div>
+																			<br>
+																			<br>
+													        			</c:if>
+												        			</c:if>
+												        		</c:forEach>
+												          		
+												          		<br/>
+												          		<br/>
+												          		<button id="${advisor.getAdvisorId() }" type="button" class="btn btn-primary" onclick="UpdateFreeSessions(this)">Change</button>        		
+												          		<br/>
+												          		</form>
+												        	</div>
+													    </div>
+													  </div>
+													</div>
+													<div class="modal fade" id="discount${advisor.getAdvisorId()}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+													<div class="modal-dialog modal-lg">
+														<div class="modal-content">
+															<div class="modal-header">
+															<button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+															<h4 class="modal-title" id="myModalLabel">Update Free Session</h4>
+															</div>
 													        	<div class="modal-body">
-													          		Discount(%) : <input type="text" name="updateDiscount" id="updateDiscount${advisor.getAdvisorId()}"/>
-													          		<input type="hidden" name="advisorId" id="advisorId"/>
+													        		<form action="">
+													        		<c:forEach items="${advisorServices}" var="service">
+													        			<c:if test="${service.getAdvisorId() ==  advisor.getAdvisorId()}">
+														        			<c:if test="${service.getService().equals('careertalk') }">
+														        				<h4 class="control-label">Career Talk</h4>
+														        				<div class="form-group">
+																					<label  class="col-md-3 control-label">Discount(%) : </label>
+																					<div class="col-md-9">
+																						<input type="text" name="updateFreeSessions" id="updateDiscountCT${advisor.getAdvisorId()}" value="${service.getDiscount()}"/>
+																					</div>
+																				</div>
+																				<br>
+																				<br>
+														        			</c:if>
+														        			<c:if test="${service.getService().equals('mockinterview') }">
+														        				<h4 class="" style="text-align: left">Mock Interview</h4>
+														        				<div class="form-group">
+																					<label  class="col-md-3 control-label">Discount(%) : </label>
+																					<div class="col-md-9">
+																						<input type="text" name="updateFreeSessions" id="updateDiscountMI${advisor.getAdvisorId()}" value="${service.getDiscount()}"/>
+																					</div>
+																				</div>
+																				<br>
+																				<br>
+														        			</c:if>
+														        			<c:if test="${service.getService().equals('cvcritique') }">
+														        				<h4>Resume Critique</h4>
+														        				<div class="form-group">
+																					<label  class="col-md-3 control-label">Discount(%) : </label>
+																					<div class="col-md-9">
+																						<input type="text" name="updateFreeSessions" id="updateDiscountRC${advisor.getAdvisorId()}" value="${service.getDiscount()}"/>
+																					</div>
+																				</div>
+																				<br>
+																				<br>
+														        			</c:if>
+													        			</c:if>
+													        		</c:forEach>
 													          		<br/>
 													          		<br/>
 													          		<button type="button" class="btn btn-primary"  onclick="updateDiscount(${advisor.getAdvisorId()})">Change</button>        		
 													          		<br/>
+													          		</form>
 													        	</div>
 														    </div>
 														  </div>
 														</div>
+													<div id ="deactivate"></div>
+														</tr>
 													</c:forEach>
+														
+														
 												</table>
 					</div>
+						
+						
 											
                     <div style="height:30px"></div>
                 
@@ -203,37 +304,44 @@
 	    </div>
 	  </div>
 	</div>
-	<div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="freeSession">
-	  <div class="modal-dialog modal-sm">
-	    <div class="modal-content">
-	    	<div class="modal-header">
-          		<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-          			<h4 class="modal-title" id="mySmallModalLabel">Update Free Sessions</h4>
-       		</div>
-        	<div class="modal-body">
-          		No of Free Sessions : <input type="text" name="updateFreeSessions" id="updateFreeSession"/>
-          		<input type="hidden" name="advisorId" id="advisorId"/>
-          		<br/>
-          		<br/>
-          		<button type="button" class="btn btn-primary" onclick="updateFreeSessions()">Change</button>        		
-          		<br/>
-        	</div>
-	    </div>
-	  </div>
-	</div>
 	
 	
-	<div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="discountToAll">
-	  <div class="modal-dialog modal-sm">
-	    <div class="modal-content">
-	    	<div class="modal-header">
-          		<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-          			<h4 class="modal-title" id="mySmallModalLabel">Update Discount</h4>
-       		</div>
+	
+	<div class="modal fade" id="discountToAll" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+			<h4 class="modal-title" id="myModalLabel">Update Discount</h4>
+			</div>
         	<div class="modal-body">
-          		Discount(%) : <input type="text" name="updateDiscountToAll" id="updateDiscountToAll"/>
-          		<br/>
-          		<br/>
+        		<h4 class="control-label">Career Talk</h4>
+     			<div class="form-group">
+					<label  class="col-md-3 control-label">Discount(%) : </label>
+					<div class="col-md-9">
+						<input type="text" name="updateDiscountToAll" id="updateDiscountToAllCT"/>
+					</div>
+				</div>
+				<br>
+				<br>
+     			<h4 class="" style="text-align: left">Mock Interview</h4>
+     				<div class="form-group">
+					<label  class="col-md-3 control-label">Discount(%) : </label>
+					<div class="col-md-9">
+						<input type="text" name="updateDiscountToAll" id="updateDiscountToAllMI"/>
+					</div>
+				</div>
+				<br>
+				<br>
+      				<h4>Resume Critique</h4>
+      				<div class="form-group">
+					<label  class="col-md-3 control-label">Discount(%) : </label>
+					<div class="col-md-9">
+						<input type="text" name="updateDiscountToAll" id="updateDiscountToAllRC"/>
+					</div>
+				</div>
+				<br>
+				<br>
           		<button type="button" class="btn btn-primary" onclick="updateDiscountToAll()">Change</button>        		
           		<br/>
         	</div>
@@ -241,7 +349,7 @@
 	  </div>
 	</div>
 	<!-- /#container -->
-
+	</div>
     <!-- jQuery Version 1.11.0 -->
 	<script src="https://code.jquery.com/jquery-1.11.0.min.js"></script>
 	<script src="assets/js/bootstrap-slider.js"></script>
@@ -311,7 +419,7 @@
 	
 	function openFreeSessionModal(elem){
 		var id = elem.id;
-		$('#freeSession').modal();
+		$('#freeSession'+id).modal();
 		$('#advisorId').val(id); 		
 	}
 	
@@ -323,12 +431,11 @@
 	function openDiscountToAllModal(){
 		$('#discountToAll').modal();
 	}
-	function updateFreeSessions(){
-		var advisorId = $('#advisorId').val();
-		var updateFreeSessions= $('#updateFreeSession').val();
+	function UpdateFreeSessions(elem){
+		var advisorId = elem.id;
 		$.ajax({
             url : 'AdminAdvisors',
-            data : {"operation": "updateFreeSessions", "advisorId" : advisorId, "noOfFreeSessions" : updateFreeSessions},
+            data : {"operation": "updateFreeSessions", "advisorId" : advisorId, "noOfFreeSessionsCT" : $('#updateFreeSessionCT'+advisorId).val(),"noOfFreeSessionMI" : $('#updateFreeSessionMI'+advisorId).val(),"noOfFreeSessionsRC" : $('#updateFreeSessionRC'+advisorId).val()},
             type : 'POST',
             success : function(response) {
             	$('#freeSession').modal('hide'); 
@@ -341,10 +448,9 @@
 	}
 	
 	function updateDiscount(id){
-		var updateDiscount= $('#updateDiscount'+id).val();
 		$.ajax({
             url : 'AdminAdvisors',
-            data : {"operation": "updateDiscount", "advisorId" : id, "updateDiscount" : updateDiscount},
+            data : {"operation": "updateDiscount", "advisorId" : id, "updateDiscountCT" : $("#updateDiscountCT"+id).val(), "updateDiscountMI" : $("#updateDiscountMI"+id).val(),"updateDiscountRC" : $("#updateDiscountRC"+id).val()},
             type : 'POST',
             success : function(response) {
             	$('#discount').modal('hide'); 
@@ -391,10 +497,9 @@
 		
 	}
 	function updateDiscountToAll(){
-		var updateDiscount= $('#updateDiscountToAll').val();
 		$.ajax({
             url : 'AdminAdvisors',
-            data : {"operation": "discountToAll","discount" : updateDiscount},
+            data : {"operation": "discountToAll","discountCT" : $('#updateDiscountToAllCT').val(),"discountMI" : $('#updateDiscountToAllMI').val(),"discountRC" : $('#updateDiscountToAllRC').val()},
             type : 'POST',
             success : function(response) {
             	location.reload();

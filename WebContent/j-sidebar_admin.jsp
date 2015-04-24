@@ -28,7 +28,7 @@
         </li>
         <li class="session"><a href="#"><span class="session"></span> Sessions</a>
             <ul class="nav nav-second-level">
-                <li><a href="AdminMyUpcomingSessions">Upcoming</a></li>
+                <li><a href="AdminMyUpcomingSessions">Current</a></li>
                 <li><a href="AdminPreviousSessions">Previous</a></li>
                 <li><a href="AdminCancelledSessions">Cancelled</a></li>
             </ul>

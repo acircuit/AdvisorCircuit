@@ -64,7 +64,7 @@ public class WeAreHereToHelpController extends HttpServlet {
 				content = "Hi, <br><br>A new user has filled in details for We are here to help.Following are the details : <br> Name: "+ name +" <br> Email :"+email+"<br><img src=\"http://www.advisorcircuit.com/Test/assets/img/logo_black.png\" style='float:right' width='25%'>";
 				SendMail mail = new SendMail(subject, content, prop.getProperty("MAIL_ADMIN"),prop.getProperty("MAIL_ADMIN"));
 				mail.start();
-				response.getWriter().write("We'll get back to you in no time.");
+				response.getWriter().write("Thank you for reaching out to us! We'll help you find the right Advisor within 48 Hrs.");
 			}
 
 		}

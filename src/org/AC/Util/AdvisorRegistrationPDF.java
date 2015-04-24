@@ -108,7 +108,6 @@ public class AdvisorRegistrationPDF {
 				 preface.add(new Paragraph("Phone :"+profile.getPhone()+"\n", catFont));
 				 preface.add(new Paragraph("City :"+profile.getCity()+"\n", catFont));
 				 preface.add(new Paragraph("State :"+profile.getState()+"\n", catFont));
-				 preface.add(new Paragraph("Nationality :"+profile.getNationalty()+"\n", catFont));
 				 preface.add(new Paragraph("Industry :"+profile.getIndustry()+"\n", catFont));
 				 preface.add(new Paragraph("Introduction :"+profile.getIntroduction()+"\n", catFont));
 				 document.add(preface);

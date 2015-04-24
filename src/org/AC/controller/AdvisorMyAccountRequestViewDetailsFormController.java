@@ -80,6 +80,8 @@ public class AdvisorMyAccountRequestViewDetailsFormController extends HttpServle
 		String acceptedTime = request.getParameter("optionsRadios");
 		String sessionPlan = request.getParameter("sessionplan");
 		String emailDate = request.getParameter("emaildate");
+		String isFree  = request.getParameter("isFree");
+		String service  = request.getParameter("service");
 		Properties prop = new Properties();
 	    InputStream resourceAsStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("Resources/mail.properties");
 	    prop.load(resourceAsStream);
@@ -219,6 +221,11 @@ public class AdvisorMyAccountRequestViewDetailsFormController extends HttpServle
 			ChangeRequestStatusDAO requestStatus = new ChangeRequestStatusDAO();
 			isStatusCommit = requestStatus.setStatus( status1,rId1);
 			if(isStatusCommit){
+				if(isFree.equals("true")){
+					//Decrement the free session count from the advisor services table
+					AdvisorMyAccountRequestViewDetailsDAO decrem = new AdvisorMyAccountRequestViewDetailsDAO();
+					decrem.DecrementFreeSession(aId,service);
+				}
 				//Send Mail to Admin
 				String subject = "Advisor Rejected the session!";
 				String content = "Hi, <br><br>The SESSION REQUEST was accepted by the advisor!! Following are the details: <br>Advisor Name : " +advisorName+"<br>Request Id: "+rId1+"<br><img src=\"http://www.advisorcircuit.com/Test/assets/img/logo_black.png\" style='float:right' width='25%'>";

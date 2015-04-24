@@ -42,11 +42,13 @@ public class UserMyAccountRequestViewDetailsFormController extends HttpServlet {
 		String cancel = "";
 		String sessionId = "";
 		Boolean isStatusCommit = false;
-		int aId = 0;
 		 uId = (String) request.getParameter("uId");
 		 rId = (String) request.getParameter("rId");
 		 cancel = (String) request.getParameter("cancel");
 		 sessionId = (String) request.getParameter("sessionId");
+		 String isFree = request.getParameter("isFree");
+		 String aId = request.getParameter("aId");
+		 String service = request.getParameter("service");
 		 Properties prop = new Properties();
 	     InputStream resourceAsStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("Resources/mail.properties");
 		 prop.load(resourceAsStream);
@@ -65,6 +67,11 @@ public class UserMyAccountRequestViewDetailsFormController extends HttpServlet {
 				ChangeSessionStatusDAO sessionStatus = new ChangeSessionStatusDAO();
 				Boolean isSessionStatusCommit = sessionStatus.setStatus("SESSION REJECTED BY USER", sessionId);
 				if(isSessionStatusCommit){
+					if(isFree.equals("true")){
+						//Decrement the free session count from the advisor services table
+						AdvisorMyAccountRequestViewDetailsDAO decrem = new AdvisorMyAccountRequestViewDetailsDAO();
+						decrem.DecrementFreeSession(Integer.parseInt(aId),service);
+					}
 					String subject = "Session Rejected By User!";
 					String content = "Hi, <br><br>The Session was rejected by the user for Session Id : "+sessionId+ " and Request Id :"+rId1+"<br><img src=\"http://www.advisorcircuit.com/Test/assets/img/logo_black.png\" style='float:right' width='25%'>";
 					SendMail mail = new SendMail(subject, content, prop.getProperty("MAIL_ADMIN"),prop.getProperty("MAIL_ADMIN"));

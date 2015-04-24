@@ -24,18 +24,28 @@ public class UserPaymentHistoryDAO {
 		try {
 			conn =ConnectionFactory.getConnection();
 			conn.setAutoCommit(false);
-			String query ="SELECT SESSION_ID,REQUEST_ID,ACCEPTED_DATE FROM session_table WHERE STATUS=? AND USER_ID=? OR STATUS=? AND USER_ID=?";
+			String query ="SELECT SESSION_ID,REQUEST_ID,ACCEPTED_DATE,USER_COMMENT,STATUS FROM session_table WHERE STATUS=? AND USER_ID=? OR STATUS=? AND USER_ID=? OR STATUS=? AND USER_ID=? OR STATUS=? AND USER_ID=? OR STATUS=? AND USER_ID=? OR STATUS=? AND USER_ID=?";
 			PreparedStatement pstmt = conn.prepareStatement(query);
 			pstmt.setString(1,"WAITING FOR SESSION");
 			pstmt.setInt(2, userId);
 			pstmt.setString(3,"SESSION COMPLETE");
 			pstmt.setInt(4, userId);
+			pstmt.setString(5,"SESSION CANCELLED DUE TO ADVISOR UNAVAILABILITY");
+			pstmt.setInt(6, userId);
+			pstmt.setString(7,"SESSION CANCELLED DUE TO ADVISOR NO SHOW");
+			pstmt.setInt(8, userId);
+			pstmt.setString(9,"SESSION CANCELLED DUE TO USER UNAVAILABILITY");
+			pstmt.setInt(10, userId);
+			pstmt.setString(11,"SESSION CANCELLED DUE TO USER NO SHOW");
+			pstmt.setInt(12, userId);
 			ResultSet results = pstmt.executeQuery();
 			while(results.next()){
 				PaymentDTO pay = new PaymentDTO();
 				pay.setSessionId(results.getInt("SESSION_ID"));
 				pay.setRequestId(results.getInt("REQUEST_ID"));
 				pay.setAcceptedDate(results.getTimestamp("ACCEPTED_DATE"));
+				pay.setUserComment(results.getString("USER_COMMENT"));
+				pay.setStatus(results.getString("STATUS"));
 				payment.add(pay);
 			}
 		} catch (SQLException e) {
@@ -79,9 +89,9 @@ public class UserPaymentHistoryDAO {
 				pay.setRequestId(results.getInt("REQUEST_ID"));
 				pay.setService(results.getString("SERVICE"));
 				pay.setMode(results.getString("MODE_OF_COMMUNICATION"));
-				pay.setPrice(results.getDouble("PRICE"));
+				pay.setPrice(results.getInt("PRICE"));
 				pay.setDiscount(results.getInt("DISCOUNT"));
-				pay.setAmount(results.getDouble("AMOUNT"));
+				pay.setAmount(results.getInt("AMOUNT"));
 				payment.add(pay);
 			}
 		} catch (SQLException e) {

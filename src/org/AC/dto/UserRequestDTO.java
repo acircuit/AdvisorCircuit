@@ -20,10 +20,10 @@ public class UserRequestDTO {
 	public int getSessionId() {
 		return sessionId;
 	}
-	public double getAmount() {
+	public int getAmount() {
 		return amount;
 	}
-	public void setAmount(double amount) {
+	public void setAmount(int amount) {
 		this.amount = amount;
 	}
 	public void setSessionId(int sessionId) {
@@ -36,7 +36,7 @@ public class UserRequestDTO {
 	String acceptedDate;
 	String reviewMesage;
 	int sessionId;
-	double amount;
+	int amount;
 	Boolean rating;
 	String reviewMessageStatus;
 	Timestamp bookingTime;
@@ -50,7 +50,7 @@ public class UserRequestDTO {
 	String acceptedDateForClock;
 	Boolean isFree;
 	int discount;
-	double price;
+	int price;
 	public Boolean getIsFree() {
 		return isFree;
 	}
@@ -63,10 +63,10 @@ public class UserRequestDTO {
 	public void setDiscount(int discount) {
 		this.discount = discount;
 	}
-	public double getPrice() {
+	public int getPrice() {
 		return price;
 	}
-	public void setPrice(double price) {
+	public void setPrice(int price) {
 		this.price = price;
 	}
 	public String getReviewMessageStatus() {

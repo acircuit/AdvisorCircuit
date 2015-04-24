@@ -37,7 +37,6 @@ public class AdvisorRegistrationEmailController extends HttpServlet {
 	 * redirect the advisor to respective page.
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
 		logger.info("Entered doPost method of AdvisorRegistrationEmailController");
 		String email = request.getParameter("email");
 		String password = request.getParameter("passwd");
@@ -67,37 +66,45 @@ public class AdvisorRegistrationEmailController extends HttpServlet {
 			AdvisorRegistrationDAO dao1 = new AdvisorRegistrationDAO();
 			advisor = dao1.checkEmail(email,securedPassword);
 			if(advisor.getAdvisorId() == 0){
-				AdvisorRegistrationDAO dao = new AdvisorRegistrationDAO();
-				int aId = dao.VerifyEmail(email);
-				if(aId == 0){
-					//If the advisor has not started the registration process then set the email address and change the status
-					AdvisorRegistrationDAO dao2 = new AdvisorRegistrationDAO();
-					advisorId = dao2.setEmail(email,securedPassword);
-					//This is a new advisor.Send verification mail
-					String subject ="";
-					String content ="";
-					subject = "Thank Your For Registering";
-					content = "Hi, <br><br>ThankYou for registering with AdvisorCircuit. Please Click on the below link to create your own profile:<br> <a href='"+prop.getProperty("ADVISOR_REGISTRATION_VERIFICATION_LINK")+advisorId+"'>Click Here to Create Your Profile</a>"+"<br><img src=\"http://www.advisorcircuit.com/Test/assets/img/logo_black.png\" style='float:right' width='25%'>";
-					SendMail mail = new SendMail(subject, content, email,prop.getProperty("MAIL_ADMIN"));
-					mail.start();
-					response.sendRedirect("AdvisorRegistrationComplete");
+				
+					AdvisorRegistrationDAO dao = new AdvisorRegistrationDAO();
+					int aId = dao.VerifyEmail(email);
+					if(aId == 0){
+						//If the advisor has not started the registration process then set the email address and change the status
+						AdvisorRegistrationDAO dao2 = new AdvisorRegistrationDAO();
+						advisorId = dao2.setEmail(email,securedPassword);
+						//This is a new advisor.Send verification mail
+						String subject ="";
+						String content ="";
+						subject = "Thank Your For Registering";
+						content = "Hi, <br><br>ThankYou for registering with AdvisorCircuit. Please Click on the below link to create your own profile:<br> <a href='"+prop.getProperty("ADVISOR_REGISTRATION_VERIFICATION_LINK")+advisorId+"'>Click Here to Create Your Profile</a>"+"<br><img src=\"http://www.advisorcircuit.com/Test/assets/img/logo_black.png\" style='float:right' width='25%'>";
+						SendMail mail = new SendMail(subject, content, email,prop.getProperty("MAIL_ADMIN"));
+						mail.start();
+						response.sendRedirect("AdvisorRegistrationComplete");
+					}else{
+						request.setAttribute("isInvalid", true);
+						RequestDispatcher rd = getServletContext().getRequestDispatcher("/Email");
+				        rd.forward(request, response);
+					}
+				
+			}else{
+				if(advisor.getIsVerified()){
+					advisorId = advisor.getAdvisorId();
+					status = advisor.getRegistrationStatus();
+					name = advisor.getName();
+					request.getSession().setAttribute("aId", advisorId);
+					request.getSession().setAttribute("name", name);
+					request.getSession().setAttribute("email", email);
+					response.sendRedirect(status);
 				}else{
-					request.setAttribute("isInvalid", true);
+					request.setAttribute("isNotVerified", true);
 					RequestDispatcher rd = getServletContext().getRequestDispatcher("/Email");
 			        rd.forward(request, response);
-				}
-			}else{
-				advisorId = advisor.getAdvisorId();
-				status = advisor.getRegistrationStatus();
-				name = advisor.getName();
-				request.getSession().setAttribute("aId", advisorId);
-				request.getSession().setAttribute("name", name);
-				request.getSession().setAttribute("email", email);
-				response.sendRedirect(status);
 				}
 				
 			}
 		logger.info("Exit doPost method of AdvisorRegistrationEmailController");
 
 		}
+	}
 }

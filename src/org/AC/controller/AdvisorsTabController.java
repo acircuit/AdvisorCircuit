@@ -9,6 +9,7 @@ package org.AC.controller;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -95,11 +96,13 @@ public class AdvisorsTabController extends HttpServlet {
 				advisorIds.add(advisorServiceDTO.getAdvisorId());
 			}
 		}
-		
+		List<String> industries = new ArrayList<String>();
 		//Getting advisor details using advisorId
 		SearchDAO advisorInfo = new SearchDAO();
 		advisorProfileList = advisorInfo.getAdvisorDetails(advisorIds);
-		
+		SearchDAO industry = new SearchDAO();
+		industries =industry.GetIndustries();
+	
 		String ids= "";
 		if(advisorProfileList.size() > 0){
 			for (AdvisorProfileDTO advisorProfileDTO : advisorProfileList) {
@@ -139,10 +142,13 @@ public class AdvisorsTabController extends HttpServlet {
 		List<AdvisorServiceDTO> services = new ArrayList<AdvisorServiceDTO>();
 		SearchDAO advisorServices = new SearchDAO();
 		services = advisorServices.getAdvisorServices(advisorIds);
+	
 		request.setAttribute("ids", ids);
 		request.setAttribute("profession", profession);
 		request.setAttribute("advisorProfile", advisorProfileList);
 		request.setAttribute("advisorService", services);
+		request.setAttribute("industries", industries);
+		
 		RequestDispatcher rd = getServletContext().getRequestDispatcher("/AdvisorLandingPage.jsp");
         rd.forward(request, response);
 		logger.info("Exit doGet method of AdvisorsTabController");

@@ -96,11 +96,11 @@ public class UserMyAccountRequestViewDetailsController extends HttpServlet {
 					userRequestDTO.setTimeString2(new SimpleDateFormat("dd-MMM-yyyy' 'h:mm a").format(new Date(userRequestDTO.getTime2().getTime())));
 					userRequestDTO.setTimeString3(new SimpleDateFormat("dd-MMM-yyyy' 'h:mm a").format(new Date(userRequestDTO.getTime3().getTime())));
 					userRequestDTO.setTimeString4(new SimpleDateFormat("dd-MMM-yyyy' 'h:mm a").format(new Date(userRequestDTO.getTime4().getTime())));
-					userRequestDTO.setTimeString5(new SimpleDateFormat("dd-MMM-yyyy' 'h:mm a").format(new Date(userRequestDTO.getTime5().getTime())));
-					userRequestDTO.setTimeString6(new SimpleDateFormat("dd-MMM-yyyy' 'h:mm a").format(new Date(userRequestDTO.getTime6().getTime())));
 				}else{
 					userRequestDTO.setTimeString1(new SimpleDateFormat("dd-MMM-yyyy").format(new Date(userRequestDTO.getTime1().getTime())));
 				}
+				double discount = userRequestDTO.getDiscount()* userRequestDTO.getPrice() /100;
+				userRequestDTO.setDiscount((int)discount);
 			}
 			if( aId != 0 && uId != 0){
 				//After getting the advisorId and userId we need to get the advisor photo and advisor name.

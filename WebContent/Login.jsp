@@ -75,7 +75,7 @@
                                     
                             <div style="margin-bottom: 25px" class="input-group" id="dlogin-username">
                                         <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                                        <input id="login-username" type="email" class="form-control" name="email" value="" placeholder="Email">                                        
+                                        <input id="login-username" type="email" class="form-control" name="email" value="" placeholder="Email" maxlength="100">                                        
                                     </div>
                                     <c:if test="<%=advisorId != null && fromProfile!= null%>">
                                     	<input type="hidden" name="aId" value="<%=advisorId%>">
@@ -84,7 +84,7 @@
                                     
 		                            <div style="margin-bottom: 25px" class="input-group" id="dlogin-password">
 		                                        <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-		                                        <input id="login-password" type="password" class="form-control" name="password" placeholder="Password" style="font-family:"custom-light" !important;">
+		                                        <input id="login-password" type="password" class="form-control" name="password" placeholder="Password" style="font-family:"custom-light" !important;" maxlength="125">
                                     </div>
                                     <c:if test="<%=isLoginFailedFromProfile %>">
                                			<h4 style="color: #c84c4e"><c:out value="Please Login as a user"></c:out></h4>
@@ -224,7 +224,7 @@
 										<div class="form-group" id="dorg">
 											<label for="icode" class="col-md-3 control-label">Occupation</label>
 											<div class="col-md-9">
-												<textarea id="org" class="form-control" name="occupation" rows="3" maxlength="80"></textarea>
+												<input id="org" class="form-control" name="occupation" maxlength="80">
 											</div>
 											<div class="col-md-9">
 												<p class="required" id="required_org">Field Required</p>

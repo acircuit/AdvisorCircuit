@@ -45,7 +45,7 @@
 			professional="ProfessionalBackgroundEdit";
 			other="OtherInfoEdit";
 			service="ServicesEdit";
-			image = "Image?edit=true";
+			image = "ImageEdit";
 		}else{
 			action = "AdvisorRegistrationServices";
 			general ="AdvisorRegistrationGeneralInfo";
@@ -53,7 +53,7 @@
 			professional="AdvisorRegistrationProfessionalBackground";
 			other="AdvisorRegistrationOtherInfo";
 			service="AdvisorRegistrationServices";
-			image = "Image";
+			image = "AdvisorRegistrationImage";
 		}
 
 	%>
@@ -95,7 +95,6 @@
                             <c:when test="${advisorServices.size()> 0 &&  advisorModes.size()>0}">
                             <input type="hidden" id="edit" name="edit" value="true">
                                 <div class="form-group">
-                                <label for="icode" class="col-md-2 control-label">Services</label>
                                 <div class="col-md-10">
                                 <c:forEach var="service" items="${advisorServices}">
                                     <c:if test="${service.getService().equals('careertalk')}">
@@ -106,7 +105,7 @@
                                                         </label>
                                                     </div>
                                                 <div id="collapseOne" class="panel-collapse collapse">
-                                                <h4>Career Talk</h4>
+                                                
                                                 <hr>
                                                 <div class="form-group" id="dcareerTalk_description">
                                                     <div class="col-md-3">
@@ -121,110 +120,233 @@
                                                         <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> </button>
                                                     </div>
                                                 </div>
+                                                <div class="form-group">
+                                                    		<div class="col-md-3">
+                                                   				<label for="icode" class="control-label " style="padding-top:0;">Free Session
+                                                   				</label>
+                                                   			</div>
+                                                   			<div class="col-md-7">
                                                 <c:choose>
-                                                   	<c:when test="${service.getIsFree() > 0}">
-                                                    	<div class="form-group">
-                                            				<input type="checkbox" id="careertalkfreecheckbox" name="careertalkfreecheckbox" value="true" checked="checked"/> Please check if you want to give a free 30 mins introductory session.                                                    	
-                                                    	</div>
+                                                   	<c:when test="${service.getIsFree()== 0}">
+                                                    	<select id="gender" class="dropreg" name="isfreecareertalk">
+                                                    		      <option value="0">0</option>
+			                                                      <option value="1">1</option>
+			                                                      <option value="2">2</option>
+			                                                      <option value="3">3</option>
+			                                                      <option value="4">4</option>
+			                                              </select>
+                                            				
+                                                   	</c:when>
+                                                   	<c:when test="${service.getIsFree()== 1}">
+                                                    	<select id="gender" class="dropreg" name="isfreecareertalk">
+			                                                      <option value="1">1</option>
+                                                    		      <option value="0">0</option>
+			                                                      <option value="2">2</option>
+			                                                      <option value="3">3</option>
+			                                                      <option value="4">4</option>
+			                                              </select>
+                                            				
+                                                   	</c:when>
+                                                   	<c:when test="${service.getIsFree()== 2}">
+                                                    	<select id="gender" class="dropreg" name="isfreecareertalk">
+			                                                      <option value="2">2</option>
+			                                                      <option value="1">1</option>
+                                                    		      <option value="0">0</option>
+			                                                      <option value="3">3</option>
+			                                                      <option value="4">4</option>
+			                                              </select>
+                                            				
+                                                   	</c:when>
+                                                   	<c:when test="${service.getIsFree()== 3}">
+                                                    	<select id="gender" class="dropreg" name="isfreecareertalk">
+                                                    			  <option value="3">3</option>	 
+			                                                      <option value="1">1</option>
+                                                    		      <option value="0">0</option>
+			                                                      <option value="2">2</option>
+			                                                      <option value="4">4</option>
+			                                              </select>
+                                            				
                                                    	</c:when>
                                                    	<c:otherwise>
-                                                   		<div class="form-group">
-                                            				<input type="checkbox" id="careertalkfreecheckbox" name="careertalkfreecheckbox" value="true"/> Please check if you want to give a free 30 mins introductory session.                                                    	                                                    		
-                                                   		</div>
+                                                   			<select id="gender" class="dropreg" name="isfreecareertalk">
+			                                                      <option value="4">4</option>
+                                                    			  <option value="3">3</option>	 
+			                                                      <option value="1">1</option>
+                                                    		      <option value="0">0</option>
+			                                                      <option value="2">2</option>
+			                                              </select>
+                                                   	
                                                    	</c:otherwise>
-                                                 </c:choose>
-                                                <c:forEach var="mode" items="${advisorModes }">
-                                                    <c:if test="${mode.getAdvisorId() == service.getAdvisorId() && mode.getService() == service.getService() }">
+                                                </c:choose>
+                                                   	<button type="button" class="btn btn-default" data-html=" " data-trigger="focus" data-container="body" data-toggle="popover" data-placement="right"  data-content="Please select if you want to give users a free introductory session. Session here means 30 mins. ">
+                                                        <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> </button>
+                                                   </div> 
+                                                  </div>
+                                                   
+                                              			<c:set value="0" var="ctphone"></c:set>
+                                                        <c:set value="0" var="ctemail"></c:set>
+                                                        <c:set value="0" var="ctwebchat"></c:set>
                                                         <div class="form-group" id="dcareerTalk_mode">
                                                             <div class="col-md-3">
-                                                            <label for="icode" class="control-label" style="padding-top:0;">Mode of Communication</label>
+                                                            <label for="icode" class="control-label" style="text-align: left">Mode of Communication</label>
                                                             </div>
-                                                            <div class="col-md-7">
-                                                                <c:if test="${mode.getModeOfCommunication().equals('phone')}">
-                                                                    <input type="checkbox" id="careertalkmodephone"  name="careertalkmode" value="phone" checked="checked"/> Phone
-                                                                </c:if>
-                                                                <c:if test="${mode.getModeOfCommunication().equals('email')}">									                                       	
-                                                                <input type="checkbox" id="careertalkmodeemail"  name="careertalkmode" value="email" checked="checked" /> Email
-                                                                </c:if>
-                                                                <c:if test="${mode.getModeOfCommunication().equals('webchat')}">									                                        
-                                                                <input type="checkbox" id="careertalkmodewebchat"  name="careertalkmode" value="webchat" checked="checked" /> WebChat
-                                                                </c:if>
-                                                            </div>
-                                                        </div>
-                                                        <hr>
-                                                        <c:if test="${mode.getModeOfCommunication().equals('phone') }">
-                                                        <div id="collapsecareertalkpricephone" class="panel-collapse collapse">
-                                                             <div class="panel-body">
-                                                                <div class="form-group" id="dcareerTalk_phone">
-                                                                    <h4>Phone</h4>
-                                                                    
-                                                                    <label for="icode" class="col-md-3 control-label">Price(Rs/Hour)</label>
-                                                                    <div class="col-md-7">
-                                                                        <input id="careerTalk_phone" type="text" onchange="sameprice(this)" class="form-control" name="careertalkpricephone" placeholder="" value="${mode.getPrice()}">  
-                                                                    </div>
-                                                                    <div class="col-md-2">
-                                                                        <p class="required" id="required_careerTalk_phone">Field Required</p>
-                                                                        <p class="required" id="invalid_careerTalk_phone">Invalid Price</p>
-                                                                    </div>
+                                                            
+                                                             <c:forEach var="mode" items="${advisorModes }">
+                                                    			<c:if test="${mode.getAdvisorId() == service.getAdvisorId() && mode.getService() == service.getService() }">
+		                                                            <c:if test="${mode.getModeOfCommunication().equals('phone')}">
+		                                                                <div class="col-md-8">
+		                                                                    <input type="checkbox" id="careertalkmodephone"  name="careertalkmode" value="phone" checked="checked"/> Phone
+		                                                                </div>
+		                                                                <c:set value="1" var="ctphone"></c:set>
+		                                                            </c:if>
+		                                                            <c:if test="${mode.getModeOfCommunication().equals('email')}">									                                       	
+		                                                                <div class="col-md-8">
+		                                                                	<input type="checkbox" id="careertalkmodeemail"  name="careertalkmode" value="email" checked="checked"/> Email
+		                                                                </div>
+		                                                                <c:set value="1" var="ctemail"></c:set>
+		                                                            </c:if>
+		                                                            <c:if test="${mode.getModeOfCommunication().equals('webchat')}">									                                        
+		                                                                <div class="col-md-8">
+		                                                                	<input type="checkbox" id="careertalkmodewebchat"  name="careertalkmode" value="webchat" checked="checked"/> WebChat
+		                                                                </div>
+		                                                                <c:set value="1" var="ctwebchat"></c:set>
+		                                                            </c:if>
+                                                            	</c:if>
+                                                            </c:forEach>
+                                                            <c:if test="${ctphone.equals('0')}">
+                                                            	<div class="col-md-8">
+                                                                    <input type="checkbox" id="careertalkmodephone"  name="careertalkmode" value="phone"/> Phone
                                                                 </div>
-                                                            </div>
-                                                        <hr>	
+                                                            </c:if>
+                                                             <c:if test="${ctemail.equals('0')}">
+                                                            	<div class="col-md-8">
+                                                                	<input type="checkbox" id="careertalkmodeemail"  name="careertalkmode" value="email"/> Email
+                                                                </div>
+                                                            </c:if>
+                                                             <c:if test="${ctwebchat.equals('0')}">
+                                                            	<div class="col-md-8">
+                                                                	<input type="checkbox" id="careertalkmodewebchat"  name="careertalkmode" value="webchat"/> WebChat
+                                                                </div>
+                                                            </c:if>
                                                         </div>
-                                                        </c:if>
-                                                        <c:if test="${mode.getModeOfCommunication().equals('webchat') }">								                                	
-                                                        <div id="collapsecareertalkpricewebchat" class="panel-collapse collapse">
-                                                             <div class="panel-body">
-                                                                <div class="form-group" id="dcareerTalk_chat">
-                                                                    <h4>Web Chat</h4>
                                                         
-                                                                    <label for="icode" class="col-md-3 control-label">Price(Rs/Hour)</label>
-                                                                    <div class="col-md-7">
-                                                                        <input id="careerTalk_chat" type="text" onchange="sameprice(this)" class="form-control" name="careertalkpricewebchat" placeholder="" value="${mode.getPrice()}">  
-                                                                    </div>
-                                                                    <div class="col-md-2">
-                                                                        <p class="required" id="required_careerTalk_chat">Field Required</p>
-                                                                        <p class="required" id="invalid_careerTalk_chat">Invalid Price</p>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <hr>
-                                                        </div>
+                                                          <c:forEach var="mode" items="${advisorModes }">
+                                                    <c:if test="${mode.getAdvisorId() == service.getAdvisorId() && mode.getService() == service.getService() }">
+                                                        <c:if test="${mode.getModeOfCommunication().equals('phone') }">
+	                                                        <div id="collapsecareertalkpricephone" class="panel-collapse collapse">
+	                                                             <div class="panel-body">
+	                                                                <div class="form-group" id="dcareerTalk_phone">                                                                    
+	                                                                    <label for="icode" class="col-md-3 control-label">Phone Price(Rs/Hour)</label>
+	                                                                    <div class="col-md-7">
+	                                                                        <input id="careerTalk_phone" type="text" onchange="sameprice(this)" class="form-control" name="careertalkpricephone" placeholder="" value="${mode.getPrice()}" maxlength="10">  
+	                                                                    </div>
+	                                                                    <div class="col-md-2">
+	                                                                        <p class="required" id="required_careerTalk_phone">Field Required</p>
+	                                                                        <p class="required" id="invalid_careerTalk_phone">Invalid Price</p>
+	                                                                    </div>
+	                                                                </div>
+	                                                            </div>
+	                                                        </div>	
                                                         </c:if>
-                                                        <c:if test="${mode.getModeOfCommunication().equals('email') }">								                                									                                	
-                                                        <div id="collapsecareertalkpriceemail" class="panel-collapse collapse">
-                                                             <div class="panel-body">
-                                                                <div class="form-group" id="dcareerTalk_mail">
-                                                                    <h4>Email</h4>
-                                                                    
-                                                                    <label for="icode" class="col-md-3 control-label">Price</label>
-                                                                    <div class="col-md-7">
-                                                                        <input id="careerTalk_mail" type="text" class="form-control" name="careertalkpriceemail" placeholder="" value="${mode.getPrice()}">  
-                                                                    </div>
-                                                                    <div class="col-md-3">
-                                                                        <p class="required" id="required_careerTalk_mail">Field Required</p>
-                                                                        <p class="required" id="invalid_careerTalk_mail">Invalid Price</p>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <hr>
-                                                        </div>
+                                                        <c:if test="${mode.getModeOfCommunication().equals('email') }">	
+	                                                        				                                									                                	
+	                                                        <div id="collapsecareertalkpriceemail" class="panel-collapse collapse">
+	                                                             <div class="panel-body">
+	                                                                <div class="form-group" id="dcareerTalk_mail">
+	                                                                    <label for="icode" class="col-md-3 control-label">Email Price</label>
+	                                                                    <div class="col-md-7">
+	                                                                        <input id="careerTalk_mail" type="text" class="form-control" name="careertalkpriceemail" placeholder="" value="${mode.getPrice()}" maxlength="10">  
+	                                                                    </div>
+	                                                                    <div class="col-md-3">
+	                                                                        <p class="required" id="required_careerTalk_mail">Field Required</p>
+	                                                                        <p class="required" id="invalid_careerTalk_mail">Invalid Price</p>
+	                                                                    </div>
+	                                                                </div>
+	                                                            </div>
+	                                                        </div>
+	                                                       
+                                                        </c:if>
+                                                        <c:if test="${mode.getModeOfCommunication().equals('webchat') }">
+                                                        				                                	
+	                                                        <div id="collapsecareertalkpricewebchat" class="panel-collapse collapse">
+	                                                             <div class="panel-body">
+	                                                                <div class="form-group" id="dcareerTalk_chat">
+	                                                                    <label for="icode" class="col-md-3 control-label">Web Chat Price(Rs/Hour)</label>
+	                                                                    <div class="col-md-7">
+	                                                                        <input id="careerTalk_chat" type="text" onchange="sameprice(this)" class="form-control" name="careertalkpricewebchat" placeholder="" value="${mode.getPrice()}" maxlength="10">  
+	                                                                    </div>
+	                                                                    <div class="col-md-2">
+	                                                                        <p class="required" id="required_careerTalk_chat">Field Required</p>
+	                                                                        <p class="required" id="invalid_careerTalk_chat">Invalid Price</p>
+	                                                                    </div>
+	                                                                </div>
+	                                                            </div>
+	                                                        </div>
                                                         </c:if>
                                                     </c:if>
                                                 </c:forEach>
+                                                <c:if test="${ ctphone.equals('0')}">
+                                                      <div id="collapsecareertalkpricephone" class="panel-collapse collapse">
+                                                           <div class="panel-body">
+                                                              <div class="form-group" id="dcareerTalk_phone">                                                                    
+                                                                  <label for="icode" class="col-md-3 control-label">Phone Price(Rs/Hour)</label>
+                                                                  <div class="col-md-7">
+                                                                      <input id="careerTalk_phone" type="text" onchange="sameprice(this)" class="form-control" name="careertalkpricephone" placeholder="" maxlength="10">  
+                                                                  </div>
+                                                                  <div class="col-md-2">
+                                                                      <p class="required" id="required_careerTalk_phone">Field Required</p>
+                                                                      <p class="required" id="invalid_careerTalk_phone">Invalid Price</p>
+                                                                  </div>
+                                                              </div>
+                                                          </div>
+                                                      </div>	                                                
+                                                </c:if>
+                                                <c:if test="${ ctemail.equals('0')}">
+                                                      <div id="collapsecareertalkpriceemail" class="panel-collapse collapse">
+                                                            <div class="panel-body">
+                                                               <div class="form-group" id="dcareerTalk_mail">
+                                                                   <label for="icode" class="col-md-3 control-label">Email Price</label>
+                                                                   <div class="col-md-7">
+                                                                       <input id="careerTalk_mail" type="text" class="form-control" name="careertalkpriceemail" placeholder="" maxlength="10" >  
+                                                                   </div>
+                                                                   <div class="col-md-3">
+                                                                       <p class="required" id="required_careerTalk_mail">Field Required</p>
+                                                                       <p class="required" id="invalid_careerTalk_mail">Invalid Price</p>
+                                                                   </div>
+                                                               </div>
+                                                           </div>
+	                                                   </div>                                        
+                                                </c:if>
+                                                <c:if test="${ ctwebchat.equals('0')}">
+                                                      <div id="collapsecareertalkpricewebchat" class="panel-collapse collapse">
+                                                          <div class="panel-body">
+                                                             <div class="form-group" id="dcareerTalk_chat">
+                                                                 <label for="icode" class="col-md-3 control-label">Web Chat Price(Rs/Hour)</label>
+                                                                 <div class="col-md-7">
+                                                                     <input id="careerTalk_chat" type="text" onchange="sameprice(this)" class="form-control" name="careertalkpricewebchat" placeholder="" maxlength="10">  
+                                                                 </div>
+                                                                 <div class="col-md-2">
+                                                                     <p class="required" id="required_careerTalk_chat">Field Required</p>
+                                                                     <p class="required" id="invalid_careerTalk_chat">Invalid Price</p>
+                                                                 </div>
+                                                             </div>
+                                                         </div>
+	                                                 </div>                                               
+                                                </c:if>
+                                                <hr>
                                              </div>
                                              </c:if>
                                              
                                              <c:if test="${service.getService().equals('mockinterview')}">
                                                  <c:set value="false" var="mi" ></c:set>									
-                                                
-                                                    <div class="checkbox">
+                                                	<div class="checkbox">
                                                         <label>
                                                             <input type="checkbox" id="mockInterviewCheckBox" name="services" value="mockinterview" checked="checked">Mock Interview
                                                         </label>
                                                     </div>
                                                     
                                                  <div id="collapseTwo" class="panel-collapse collapse">
-                                                    <h4>Mock Interview</h4>
+                                                    
                                                     <hr>
                                                     <div class="form-group" id="dmockInterview_description">
                                                         <div class="col-md-3">
@@ -238,44 +360,113 @@
                                                                     <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> </button>
                                                         </div> 
                                                     </div>
-                                                    <c:choose>
-                                                    	<c:when test="${service.getIsFree() >0}">
-                                                    	<div class="form-group">
-                                            				<input type="checkbox" id="mockinterviewfreecheckbox" name="mockinterviewfreecheckbox" value="true" checked="checked"/> Please check if you want to give a free 30 mins introductory session.                                                    	
-                                                    	</div>
-                                                    	</c:when>
-                                                    	<c:otherwise>
-                                                    	<div class="form-group">
-                                            				<input type="checkbox" id="mockinterviewfreecheckbox" name="mockinterviewfreecheckbox" value="true"/> Please check if you want to give a free 30 mins introductory session.                                                    	                                                    		
-                                                    	</div>
-                                                    	</c:otherwise>
-                                                    </c:choose>
+                                                    <div class="form-group">
+                                                    		<div class="col-md-3">
+                                                   				<label for="icode" class="control-label " style="padding-top:0;">Free Session
+                                                   				</label>
+                                                   			</div>
+                                                   			<div class="col-md-7">
+                                                <c:choose>
+                                                   	<c:when test="${service.getIsFree()== 0}">
+                                                    	<select id="gender" class="dropreg" name="isfreemockinterview">
+                                                    		      <option value="0">0</option>
+			                                                      <option value="1">1</option>
+			                                                      <option value="2">2</option>
+			                                                      <option value="3">3</option>
+			                                                      <option value="4">4</option>
+			                                              </select>
+                                            				
+                                                   	</c:when>
+                                                   	<c:when test="${service.getIsFree()== 1}">
+                                                    	<select id="gender" class="dropreg" name="isfreemockinterview">
+			                                                      <option value="1">1</option>
+                                                    		      <option value="0">0</option>
+			                                                      <option value="2">2</option>
+			                                                      <option value="3">3</option>
+			                                                      <option value="4">4</option>
+			                                              </select>
+                                            				
+                                                   	</c:when>
+                                                   	<c:when test="${service.getIsFree()== 2}">
+                                                    	<select id="gender" class="dropreg" name="isfreemockinterview">
+			                                                      <option value="2">2</option>
+			                                                      <option value="1">1</option>
+                                                    		      <option value="0">0</option>
+			                                                      <option value="3">3</option>
+			                                                      <option value="4">4</option>
+			                                              </select>
+                                            				
+                                                   	</c:when>
+                                                   	<c:when test="${service.getIsFree()== 3}">
+                                                    	<select id="gender" class="dropreg" name="isfreemockinterview">
+                                                    			  <option value="3">3</option>	 
+			                                                      <option value="1">1</option>
+                                                    		      <option value="0">0</option>
+			                                                      <option value="2">2</option>
+			                                                      <option value="4">4</option>
+			                                              </select>
+                                            				
+                                                   	</c:when>
+                                                   	<c:otherwise>
+                                                   			<select id="gender" class="dropreg" name="isfreemockinterview">
+			                                                      <option value="4">4</option>
+                                                    			  <option value="3">3</option>	 
+			                                                      <option value="1">1</option>
+                                                    		      <option value="0">0</option>
+			                                                      <option value="2">2</option>
+			                                              </select>
+                                                   	
+                                                   	</c:otherwise>
+                                                </c:choose>
+                                                   	<button type="button" class="btn btn-default" data-html=" " data-trigger="focus" data-container="body" data-toggle="popover" data-placement="right"  data-content="Please select if you want to give users a free introductory session. Session here means 30 mins. ">
+                                                        <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> </button>
+                                                   </div> 
+                                                  </div>
+                                                    <c:set value="0" var="miphone"></c:set>
+                                                     <c:set value="0" var="miwebchat"></c:set>
+                                                    <div class="form-group" id="dmockInterview_mode">
+	                                                        <div class="col-md-3">
+	                                                        <label for="icode" class="control-label" style="text-align: left">Mode Of Communication</label>
+	                                                        </div>
+	                                                         <c:forEach var="mode" items="${advisorModes }">
+	                                                       			 <c:if test="${mode.getAdvisorId() == service.getAdvisorId() && mode.getService() == service.getService() }">
+				                                                            <c:if test="${mode.getModeOfCommunication().equals('phone')}">
+				                                                            	<div class="col-md-8 ">								                                    
+				                                                                	<input type="checkbox" id="mockinterviewmodephone" name="mockinterviewmode" value="phone" checked="checked"/> Phone
+				                                                            	</div>
+				                                                            	<c:set value="1" var="miphone"></c:set>
+				                                                            </c:if>
+				                                                            <c:if test="${mode.getModeOfCommunication().equals('webchat')}">
+				                                                            	<div class="col-md-8 ">									                                        
+				                                                                	<input type="checkbox" id="mockinterviewmodewebchat" name="mockinterviewmode" value="webchat" checked="checked" /> WebChat
+				                                                            	</div>
+				                                                            	<c:set value="1" var="miwebchat"></c:set>
+				                                                            </c:if>
+				                                             	    </c:if>
+				                                             </c:forEach>
+				                                             <c:if test="${miphone.equals('0')}">
+				                                             	<div class="col-md-8 ">								                                    
+				                                                        <input type="checkbox" id="mockinterviewmodephone" name="mockinterviewmode" value="phone"/> Phone
+				                                                </div>
+				                                             </c:if>
+				                                             <c:if test="${miwebchat.equals('0')}">
+				                                             	<div class="col-md-8 ">								                                    
+				                                                        <input type="checkbox" id="mockinterviewmodewebchat" name="mockinterviewmode" value="webchat"/> WebChat
+				                                                </div>
+				                                             </c:if>
+				                                       </div>
+			                                                    
+                                                    </div>
                                                     <c:forEach var="mode" items="${advisorModes }">
                                                         <c:if test="${mode.getAdvisorId() == service.getAdvisorId() && mode.getService() == service.getService() }">
-                                                    <div class="form-group" id="dmockInterview_mode">
-                                                        <div class="col-md-3">
-                                                        <label for="icode" class="control-label">Mode Of Communication</label>
-                                                        </div>
-                                                        <div class="col-md-9 ">
-                                                            <c:if test="${mode.getModeOfCommunication().equals('phone')}">								                                    
-                                                                <input type="checkbox" id="mockinterviewmodephone" name="mockinterviewmode" value="phone" checked="checked"/> Phone
-                                                            </c:if>
-                                                            <c:if test="${mode.getModeOfCommunication().equals('webchat')}">								                                        
-                                                                <input type="checkbox" id="mockinterviewmodewebchat" name="mockinterviewmode" value="webchat" checked="checked" /> WebChat
-                                                            </c:if>
-                                                        </div>
-                                                    </div>
-                                                    <hr>
                                                     <c:if test="${mode.getModeOfCommunication().equals('phone') }">								                                									                                																	
                                                         <div id="collapsemockinterviewpricephone" class="panel-collapse collapse">
                                                                 
                                                             <div class="panel-body">
-                                                                <div class="form-group" id="dmockInterview_phone">
-                                                                    <h4>Phone</h4>
-                                                                    
-                                                                    <label for="icode" class="col-md-3 control-label">Price(Rs/Hour)</label>
+                                                                <div class="form-group" id="dmockInterview_phone">                                                                    
+                                                                    <label for="icode" class="col-md-3 control-label">Phone Price(Rs/Hour)</label>
                                                                     <div class="col-md-6">
-                                                                        <input id="mockInterview_phone" type="text" onchange="sameprice(this)" class="form-control" name="mockinterviewpricephone" placeholder="" value="${mode.getPrice() }">  
+                                                                        <input id="mockInterview_phone" type="text" onchange="sameprice(this)" class="form-control" name="mockinterviewpricephone" placeholder="" value="${mode.getPrice() }" maxlength="10">  
                                                                     </div>
                                                                     <div class="col-md-3">
                                                                         <p class="required" id="required_mockInterview_phone">Field Required</p>
@@ -283,18 +474,15 @@
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                            <hr>
                                                         </div>
                                                     </c:if>
                                                     <c:if test="${mode.getModeOfCommunication().equals('webchat') }">								                                									                                																				                                								                                	
                                                         <div id="collapsemockinterviewpricewebchat" class="panel-collapse collapse">
                                                              <div class="panel-body">
-                                                                <div class="form-group" id="dmockInterview_chat">
-                                                                    <h4>Web Chat</h4>
-                                                                    
-                                                                    <label for="icode" class="col-md-3 control-label">Price(Rs/Hour)</label>
+                                                                <div class="form-group" id="dmockInterview_chat">                                                                    
+                                                                    <label for="icode" class="col-md-3 control-label">Web Chat Price(Rs/Hour)</label>
                                                                     <div class="col-md-7">
-                                                                        <input id="mockInterview_chat" type="text" onchange="sameprice(this)" class="form-control" name="mockinterviewpricewebchat" placeholder="" value="${mode.getPrice()}">  
+                                                                        <input id="mockInterview_chat" type="text" onchange="sameprice(this)" class="form-control" name="mockinterviewpricewebchat" placeholder="" value="${mode.getPrice()}" maxlength="10">  
                                                                     </div>
                                                                     <div class="col-md-3">
                                                                         <p class="required" id="required_mockInterview_chat">Field Required</p>
@@ -303,13 +491,45 @@
                                                                 </div>
                                                                 
                                                             </div>
-                                                            <hr>
                                                         </div>
                                                     </c:if>
                                                 </c:if>
                                             </c:forEach>
-                                          </div>
-                                          </c:if>
+                                            <c:if test="${miphone.equals('0') }">
+                                           		<div id="collapsemockinterviewpricephone" class="panel-collapse collapse">
+                                                           <div class="panel-body">
+                                                               <div class="form-group" id="dmockInterview_phone">                                                                    
+                                                                   <label for="icode" class="col-md-3 control-label">Phone Price(Rs/Hour)</label>
+                                                                   <div class="col-md-6">
+                                                                       <input id="mockInterview_phone" type="text" onchange="sameprice(this)" class="form-control" name="mockinterviewpricephone" placeholder="" maxlength="10">  
+                                                                   </div>
+                                                                   <div class="col-md-3">
+                                                                       <p class="required" id="required_mockInterview_phone">Field Required</p>
+                                                                       <p class="required" id="invalid_mockInterview_phone">Invalid Price</p>
+                                                                   </div>
+                                                               </div>
+                                                           </div>
+                                                      </div>
+                                           </c:if>
+                                           <c:if test="${miwebchat.equals('0')}">
+                                           		<div id="collapsemockinterviewpricewebchat" class="panel-collapse collapse">
+                                                     <div class="panel-body">
+                                                        <div class="form-group" id="dmockInterview_chat">                                                                    
+                                                            <label for="icode" class="col-md-3 control-label">Web Chat Price(Rs/Hour)</label>
+                                                            <div class="col-md-7">
+                                                                <input id="mockInterview_chat" type="text" onchange="sameprice(this)" class="form-control" name="mockinterviewpricewebchat" placeholder="" maxlength="10">  
+                                                            </div>
+                                                            <div class="col-md-3">
+                                                                <p class="required" id="required_mockInterview_chat">Field Required</p>
+                                                                <p class="required" id="invalid_mockInterview_chat">Invalid Price</p>
+                                                            </div>
+                                                        </div>
+                                                        
+                                                    </div>
+                                               </div>
+                                           </c:if>
+                                           <hr>
+                                            </c:if>
                                            <c:if test="${service.getService().equals('cvcritique')}">
                                            <c:set value="false" var="cv"></c:set>
                                             
@@ -318,11 +538,10 @@
                                                     <input type="checkbox" id="cvCritiqueCheckBox" name="services" value="cvcritique" checked="checked">Resume Critique
                                                 </label>
                                             </div>
-                                            
+                                            <hr>
                                             
                                             <div id="collapseThree" class="panel-collapse collapse">
-                                            <h4>Resume Critique</h4>
-                                            <hr>
+                                            
                                             <div class="form-group" id="dcvCritique_description">
                                                 <div class="col-md-3">
                                                 <label for="icode" class="control-label">Description</label>
@@ -337,73 +556,173 @@
                                                     </div>
                                                   
                                             </div>
-                                            <c:choose>
-                                                    	<c:when test="${service.getIsFree() > 0}">
-                                                    	<div class="form-group">
-                                            				<input type="checkbox" id="resumecritiquefreecheckbox" name="resumecritiquefreecheckbox" value="true" checked="checked"/> Please check if you want to give a free 30 mins introductory session.                                                    	
-                                                    	</div>
-                                                    	</c:when>
-                                                    	<c:otherwise>
-                                                    	<div class="form-group">
-                                            				<input type="checkbox" id="resumecritiquefreecheckbox" name="resumecritiquefreecheckbox" value="true"/> Please check if you want to give a free 30 mins introductory session.                                                    	                                                    		
-                                                    	</div>
-                                                    	</c:otherwise>
-                                                    </c:choose>
-                                            <c:forEach var="mode" items="${advisorModes }">
+                                            <div class="form-group">
+                                                    		<div class="col-md-3">
+                                                   				<label for="icode" class="control-label " style="padding-top:0;">Free Session
+                                                   				</label>
+                                                   			</div>
+                                                   			<div class="col-md-7">
+                                                <c:choose>
+                                                   	<c:when test="${service.getIsFree()== 0}">
+                                                    	<select id="gender" class="dropreg" name="isfreeresumecritique">
+                                                    		      <option value="0">0</option>
+			                                                      <option value="1">1</option>
+			                                                      <option value="2">2</option>
+			                                                      <option value="3">3</option>
+			                                                      <option value="4">4</option>
+			                                              </select>
+                                            				
+                                                   	</c:when>
+                                                   	<c:when test="${service.getIsFree()== 1}">
+                                                    	<select id="gender" class="dropreg" name="isfreeresumecritique">
+			                                                      <option value="1">1</option>
+                                                    		      <option value="0">0</option>
+			                                                      <option value="2">2</option>
+			                                                      <option value="3">3</option>
+			                                                      <option value="4">4</option>
+			                                              </select>
+                                            				
+                                                   	</c:when>
+                                                   	<c:when test="${service.getIsFree()== 2}">
+                                                    	<select id="gender" class="dropreg" name="isfreeresumecritique">
+			                                                      <option value="2">2</option>
+			                                                      <option value="1">1</option>
+                                                    		      <option value="0">0</option>
+			                                                      <option value="3">3</option>
+			                                                      <option value="4">4</option>
+			                                              </select>
+                                            				
+                                                   	</c:when>
+                                                   	<c:when test="${service.getIsFree()== 3}">
+                                                    	<select id="gender" class="dropreg" name="isfreeresumecritique">
+                                                    			  <option value="3">3</option>	 
+			                                                      <option value="1">1</option>
+                                                    		      <option value="0">0</option>
+			                                                      <option value="2">2</option>
+			                                                      <option value="4">4</option>
+			                                              </select>
+                                            				
+                                                   	</c:when>
+                                                   	<c:otherwise>
+                                                   			<select id="gender" class="dropreg" name="isfreeresumecritique">
+			                                                      <option value="4">4</option>
+                                                    			  <option value="3">3</option>	 
+			                                                      <option value="1">1</option>
+                                                    		      <option value="0">0</option>
+			                                                      <option value="2">2</option>
+			                                              </select>
+                                                   	
+                                                   	</c:otherwise>
+                                                </c:choose>
+                                                   	<button type="button" class="btn btn-default" data-html=" " data-trigger="focus" data-container="body" data-toggle="popover" data-placement="right"  data-content="Please select if you want to give users a free introductory session. Session here means 30 mins. ">
+                                                        <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> </button>
+                                                   </div> 
+                                                  </div>
+                                           
+                                                	<c:set value="0" var="rcphone"></c:set>
+                                                    <c:set value="0" var="rcwebchat"></c:set>
+		                                            <div class="form-group" id="dcvCritique_mode">
+		                                            	<div class="col-md-3">
+		                                                <label for="icode" class="control-label" style="text-align: left">Mode Of Communication</label>
+		                                                </div>
+		                                                <div class="col-md-9">
+		                                                	<c:forEach var="mode" items="${advisorModes }">
+		                                                		<c:if test="${mode.getAdvisorId() == service.getAdvisorId() && mode.getService() == service.getService() }">
+				                                                    <c:if test="${mode.getModeOfCommunication().equals('phone')}">	
+				                                                    	<div class="col-md-9">									                                    						                                    	
+				                                                        	<input type="checkbox" id="cvcritiquemodephone" name="cvcritiquemode" value="phone" checked="checked"/> Phone
+				                                                    	</div>
+				                                                    	<c:set value="1" var="rcphone"></c:set>
+				                                                    </c:if>
+				                                                    <c:if test="${mode.getModeOfCommunication().equals('webchat')}">
+				                                                    	<div class="col-md-9">									                                    						                                        
+				                                                        	<input type="checkbox" id="cvcritiquemodewebchat" name="cvcritiquemode" value="webchat" checked="checked" /> WebChat
+				                                                    	</div>
+				                                                    	<c:set value="1" var="rcwebchat"></c:set>
+				                                                    </c:if>
+				                                                 </c:if>
+			                                                 </c:forEach>
+			                                                 <c:if test="${rcphone.equals('0')}">
+			                                                 		<div class="col-md-9">									                                    						                                    	
+				                                                        	<input type="checkbox" id="cvcritiquemodephone" name="cvcritiquemode" value="phone"/> Phone
+				                                                    	</div>
+			                                                 </c:if>
+			                                                 <c:if test="${rcwebchat.equals('0')}">
+			                                                 		<div class="col-md-9">									                                    						                                    	
+				                                                        	<input type="checkbox" id="cvcritiquemodewebchat" name="cvcritiquemode" value="webchat"/> WebChat
+				                                                    	</div>
+			                                                 </c:if>
+		                                                </div>
+		                                            </div>
+		                                     <c:forEach var="mode" items="${advisorModes }">
                                                 <c:if test="${mode.getAdvisorId() == service.getAdvisorId() && mode.getService() == service.getService() }">
-                                            <div class="form-group" id="dcvCritique_mode">
-                                            	<div class="col-md-3">
-                                                <label for="icode" class="control-label">Mode Of Communication</label>
-                                                </div>
-                                                <div class="col-md-9" id="cvCritique_mode">
-                                                    <c:if test="${mode.getModeOfCommunication().equals('phone')}">								                                    						                                    	
-                                                        <input type="checkbox" id="cvcritiquemodephone" name="cvcritiquemode" value="phone" checked="checked"/> Phone
-                                                    </c:if>
-                                                    <c:if test="${mode.getModeOfCommunication().equals('webchat')}">								                                    						                                        
-                                                        <input type="checkbox" id="cvcritiquemodewebchat" name="cvcritiquemode" value="webchat" checked="checked" /> WebChat
-                                                    </c:if>
-                                                </div>
-                                            </div>
-                                            <hr>
-                                            <c:if test="${mode.getModeOfCommunication().equals('phone') }">								                                									                                																															
-                                                <div id="collapsecvcritiquepricephone" class="panel-collapse collapse">
-                                                     <div class="panel-body">
-                                                        <div class="form-group" id="dcvCritique_phone">
-                                                            <h4>Phone</h4>
-                                                            
-                                                            <label for="icode" class="col-md-3 control-label">Price(Rs/Hour)</label>
-                                                            <div class="col-md-6">
-                                                                <input id="cvCritique_phone" onchange="sameprice(this)" type="text" class="form-control" name="cvcritiquepricephone" placeholder="" value="${mode.getPrice()}">  
-                                                            </div>
-                                                            <div class="col-md-3">
-                                                                <p class="required" id="required_cvCritique_phone">Field Required</p>
-                                                                <p class="required" id="invalid_cvCritique_phone">Invalid Price</p>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <hr>
-                                                </div>
-                                            </c:if>
-                                            <c:if test="${mode.getModeOfCommunication().equals('webchat') }">								                                									                                																																                                					
-                                                <div id="collapsecvcritiquepricewebchat" class="panel-collapse collapse">
-                                                     <div class="panel-body">
-                                                        <div class="form-group" id="dcvCritique_chat">
-                                                            <h4>Web Chat</h4>
-                                                            
-                                                            <label for="icode" class="col-md-3 control-label">Price(Rs/Hour)</label>
-                                                            <div class="col-md-7">
-                                                                <input id="cvCritique_chat" onchange="sameprice(this)" type="text" class="form-control" name="cvcritiquepricewebchat" placeholder="" value="${mode.getPrice()}">  
-                                                            </div>
-                                                            <div class="col-md-2">
-                                                                <p class="required" id="required_cvCritique_chat">Field Required</p>
-                                                                <p class="required" id="invalid_cvCritique_chat">Invalid Price</p>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </c:if>
+		                                            <c:if test="${mode.getModeOfCommunication().equals('phone') }">								                                									                                																															
+		                                                <div id="collapsecvcritiquepricephone" class="panel-collapse collapse">
+		                                                     <div class="panel-body">
+		                                                        <div class="form-group" id="dcvCritique_phone">		                                                            
+		                                                            <label for="icode" class="col-md-3 control-label">Phone Price(Rs/Hour)</label>
+		                                                            <div class="col-md-6">
+		                                                                <input id="cvCritique_phone" onchange="sameprice(this)" type="text" class="form-control" name="cvcritiquepricephone" placeholder="" value="${mode.getPrice()}" maxlength="10">  
+		                                                            </div>
+		                                                            <div class="col-md-3">
+		                                                                <p class="required" id="required_cvCritique_phone">Field Required</p>
+		                                                                <p class="required" id="invalid_cvCritique_phone">Invalid Price</p>
+		                                                            </div>
+		                                                        </div>
+		                                                    </div>
+		                                                </div>
+		                                            </c:if>
+		                                            <c:if test="${mode.getModeOfCommunication().equals('webchat') }">								                                									                                																																                                					
+		                                                <div id="collapsecvcritiquepricewebchat" class="panel-collapse collapse">
+		                                                     <div class="panel-body">
+		                                                        <div class="form-group" id="dcvCritique_chat">		                                                            
+		                                                            <label for="icode" class="col-md-3 control-label">Web Chat Price(Rs/Hour)</label>
+		                                                            <div class="col-md-7">
+		                                                                <input id="cvCritique_chat" onchange="sameprice(this)" type="text" class="form-control" name="cvcritiquepricewebchat" placeholder="" value="${mode.getPrice()}" maxlength="10">  
+		                                                            </div>
+		                                                            <div class="col-md-2">
+		                                                                <p class="required" id="required_cvCritique_chat">Field Required</p>
+		                                                                <p class="required" id="invalid_cvCritique_chat">Invalid Price</p>
+		                                                            </div>
+		                                                        </div>
+		                                                    </div>
+		                                                </div>
+		                                            </c:if>
                                             </c:if>
                                         </c:forEach>
+                                        <c:if test="${rcphone.equals('0') }">
+                                        	<div id="collapsecvcritiquepricephone" class="panel-collapse collapse">
+                                                   <div class="panel-body">
+                                                      <div class="form-group" id="dcvCritique_phone">		                                                            
+                                                          <label for="icode" class="col-md-3 control-label">Phone Price(Rs/Hour)</label>
+                                                          <div class="col-md-6">
+                                                              <input id="cvCritique_phone" onchange="sameprice(this)" type="text" class="form-control" name="cvcritiquepricephone" placeholder="" value="${mode.getPrice()}" maxlength="10">  
+                                                          </div>
+                                                          <div class="col-md-3">
+                                                              <p class="required" id="required_cvCritique_phone">Field Required</p>
+                                                              <p class="required" id="invalid_cvCritique_phone">Invalid Price</p>
+                                                          </div>
+                                                      </div>
+                                                  </div>
+                                              </div>
+                                        </c:if>
+                                        <c:if test="${rcwebchat.equals('0') }">
+                                        	<div id="collapsecvcritiquepricewebchat" class="panel-collapse collapse">
+                                                    <div class="panel-body">
+                                                       <div class="form-group" id="dcvCritique_chat">		                                                            
+                                                           <label for="icode" class="col-md-3 control-label">Web Chat Price(Rs/Hour)</label>
+                                                           <div class="col-md-7">
+                                                               <input id="cvCritique_chat" onchange="sameprice(this)" type="text" class="form-control" name="cvcritiquepricewebchat" placeholder="" value="${mode.getPrice()}" maxlength="10">  
+                                                           </div>
+                                                           <div class="col-md-2">
+                                                               <p class="required" id="required_cvCritique_chat">Field Required</p>
+                                                               <p class="required" id="invalid_cvCritique_chat">Invalid Price</p>
+                                                           </div>
+                                                       </div>
+                                                   </div>
+                                               </div>
+                                        </c:if>
+                                        <hr>
                                     </div>
                                  </c:if>
                                        
@@ -415,7 +734,7 @@
                                                 </label>
                                             </div>
                                         <div id="collapseOne" class="panel-collapse collapse">
-                                            <h4>Career Talk</h4>
+                                            
                                             <hr>
                                             <div class="form-group" id="dcareerTalk_description">
                                                 <div class="col-md-3">
@@ -431,17 +750,23 @@
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                            	<input type="checkbox" id="careertalkfreecheckbox" name="careertalkfreecheckbox" value="true"/> Please check if you want to give a free 30 mins introductory session.                                                    	                                                    		
+                                            	<div class="col-md-3">
+                                                 	<label for="icode" class="control-label " style="padding-top:0;"></label>
+                                                 </div>
+                                                 <div class="col-md-9">
+                                            		<input type="checkbox" id="careertalkfreecheckbox" name="careertalkfreecheckbox" value="true"/> Please check if you want to give a free 30 mins introductory session.  
+                                            	</div>                                                  	                                                    		
                                             </div>
                                             <div class="form-group" id="dcareerTalk_mode">
                                                 <div class="col-md-3">
-                                                <label for="icode" class="control-label">Mode of Communication</label>
+                                                <label for="icode" class="control-label" style="text-align: left">Mode of Communication</label>
                                                 </div>
                                                 <div class="col-md-8">
                                                     <input type="checkbox" id="careertalkmodephone"  name="careertalkmode" value="phone"/> Phone
                                                     <input type="checkbox" id="careertalkmodeemail"  name="careertalkmode" value="email"  /> Email
                                                     <input type="checkbox" id="careertalkmodewebchat"  name="careertalkmode" value="webchat"  /> WebChat
                                                 </div>
+                                                
                                             </div>
                                             <hr>
                                             <div id="collapsecareertalkpricephone" class="panel-collapse collapse">
@@ -451,7 +776,7 @@
                                                         
                                                         <label for="icode" class="col-md-3 control-label">Price(Rs/Hour)</label>
                                                         <div class="col-md-6">
-                                                            <input id="careerTalk_phone" type="text" onchange="sameprice(this)" class="form-control" name="careertalkpricephone" placeholder="">  
+                                                            <input id="careerTalk_phone" type="text" onchange="sameprice(this)" class="form-control" name="careertalkpricephone" placeholder="" maxlength="10">  
                                                         </div>
                                                         <div class="col-md-3">
                                                             <p class="required" id="required_careerTalk_phone">Field Required</p>
@@ -468,7 +793,7 @@
                                             
                                                         <label for="icode" class="col-md-3 control-label">Price(Rs/Hour)</label>
                                                         <div class="col-md-7">
-                                                            <input id="careerTalk_chat" type="text" onchange="sameprice(this)" class="form-control" name="careertalkpricewebchat" placeholder="">  
+                                                            <input id="careerTalk_chat" type="text" onchange="sameprice(this)" class="form-control" name="careertalkpricewebchat" placeholder="" maxlength="10">  
                                                         </div>
                                                         <div class="col-md-2">
                                                             <p class="required" id="required_careerTalk_chat">Field Required</p>
@@ -487,7 +812,7 @@
                                                         
                                                         <label for="icode" class="col-md-3 control-label">Price</label>
                                                         <div class="col-md-7">
-                                                            <input id="careerTalk_mail" type="text" class="form-control" name="careertalkpriceemail" placeholder="">  
+                                                            <input id="careerTalk_mail" type="text" class="form-control" name="careertalkpriceemail" placeholder="" maxlength="10">  
                                                         </div>
                                                         <div class="col-md-2">
                                                             <p class="required" id="required_careerTalk_mail">Field Required</p>
@@ -509,7 +834,7 @@
                                                 </label>
                                             </div>
                                             <div id="collapseTwo" class="panel-collapse collapse">
-                                            <h4>Mock Interview</h4>
+                                            
                                             <hr>
                                             <div class="form-group" id="dmockInterview_description">
                                                 <div class="col-md-3">
@@ -524,11 +849,16 @@
                                                 </div> 
                                             </div>
                                             <div class="form-group">
-                                            	<input type="checkbox" id="mockinterviewfreecheckbox" name="mockinterviewfreecheckbox" value="true"/> Please check if you want to give a free 30 mins introductory session.                                                    	                                                    		
+                                            	<div class="col-md-3">
+                                                   	<label for="icode" class="control-label " style="padding-top:0;"></label>
+                                                </div>
+                                                <div class="col-md-9">
+                                            		<input type="checkbox" id="mockinterviewfreecheckbox" name="mockinterviewfreecheckbox" value="true"/> Please check if you want to give a free 30 mins introductory session.
+                                            	</div>                                                    	                                                    		
                                             </div>
                                             <div class="form-group" id="dmockInterview_mode">
                                             	<div class="col-md-3">
-                                                <label for="icode" class="control-label">Mode Of Communication</label>
+                                                <label for="icode" class="control-label" style="text-align: left">Mode Of Communication</label>
                                                 </div>
                                                 <div class="col-md-9">
                                                     <input type="checkbox" id="mockinterviewmodephone" name="mockinterviewmode" value="phone"/> Phone
@@ -544,7 +874,7 @@
                                                         
                                                         <label for="icode" class="col-md-3 control-label">Price(Rs/Hour)</label>
                                                         <div class="col-md-7">
-                                                            <input id="mockInterview_phone" type="text" onchange="sameprice(this)" class="form-control" name="mockinterviewpricephone" placeholder="">  
+                                                            <input id="mockInterview_phone" type="text" onchange="sameprice(this)" class="form-control" name="mockinterviewpricephone" placeholder="" maxlength="10">  
                                                         </div>
                                                         <div class="col-md-2">
                                                             <p class="required" id="required_mockInterview_phone">Field Required</p>
@@ -561,7 +891,7 @@
                                                         
                                                         <label for="icode" class="col-md-3 control-label">Price(Rs/Hour)</label>
                                                         <div class="col-md-7">
-                                                            <input id="mockInterview_chat" type="text" onchange="sameprice(this)" class="form-control" name="mockinterviewpricewebchat" placeholder="">  
+                                                            <input id="mockInterview_chat" type="text" onchange="sameprice(this)" class="form-control" name="mockinterviewpricewebchat" placeholder="" maxlength="10">  
                                                         </div>
                                                         <div class="col-md-2">
                                                             <p class="required" id="required_mockInterview_chat">Field Required</p>
@@ -583,7 +913,7 @@
                                                 </label>
                                             </div>
                                         <div id="collapseThree" class="panel-collapse collapse">
-                                            <h4>Resume Critique</h4>
+                                            
                                             <hr>
                                             <div class="form-group" id="dcvCritique_description">
                                                 <div class="col-md-3">
@@ -599,11 +929,16 @@
                                                     </div>
                                             </div>
                                              <div class="form-group">
-                                            	<input type="checkbox" id="resumecritiquefreecheckbox" name="resumecritiquefreecheckbox" value="true"/> Please check if you want to give a free 30 mins introductory session.                                                    	                                                    		
+                                             	<div class="col-md-3">
+                                                   	<label for="icode" class="control-label " style="padding-top:0;"></label>
+                                                </div>
+                                                <div class="col-md-9">
+                                            		<input type="checkbox" id="resumecritiquefreecheckbox" name="resumecritiquefreecheckbox" value="true"/> Please check if you want to give a free 30 mins introductory session.  
+                                            	</div>                                                  	                                                    		
                                             </div>
                                             <div class="form-group" id="dcvCritique_mode">
                                             	<div class="col-md-3">
-                                                <label for="icode" class="control-label">Mode Of Communication</label>
+                                                <label for="icode" class="control-label" style="text-align: left">Mode Of Communication</label>
                                                 </div>
                                                 <div class="col-md-9" id="cvCritique_mode">
                                                     <input type="checkbox" id="cvcritiquemodephone" name="cvcritiquemode" value="phone"/> Phone
@@ -619,7 +954,7 @@
                                                         
                                                         <label for="icode" class="col-md-3 control-label">Price(Rs/Hour)</label>
                                                         <div class="col-md-7">
-                                                            <input id="cvCritique_phone" onchange="sameprice(this)" type="text" class="form-control" name="cvcritiquepricephone" placeholder="">  
+                                                            <input id="cvCritique_phone" onchange="sameprice(this)" type="text" class="form-control" name="cvcritiquepricephone" placeholder="" maxlength="10">  
                                                         </div>
                                                         <div class="col-md-2">
                                                             <p class="required" id="required_cvCritique_phone">Field Required</p>
@@ -636,7 +971,7 @@
                                                         
                                                         <label for="icode" class="col-md-3 control-label">Price(Rs/Hour)</label>
                                                         <div class="col-md-7">
-                                                            <input id="cvCritique_chat" onchange="sameprice(this)" type="text" class="form-control" name="cvcritiquepricewebchat" placeholder="">  
+                                                            <input id="cvCritique_chat" onchange="sameprice(this)" type="text" class="form-control" name="cvcritiquepricewebchat" placeholder="" maxlength="10">  
                                                         </div>
                                                         <div class="col-md-2">
                                                             <p class="required" id="required_cvCritique_chat">Field Required</p>
@@ -654,7 +989,6 @@
                         </c:when>
                         <c:otherwise>
                                 <div class="form-group">
-                            <label for="icode" class="col-md-2 control-label">Services</label>
                             <div class="col-md-10">
                                             <div class="checkbox">
                                                 <label>
@@ -662,7 +996,7 @@
                                                 </label>
                                             </div>
                                             <div id="collapseOne" class="panel-collapse collapse">
-                                            <h4>Career Talk</h4>
+                                            
                                             <hr>
                                             <div class="form-group" id="dcareerTalk_description">
                                                 <div class="col-md-3">
@@ -677,64 +1011,56 @@
                                                     <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> </button>
                                                 </div>
                                             </div>
-                                            <div class="form-group" id="dcareerTalk_mode">
+                                            <div class="form-group">
+                                            	<div class="col-md-3">
+                                                   	<label for="icode" class="control-label " style="padding-top:0;"></label>
+                                                </div>
+                                                <div class="col-md-9">
+                                            		      <select id="gender" class="dropreg" name="isfreecareertalk">
+                                                    		      <option value="0">0</option>
+			                                                      <option value="1">1</option>
+                                                    			  <option value="2">2</option>	 
+			                                                      <option value="3">3</option>
+			                                                      <option value="4">4</option>
+			                                              </select>
+                                                   	<button type="button" class="btn btn-default" data-html=" " data-trigger="focus" data-container="body" data-toggle="popover" data-placement="right"  data-content="Please select if you want to give users a free introductory session. Session here means 30 mins. ">
+                                                    <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> </button>
+                                            	</div>
+                                            </div>
+                                            <div class="form-group" id="collapsecareertalkprice">
                                                 <div class="col-md-3">
-                                                <label for="icode" class="control-label">Mode of Communication</label>
+                                                <label for="icode" class="control-label" style="text-align: left">Mode of Communication</label>
                                                 </div>
                                                 <div class="col-md-8">
                                                     <input type="checkbox" id="careertalkmodephone"  name="careertalkmode" value="phone"/> Phone
-                                                    <input type="checkbox" id="careertalkmodeemail"  name="careertalkmode" value="email"  /> Email
-                                                    <input type="checkbox" id="careertalkmodewebchat"  name="careertalkmode" value="webchat"  /> WebChat
                                                 </div>
+                                                <div class="col-md-8">
+                                                    <input type="checkbox" id="careertalkmodeemail"  name="careertalkmode" value="email"  /> Email
+                                                 </div>
+                                                 <div class="col-md-8">
+                                                    <input type="checkbox" id="careertalkmodewebchat"  name="careertalkmode" value="webchat"  /> WebChat
+                                                 </div>
                                             </div>
-                                            <input type="checkbox" id="careertalkfreecheckbox" name="careertalkfreecheckbox" value="true"/> Please check if you want to give a free 30 mins introductory session.
-                                            <hr>
-                                            <div id="collapsecareertalkpricephone" class="panel-collapse collapse">
+                                           <div id="collapsecareertalkpricephone" class="panel-collapse collapse">
                                                  <div class="panel-body">
-                                                    <div class="form-group" id="dcareerTalk_phone">
-                                                        <h4>Phone</h4>
-                                                        
-                                                        <label for="icode" class="col-md-3 control-label">Price(Rs/Hour)</label>
+                                                    <div class="form-group" id="dcareerTalk_phone">                                                        
+                                                        <label for="icode" class="col-md-3 control-label" style="text-align: left">Phone Price(Rs/Hour)</label>
                                                         <div class="col-md-7">
-                                                            <input id="careerTalk_phone" type="text" onchange="sameprice(this)" class="form-control" name="careertalkpricephone" placeholder="">  
+                                                            <input id="careerTalk_phone" type="text" onchange="sameprice(this)" class="form-control" name="careertalkpricephone" placeholder="" maxlength="10">  
                                                         </div>
-                                                        <div class="col-md-2">
+                                                        <div class="col-md-3">
                                                             <p class="required" id="required_careerTalk_phone">Field Required</p>
                                                             <p class="required" id="invalid_careerTalk_phone">Invalid Price</p>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            <hr>	
                                             </div>
-                                            
-                                            
-                                            <div id="collapsecareertalkpricewebchat" class="panel-collapse collapse">
-                                                 <div class="panel-body">
-                                                    <div class="form-group" id="dcareerTalk_chat">
-                                                        <h4>Web Chat</h4>
-                                            
-                                                        <label for="icode" class="col-md-3 control-label">Price(Rs/Hour)</label>
-                                                        <div class="col-md-7">
-                                                            <input id="careerTalk_chat" type="text" onchange="sameprice(this)" class="form-control" name="careertalkpricewebchat" placeholder="">  
-                                                        </div>
-                                                        <div class="col-md-2">
-                                                            <p class="required" id="required_careerTalk_chat">Field Required</p>
-                                                            <p class="required" id="invalid_careerTalk_chat">Invalid Price</p>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <hr>
-                                            </div>
-                                            
-                                            
                                             <div id="collapsecareertalkpriceemail" class="panel-collapse collapse">
                                                  <div class="panel-body">
-                                                    <div class="form-group" id="dcareerTalk_mail">
-                                                        <h4>Email</h4>
-                                                        
-                                                        <label for="icode" class="col-md-3 control-label">Price</label>
+                                                    <div class="form-group" id="dcareerTalk_mail">                                                        
+                                                        <label for="icode" class="col-md-3 control-label" style="text-align: left">Email Price</label>
                                                         <div class="col-md-7">
-                                                            <input id="careerTalk_mail" type="text" class="form-control" name="careertalkpriceemail" placeholder="">  
+                                                            <input id="careerTalk_mail" type="text" class="form-control" name="careertalkpriceemail" placeholder="" maxlength="10">  
                                                         </div>
                                                         <div class="col-md-2">
                                                             <p class="required" id="required_careerTalk_mail">Field Required</p>
@@ -742,17 +1068,31 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <hr>
                                             </div>
                                             
-                                    </div>
+                                            <div id="collapsecareertalkpricewebchat" class="panel-collapse collapse">
+                                                 <div class="panel-body">
+                                                    <div class="form-group" id="dcareerTalk_chat">                                            
+                                                        <label for="icode" class="col-md-3 control-label" style="text-align: left">Web Chat Price(Rs/Hour)</label>
+                                                        <div class="col-md-7">
+                                                            <input id="careerTalk_chat" type="text" onchange="sameprice(this)" class="form-control" name="careertalkpricewebchat" placeholder="" maxlength="10">  
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            <p class="required" id="required_careerTalk_chat">Field Required</p>
+                                                            <p class="required" id="invalid_careerTalk_chat">Invalid Price</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                           <hr>
+                                     </div>
                                             <div class="checkbox">
                                                 <label>
                                                     <input type="checkbox" id="mockInterviewCheckBox" name="services" value="mockinterview">Mock Interview
                                                 </label>
                                             </div>
                                         <div id="collapseTwo" class="panel-collapse collapse">
-                                            <h4>Mock Interview</h4>
+                                            
                                             <hr>
                                             <div class="form-group" id="dmockInterview_description">
                                                 <div class="col-md-3">
@@ -766,26 +1106,39 @@
                                                             <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> </button>
                                                 </div> 
                                             </div>
+                                             <div class="form-group">
+                                            	 <div class="col-md-3">
+                                                   		<label for="icode" class="control-label " style="padding-top:0;"></label>
+                                                  </div>
+                                            	  <div class="col-md-9">
+ 															<select id="gender" class="dropreg" name="isfreemockinterview">
+                                                    		      <option value="0">0</option>
+			                                                      <option value="1">1</option>
+                                                    			  <option value="2">2</option>	 
+			                                                      <option value="3">3</option>
+			                                                      <option value="4">4</option>
+			                                              </select>
+                                                   	<button type="button" class="btn btn-default" data-html=" " data-trigger="focus" data-container="body" data-toggle="popover" data-placement="right"  data-content="Please select if you want to give users a free introductory session. Session here means 30 mins. ">
+                                                    <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> </button>                                           		  </div>                                         
+                                            </div>
                                             <div class="form-group" id="dmockInterview_mode">
                                             	<div class="col-md-3">
-                                                <label for="icode" class="control-label">Mode Of Communication</label>
+                                                <label for="icode" class="control-label" style="text-align: left">Mode Of Communication</label>
                                                 </div>
-                                                <div class="col-md-9">
+                                                <div class="col-md-8">
                                                     <input type="checkbox" id="mockinterviewmodephone" name="mockinterviewmode" value="phone"/> Phone
+                                                </div>
+                                                <div class="col-md-8">
                                                     <input type="checkbox" id="mockinterviewmodewebchat" name="mockinterviewmode" value="webchat" /> WebChat
                                                 </div>
                                             </div>
-                                            <input type="checkbox" id="mockinterviewfreecheckbox" name="mockinterviewfreecheckbox" value="true"/> Please check if you want to give a free 30 mins introductory session.                                            
-                                            <hr>
-                                            <div id="collapsemockinterviewpricephone" class="panel-collapse collapse">
+                                           <div id="collapsemockinterviewpricephone" class="panel-collapse collapse">
                                                     
                                                 <div class="panel-body">
                                                     <div class="form-group" id="dmockInterview_phone">
-                                                        <h4>Phone</h4>
-                                                        
-                                                        <label for="icode" class="col-md-3 control-label">Price(Rs/Hour)</label>
+                                                        <label for="icode" class="col-md-3 control-label" style="text-align: left">Phone Price(Rs/Hour)</label>
                                                         <div class="col-md-7">
-                                                            <input id="mockInterview_phone" type="text" onchange="sameprice(this)" class="form-control" name="mockinterviewpricephone" placeholder="">  
+                                                            <input id="mockInterview_phone" type="text" onchange="sameprice(this)" class="form-control" name="mockinterviewpricephone" placeholder="" maxlength="10">  
                                                         </div>
                                                         <div class="col-md-2">
                                                             <p class="required" id="required_mockInterview_phone">Field Required</p>
@@ -793,16 +1146,13 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <hr>
                                             </div>			                                	
                                             <div id="collapsemockinterviewpricewebchat" class="panel-collapse collapse">
                                                  <div class="panel-body">
                                                     <div class="form-group" id="dmockInterview_chat">
-                                                        <h4>Web Chat</h4>
-                                                        
-                                                        <label for="icode" class="col-md-3 control-label">Price(Rs/Hour)</label>
+                                                        <label for="icode" class="col-md-3 control-label" style="text-align: left">Web Chat Price(Rs/Hour)</label>
                                                         <div class="col-md-7">
-                                                            <input id="mockInterview_chat" type="text" onchange="sameprice(this)" class="form-control" name="mockinterviewpricewebchat" placeholder="">  
+                                                            <input id="mockInterview_chat" type="text" onchange="sameprice(this)" class="form-control" name="mockinterviewpricewebchat" placeholder="" maxlength="10">  
                                                         </div>
                                                         <div class="col-md-2">
                                                             <p class="required" id="required_mockInterview_chat">Field Required</p>
@@ -811,9 +1161,8 @@
                                                     </div>
                                                     
                                                 </div>
-                                                <hr>
                                             </div>
-                                        
+                                         <hr>
                                     </div>
                                             <div class="checkbox">
                                                 <label>
@@ -821,7 +1170,7 @@
                                                 </label>
                                             </div>
                                             <div id="collapseThree" class="panel-collapse collapse">
-                                            <h4>Resume Critique</h4>
+                                            
                                             <hr>
                                             <div class="form-group" id="dcvCritique_description">
                                                 <div class="col-md-3">
@@ -836,25 +1185,40 @@
                                                             <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> </button>
                                                     </div>
                                             </div>
+                                             <div class="form-group">
+                                            	<div class="col-md-3">
+	                                            	<label for="icode" class="col-md-3 control-label"></label>
+	                                            </div>
+	                                            <div class="col-md-9">
+	                                            	 <select id="gender" class="dropreg" name="isfreeresumecritique">
+                                                    		      <option value="0">0</option>
+			                                                      <option value="1">1</option>
+                                                    			  <option value="2">2</option>	 
+			                                                      <option value="3">3</option>
+			                                                      <option value="4">4</option>
+			                                              </select>
+                                                   	<button type="button" class="btn btn-default" data-html=" " data-trigger="focus" data-container="body" data-toggle="popover" data-placement="right"  data-content="Please select if you want to give users a free introductory session. Session here means 30 mins. ">
+                                                    <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> </button>  
+                                            	</div>
+                                            </div>          
                                             <div class="form-group" id="dcvCritique_mode">
                                             	<div class="col-md-3">
-                                                <label for="icode" class="control-label">Mode Of Communication</label>
+                                                <label for="icode" class="control-label" style="text-align: left">Mode Of Communication</label>
                                                 </div>
-                                                <div class="col-md-9" id="cvCritique_mode">
+                                                <div class="col-md-8">
                                                     <input type="checkbox" id="cvcritiquemodephone" name="cvcritiquemode" value="phone"/> Phone
+                                                </div>
+                                                <div class="col-md-8">
                                                     <input type="checkbox" id="cvcritiquemodewebchat" name="cvcritiquemode" value="webchat" /> WebChat
                                                 </div>
                                             </div>
-                                            <input type="checkbox" id="resumecritiquefreecheckbox" name="resumecritiquefreecheckbox" value="true"/> Please check if you want to give a free 30 mins introductory session.                                                                                        
-                                            <hr> 
+                                                                                                                       
                                             <div id="collapsecvcritiquepricephone" class="panel-collapse collapse">
                                                  <div class="panel-body">
                                                     <div class="form-group" id="dcvCritique_phone">
-                                                        <h4>Phone</h4>
-                                                        
-                                                        <label for="icode" class="col-md-3 control-label">Price(Rs/Hour)</label>
+                                                        <label for="icode" class="col-md-3 control-label" style="text-align: left">Phone Price(Rs/Hour)</label>
                                                         <div class="col-md-7">
-                                                            <input id="cvCritique_phone" onchange="sameprice(this)" type="text" class="form-control" name="cvcritiquepricephone" placeholder="">  
+                                                            <input id="cvCritique_phone" onchange="sameprice(this)" type="text" class="form-control" name="cvcritiquepricephone" placeholder="" maxlength="10">  
                                                         </div>
                                                         <div class="col-md-2">
                                                             <p class="required" id="required_cvCritique_phone">Field Required</p>
@@ -862,16 +1226,13 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <hr>
                                             </div>
                                             <div id="collapsecvcritiquepricewebchat" class="panel-collapse collapse">
                                                  <div class="panel-body">
-                                                    <div class="form-group" id="dcvCritique_chat">
-                                                        <h4>Web Chat</h4>
-                                                        
-                                                        <label for="icode" class="col-md-3 control-label">Price(Rs/Hour)</label>
+                                                    <div class="form-group" id="dcvCritique_chat">                                                        
+                                                        <label for="icode" class="col-md-3 control-label" style="text-align: left">Web Chat Price(Rs/Hour)</label>
                                                         <div class="col-md-7">
-                                                            <input id="cvCritique_chat" onchange="sameprice(this)" type="text" class="form-control" name="cvcritiquepricewebchat" placeholder="">  
+                                                            <input id="cvCritique_chat" onchange="sameprice(this)" type="text" class="form-control" name="cvcritiquepricewebchat" placeholder="" maxlength="10">  
                                                         </div>
                                                         <div class="col-md-2">
                                                             <p class="required" id="required_cvCritique_chat">Field Required</p>
@@ -880,6 +1241,7 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                           <hr>
                                         </div>
                                             
                                     </div>
@@ -902,7 +1264,7 @@
                                  </c:choose>
                                     </div>
                                  </div>	
-                                 <h4 style="font-family:'custom_light' !important;color: #c84c4e;text-align: left;">Note : The price shown on your profile will be your price+ our service fee.</h4> 
+                                 <h4 style="font-family:'custom_light' !important;color: #c84c4e;text-align: left;">Note :<br>1. The price shown on your profile will be your price+ our service fee.<br>2. The prices for phone or webchat are the same.</h4> 
                                  		
                             </div>
                     </form>									                                

@@ -1,5 +1,5 @@
  /*************************************************************************************************
- * ********************************ADVISOR CIRCUIT*************************************************
+\ * ********************************ADVISOR CIRCUIT*************************************************
  * ************************************************************************************************
  * @author AdvisorCircuit
  * @Date 29/11/2014
@@ -80,8 +80,6 @@ public class BookASessionServlet extends HttpServlet {
 		String datetime2 = request.getParameter("datetimepicker2");
 		String datetime3 = request.getParameter("datetimepicker3");
 		String datetime4 = request.getParameter("datetimepicker4");
-		String datetime5 = request.getParameter("datetimepicker5");
-		String datetime6 = request.getParameter("datetimepicker6");
 		String query = request.getParameter("query");
 		String datetimeemail = request.getParameter("datetimepickeremail");
 		String price = request.getParameter("price");
@@ -94,8 +92,6 @@ public class BookASessionServlet extends HttpServlet {
 		String datetimepicker2 = "";
 		String datetimepicker3 = "";
 		String datetimepicker4 = "";
-		String datetimepicker5 = "";
-		String datetimepicker6 = "";
 		if(query != null){
 			query = query.replaceAll("\r\n", "");
 			query = query.replaceAll( "\r", "");
@@ -113,21 +109,25 @@ public class BookASessionServlet extends HttpServlet {
 			Date datepicker2 = dateFormat.parse(datetime2);
 			Date datepicker3 = dateFormat.parse(datetime3);
 			Date datepicker4 = dateFormat.parse(datetime4);
-			Date datepicker5 = dateFormat.parse(datetime5);
-			Date datepicker6 = dateFormat.parse(datetime6);
 			SimpleDateFormat dateFormat1 = new SimpleDateFormat("dd/MM/yyyy' 'HH:mm:ss");
 			datetimepicker1 = dateFormat1.format(datepicker1);
 			datetimepicker2 = dateFormat1.format(datepicker2);
 			datetimepicker3 = dateFormat1.format(datepicker3);
 			datetimepicker4 = dateFormat1.format(datepicker4);
-			datetimepicker5 = dateFormat1.format(datepicker5);
-			datetimepicker6 = dateFormat1.format(datepicker6);
+		}
+		if(isFree.equals("true")){
+			if( Double.parseDouble(registrationPrice) > Double.parseDouble(price)){
+				double disc = (((Double.parseDouble(registrationPrice) - Double.parseDouble(price)) * 100) /Double.parseDouble(registrationPrice));
+				discount = String.valueOf(disc);
+			}else{
+				discount = "100";
+			}
 		}
 		String absoluteURL = "";
 		Boolean isCvCommit = false;
 		//Instantiate Book a session dao class for setting the value in the userrequest table.
 		BookASessionDAO dao = new BookASessionDAO();
-		requestId = dao.setBookASessionDetails(aId, service,mode,duration,datetimepicker1,datetimepicker2,datetimepicker3,datetimepicker4,datetimepicker5,datetimepicker6,query,userId,price,isFree,registrationPrice,discount);
+		requestId = dao.setBookASessionDetails(aId, service,mode,duration,datetimepicker1,datetimepicker2,datetimepicker3,datetimepicker4,query,userId,price,isFree,registrationPrice,discount);
 		//If the service was cvcritique or moack interview then the user would have uploaded the Cv.
 		//So need to set the CV in the required folder and put the CV details in the user_cv table.
 		if(("mockinterview").equals(service) || ("cvcritique").equals(service) ){

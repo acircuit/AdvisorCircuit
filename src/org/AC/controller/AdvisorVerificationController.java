@@ -32,9 +32,16 @@ public class AdvisorVerificationController extends HttpServlet {
 			dto = advisor.Verify(aId);
 		}
 		if(dto.getAdvisorId() != 0){
-			request.getSession().setAttribute("aId", dto.getAdvisorId());
-			request.getSession().setAttribute("email", dto.getEmail());
-			response.sendRedirect("GeneralInfo");
+			// update ISVERIFIED attribute of advisordetails
+			AdvisorRegistrationDAO advisor = new AdvisorRegistrationDAO();
+			Boolean isVerfied = advisor.UpdateVerification(dto.getAdvisorId());
+			if(isVerfied){
+				request.getSession().setAttribute("aId", dto.getAdvisorId());
+				request.getSession().setAttribute("email", dto.getEmail());
+				response.sendRedirect("GeneralInfo");
+			}else{
+				response.sendRedirect("verificationfailed");
+			}
 		}else{
 			response.sendRedirect("verificationfailed");
 		}

@@ -36,6 +36,9 @@
 	<!--<link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.2/css/bootstrap-combined.min.css" rel="stylesheet">-->
 	<!-- Custom styles for this template -->
     
+        <link href="assets/css/sb-admin-2.css" rel="stylesheet">
+    
+    
     <!-- Fonts from Google Fonts -->
 	<link href='http://fonts.googleapis.com/css?family=Lato:300,400,900' rel='stylesheet' type='text/css'>
 	
@@ -124,6 +127,7 @@
                                         <div class="col-md-10">
                                             <textarea class="form-control" rows="3" readonly><c:out value="${session.getSessionPlan()}"/></textarea>
                                         </div>
+                                       
                                     </div>
 									
                                     <input type="hidden" value="${session.getAcceptedDate() }" name="acceptedDate">
@@ -161,13 +165,29 @@
                             </div>				
 								<input type="hidden" value="${userRequest.getMode()}" id="requestModes">		 
                             <div class="form-group">
-                            	<label for="icode" class="col-md-2 control-label">Duration (Hrs):</label>
-                                <div class="col-md-10">	
-                                    <p name="optionsRadiosInlinem" id="optionsRadiosInlinem1">${userRequest.getDuration()}</p>	
+                            	<label for="icode" class="col-md-2 control-label">Duration:</label>
+                                <div class="col-md-10">
+                               			 <c:choose>
+                                    		<c:when test="${userRequest.getDuration().equals('0.5')}">
+                                        		<p name="optionsRadiosInlinem" id="optionsRadiosInlinem1">30 mins</p>	                                    		
+                                    		</c:when>
+                                    		<c:when test="${userRequest.getDuration().equals('0.75')}">
+                                        		<p name="optionsRadiosInlinem" id="optionsRadiosInlinem1">45 mins</p>	                                    		
+                                    		</c:when>
+                                    		<c:when test="${userRequest.getDuration().equals('1')}">
+                                        		<p name="optionsRadiosInlinem" id="optionsRadiosInlinem1">1 hour</p>	                                    		
+                                    		</c:when>
+                                    		<c:when test="${userRequest.getDuration().equals('1.5')}">
+                                        		<p name="optionsRadiosInlinem" id="optionsRadiosInlinem1">1.5 hour</p>	                                    		
+                                    		</c:when>
+                                    		<c:otherwise>
+                                    			<p name="optionsRadiosInlinem" id="optionsRadiosInlinem1">N/A</p>	
+                                    		</c:otherwise>
+                                    	</c:choose>	
                                 </div>
                             </div>
                             <div class="form-group">
-                            	<label for="icode" class="col-md-2 control-label">Amount (Rs):</label>
+                            	<label for="icode" class="col-md-2 control-label">Amount Due to Advisor(Rs)	:</label>
                                 <div class="col-md-10">	
                                     <p name="optionsRadiosInlinem" id="optionsRadiosInlinem1">${userRequest.getAmount()}</p>	
                                 </div>
@@ -233,16 +253,6 @@
 		                                                    <input type="radio" name="optionsRadios" id="optionsRadios4" value="${userRequest.getTime4()}"><c:out value="${userRequest.getTimeString4()}"></c:out>
 		                                                </label>
 		                                            </div>
-		                                             <div class="radio">
-		                                                <label>
-		                                                    <input type="radio" name="optionsRadios" id="optionsRadios5" value="${userRequest.getTime5()}"><c:out value="${userRequest.getTimeString5()}"></c:out>
-		                                                </label>
-		                                            </div>
-		                                             <div class="radio">
-		                                                <label>
-		                                                    <input type="radio" name="optionsRadios" id="optionsRadios6" value="${userRequest.getTime6()}"><c:out value="${userRequest.getTimeString6()}"></c:out>
-		                                                </label>
-		                                            </div>
 														</div>	
 												</div>	
 												<div style="height:10px"></div>
@@ -306,9 +316,13 @@
 											</div>
 											<h4>PlEASE WRITE YOUR SESSION PLAN FOR THE USER :</h4>
 											<div class="form-group">
-												<div class="col-md-12">
-													<textarea class="form-control" id="sessionplan" rows="4" name="sessionplan" placeholder="Write Session Plan" style="width:90%;" maxlength="800"></textarea>
+												<div class="col-md-10">
+													<textarea class="form-control" id="sessionplan" rows="4" name="sessionplan" placeholder="Write Session Plan" style="width:90%;" maxlength="4000"></textarea>
 												</div>
+												 <div class="col-md-2">
+			                                    	<button type="button" style="float:left" class="btn btn-default" data-container="body" data-toggle="popover" data-html="true" data-placement="bottom" data-content="<p>Please write to <%=userName %> what you would like to cover in the session based on his/her query.<br>Example: <br>Hi Pooja, based on your query I feel should cover the following in the session<br>1. The main sectors- Account Management, Creative- art and copy, Planning<br>2. Skills and qualifications you require to work in each of the sectors<br>3. Professional growth- pace, different positions<br>4. Financial scope<br>5. Work hours and culture<br>6. Some of the best advertising agencies that you can aim to work at<br>Additionally, if you tentatively know during the session what sector of advertising you are interested in joining, we can focus our efforts and go into more detail for that particular sector. The time constraint does not allow us to go through all in detail.</p>" data-trigger="focus" >
+									   				<span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> </button> 
+								   				</div>
 											</div>
 											<hr>
 										</c:if>
@@ -345,6 +359,8 @@
 													<c:url value="AdvisorRequestViewDetailForm" var="myURL">
 									   						<c:param name="rId" value="${userRequest.getRequestId()}"/>
 									   						<c:param name="cancel" value="true"/>
+									   						<c:param name="isFree" value="${userRequest.getIsFree()}"/>
+									   						<c:param name="service" value="${userRequest.getService()}"/>
 													</c:url>
 													<a href="${myURL}" class="btn btn-info margin-10">Decline Request</a>
 												</c:if>
@@ -374,10 +390,8 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 
     <!-- Metis Menu Plugin JavaScript -->
-    <script src="assets/js/plugins/metisMenu/metisMenu.min.js"></script>
 
     <!-- Custom Theme JavaScript -->
-    <script src="assets/js/sb-admin-2.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
     <script src="assets/js/moment.js"></script>
 	<script type="text/javascript" src="assets/js/bootstrap3-datetimepicker.js"></script>
@@ -389,8 +403,6 @@
 				$( '#optionsRadios2' ).attr('checked', false);
 				$( '#optionsRadios3' ).attr('checked', false);
 				$( '#optionsRadios4' ).attr('checked', false);
-				$( '#optionsRadios5' ).attr('checked', false);
-				$( '#optionsRadios6' ).attr('checked', false);
 		
 			}	
 	    }
@@ -429,6 +441,14 @@
     $("[data-toggle=popover]")
         .popover()
     </script>
+   
+	<script>
+      $(function () { $('.popover-show').popover('show');});
+      $(function () { $('.popover-hide').popover('hide');});
+      $(function () { $('.popover-destroy').popover('destroy');});
+      $(function () { $('.popover-toggle').popover('toggle');});
+     $(function () { $(".popover-options a").popover({html : true });});
+   </script>
 	 <script type="text/javascript">
 	$(document).ready(function() {	
 		var value = document.getElementById('service').value;
@@ -455,7 +475,7 @@
 		$('#datetimepickeremail').data("DateTimePicker").setMaxDate(dt1);
 		
 		$("#btn").click(function(event){
-			if($("#optionsRadios1").is(':checked') == false && $("#optionsRadios2").is(':checked') == false && $("#optionsRadios3").is(':checked') == false &&  $("#optionsRadios4").is(':checked') == false  && $("#optionsRadios5").is(':checked') == false  && $("#optionsRadios6").is(':checked') == false ){			
+			if($("#optionsRadios1").is(':checked') == false && $("#optionsRadios2").is(':checked') == false && $("#optionsRadios3").is(':checked') == false &&  $("#optionsRadios4").is(':checked') == false ){			
 				var value1 = $("#datepicker1").val();
 				var value2 = $("#datepicker2").val();
 				var value3 = $("#datepicker3").val();
@@ -471,7 +491,7 @@
 				}else if ($("#sessionplan").val() == "") {
 					alert("Please enter a session plan");
 					event.preventDefault();
-				}else if (!$('#datepicker1').is(':visible') && !$('#datepicker2').is(':visible') && !$('#datepicker3').is(':visible') && $("#optionsRadios1").is(':checked') == false && $("#optionsRadios2").is(':checked') == false && $("#optionsRadios3").is(':checked') == false &&  $("#optionsRadios4").is(':checked') == false  && $("#optionsRadios5").is(':checked') == false  && $("#optionsRadios6").is(':checked') == false && $("#requestModes").val() != "email") {
+				}else if (!$('#datepicker1').is(':visible') && !$('#datepicker2').is(':visible') && !$('#datepicker3').is(':visible') && $("#optionsRadios1").is(':checked') == false && $("#optionsRadios2").is(':checked') == false && $("#optionsRadios3").is(':checked') == false &&  $("#optionsRadios4").is(':checked') == false  && $("#requestModes").val() != "email") {
 					alert("Please choose a date and time slot");
 					event.preventDefault();
 				}

@@ -165,9 +165,25 @@
 										</div>				
 										 
 										<div class="form-group">
-													<label for="icode" class="col-md-3 control-label">Duration (Hrs):</label>
+													<label for="icode" class="col-md-3 control-label">Duration:</label>
 												<div class="col-md-9">
-													<p class="form-control"><b><c:out value="${userRequest.getDuration()}"/></b></p>	
+													<c:choose>
+			                                    		<c:when test="${userRequest.getDuration().equals('0.5')}">
+			                                        		<p class="form-control">30 mins</p>		                                    		
+			                                    		</c:when>
+			                                    		<c:when test="${userRequest.getDuration().equals('0.75')}">
+			                                        		<p class="form-control">45 mins</p>		                                    		
+			                                    		</c:when>
+			                                    		<c:when test="${userRequest.getDuration().equals('1')}">
+			                                        		<p class="form-control">1 hour</p>		                                    		
+			                                    		</c:when>
+			                                    		<c:when test="${userRequest.getDuration().equals('1.5')}">
+			                                        		<p class="form-control">1.5 hour</p>	                                    		
+			                                    		</c:when>
+			                                    		<c:otherwise>
+			                                    			<p class="form-control">N/A</p>	
+			                                    		</c:otherwise>
+			                                    	</c:choose>		
 												</div>
 										</div>
 										<input type="hidden" name="rId" value="${userRequest.getRequestId()}">
@@ -238,20 +254,6 @@
 		                                                </label>
 		                                            </div>
 	                                            </li>
-	                                            <li>
-		                                            <div class="radio">
-		                                                <label>
-		                                                    <c:out value="${userRequest.getTimeString5()}"></c:out>
-		                                                </label>
-		                                            </div>
-	                                            </li>
-	                                            <li>
-		                                            <div class="radio">
-		                                                <label>
-		                                                    <c:out value="${userRequest.getTimeString6()}"></c:out>
-		                                                </label>
-		                                            </div>
-	                                            </li>
                                             </ol>
 										  </div>	
 										</div>
@@ -279,7 +281,9 @@
 													</div>
 												</div>
 												<h4><a data-toggle="modal" data-target="#feedback"  class="col-md-12"  style="float: right">Follow Up Mail</a></h4>
-												<h4><a data-toggle="modal" data-target="#email" class="col-md-12"  style="float: right">Mail</a></h4>
+												<c:if test="${userRequest.getMode().equals('email')}">
+												        <h4><a data-toggle="modal" data-target="#email" class="col-md-12"  style="float: right">Mail</a></h4>
+												</c:if>
 												<div class="modal fade" id="feedback" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 													<div class="modal-dialog modal-lg">
 														<div class="modal-content">
@@ -432,9 +436,7 @@
     <!-- Metis Menu Plugin JavaScript -->
     <script src="assets/js/plugins/metisMenu/metisMenu.min.js"></script>
 
-    <!-- Custom Theme JavaScript -->
-    <script src="assets/js/sb-admin-2.js"></script>
-    <script src="assets/js/bootstrap.min.js"></script>
+  
 	<script src="assets/js/bootstrap-datetimepicker.min.js"></script>
     <script type="text/javascript">
     	function setImageSrc(){

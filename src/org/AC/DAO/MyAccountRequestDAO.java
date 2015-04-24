@@ -14,8 +14,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
 import org.AC.JDBC.ConnectionFactory;
 import org.AC.dto.AdvisorProfileDTO;
+import org.AC.dto.FeedbackDTO;
 import org.AC.dto.UserDetailsDTO;
 import org.AC.dto.UserRequestDTO;
 import org.apache.log4j.Logger;
@@ -58,8 +60,6 @@ public class MyAccountRequestDAO {
 		    	user.setTime2(results.getTimestamp("DATE_TIME2"));
 		    	user.setTime3(results.getTimestamp("DATE_TIME3"));
 		    	user.setTime4(results.getTimestamp("DATE_TIME4"));
-		    	user.setTime5(results.getTimestamp("DATE_TIME5"));
-		    	user.setTime6(results.getTimestamp("DATE_TIME6"));
 		    	user.setStatus(results.getString("STATUS"));	    	
 		    	list.add(user);
 		    }
@@ -120,10 +120,11 @@ public class MyAccountRequestDAO {
 		    	user.setTime2(results.getTimestamp("DATE_TIME2"));
 		    	user.setTime3(results.getTimestamp("DATE_TIME3"));
 		    	user.setTime4(results.getTimestamp("DATE_TIME4"));
-		    	user.setTime5(results.getTimestamp("DATE_TIME5"));
-		    	user.setTime6(results.getTimestamp("DATE_TIME6"));
 		    	user.setStatus(results.getString("STATUS"));
-		    	user.setAmount(results.getDouble("AMOUNT"));
+		    	user.setAmount(results.getInt("AMOUNT"));
+		    	user.setDiscount(results.getInt("DISCOUNT"));
+		    	user.setPrice(results.getInt("PRICE"));
+		    	user.setIsFree(results.getBoolean("IS_FREE_FROM_ADVISOR"));
 		    	list.add(user);
 		    }
 		} catch (SQLException e) {
@@ -279,8 +280,6 @@ public class MyAccountRequestDAO {
 		    	user.setTime2(results.getTimestamp("DATE_TIME2"));
 		    	user.setTime3(results.getTimestamp("DATE_TIME3"));
 		    	user.setTime4(results.getTimestamp("DATE_TIME4"));
-		    	user.setTime5(results.getTimestamp("DATE_TIME5"));
-		    	user.setTime6(results.getTimestamp("DATE_TIME6"));
 		    	user.setStatus(results.getString("STATUS"));	    	
 		    	list.add(user);
 		    }
@@ -475,8 +474,6 @@ public class MyAccountRequestDAO {
 				    	user.setTime2(results.getTimestamp("DATE_TIME2"));
 				    	user.setTime3(results.getTimestamp("DATE_TIME3"));
 				    	user.setTime4(results.getTimestamp("DATE_TIME4"));
-				    	user.setTime5(results.getTimestamp("DATE_TIME5"));
-				    	user.setTime6(results.getTimestamp("DATE_TIME6"));
 				    	user.setStatus(results.getString("STATUS"));	    	
 				    	list.add(user);
 				    }
@@ -635,21 +632,24 @@ public class MyAccountRequestDAO {
 		return cvPath;
 	}
 	
-	public String GetFeedbackPath(int sId){
+	public FeedbackDTO GetFeedbackPath(int sId){
 		
 		logger.info("Entered GetFeedbackPath method of MyAccountRequestDAO");
 		String formPath = "";
 		PreparedStatement pstmt;
+		FeedbackDTO feed = new FeedbackDTO(); 
 		try {
 			conn =ConnectionFactory.getConnection();
 			conn.setAutoCommit(false);
-			String query ="SELECT FORM FROM feedback WHERE SESSION_ID = ?";
+			String query ="SELECT FORM,APPROVED,SUBMITTED FROM feedback WHERE SESSION_ID = ?";
 			pstmt = conn.prepareStatement(query);
 			pstmt.setInt(1, sId);
 		    ResultSet results = pstmt.executeQuery();
 		    if(results.next()) {
-		    	formPath = results.getString("FORM");
-		    }		    	
+		    	feed.setPath(results.getString("FORM"));
+		    	feed.setApproved(results.getBoolean("APPROVED"));
+		    	feed.setSubmitted(results.getBoolean("SUBMITTED"));
+	    }		    	
 		} catch (SQLException e) {
 			logger.error("GetFeedbackPath method of MyAccountRequestDAO threw error:"+e.getMessage());
 			e.printStackTrace();
@@ -670,7 +670,7 @@ public class MyAccountRequestDAO {
 
 		
 		logger.info("Exit GetFeedbackPath method of MyAccountRequestDAO");
-		return formPath;
+		return feed;
 	}
 	public String GetFeedbackPathForUser(int sId){
 		

@@ -27,6 +27,23 @@ public class AdvisorRegistrationImageController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final Logger logger = Logger.getLogger(AdvisorRegistrationImageController.class); 
    
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		logger.info("Entered doGet method of AdvisorRegistrationImageController");
+		int advisorId = 0;
+		try{
+	    advisorId = (int) request.getSession().getAttribute("aId");
+		}catch(Exception e){
+			response.sendRedirect("Email");
+		}
+		if(advisorId != 0){
+			//Getting the status of the registration process.
+			AdvisorRegistrationDAO status = new AdvisorRegistrationDAO();
+			String stat = status.getStatus(advisorId);
+			response.sendRedirect(stat);
+		}
+		logger.info("Exit doGet method of AdvisorRegistrationImageController");
+	}
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 * This method will retrieve the image file and put into required folder and update the registration status.

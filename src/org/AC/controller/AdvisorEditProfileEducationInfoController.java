@@ -65,21 +65,15 @@ public class AdvisorEditProfileEducationInfoController extends HttpServlet {
 			}catch(Exception e){
 				response.sendRedirect("Email");
 			}
-		String ug = request.getParameter("ug");
-		String pg = request.getParameter("pg");
-		String[] others = request.getParameterValues("others[]");
+		String[] education = request.getParameterValues("education[]");
 		if(aId != 0){
-			if(!ug.isEmpty()){
-				List<AdvisorEducationDTO> education = new ArrayList<AdvisorEducationDTO>();
+			if(education.length > 0){
 				//Deleting the Education Details
 				AdvisorRegistrationDAO deledu = new AdvisorRegistrationDAO();
 				Boolean isDeleted = deledu.DeleteEducation(aId);
-				//Getting Education info object
-				AdvisorEducationObject obj = new AdvisorEducationObject();
-				education = obj.getEducationObject(aId,ug, pg, others);
 				//Calling DAO to put the values into table
 				AdvisorRegistrationDAO dao = new AdvisorRegistrationDAO();
-				Boolean isEducationInfoCommit = dao.setEducationInfo(education);
+				Boolean isEducationInfoCommit = dao.setEducationInfo(education,aId);
 				if(isEducationInfoCommit){
 					Properties prop = new Properties();
 			         InputStream resourceAsStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("Resources/mail.properties");

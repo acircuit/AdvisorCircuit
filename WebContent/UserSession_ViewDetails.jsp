@@ -185,8 +185,25 @@
 													<tr>
 														<th>Duration</th>
 														<td>:</td>
-														<td><c:out value="${request.getDuration()}"></c:out>
-															Hour</td>
+														<td>
+														<c:choose>
+			                                    		<c:when test="${request.getDuration().equals('0.5')}">
+			                                        		30 mins                                    		
+			                                    		</c:when>
+			                                    		<c:when test="${request.getDuration().equals('0.75')}">
+			                                        		45 mins                                    		
+			                                    		</c:when>
+			                                    		<c:when test="${request.getDuration().equals('1')}">
+			                                        		1 hour                                   		
+			                                    		</c:when>
+			                                    		<c:when test="${request.getDuration().equals('1.5')}">
+			                                        		1.5 hour                                  		
+			                                    		</c:when>
+			                                    		<c:otherwise>
+			                                    			N/A	
+			                                    		</c:otherwise>
+			                                    	</c:choose>	
+													</td>
 													</tr>
 													<tr>
 														<th>Countdown
@@ -204,7 +221,7 @@
 									<c:if
 										test="${request.getService().equals('mockinterview') || request.getService().equals('cvcritique')}">
 										<h4>
-											<a href="DownloadFile?rid=${rId}">CLICK TO DOWNLOAD CV
+											<a href="DownloadFile?rid=${rId}" class="btn btn-info">CLICK TO DOWNLOAD CV
 												UPLOADED BY YOU</a>
 										</h4>
 									</c:if>
@@ -347,12 +364,17 @@
 											<!-- <a data-toggle="modal" data-target="#uploadfile" onclick="getFiles()" class="btn btn-career margin-10">Upload Files</a> -->
 										</div>
 									</c:if>
-									<c:if
-										test="${request.getMode().equals('email') && !fromCancelledSession || fromPreviousSession && request.getMode().equals('email') }">
-										<a class="btn btn-info margin-10" data-toggle="modal"
+									<c:choose>
+										<c:when test="${fromPreviousSession && request.getMode().equals('email') }">
+											<a class="btn btn-info margin-10" data-toggle="modal"
+											data-target="#email" onclick="">Sent Mail</a>
+										</c:when>
+										<c:when test="${request.getMode().equals('email') && !fromCancelledSession}">
+											<a class="btn btn-info margin-10" data-toggle="modal"
 											data-target="#email" onclick="">Send Your Mail</a>
-									</c:if>
-
+										</c:when>
+										
+									</c:choose>
 									<c:if
 										test="${(!fromCancelledSession && visible) || fromPreviousSession}">
 										<a class="btn btn-info margin-10" data-toggle="modal"
@@ -420,53 +442,6 @@
 								</div>
 								
 								
-								<script type="text/javascript">
-								
-									function initFileSelectionDialogue(){
-										$('#uploadFileViaMsgModal').click();
-									}
-									
-									$('#uploadFileViaMsgModal').change(function () {
-										
-										if($("#uploadFileViaMsgModal").val()){
-											if($("#uploadFileViaMsgModal").val().trim().length > 0){
-												var confirmUpload = confirm("Are you sure you want to upload attached file ?");		
-												
-												if(confirmUpload){
-													uploadFileViaAjax();
-												}else{
-													$("#uploadFileViaMsgModal").val("");
-												}											
-											}
-										}
-									});
-									
-									
-									function uploadFileViaAjax() {
-										var file = document.getElementById("uploadFileViaMsgModal");
-										if (file.value == "") {
-											alert("Please upload a valid file");
-										} else if (document.getElementById('uploadFileViaMsgModal').files[0] && $('#uploadFileViaMsgModal')[0].files[0].size > 2621440) {
-											alert("Please upload a file less than 2.5 MB");
-										}else{
-											var formData = new FormData();
-											formData.append("myFile", document.getElementById("uploadFileViaMsgModal").files[0]);
-											formData.append("sId", $("#sId").val());
-											formData.append("fromUser", true);
-											formData.append("purpose", "File uploaded via msg modal.");
-
-											var xhr = new XMLHttpRequest();
-											xhr.open("POST", "SessionFiles");
-											xhr.send(formData);
-											xhr.onreadystatechange = function() {
-												if (xhr.readyState == 4 && xhr.status == 200) {
-													console.log("file uploaded successfully.");
-													getmessages();
-												}
-											}
-										}
-									}
-								</script>
 								
 								<div class="modal fade" id="uploadfile" tabindex="-1"
 									role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -743,6 +718,7 @@
 																		see the message - 'Your mail has been sent')</span>
 																</h4>
 																<hr>
+																<%= isEmailRejected%>
 																<c:choose>
 																	<c:when
 																		test="<%=isEmailRejected != null && !isEmailRejected &&  (fromPreviousSession == null || !fromPreviousSession)%>">
@@ -752,7 +728,7 @@
 																				<input type="text" id="subjectemail" name="subject"
 																					style="width: 80%"
 																					value="${emailUser.getUserSubject()}"
-																					maxlength="350">
+																					maxlength="350" readonly="readonly">
 																			</div>
 																		</div>
 																		<div class="form-group">
@@ -760,7 +736,7 @@
 																			<div id="emailbody" class="col-md-9"
 																				style="width: 100px">
 																				<textarea rows="15" cols="90" id="bodyemail"
-																					name="body" maxlength="6000">${emailUser.getUserBody()}</textarea>
+																					name="body" maxlength="6000" readonly="readonly">${emailUser.getUserBody()}</textarea>
 																			</div>
 																		</div>
 																		<c:if
@@ -825,7 +801,9 @@
 																				</div>
 																			</div>
 																		</c:if>
+																		
 																	</c:otherwise>
+																	
 																</c:choose>
 															</div>
 															<!--part2-->
@@ -943,6 +921,7 @@
 	<!-- Bootstrap Core JavaScript -->
 	<script
 		src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+    <script src="assets/js/sb-admin-2.js"></script>
 
 	<!-- Metis Menu Plugin JavaScript -->
 	<script src="assets/plugins/metisMenu/metisMenu.min.js"></script>
@@ -1058,6 +1037,7 @@
 		}
 		function sendfeedback() {
 			var isError = false;
+			var filename = $("#attachFile").val();
 			if ($("#subject").val() == "") {
 				alert("Please Enter Subject");
 				event.preventDefault();
@@ -1072,6 +1052,8 @@
 				event.preventDefault();
 				isError = true;
 			}
+			var body = $("#body").val();
+			var subject = $("#subject").val();
 			if (!isError) {
 				var formData = new FormData();
 				formData.append("myFile",
@@ -1089,15 +1071,16 @@
 					}
 				}
 				var input = document.getElementById("body");
-				input.value = "";
+				input.value = body;
 				var input1 = document.getElementById("attachFile");
-				input1.value = "";
+				input1.value = filename;
 				var input2 = document.getElementById("subject");
-				input2.value = "";
+				input2.value = subject;
 			}
 		}
 		function sendfeedbackagain() {
 			var isError = false;
+			var filename = $("#attachFile").val();
 			if ($("#subject").val() == "") {
 				alert("Please Enter Subject");
 				event.preventDefault();
@@ -1112,6 +1095,8 @@
 				event.preventDefault();
 				isError = true;
 			}
+			var body = $("#body").val();
+			var subject = $("#subject").val();
 			if (!isError) {
 				var formData = new FormData();
 				formData.append("myFile",
@@ -1130,15 +1115,16 @@
 					}
 				}
 				var input = document.getElementById("body");
-				input.value = "";
+				input.value = body;
 				var input1 = document.getElementById("attachFile");
-				input1.value = "";
+				input1.value = filename;
 				var input2 = document.getElementById("subject");
-				input2.value = "";
+				input2.value = subject;
 			}
 		}
 		function sendemail() {
 			var isError = false;
+			var filename = $("#attachFileemail").val();
 			if ($("#subjectemail").val() == "") {
 				alert("Please Enter Subject");
 				event.preventDefault();
@@ -1153,6 +1139,8 @@
 				event.preventDefault();
 				isError = true;
 			}
+			var body = $("#bodyemail").val();
+			var subject = $("#subjectemail").val();
 			if (!isError) {
 				var formData = new FormData();
 				formData.append("myFile", document
@@ -1171,15 +1159,16 @@
 					}
 				}
 				var input = document.getElementById("bodyemail");
-				input.value = "";
+				input.value = body;
 				var input1 = document.getElementById("attachFileemail");
-				input1.value = "";
+				input1.value = filename;
 				var input2 = document.getElementById("subjectemail");
-				input2.value = "";
+				input2.value = subject;
 			}
 		}
 		function resendemailagain() {
 			var isError = false;
+			var filename = $("#attachFileemail").val();
 			if ($("#subjectemail").val() == "") {
 				alert("Please Enter Subject");
 				event.preventDefault();
@@ -1194,6 +1183,8 @@
 				event.preventDefault();
 				isError = true;
 			}
+			var body = $("#bodyemail").val();
+			var subject = $("#subjectemail").val();
 			if (!isError) {
 				var formData = new FormData();
 				formData.append("myFile", document
@@ -1213,18 +1204,65 @@
 					}
 				}
 				var input = document.getElementById("bodyemail");
-				input.value = "";
+				input.value = body;
 				var input1 = document.getElementById("attachFileemail");
-				input1.value = "";
+				input1.value = filename;
 				var input2 = document.getElementById("subjectemail");
-				input2.value = "";
+				input2.value = subject;
 			}
 		}
 		
 		
 	</script>
-	<!-- Page-Level Demo Scripts - Notifications - Use for reference -->
 	<script type="text/javascript">
+								
+			function initFileSelectionDialogue(){
+				$('#uploadFileViaMsgModal').click();
+			}
+			
+			$('#uploadFileViaMsgModal').change(function () {
+				
+				if($("#uploadFileViaMsgModal").val()){
+					if($("#uploadFileViaMsgModal").val().trim().length > 0){
+						var confirmUpload = confirm("Are you sure you want to upload attached file ?");		
+						
+						if(confirmUpload){
+							uploadFileViaAjax();
+						}else{
+							$("#uploadFileViaMsgModal").val("");
+						}											
+					}
+				}
+			});
+			
+			
+			function uploadFileViaAjax() {
+				var file = document.getElementById("uploadFileViaMsgModal");
+				if (file.value == "") {
+					alert("Please upload a valid file");
+				} else if (document.getElementById('uploadFileViaMsgModal').files[0] && $('#uploadFileViaMsgModal')[0].files[0].size > 2621440) {
+					alert("Please upload a file less than 2.5 MB");
+				}else{
+					var formData = new FormData();
+					formData.append("myFile", document.getElementById("uploadFileViaMsgModal").files[0]);
+					formData.append("sId", $("#sId").val());
+					formData.append("fromUser", true);
+					formData.append("purpose", "File uploaded via msg modal.");
+
+					var xhr = new XMLHttpRequest();
+					xhr.open("POST", "SessionFiles");
+					xhr.send(formData);
+					xhr.onreadystatechange = function() {
+						if (xhr.readyState == 4 && xhr.status == 200) {
+							console.log("file uploaded successfully.");
+							getmessages();
+						}
+					}
+				}
+			}
+		</script>
+	<!-- Page-Level Demo Scripts - Notifications - Use for reference -->
+	<script >
 		// tooltip demo
 		$('.tooltip-demo').tooltip({
 			selector : "[data-toggle=tooltip]",
@@ -1233,6 +1271,8 @@
 
 		// popover demo
 		$("[data-toggle=popover]").popover()
+	</script>
+	<script type="text/javascript">
 		var _urq = _urq || [];
 		_urq.push([ 'initSite', '8571f59c-9c67-4ac9-a169-0eb6aa49f203' ]);
 		(function() {

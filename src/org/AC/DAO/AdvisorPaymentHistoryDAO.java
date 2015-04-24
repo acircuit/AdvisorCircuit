@@ -24,18 +24,26 @@ public class AdvisorPaymentHistoryDAO {
 		try {
 			conn =ConnectionFactory.getConnection();
 			conn.setAutoCommit(false);
-			String query ="SELECT SESSION_ID,REQUEST_ID,ACCEPTED_DATE FROM session_table WHERE STATUS=? AND ADVISOR_ID=? OR STATUS=? AND ADVISOR_ID=?";
+			String query ="SELECT SESSION_ID,REQUEST_ID,ACCEPTED_DATE,ADVISOR_COMMENT,STATUS FROM session_table WHERE STATUS=? AND ADVISOR_ID=? OR STATUS=? AND ADVISOR_ID=? OR STATUS=? AND ADVISOR_ID=? OR STATUS=? AND ADVISOR_ID=? OR STATUS=? AND ADVISOR_ID=?";
 			PreparedStatement pstmt = conn.prepareStatement(query);
-			pstmt.setString(1,"WAITING FOR SESSION");
+			pstmt.setString(1,"SESSION COMPLETE");
 			pstmt.setInt(2, userId);
-			pstmt.setString(3,"SESSION COMPLETE");
+			pstmt.setString(3,"SESSION CANCELLED DUE TO ADVISOR UNAVAILABILITY");
 			pstmt.setInt(4, userId);
+			pstmt.setString(5,"SESSION CANCELLED DUE TO ADVISOR NO SHOW");
+			pstmt.setInt(6, userId);
+			pstmt.setString(7,"SESSION CANCELLED DUE TO USER UNAVAILABILITY");
+			pstmt.setInt(8, userId);
+			pstmt.setString(9,"SESSION CANCELLED DUE TO USER NO SHOW");
+			pstmt.setInt(10, userId);
 			ResultSet results = pstmt.executeQuery();
 			while(results.next()){
 				PaymentDTO pay = new PaymentDTO();
 				pay.setSessionId(results.getInt("SESSION_ID"));
 				pay.setRequestId(results.getInt("REQUEST_ID"));
 				pay.setAcceptedDate(results.getTimestamp("ACCEPTED_DATE"));
+				pay.setAdvisorComment(results.getString("ADVISOR_COMMENT"));
+				pay.setStatus(results.getString("STATUS"));
 				payment.add(pay);
 			}
 		} catch (SQLException e) {
@@ -79,9 +87,9 @@ public class AdvisorPaymentHistoryDAO {
 				pay.setRequestId(results.getInt("REQUEST_ID"));
 				pay.setService(results.getString("SERVICE"));
 				pay.setMode(results.getString("MODE_OF_COMMUNICATION"));
-				pay.setPrice(results.getDouble("PRICE"));
+				pay.setPrice(results.getInt("PRICE"));
 				pay.setDiscount(results.getInt("DISCOUNT"));
-				pay.setAmount(results.getDouble("AMOUNT"));
+				pay.setAmount(results.getInt("AMOUNT"));
 				payment.add(pay);
 			}
 		} catch (SQLException e) {
@@ -123,7 +131,7 @@ public class AdvisorPaymentHistoryDAO {
 			while(results.next()){
 				PaymentDTO pay = new PaymentDTO();
 				pay.setSessionId(results.getInt("SESSION_ID"));
-				pay.setAmountPayable(results.getDouble("ADVISOR_PAYMENT"));
+				pay.setAmountPayable(results.getInt("ADVISOR_PAYMENT"));
 				pay.setPaidToAdvisor(results.getBoolean("PAID_TO_ADVISOR"));
 				payment.add(pay);
 			}
@@ -156,10 +164,14 @@ public class AdvisorPaymentHistoryDAO {
 		try {
 			conn =ConnectionFactory.getConnection();
 			conn.setAutoCommit(false);
-			String query ="SELECT SESSION_ID,REQUEST_ID,ACCEPTED_DATE FROM session_table WHERE STATUS=? OR STATUS = ?";
+			String query ="SELECT SESSION_ID,REQUEST_ID,ACCEPTED_DATE FROM session_table WHERE STATUS=? OR STATUS = ? OR STATUS = ? OR STATUS = ? OR STATUS = ? OR STATUS = ?";
 			PreparedStatement pstmt = conn.prepareStatement(query);
 			pstmt.setString(1,"WAITING FOR SESSION");
 			pstmt.setString(2,"SESSION COMPLETE");
+			pstmt.setString(3,"SESSION CANCELLED DUE TO ADVISOR UNAVAILABILITY");
+			pstmt.setString(4,"SESSION CANCELLED DUE TO ADVISOR NO SHOW");
+			pstmt.setString(5,"SESSION CANCELLED DUE TO USER UNAVAILABILITY");
+			pstmt.setString(6,"SESSION CANCELLED DUE TO USER NO SHOW");
 			ResultSet results = pstmt.executeQuery();
 			while(results.next()){
 				PaymentDTO pay = new PaymentDTO();
@@ -191,7 +203,7 @@ public class AdvisorPaymentHistoryDAO {
 	
 	
 	public List<PaymentDTO> GetPaymentInfoForAdmin(List<Integer> sessionId){	
-		logger.info("Entered GetPaymentInfo method of UserPaymentHistoryDAO");
+		logger.info("Entered GetPaymentInfo method of AdvisorPaymentHistoryDAO");
 		List<PaymentDTO> payment =new ArrayList<PaymentDTO>();
 		try {
 			conn =ConnectionFactory.getConnection();
@@ -211,32 +223,129 @@ public class AdvisorPaymentHistoryDAO {
 				pay.setTrackingId(results.getString("TRACKING_ID"));
 				pay.setPaymentMode(results.getString("PAYMENT_MODE"));
 				pay.setDateOfPurchase(results.getTimestamp("DATE_OF_PAYMENT"));
-				pay.setAmountPayable(results.getDouble("ADVISOR_PAYMENT"));
+				pay.setAmountPayable(results.getInt("ADVISOR_PAYMENT"));
 				pay.setPaidToAdvisor(results.getBoolean("PAID_TO_ADVISOR"));
-				pay.setFee(results.getDouble("FEE"));
+				pay.setFee(results.getInt("FEE"));
 				payment.add(pay);
 			}
 		} catch (SQLException e) {
-			logger.error("GetPaymentInfo method of UserPaymentHistoryDAO threw error:"+e.getMessage());
+			logger.error("GetPaymentInfo method of AdvisorPaymentHistoryDAO threw error:"+e.getMessage());
 			e.printStackTrace();
 		} catch (IOException e) {
-			logger.error("GetPaymentInfo method of UserPaymentHistoryDAO threw error:"+e.getMessage());
+			logger.error("GetPaymentInfo method of AdvisorPaymentHistoryDAO threw error:"+e.getMessage());
 			e.printStackTrace();
 		} catch (PropertyVetoException e) {
-			logger.error("GetPaymentInfo method of UserPaymentHistoryDAO threw error:"+e.getMessage());
+			logger.error("GetPaymentInfo method of AdvisorPaymentHistoryDAO threw error:"+e.getMessage());
 			e.printStackTrace();
 		}finally{
 			try {
 				conn.close();
 			} catch (SQLException e) {
-				logger.error("GetPaymentInfo method of UserPaymentHistoryDAO threw error:"+e.getMessage());
+				logger.error("GetPaymentInfo method of AdvisorPaymentHistoryDAO threw error:"+e.getMessage());
 				e.printStackTrace();
 			}
 		}
-		logger.info("Exit GetPaymentInfo method of UserPaymentHistoryDAO");
+		logger.info("Exit GetPaymentInfo method of AdvisorPaymentHistoryDAO");
 		return payment;
 		
 	}
+	
+        public Boolean UpdatePaidToAdvisor(String sessionId,String update){
+		
+		
+		logger.info("Entered UpdatePaidToAdvisor method of AdvisorPaymentHistoryDAO");
+		String status = "Services.jsp"; 
+		Boolean isOtherInfoCommit = false;
+		try {
+			conn =ConnectionFactory.getConnection();
+			conn.setAutoCommit(false);
+			String query = "UPDATE payment SET PAID_TO_ADVISOR = ? WHERE SESSION_ID = ?";
+			PreparedStatement pstmt = conn.prepareStatement(query);
+			if(update.equals("true")){
+				pstmt.setBoolean(1, true);
+			}else{
+				pstmt.setBoolean(1, false);
+			}
+			
+			pstmt.setString(2, sessionId);
+			int result = pstmt.executeUpdate(); 
+			if(result >0) {
+				conn.commit();
+				isOtherInfoCommit = true;
+			}
+		} catch (SQLException e) {
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				logger.error("UpdatePaidToAdvisor method of AdvisorPaymentHistoryDAO threw error:"+e.getMessage());
+				e1.printStackTrace();
+			}	
+			logger.error("UpdatePaidToAdvisor method of AdvisorPaymentHistoryDAO threw error:"+e.getMessage());
+			e.printStackTrace();
+		} catch (IOException e) {
+			logger.error("UpdatePaidToAdvisor method of AdvisorPaymentHistoryDAO threw error:"+e.getMessage());
+			e.printStackTrace();
+		} catch (PropertyVetoException e) {
+			logger.error("UpdatePaidToAdvisor method of AdvisorPaymentHistoryDAO threw error:"+e.getMessage());
+			e.printStackTrace();
+		}finally{
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				logger.error("UpdatePaidToAdvisor method of AdvisorPaymentHistoryDAO threw error:"+e.getMessage());
+				e.printStackTrace();
+			}
+		}		
+		logger.info("Entered UpdatePaidToAdvisor method of AdvisorPaymentHistoryDAO");
+		return isOtherInfoCommit;
+	}
+        
+        public Boolean UpdateComment(String sessionId,String comment,String type){
+    		logger.info("Entered UpdateComment method of AdvisorPaymentHistoryDAO");
+    		String query = "";
+    		Boolean isOtherInfoCommit = false;
+    		try {
+    			conn =ConnectionFactory.getConnection();
+    			conn.setAutoCommit(false);
+    			if(type.equals("user")){
+    				query = "UPDATE session_table SET USER_COMMENT = ? WHERE SESSION_ID = ?";
+    			}else{
+    				 query = "UPDATE session_table SET ADVISOR_COMMENT = ? WHERE SESSION_ID = ?";
+    			}
+    			PreparedStatement pstmt = conn.prepareStatement(query);
+    			pstmt.setString(1, comment);
+    			pstmt.setString(2, sessionId);
+    			int result = pstmt.executeUpdate(); 
+    			if(result >0) {
+    				conn.commit();
+    				isOtherInfoCommit = true;
+    			}
+    		} catch (SQLException e) {
+    			try {
+    				conn.rollback();
+    			} catch (SQLException e1) {
+    				logger.error("UpdateComment method of AdvisorPaymentHistoryDAO threw error:"+e.getMessage());
+    				e1.printStackTrace();
+    			}	
+    			logger.error("UpdateComment method of AdvisorPaymentHistoryDAO threw error:"+e.getMessage());
+    			e.printStackTrace();
+    		} catch (IOException e) {
+    			logger.error("UpdateComment method of AdvisorPaymentHistoryDAO threw error:"+e.getMessage());
+    			e.printStackTrace();
+    		} catch (PropertyVetoException e) {
+    			logger.error("UpdateComment method of AdvisorPaymentHistoryDAO threw error:"+e.getMessage());
+    			e.printStackTrace();
+    		}finally{
+    			try {
+    				conn.close();
+    			} catch (SQLException e) {
+    				logger.error("UpdateComment method of AdvisorPaymentHistoryDAO threw error:"+e.getMessage());
+    				e.printStackTrace();
+    			}
+    		}		
+    		logger.info("Entered UpdateComment method of AdvisorPaymentHistoryDAO");
+    		return isOtherInfoCommit;
+    	}
 	
 	private String generateQsForIn(int numQs) {
 	    String items = "";

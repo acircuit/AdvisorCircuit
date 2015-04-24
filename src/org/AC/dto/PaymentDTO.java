@@ -16,24 +16,24 @@ public class PaymentDTO {
 	}
 	String service;
 	String mode;
-	double price;
+	int price;
 	int discount;
-	double amount;
+	int amount;
 	Timestamp dateOfPurchase;
 	String purchaseDateString;
 	Boolean paidToAdvisor;
-	double amountPayable;
-	double fee;
-	public double getFee() {
+	int amountPayable;
+	int fee;
+	public int getFee() {
 		return fee;
 	}
-	public void setFee(double fee) {
+	public void setFee(int fee) {
 		this.fee = fee;
 	}
-	public double getAmountPayable() {
+	public int getAmountPayable() {
 		return amountPayable;
 	}
-	public void setAmountPayable(double amountPayable) {
+	public void setAmountPayable(int amountPayable) {
 		this.amountPayable = amountPayable;
 	}
 	public String getAcceptedDateString() {
@@ -50,6 +50,27 @@ public class PaymentDTO {
 	}
 	String paymentMode;
 	String trackingId;
+	String userComment;
+	String advisorComment; 
+	String status;
+	public String getUserComment() {
+		return userComment;
+	}
+	public void setUserComment(String userComment) {
+		this.userComment = userComment;
+	}
+	public String getAdvisorComment() {
+		return advisorComment;
+	}
+	public void setAdvisorComment(String advisorComment) {
+		this.advisorComment = advisorComment;
+	}
+	public String getStatus() {
+		return status;
+	}
+	public void setStatus(String status) {
+		this.status = status;
+	}
 	public int getSessionId() {
 		return sessionId;
 	}
@@ -80,10 +101,10 @@ public class PaymentDTO {
 	public void setMode(String mode) {
 		this.mode = mode;
 	}
-	public double getPrice() {
+	public int getPrice() {
 		return price;
 	}
-	public void setPrice(double price) {
+	public void setPrice(int price) {
 		this.price = price;
 	}
 	public int getDiscount() {
@@ -92,10 +113,10 @@ public class PaymentDTO {
 	public void setDiscount(int discount) {
 		this.discount = discount;
 	}
-	public double getAmount() {
+	public int getAmount() {
 		return amount;
 	}
-	public void setAmount(double amount) {
+	public void setAmount(int amount) {
 		this.amount = amount;
 	}
 	public Timestamp getDateOfPurchase() {

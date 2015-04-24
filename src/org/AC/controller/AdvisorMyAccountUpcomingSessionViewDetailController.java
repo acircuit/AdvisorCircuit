@@ -28,6 +28,7 @@ import org.AC.DAO.SessionFeedBackDAO;
 import org.AC.Util.GetRelativeImageURL;
 import org.AC.Util.GetTimeLeftForReply;
 import org.AC.dto.AdvisorProfileDTO;
+import org.AC.dto.FeedbackDTO;
 import org.AC.dto.SessionDTO;
 import org.AC.dto.SessionFeedBackDTO;
 import org.AC.dto.TimeDTO;
@@ -92,6 +93,7 @@ public class AdvisorMyAccountUpcomingSessionViewDetailController extends HttpSer
 			List<UserDetailsDTO> list2 = new ArrayList<UserDetailsDTO>();
 			List<UserRequestDTO> list1 = new ArrayList<UserRequestDTO>();
 			List<AdvisorProfileDTO> list3 = new ArrayList<AdvisorProfileDTO>();
+			FeedbackDTO feed = new FeedbackDTO(); 
 			//Getting the session details
 			AdvisorMyAccountSessionDAO session = new AdvisorMyAccountSessionDAO();
 			list = session.getSessionDetails(rId);
@@ -167,7 +169,7 @@ public class AdvisorMyAccountUpcomingSessionViewDetailController extends HttpSer
 			if(isFeedback){
 				//Getting the FeedBack Form Path
 				MyAccountRequestDAO form = new MyAccountRequestDAO();
-				path = form.GetFeedbackPath(sId);
+				feed = form.GetFeedbackPath(sId);
 			}
 			if(isModeDetail){
 				//Getting Pin or Link
@@ -203,7 +205,7 @@ public class AdvisorMyAccountUpcomingSessionViewDetailController extends HttpSer
 				request.setAttribute("requests", list1);
 				request.setAttribute("userdetails", list2);
 				request.setAttribute("sessionDate", sessionDate);
-				request.setAttribute("path", path);
+				request.setAttribute("feed", feed);
 				RequestDispatcher rd = getServletContext().getRequestDispatcher("/Session_ViewDetails.jsp");
 		        rd.forward(request, response);
 			}

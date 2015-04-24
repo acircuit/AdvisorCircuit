@@ -55,6 +55,7 @@ public class Recommendation extends HttpServlet {
 		logger.info("Entered doPost method of Recommendation");
 		String review = request.getParameter("review");
 		String sId = request.getParameter("sId");
+		String advisorname = request.getParameter("advisorname");		
 		Properties prop = new Properties();
 	    InputStream resourceAsStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("Resources/mail.properties");
 	    prop.load(resourceAsStream);
@@ -112,7 +113,7 @@ public class Recommendation extends HttpServlet {
 								content = "Hi, <br><br>An advisor just got reviewed. Following are the details : <br> For SessionId : " +sId+ "<br>Review Message : " +reviewmessage+"<br><img src=\"http://www.advisorcircuit.com/Test/assets/img/logo_black.png\" style='float:right' width='25%'>";
 								SendMail mail = new SendMail(subject, content, prop.getProperty("MAIL_ADMIN"),prop.getProperty("MAIL_ADMIN"));
 								mail.start();
-								reviews = "THANK YOU FOR YOUR REVIEW";
+								reviews = "Thank you for the review. You can also recommend "+advisorname+" by clicking on the star above.";
 							}
 						}else{
 							if(reviewMessage == null){
@@ -126,7 +127,7 @@ public class Recommendation extends HttpServlet {
 									content = "Hi, <br><br>An advisor just got reviewed. Following are the details : <br> For SessionId : " +sId+ "<br>Review Message : " +reviewmessage+"<br><img src=\"http://www.advisorcircuit.com/Test/assets/img/logo_black.png\" style='float:right' width='25%'>";
 									SendMail mail = new SendMail(subject, content, prop.getProperty("MAIL_ADMIN"),prop.getProperty("MAIL_ADMIN"));
 									mail.start();
-									reviews = "THANK YOU FOR YOUR REVIEW.";
+									reviews = "Thank you for the review. You can also recommend "+advisorname+" by clicking on the star above.";
 								}
 							}else{
 								reviews = "YOU HAVE ALREADY REVIEWED THE ADVISOR.";

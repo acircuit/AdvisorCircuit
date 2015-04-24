@@ -41,7 +41,7 @@ public class AdvisorRegistrationDAO {
 		try {
 			conn =ConnectionFactory.getConnection();
 			conn.setAutoCommit(false);
-			String query ="SELECT REGISTRATION_STATUS,ADVISOR_ID,NAME FROM advisordetails WHERE EMAIL = ? AND PASSWORD=?";
+			String query ="SELECT REGISTRATION_STATUS,ADVISOR_ID,NAME,ISVERIFIED FROM advisordetails WHERE EMAIL = ? AND PASSWORD=?";
 			PreparedStatement pstmt = conn.prepareStatement(query);
 			pstmt.setString(1,email);
 			pstmt.setString(2,pass);
@@ -50,6 +50,7 @@ public class AdvisorRegistrationDAO {
 			dto.setAdvisorId(results.getInt("ADVISOR_ID"));
 			dto.setRegistrationStatus(results.getString("REGISTRATION_STATUS"));
 			dto.setName(results.getString("NAME"));
+			dto.setIsVerified(results.getBoolean("ISVERIFIED"));
 			}
 		} catch (SQLException e) {
 			logger.error("checkEmail method of AdvisorRegistrationDAO threw error:"+e.getMessage());
@@ -117,7 +118,7 @@ public class AdvisorRegistrationDAO {
 	
 	
 	//This function sets the General info of the advisor in the table.
-	public Boolean setGeneralInfo(String name,String gender,String age,String city,String nationality,String phone,String industry,String intro,int advisorId,String state,String edit){
+	public Boolean setGeneralInfo(String name,String gender,String age,String city,String phone,String industry,String intro,int advisorId,String state,String edit){
 		
 	
 	logger.info("Entered setGeneralInfo method of AdvisorRegistrationDAO");
@@ -129,32 +130,30 @@ public class AdvisorRegistrationDAO {
 		conn =ConnectionFactory.getConnection();
 		conn.setAutoCommit(false);
 		if(!edit.equals("true")){
-			query = "UPDATE advisordetails  SET NAME=?,GENDER = ?,AGE = ?,PHONE_NUMBER = ?,CITY = ?,NATIONALITY = ?,INDUSTRY = ?,INTRODUCTION = ?,REGISTRATION_STATUS = ?,STATE = ? WHERE ADVISOR_ID = ?";
+			query = "UPDATE advisordetails  SET NAME=?,GENDER = ?,AGE = ?,PHONE_NUMBER = ?,CITY = ?,INDUSTRY = ?,INTRODUCTION = ?,REGISTRATION_STATUS = ?,STATE = ? WHERE ADVISOR_ID = ?";
 			pstmt = conn.prepareStatement(query);
 			pstmt.setString(1,name );
 			pstmt.setString(2, gender);
 			pstmt.setString(3, age);
 			pstmt.setString(4, phone);
 			pstmt.setString(5, city);
-			pstmt.setString(6, nationality);
-			pstmt.setString(7, industry);
-			pstmt.setString(8, intro);
-			pstmt.setString(9, status);
-			pstmt.setString(10, state);
-			pstmt.setInt(11, advisorId);
-		}else{
-			query = "UPDATE advisordetails  SET NAME=?,GENDER = ?,AGE = ?,PHONE_NUMBER = ?,CITY = ?,NATIONALITY = ?,INDUSTRY = ?,INTRODUCTION = ?,STATE = ? WHERE ADVISOR_ID = ?";
-			pstmt = conn.prepareStatement(query);
-			pstmt.setString(1,name );
-			pstmt.setString(2, gender);
-			pstmt.setString(3, age);
-			pstmt.setString(4, phone);
-			pstmt.setString(5, city);
-			pstmt.setString(6, nationality);
-			pstmt.setString(7, industry);
-			pstmt.setString(8, intro);
+			pstmt.setString(6, industry);
+			pstmt.setString(7, intro);
+			pstmt.setString(8, status);
 			pstmt.setString(9, state);
 			pstmt.setInt(10, advisorId);
+		}else{
+			query = "UPDATE advisordetails  SET NAME=?,GENDER = ?,AGE = ?,PHONE_NUMBER = ?,CITY = ?,INDUSTRY = ?,INTRODUCTION = ?,STATE = ? WHERE ADVISOR_ID = ?";
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1,name );
+			pstmt.setString(2, gender);
+			pstmt.setString(3, age);
+			pstmt.setString(4, phone);
+			pstmt.setString(5, city);
+			pstmt.setString(6, industry);
+			pstmt.setString(7, intro);
+			pstmt.setString(8, state);
+			pstmt.setInt(9, advisorId);
 		}
 		
 		int result = pstmt.executeUpdate(); 
@@ -189,50 +188,51 @@ public class AdvisorRegistrationDAO {
 	return isGeneralInfoCommit;
 	}
 	
-	public Boolean setEducationInfo(List<AdvisorEducationDTO> education){
+	public Boolean setEducationInfo(String[] education , int advisorId){
 		logger.info("Entered setEducationInfo method of AdvisorRegistrationDAO");
 		Boolean isEducationCommit = false;
-			if(!education.isEmpty()) {
-				for (AdvisorEducationDTO edu : education) {
-					try {
-						conn =ConnectionFactory.getConnection();
-						conn.setAutoCommit(false);
-						Savepoint SavepointEducation = conn.setSavepoint("SavepointEducation");
-						String query = "insert into advisoreducation"+"(ADVISOR_ID,TYPE,EDUCATION) values" + "(?, ?, ?)";
-						PreparedStatement pstmt = conn.prepareStatement(query);
-						pstmt.setInt(1,edu.getAdvisorId());
-						pstmt.setString(2,edu.getType());
-						pstmt.setString(3,edu.getEducation());
-						int result = pstmt.executeUpdate();
-						if(result > 0) {
-							conn.commit();
-							isEducationCommit = true;
-							continue;
-						}else{
-							isEducationCommit = false;
-							conn.rollback(SavepointEducation);
-							break;
+		try {
+			conn =ConnectionFactory.getConnection();
+			conn.setAutoCommit(false);
+			Savepoint aId = conn.setSavepoint("SavepointEducation");
+			if(education.length > 0) {
+				for (String edu : education) {
+					
+						if(!edu.equals("")){
+							String query = "insert into advisoreducation"+"(ADVISOR_ID,EDUCATION) values" + "(?, ?)";
+							PreparedStatement pstmt = conn.prepareStatement(query);
+							pstmt.setInt(1,advisorId);
+							pstmt.setString(2,edu);
+							int result = pstmt.executeUpdate();
+							if(result > 0) {
+								conn.commit();
+								isEducationCommit = true;
+								continue;
+							}else{
+								isEducationCommit = false;
+								conn.rollback(aId);
+								break;
+							}
 						}
-					} catch (SQLException e) {
-						logger.error("setEducationInfo method of AdvisorRegistrationDAO threw error:"+e.getMessage());
-						e.printStackTrace();
-					} catch (IOException e) {
-						logger.error("setEducationInfo method of AdvisorRegistrationDAO threw error:"+e.getMessage());
-						e.printStackTrace();
-					} catch (PropertyVetoException e) {
-						logger.error("setEducationInfo method of AdvisorRegistrationDAO threw error:"+e.getMessage());
-						e.printStackTrace();
-					}finally{
-						try {
-							conn.close();
-						} catch (SQLException e) {
-							logger.error("setEducationInfo method of AdvisorRegistrationDAO threw error:"+e.getMessage());
-							e.printStackTrace();
-						}
-					}	
-				}
-
+					} 
 			}
+		}catch (SQLException e) {
+				logger.error("setEducationInfo method of AdvisorRegistrationDAO threw error:"+e.getMessage());
+				e.printStackTrace();
+			} catch (IOException e) {
+				logger.error("setEducationInfo method of AdvisorRegistrationDAO threw error:"+e.getMessage());
+				e.printStackTrace();
+			} catch (PropertyVetoException e) {
+				logger.error("setEducationInfo method of AdvisorRegistrationDAO threw error:"+e.getMessage());
+				e.printStackTrace();
+			}finally{
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					logger.error("setEducationInfo method of AdvisorRegistrationDAO threw error:"+e.getMessage());
+					e.printStackTrace();
+				}
+			}	
 			logger.info("Entered setEducationInfo method of AdvisorRegistrationDAO");
 			return isEducationCommit;
 
@@ -384,7 +384,7 @@ public Boolean setRegistrationStatus(int advisorId,String  status){
 	logger.info("Exit setRegistrationStatus method of AdvisorRegistrationDAO");
 	return isRegistrationStatusCommit;
 }
-public Boolean setAdvisorServiceDetails( String service , 	int advisorId , String description, Boolean isFree) { 
+public Boolean setAdvisorServiceDetails( String service , 	int advisorId , String description, String isFree, int discount) { 
 	
 	
 	logger.info("Entered setAdvisorServiceDetails method of AdvisorRegistrationDAO");	
@@ -394,12 +394,13 @@ public Boolean setAdvisorServiceDetails( String service , 	int advisorId , Strin
 			conn =ConnectionFactory.getConnection();
 			conn.setAutoCommit(false);
 		    SavepointServices = conn.setSavepoint("SavepointServices");
-			String query = "insert into advisorservices"+"(ADVISOR_ID,SERVICE,DESCRIPTION,ISFREE) values" + "(?, ?, ?,?)";
+			String query = "insert into advisorservices"+"(ADVISOR_ID,SERVICE,DESCRIPTION,ISFREE,DISCOUNT_AC) values" + "(?, ?, ?,?,?)";
 			PreparedStatement pstmt = conn.prepareStatement(query);
 			pstmt.setInt(1,advisorId);
 			pstmt.setString(2,service);
 			pstmt.setString(3,description);
-			pstmt.setBoolean(4, isFree);
+			pstmt.setInt(4, Integer.parseInt(isFree));
+			pstmt.setInt(5, discount);
 			int result = pstmt.executeUpdate();
 			if(result >0) {
 				conn.commit();
@@ -580,7 +581,7 @@ public int setEmail(String email,String pass){
 		try {
 			conn =ConnectionFactory.getConnection();
 			conn.setAutoCommit(false);
-			String query ="SELECT NAME,GENDER,AGE,PHONE_NUMBER,CITY,NATIONALITY,INDUSTRY,INTRODUCTION,STATE,IMAGE,EMAIL FROM advisordetails WHERE ADVISOR_ID = ?";
+			String query ="SELECT ADVISOR_ID,NAME,GENDER,AGE,PHONE_NUMBER,CITY,INDUSTRY,INTRODUCTION,STATE,IMAGE,EMAIL FROM advisordetails WHERE ADVISOR_ID = ?";
 			PreparedStatement pstmt = conn.prepareStatement(query);
 			pstmt.setInt(1,aId);
 			ResultSet results = pstmt.executeQuery();
@@ -590,12 +591,12 @@ public int setEmail(String email,String pass){
 			profile.setAge(results.getString("AGE"));
 			profile.setPhone(results.getString("PHONE_NUMBER"));
 			profile.setCity(results.getString("CITY"));
-			profile.setNationalty(results.getString("NATIONALITY"));
 			profile.setIndustry(results.getString("INDUSTRY"));
 			profile.setIntroduction(results.getString("INTRODUCTION"));
 			profile.setState(results.getString("STATE"));
 			profile.setImage(results.getString("IMAGE"));
 			profile.setEmail(results.getString("EMAIL"));
+			profile.setAdvisorId(results.getInt("ADVISOR_ID"));
 			}
 		} catch (SQLException e) {
 			logger.error("GetGeneralInfo method of AdvisorRegistrationDAO threw error:"+e.getMessage());
@@ -629,14 +630,13 @@ public int setEmail(String email,String pass){
 		try {
 			conn =ConnectionFactory.getConnection();
 			conn.setAutoCommit(false);
-			String query ="SELECT ADVISOR_ID,TYPE,EDUCATION FROM advisoreducation WHERE ADVISOR_ID = ?";
+			String query ="SELECT ADVISOR_ID,EDUCATION FROM advisoreducation WHERE ADVISOR_ID = ?";
 			PreparedStatement pstmt = conn.prepareStatement(query);
 			pstmt.setInt(1,aId);
 			ResultSet results = pstmt.executeQuery();
 			while(results.next()){
 				AdvisorEducationDTO education = new AdvisorEducationDTO();
 				education.setAdvisorId(results.getInt("ADVISOR_ID"));
-				education.setType(results.getString("TYPE"));
 				education.setEducation(results.getString("EDUCATION"));
 				educations.add(education);
 			}
@@ -1054,11 +1054,11 @@ public int setEmail(String email,String pass){
 		try {
 				conn =ConnectionFactory.getConnection();
 				conn.setAutoCommit(false);
+				Savepoint SavepointAchievement = conn.setSavepoint("SavepointAchievement");
 				for (String award : achievement) {
 					
 						if(!award.equals("")){
 
-							Savepoint SavepointAchievement = conn.setSavepoint("SavepointAchievement");
 							String query = "insert into advisorachievements"+"(ADVISOR_ID,ACHIEVEMENTS) values" + "(?, ?)";
 							PreparedStatement pstmt = conn.prepareStatement(query);
 							pstmt.setInt(1,aId);
@@ -1656,6 +1656,131 @@ public int setEmail(String email,String pass){
 		logger.info("Entered GetImagePath method of AdvisorRegistrationDAO");
 		return path;
 	}
+	public List<AdvisorServiceDTO> GetServicesDiscount(int advisorId){
+		logger.info("Entered GetServicesDiscount method of AdvisorRegistrationDAO");
+		List<AdvisorServiceDTO> services = new ArrayList<AdvisorServiceDTO>();
+		if(advisorId != 0){		
+		try {
+			conn =ConnectionFactory.getConnection();
+			conn.setAutoCommit(false);
+			String query ="SELECT SERVICE,DISCOUNT_AC FROM advisorservices WHERE ADVISOR_ID=?";
+			PreparedStatement pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, advisorId);
+			ResultSet results = pstmt.executeQuery();
+			while(results.next()){
+				AdvisorServiceDTO service = new AdvisorServiceDTO();
+				service.setService(results.getString("SERVICE"));
+				service.setDiscount(results.getInt("DISCOUNT_AC"));
+				services.add(service);
+			}
+		} catch (SQLException e) {
+			logger.error("GetServicesDiscount method of AdvisorRegistrationDAO threw error:"+e.getMessage());
+			e.printStackTrace();
+		} catch (IOException e) {
+			logger.error("GetServicesDiscount method of AdvisorRegistrationDAO threw error:"+e.getMessage());
+			e.printStackTrace();
+		} catch (PropertyVetoException e) {
+			logger.error("GetServicesDiscount method of AdvisorRegistrationDAO threw error:"+e.getMessage());
+			e.printStackTrace();
+		}finally{
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				logger.error("GetServicesDiscount method of AdvisorRegistrationDAO threw error:"+e.getMessage());
+				e.printStackTrace();
+			}
+		}
+		}
+		
+		logger.info("Entered GetServicesDiscount method of AdvisorRegistrationDAO");
+		return services;
+	}
+	public Boolean UpdateVerification(int advisorId){
+		logger.info("Entered UpdateVerification method of AdvisorRegistrationDAO");
+		Boolean isCommit = false;
+		try {
+			conn =ConnectionFactory.getConnection();
+			conn.setAutoCommit(false);
+			String query = "UPDATE advisordetails SET ISVERIFIED= ? WHERE ADVISOR_ID = ?";
+			PreparedStatement pstmt = conn.prepareStatement(query);
+			pstmt.setBoolean(1, true);
+			pstmt.setInt(2, advisorId);
+			int result = pstmt.executeUpdate(); 
+			if(result >0) {
+				conn.commit();
+				isCommit = true;
+			}
+		} catch (SQLException e) {
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				logger.error("UpdateVerification method of AdvisorRegistrationDAO threw error:"+e.getMessage());
+				e1.printStackTrace();
+			}	
+			logger.error("UpdateVerification method of AdvisorRegistrationDAO threw error:"+e.getMessage());
+			e.printStackTrace();
+		} catch (IOException e) {
+			logger.error("UpdateVerification method of AdvisorRegistrationDAO threw error:"+e.getMessage());
+			e.printStackTrace();
+		} catch (PropertyVetoException e) {
+			logger.error("UpdateVerification method of AdvisorRegistrationDAO threw error:"+e.getMessage());
+			e.printStackTrace();
+		}finally{
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				logger.error("UpdateVerification method of AdvisorRegistrationDAO threw error:"+e.getMessage());
+				e.printStackTrace();
+			}
+		}		
+		logger.info("Exit UpdateVerification method of AdvisorRegistrationDAO");
+		return isCommit;
+	}
+	
+     public Boolean editHobbies(int advisorId,String hobbies){
+		
+		
+		logger.info("Entered editHobbies method of AdvisorRegistrationDAO");
+		Boolean isOtherInfoCommit = false;
+		try {
+			conn =ConnectionFactory.getConnection();
+			conn.setAutoCommit(false);
+			String query = "UPDATE advisordetails SET KNOW_YOUR_ADVISOR = ? WHERE ADVISOR_ID = ?";
+			PreparedStatement pstmt = conn.prepareStatement(query);
+			pstmt.setString(1,hobbies );
+			pstmt.setInt(2, advisorId);
+			int result = pstmt.executeUpdate(); 
+			if(result >0) {
+				conn.commit();
+				isOtherInfoCommit = true;
+			}
+		} catch (SQLException e) {
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				logger.error("editHobbies method of AdvisorRegistrationDAO threw error:"+e.getMessage());
+				e1.printStackTrace();
+			}	
+			logger.error("editHobbies method of AdvisorRegistrationDAO threw error:"+e.getMessage());
+			e.printStackTrace();
+		} catch (IOException e) {
+			logger.error("editHobbies method of AdvisorRegistrationDAO threw error:"+e.getMessage());
+			e.printStackTrace();
+		} catch (PropertyVetoException e) {
+			logger.error("editHobbies method of AdvisorRegistrationDAO threw error:"+e.getMessage());
+			e.printStackTrace();
+		}finally{
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				logger.error("editHobbies method of AdvisorRegistrationDAO threw error:"+e.getMessage());
+				e.printStackTrace();
+			}
+		}		
+		logger.info("Entered editHobbies method of AdvisorRegistrationDAO");
+		return isOtherInfoCommit;
+	}
+	
 	
 	
 	private String generateQsForIn(int numQs) {

@@ -19,7 +19,7 @@
 	<fmt:bundle basename="Resources.Dependency" prefix="path.">
   		 <link rel="shortcut icon" href=<fmt:message key="shortcuticon"/>>	
   	</fmt:bundle>
-    <title>Upcoming Sessions</title>  		 
+    <title>Current Sessions</title>  		 
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
@@ -35,7 +35,7 @@
 
     <!-- Custom Fonts -->
     <link href="assets/font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-
+	
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -68,7 +68,7 @@
         	<div class="col-md-3">&nbsp;</div>
             <div class="col-md-6">
             	<h4></h4>
-            	<h1 class="page-header">Upcoming Sessions</h1>
+            	<h1 class="page-header">Current Sessions</h1>
             </div>
             <div class="col-md-3">
 				<input type="text" id="search" style="float: right;" placeholder="SEARCH" onkeyup="searchDiv(this.value)"/>
@@ -172,7 +172,7 @@
 			 </c:forEach>
 		</c:when>
 		<c:otherwise>
-			<c:out value="YOU HAVE NO UPCOMING SESSIONS"></c:out>
+			<c:out value="YOU HAVE NO CURRENT SESSIONS"></c:out>
 		</c:otherwise>
 		</c:choose>
 	
@@ -201,13 +201,14 @@
 	<!-- /#container -->
 
     <!-- jQuery Version 1.11.0 -->
+	<script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
 
     <!-- Bootstrap Core JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 
     <!-- Metis Menu Plugin JavaScript -->
     <script src="assets/plugins/metisMenu/metisMenu.min.js"></script>
-
+	<script src="assets/js/bootstrap-slider.js"></script>
     <!-- Custom Theme JavaScript -->
     <script src="assets/js/sb-admin-2.js"></script>
 
@@ -227,7 +228,6 @@
 	<script src="assets/js/gridSearch.js"></script>
 	
 	
-	<script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
 	
 	<script src="https://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 	 

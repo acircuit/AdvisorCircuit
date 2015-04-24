@@ -103,28 +103,11 @@ public class FilterController extends HttpServlet {
 					if(string.indexOf("Industry") != -1){
 						indusCounter++;
 						String industryType = string.replaceFirst("Industry", "");
-						if(("Teaching").equals(industryType) && ("Teaching").equalsIgnoreCase(profile.getIndustry())){
+						if(industryType.equalsIgnoreCase(profile.getIndustry())){
 							counter++;
 							industryCounter++;
-						}else if (("Architecture").equals(industryType) && ("Architecture").equalsIgnoreCase(profile.getIndustry())) {
-							counter++;
-							industryCounter++;
-						}else if (("TV").equals(industryType) && ("TV, Media & Film").equalsIgnoreCase(profile.getIndustry())) {
-							counter++;
-							industryCounter++;
-						}else if (("Law").equals(industryType) && ("Law").equalsIgnoreCase(profile.getIndustry())) {
-							counter++;
-							industryCounter++;
-						}else if (("ManagementConsulting").equals(industryType) && ("Management Consulting").equalsIgnoreCase(profile.getIndustry())) {
-							counter++;
-							industryCounter++;
-						}else if (("Medicine").equals(industryType) && ("Medicine").equalsIgnoreCase(profile.getIndustry())) {
-							counter++;
-							industryCounter++;
-						}else if (("LanguageLearning").equals(industryType) && ("Language Learning").equalsIgnoreCase(profile.getIndustry())) {
-							counter++;
-							industryCounter++;
-						}						
+						}
+						
 					}else if (string.indexOf("Service") != -1) {
 						String serviceType = string.replaceFirst("Service", "");
 						serCounter++;
@@ -149,6 +132,8 @@ public class FilterController extends HttpServlet {
 					}else if (string.indexOf("Experience") != -1) {
 						exCounter++;
 						String experienceYears = string.replaceFirst("Experience", "");
+						System.out.println(experienceYears);
+						System.out.println(profile.getExperience());
 						if(("5").equals(experienceYears) &&  Integer.parseInt(profile.getExperience()) >= 0 && Integer.parseInt(profile.getExperience()) <  5){
 							counter++;
 							experienceCounter++;

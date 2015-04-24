@@ -39,7 +39,7 @@
 				professional="ProfessionalBackgroundEdit";
 				other="OtherInfoEdit";
 				service="ServicesEdit";
-				image = "Image?edit=true";
+				image = "ImageEdit";
 			}else{
 				action = "AdvisorRegistrationEducationInfo";
 				general ="AdvisorRegistrationGeneralInfo";
@@ -47,7 +47,7 @@
 				professional="AdvisorRegistrationProfessionalBackground";
 				other="AdvisorRegistrationOtherInfo";
 				service="AdvisorRegistrationServices";
-				image = "Image";
+				image = "AdvisorRegistrationImage";
 			}
 	%>
 </head>
@@ -81,35 +81,25 @@
                     <c:choose>
                         <c:when test="${education.size()>0}">
                         <input type="hidden" id="edit" name="edit" value="true">
+                        <c:set value="0" var="counter"></c:set>
                             <div id="education">
                                 <c:forEach var="edu" items="${education}">
-                                <c:if test="${edu.getType().equals('UG')}">
-                                    <div class="form-group" id="dunder">
-                                        <label for="icode" class="col-md-3 control-label">Undergraduate</label>
+                                    <div class="form-group" id="dunder${counter }">
+                                        <label for="icode" class="col-md-3 control-label">Education</label>
                                             <div class="col-md-5">
-                                                 <input id="under" name="ug" class="form-control" maxlength='350' value="${edu.getEducation()}"></input>
+                                                 <input id="under${counter }" name="education[]" class="form-control" maxlength='350' value="${edu.getEducation()}"></input>
                                             </div>
+                                            <c:if test="${counter > 0 }">
+	                                            <div class="col-md-2 col-xs-2" style="padding-left:0; padding-top:4px;">
+	                                            <a id="${counter}" onclick="closeunderdiv(this)">
+	                                            <i class="glyphicon glyphicon-remove"></i></a>
+	                                            </div>
+                                            </c:if>
                                         <div class="col-md-2">
-                                            <p class="required" id="required_name">Field Required</p>																		
+                                            <p class="required" id="required_name${counter }">Field Required</p>																		
                                         </div>
                                     </div>
-                                </c:if>	
-                                <c:if test="${edu.getType().equals('PG')}">		                                                                    			
-                                     <div class="form-group" id="dpost">
-                                        <label for="icode" class="col-md-3 control-label">Post Graduate</label>
-                                            <div class="col-md-5">
-                                               <input id="post" name="pg" class="form-control" maxlength='350' value="${edu.getEducation()}"></input>  
-                                            </div>
-                                    </div>
-                                </c:if>
-                                <c:if test="${edu.getType().equals('OTHERS')}">
-                                     <div class="form-group" id="dother" >
-                                        <label for="icode" class="col-md-3 control-label">Any other</label>
-                                            <div class="col-md-5">
-                                            <input id="other" name="others[]" class="form-control" maxlength='350' value="${edu.getEducation()}"></input>
-                                            </div>
-                                    </div>
-                               </c:if>
+                                    <c:set var="counter" value="${counter+1 }"></c:set>
                               </c:forEach>
                           </div>
                           <div class="row">
@@ -122,24 +112,12 @@
                         <c:otherwise>
                             <div id="education">
                                 <div class="form-group" id="dunder">
-                                    <label for="icode" class="col-md-3 control-label">Undergraduate</label>
+                                    <label for="icode" class="col-md-3 control-label">Education</label>
                                     <div class="col-md-5">
-                                         <input id="under" name="ug" class="form-control" maxlength='350'></input>
+                                         <input id="under" name="education[]" class="form-control" maxlength='350'></input>
                                     </div>
                                     <div class="col-md-2">
                                         <p class="required" id="required_name">Field Required</p>																		
-                                    </div>
-                                </div>
-                                 <div class="form-group" id="dpost">
-                                    <label for="icode" class="col-md-3 control-label">Post Graduate</label>
-                                    <div class="col-md-5">
-                                       <input id="post" name="pg" class="form-control" maxlength='350'></input>  
-                                    </div>
-                                </div>
-                                 <div class="form-group" id="dother" >
-                                    <label for="icode" class="col-md-3 control-label">Any other</label>
-                                    <div class="col-md-5">
-                                    <input id="other" name="others[]" class="form-control" maxlength='350'></input>
                                     </div>
                                 </div>
                               </div>
@@ -176,22 +154,29 @@
     
 </body>
 	<script src="https://code.jquery.com/jquery-1.11.0.min.js"></script>
-
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 		<script type="text/javascript">
 		
 		$(document).ready(function() {
 		// under can't be blank
 			$("#btn-signup").click(function(event){
-				var input_city = $("#under").val();
-				if (input_city==''){
-					$("#required_name").show();
-					event.preventDefault(); 
-				}else{
-					$("#required_name").hide();
-				}	
+				var i =0;
+				while(i<10){
+					var input_city = $("#under"+i).val();
+					if ($("#under"+i).is(':visible') && input_city==''){
+						$("#required_name"+i).show();
+						event.preventDefault(); 
+					}else{
+						$("#required_name"+i).hide();
+					}
+					i++;
+				}
 			});
 			$("#btn-signup").click(function(event){
-				for(i=1;i<=10;i++){
+				for(i=0;i<=10;i++){
+					if(!$("#under"+i).is(':visible')){
+						$("#under"+i).val("");
+					}
 					if(!$("#other"+i).is(':visible')){
 						$("#other"+i).val("");
 					}
@@ -205,7 +190,7 @@
 			  $("#add-education").click(function(e){
 				  if( 1<=max_fields){
 				  e.preventDefault();
-					  var neweducation = "<div class='form-group' id='dother"+i+"'><label for='icode' class='col-md-3 control-label'>Any other</label><div class='col-md-9'><div class='row'><div class='col-md-6 col-xs-10'><input id='other"+i+"' name='others[]' class='form-control' maxlength='350'></input></div><div class='col-md-2 col-xs-2' style='padding-left:0; padding-top:4px;'><a id='"+i+"' onclick=closediv(this)><img src='assets/img/close.png'></a></div></div></div></div>";
+					  var neweducation = "<div class='form-group' id='dother"+i+"'><label for='icode' class='col-md-3 control-label'>Any other</label><div class='col-md-9'><div class='row'><div class='col-md-6 col-xs-10'><input id='other"+i+"' name='education[]' class='form-control' maxlength='350'></input></div><div class='col-md-2 col-xs-2' style='padding-left:0; padding-top:4px;'><a id='"+i+"' onclick=closediv(this)><i class='glyphicon glyphicon-remove'></i></a></div></div></div></div>";
 					  $("#education").append(neweducation);
 					  i++;
 				  }
@@ -216,7 +201,14 @@
 			var id = elem.id;
 			$("#dother"+id).hide();
 		}
+		
+		function closeunderdiv(elem){
+			var id= elem.id;
+			$("#dunder"+id).hide();
+			
+		}
 		</script>
+		
     <script type="text/javascript">
 		var _urq = _urq || [];
 		_urq.push(['initSite', '8571f59c-9c67-4ac9-a169-0eb6aa49f203']);

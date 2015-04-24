@@ -7,7 +7,10 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.TimeZone;
 
 import org.AC.JDBC.ConnectionFactory;
 import org.AC.JDBC.Util;
@@ -106,7 +109,17 @@ public class ChangeSessionStatusDAO {
 			logger.info("Entered UpdateSessionPayment method of ChangeSessionStatusDAO");
 			Boolean isStatusCommit = false;
 			int result = 0;
-				
+			 Calendar mbCal = new GregorianCalendar(TimeZone.getTimeZone("IST"));  
+	         mbCal.setTimeInMillis(new Date().getTime());      
+	         Calendar cal = Calendar.getInstance();  
+	         cal.set(Calendar.YEAR, mbCal.get(Calendar.YEAR));  
+	         cal.set(Calendar.MONTH, mbCal.get(Calendar.MONTH));  
+	         cal.set(Calendar.DAY_OF_MONTH, mbCal.get(Calendar.DAY_OF_MONTH));  
+	         cal.set(Calendar.HOUR_OF_DAY, mbCal.get(Calendar.HOUR_OF_DAY));  
+	         cal.set(Calendar.MINUTE, mbCal.get(Calendar.MINUTE));  
+	         cal.set(Calendar.SECOND, mbCal.get(Calendar.SECOND));  
+	         cal.set(Calendar.MILLISECOND, mbCal.get(Calendar.MILLISECOND));
+	         Date date = cal.getTime();
 				try {
 					conn =ConnectionFactory.getConnection();
 					conn.setAutoCommit(false);
@@ -119,7 +132,7 @@ public class ChangeSessionStatusDAO {
 					pstmt.setDouble(5, fee);
 					pstmt.setString(6, trackingId);
 					pstmt.setString(7, paymentMode);
-					pstmt.setTimestamp(8, new java.sql.Timestamp(new Date().getTime()));
+					pstmt.setTimestamp(8, new java.sql.Timestamp(date.getTime()));
 					result = pstmt.executeUpdate();
 					if(result >0) {
 						conn.commit();

@@ -93,17 +93,23 @@ public class AdvisorProfileServlet extends HttpServlet {
 		AdvisorModesDAO dao3 = new AdvisorModesDAO();
 		list3 = dao3.getAdvisorModesDetails(advisorId);
 		for (AdvisorModeDTO mode : list3) {
-			int priceWithServiceFee = Integer.parseInt(mode.getPrice()) + (30 * Integer.parseInt(mode.getPrice()) /100);
+			int price=0;
+			int priceWithServiceFee = (int) Math.ceil((Double.parseDouble(mode.getPrice()) + (30 * Double.parseDouble(mode.getPrice()) /100)));
 			mode.setPrice(String.valueOf(priceWithServiceFee));
 			if(!mode.getModeOfCommunication().equals("email")){
-				int price = Integer.parseInt(mode.getPrice())/2;
+				price = (int) Math.ceil(Double.parseDouble(mode.getPrice())/2);
 				mode.setPrice(String.valueOf(price));
 			}
 			for (AdvisorServiceDTO services : list2) {
 				if(mode.getService().equals(services.getService())){
-					int discount = services.getDiscount();
-					double discountedPrice = 	Integer.parseInt(mode.getPrice()) - (discount * Integer.parseInt(mode.getPrice()) /100);
-					mode.setDiscounted_price(discountedPrice);
+					if(services.getDiscount() == 0 && services.getIsFree() == 0	){
+						mode.setDiscounted_price(price);
+					}else{
+						int discount = services.getDiscount();
+						int discountedPrice = (int)Math.ceil(Double.parseDouble(mode.getPrice()) - (discount * Double.parseDouble(mode.getPrice()) /100));
+						//double discountedPrice = 	Integer.parseInt(mode.getPrice()) - (discount * Integer.parseInt(mode.getPrice()) /100);				
+						mode.setDiscounted_price(discountedPrice);
+					}
 				}
 			}
 		}

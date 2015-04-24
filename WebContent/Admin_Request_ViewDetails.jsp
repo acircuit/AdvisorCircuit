@@ -159,9 +159,25 @@
                                 </div>				
                                          
                                 <div class="form-group">
-                                    <label for="icode" class="col-md-2 control-label">Duration (Hrs):</label>
+                                    <label for="icode" class="col-md-2 control-label">Duration:</label>
                                     <div class="col-md-10">
-                                        <span class="form-control"><c:out value="${userRequest.getDuration()}"/></span>	
+                                    <c:choose>
+                                    		<c:when test="${userRequest.getDuration().equals('0.5')}">
+                                        		<span class="form-control">30 mins</span>		                                    		
+                                    		</c:when>
+                                    		<c:when test="${userRequest.getDuration().equals('0.75')}">
+                                        		<span class="form-control">45 mins</span>		                                    		
+                                    		</c:when>
+                                    		<c:when test="${userRequest.getDuration().equals('1')}">
+                                        		<span class="form-control">1 hour</span>		                                    		
+                                    		</c:when>
+                                    		<c:when test="${userRequest.getDuration().equals('1.5')}">
+                                        		<span class="form-control">1.5 hour</span>	                                    		
+                                    		</c:when>
+                                    		<c:otherwise>
+                                    			<span class="form-control">N/A</span>
+                                    		</c:otherwise>
+                                    	</c:choose>	
                                     </div>
                                 </div>
                                 
@@ -169,9 +185,8 @@
                                 
                                 <c:if test="${userRequest.getService().equals('mockinterview') || userRequest.getService().equals('cvcritique')}">										
                                 <div class="form-group">
-                                    <label for="icode" class="col-md-2 control-label"></label>
-                                    <div class="col-md-10">
-                                        <h4><a href="DownloadFile?rid=${userRequest.getRequestId()}">CLICK TO DOWNLOAD <%=userName.toUpperCase() %>'s CV</a></h4>
+                                    <div class="col-md-12">
+                                        <h4 class="btn btn-info"><a href="DownloadFile?rid=${userRequest.getRequestId()}">CLICK TO DOWNLOAD <%=userName.toUpperCase() %>'s CV</a></h4>
                                     </div>
                                 </div>
                                 </c:if>
@@ -232,20 +247,6 @@
                                             <div >
                                                 <label>
                                                     <c:out value="${userRequest.getTimeString4()}"></c:out>
-                                                </label>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div >
-                                                <label>
-                                                    <c:out value="${userRequest.getTimeString5()}"></c:out>
-                                                </label>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div >
-                                                <label>
-                                                    <c:out value="${userRequest.getTimeString6()}"></c:out>
                                                 </label>
                                             </div>
                                         </li>
@@ -320,6 +321,9 @@
                                                         <c:url value="AdminRequestViewDetailForm" var="myURL">
                                                             <c:param name="rId" value="${userRequest.getRequestId()}"/>
                                                             <c:param name="cancel" value="true"/>
+                                                            <c:param name="isFree" value="${userRequest.getIsFree()}"/>
+				                                            <c:param name="aId" value="${userRequest.getAdvisorId()}"/>
+				                                            <c:param name="service" value="${userRequest.getService()}"/>
                                                     	</c:url>
                                                         <a href="${myURL}" class="btn btn-info">Reject</a>
                                                     </div>

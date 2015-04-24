@@ -106,10 +106,8 @@ public class AdvisorEditOtherinfoController extends HttpServlet {
 					if(!hobbies.isEmpty()){
 						//Setting the Hobbies
 						AdvisorRegistrationDAO hobby = new AdvisorRegistrationDAO();
-						isHobbyCommit = hobby.setHobbies(aId, hobbies);
+						isHobbyCommit = hobby.editHobbies(aId, hobbies);
 					}
-				}
-				if(isHobbyCommit){
 					Properties prop = new Properties();
 			         InputStream resourceAsStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("Resources/mail.properties");
 			         try {

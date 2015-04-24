@@ -6,7 +6,14 @@ public class AdvisorRegistrationCheckEmailDTO {
 	private String registrationStatus;
 	private String name;
 	private String email;
+	Boolean isVerified;
 	
+	public Boolean getIsVerified() {
+		return isVerified;
+	}
+	public void setIsVerified(Boolean isVerified) {
+		this.isVerified = isVerified;
+	}
 	public String getEmail() {
 		return email;
 	}

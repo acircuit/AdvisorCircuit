@@ -19,14 +19,14 @@
     <filter-name>CharEncoding</filter-name>
     <filter-class>org.AC.Filters.CharEncoding</filter-class>
     <init-param>
-        <param-name>encoding</param-name>
-        <param-value>UTF-8</param-value>
+      <param-name>encoding</param-name>
+      <param-value>UTF-8</param-value>
     </init-param>
-</filter>
-<filter-mapping>
+  </filter>
+  <filter-mapping>
     <filter-name>CharEncoding</filter-name>
     <url-pattern>/*</url-pattern>
-</filter-mapping>
+  </filter-mapping>
   <session-config>
     <session-timeout>30</session-timeout>
   </session-config>
@@ -1061,7 +1061,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>adminlogin</servlet-name>
-    <url-pattern>/adminlogin</url-pattern>
+    <url-pattern>/9987acadmin</url-pattern>
   </servlet-mapping>
   <servlet>
     <servlet-name>paymenthistrory</servlet-name>

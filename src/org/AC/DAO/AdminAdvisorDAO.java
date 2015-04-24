@@ -4,12 +4,13 @@
  * @author AdvisorCircuit
  * @Date 08/12/2014
  * ************************************************************************************************/
-package org.AC.DAO;
 
+package org.AC.DAO;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Savepoint;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -628,22 +629,32 @@ public class AdminAdvisorDAO {
 		return isFlagCommit;		
 	}
 	
-	public boolean UpdateFreeSessions(int advisorId, int noOfFreeSessions) {
+	public boolean UpdateFreeSessions(int advisorId, List<AdvisorServiceDTO> advisors) {
 		logger.info("Entered UpdateFreeSessions method of AdminAdvisorDAO");
 		Boolean isFlagCommit = false;
 		
 		try {
 			conn = ConnectionFactory.getConnection();
 			conn.setAutoCommit(false);
-			String query = "UPDATE advisorservices SET ISFREE = ? WHERE ADVISOR_ID = ?";
-			PreparedStatement pstmt = conn.prepareStatement(query);
-			pstmt.setInt(1, noOfFreeSessions);
-			pstmt.setInt(2, advisorId);
-			int result = pstmt.executeUpdate();
-			if (result > 0) {
-				conn.commit();
-				isFlagCommit = true;
+			Savepoint aId = conn.setSavepoint("SavepointEducation");
+			for (AdvisorServiceDTO advisorServiceDTO : advisors) {
+				String query = "UPDATE advisorservices SET ISFREE = ? WHERE ADVISOR_ID = ? AND SERVICE =?";
+				PreparedStatement pstmt = conn.prepareStatement(query);
+				pstmt.setInt(1, advisorServiceDTO.getIsFree());
+				pstmt.setInt(2, advisorId);
+				pstmt.setString(3, advisorServiceDTO.getService());
+				int result = pstmt.executeUpdate();
+				if (result > 0) {
+					conn.commit();
+					isFlagCommit = true;
+					continue;
+				}else{
+					isFlagCommit = false;
+					conn.rollback(aId);
+					break;
+				}
 			}
+			
 			logger.info("Exit UpdateFreeSessions method of AdminAdvisorDAO");
 		} catch (Exception e) {
 			try {
@@ -674,21 +685,30 @@ public class AdminAdvisorDAO {
 		return isFlagCommit;		
 	}
 	
-	public boolean UpdateDiscount(int advisorId, int discount) {
+	public boolean UpdateDiscount(int advisorId, List<AdvisorServiceDTO> advisors) {
 		logger.info("Entered UpdateDiscount method of AdminAdvisorDAO");
 		Boolean isFlagCommit = false;
 		
 		try {
 			conn = ConnectionFactory.getConnection();
 			conn.setAutoCommit(false);
-			String query = "UPDATE advisorservices SET DISCOUNT_AC = ? WHERE ADVISOR_ID = ?";
-			PreparedStatement pstmt = conn.prepareStatement(query);
-			pstmt.setInt(1, discount);
-			pstmt.setInt(2, advisorId);
-			int result = pstmt.executeUpdate();
-			if (result > 0) {
-				conn.commit();
-				isFlagCommit = true;
+			Savepoint aId = conn.setSavepoint("SavepointEducation");
+			for (AdvisorServiceDTO advisorServiceDTO : advisors) {
+				String query = "UPDATE advisorservices SET DISCOUNT_AC = ? WHERE ADVISOR_ID = ? AND SERVICE =?";
+				PreparedStatement pstmt = conn.prepareStatement(query);
+				pstmt.setInt(1, advisorServiceDTO.getDiscount());
+				pstmt.setInt(2, advisorId);
+				pstmt.setString(3, advisorServiceDTO.getService());
+				int result = pstmt.executeUpdate();
+				if (result > 0) {
+					conn.commit();
+					isFlagCommit = true;
+					continue;
+				}else{
+					isFlagCommit = false;
+					conn.rollback(aId);
+					break;
+				}
 			}
 			logger.info("Exit UpdateDiscount method of AdminAdvisorDAO");
 		} catch (Exception e) {
@@ -719,20 +739,30 @@ public class AdminAdvisorDAO {
 		}
 		return isFlagCommit;		
 	}
-	public boolean UpdateDiscountToAll(int discount) {
+	public boolean UpdateDiscountToAll(List<AdvisorServiceDTO> advisors) {
 		logger.info("Entered UpdateDiscountToAll method of AdminAdvisorDAO");
 		Boolean isFlagCommit = false;
 		
 		try {
 			conn = ConnectionFactory.getConnection();
 			conn.setAutoCommit(false);
-			String query = "UPDATE advisorservices SET DISCOUNT_AC = ?";
-			PreparedStatement pstmt = conn.prepareStatement(query);
-			pstmt.setInt(1, discount);
-			int result = pstmt.executeUpdate();
-			if (result > 0) {
-				conn.commit();
-				isFlagCommit = true;
+			Savepoint aId = conn.setSavepoint("SavepointEducation");
+			for (AdvisorServiceDTO advisorServiceDTO : advisors) {
+				String query = "UPDATE advisorservices SET DISCOUNT_AC = ? WHERE  SERVICE =? AND DISCOUNT_AC = ?";
+				PreparedStatement pstmt = conn.prepareStatement(query);
+				pstmt.setInt(1, advisorServiceDTO.getDiscount());
+				pstmt.setString(2, advisorServiceDTO.getService());
+				pstmt.setInt(3, 0);
+				int result = pstmt.executeUpdate();
+				if (result > 0) {
+					conn.commit();
+					isFlagCommit = true;
+					continue;
+				}else{
+					isFlagCommit = false;
+					conn.rollback(aId);
+					break;
+				}
 			}
 			logger.info("Exit UpdateDiscountToAll method of AdminAdvisorDAO");
 		} catch (Exception e) {
@@ -762,5 +792,69 @@ public class AdminAdvisorDAO {
 			}
 		}
 		return isFlagCommit;		
+	}
+	
+	public List<AdvisorServiceDTO> GetServices(List<Integer> aIds) {
+		logger.info("Entered GetServices method of AdminAdvisorDAO");
+		ResultSet results = null;
+		Connection conn = null;
+		List<AdvisorServiceDTO> advisors = new ArrayList<AdvisorServiceDTO>();
+		try {
+			conn = ConnectionFactory.getConnection();
+			conn.setAutoCommit(false);
+			String q4in = generateQsForIn(aIds.size());
+			String query = "SELECT ADVISOR_ID,SERVICE,ISFREE,DISCOUNT_AC FROM advisorservices WHERE  ADVISOR_ID IN ( " + q4in + " )";
+			PreparedStatement pstmt = conn.prepareStatement(query);
+			int i = 1;
+			  for (Integer item : aIds) {
+				  pstmt.setInt(i++, item);
+			  }
+			results = pstmt.executeQuery();
+			while (results.next()) {
+				AdvisorServiceDTO advisor = new AdvisorServiceDTO();
+				advisor.setAdvisorId(results.getInt("ADVISOR_ID"));
+				advisor.setService(results.getString("SERVICE"));
+				advisor.setIsFree(results.getInt("ISFREE"));
+				advisor.setDiscount(results.getInt("DISCOUNT_AC"));
+				advisors.add(advisor);
+			}
+			logger.info("Exit GetServices method of AdminAdvisorDAO");
+		} catch (Exception e) {
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				try {
+					conn.rollback();
+				} catch (SQLException e2) {
+					logger.error("GetServices method of AdminAdvisorDAO threw error:"
+							+ e.getMessage());
+					e2.printStackTrace();
+				}
+				logger.error("GetServices method of AdminAdvisorDAO threw error:"
+						+ e.getMessage());
+				e1.printStackTrace();
+			}
+			logger.error("GetServices method of AdminAdvisorDAO threw error:"
+					+ e.getMessage());
+			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				logger.error("GetServices method of AdminAdvisorDAO threw error:"
+						+ e.getMessage());
+				e.printStackTrace();
+			}
+		}
+		return advisors;
+	}
+	
+	private String generateQsForIn(int numQs) {
+	    String items = "";
+	    for (int i = 0; i < numQs; i++) {
+	        if (i != 0) items += ", ";
+	        items += "?";
+	    }
+	    return items;
 	}
 }

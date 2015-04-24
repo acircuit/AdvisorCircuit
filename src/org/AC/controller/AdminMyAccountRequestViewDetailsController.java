@@ -107,8 +107,6 @@ public class AdminMyAccountRequestViewDetailsController extends HttpServlet {
 						userRequestDTO.setTimeString2(new SimpleDateFormat("dd-MMM-yyyy' 'h:mm a").format(new Date(userRequestDTO.getTime2().getTime())));
 						userRequestDTO.setTimeString3(new SimpleDateFormat("dd-MMM-yyyy' 'h:mm a").format(new Date(userRequestDTO.getTime3().getTime())));
 						userRequestDTO.setTimeString4(new SimpleDateFormat("dd-MMM-yyyy' 'h:mm a").format(new Date(userRequestDTO.getTime4().getTime())));
-						userRequestDTO.setTimeString5(new SimpleDateFormat("dd-MMM-yyyy' 'h:mm a").format(new Date(userRequestDTO.getTime5().getTime())));
-						userRequestDTO.setTimeString6(new SimpleDateFormat("dd-MMM-yyyy' 'h:mm a").format(new Date(userRequestDTO.getTime6().getTime())));
 					}
 				}
 				//Getting user details to show on the view details page.
@@ -141,6 +139,7 @@ public class AdminMyAccountRequestViewDetailsController extends HttpServlet {
 					//Getting the session details
 					AdvisorMyAccountSessionDAO sessionDetails = new AdvisorMyAccountSessionDAO();
 					sessionDetail = sessionDetails.getSessionDetails(rId);
+					System.out.println(sessionDetail.size());
 					if(("REQUEST ACCEPTED BY ADVISOR WITH NEW DATES").equals(requestStatus)){
 						//Getting the new dates 
 						for (SessionDTO sessionDTO : sessionDetail) {
@@ -166,6 +165,10 @@ public class AdminMyAccountRequestViewDetailsController extends HttpServlet {
 							}
 						}
 						
+					}else if (("REQUEST ACCEPTED BY ADVISOR").equals(requestStatus)) {
+						for (SessionDTO sessionDTO : sessionDetail) {
+							sessionDTO.setAcceptedDateString(new SimpleDateFormat("dd-MMM-yyyy' 'h:mm a").format(new Date(sessionDTO.getAcceptedDate().getTime())));
+						}
 					}
 				}
 				

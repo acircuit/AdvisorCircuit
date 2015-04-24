@@ -1313,8 +1313,15 @@ ul.tab-list li {
 .profile-reviews .review:last-child {
 	margin-bottom:0;
 }
-
-
+table {
+  table-layout: fixed;
+  width: 120px; /* Important */
+  
+}
+td,th {
+  width: 30px;
+  word-wrap: break-word;
+}
 #datetimepicker1, 
 #datetimepickeremail input,
 #datetimepicker1 input,
@@ -1426,6 +1433,43 @@ ul.tab-list li {
 
 .myreview img {
 	max-width:50%;
+}
+	ul.industry::-webkit-scrollbar {
+    width: 12px;
+	}
+ 
+ul.industry::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
+    border-radius: 10px;
+}
+ 
+ul.industry::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5); 
+}
+ul.industry{
+	height: 150px;
+	overflow-y:scroll;
+}		
+ul.industry::-moz-scrollbar {
+    width: 12px;
+	}
+ 
+ul.industry::-moz-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+}
+ 
+ul.industry::-moz-scrollbar-thumb {
+    border-radius: 10px;
+    -webkit-border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5); 
+}
+ul.industry{
+	height: 150px;
+	overflow-y:scroll;
+}			
 }
 
 @media only screen and (min-width:1000px) and (max-width: 1100px)  {

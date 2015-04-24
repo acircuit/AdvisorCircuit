@@ -1195,12 +1195,6 @@
 						mail_flag=1;
 						alert("Invalid Email");
 							event.preventDefault();
-					}else if(!input_p=='')
-					{	
-						 if (!is_phone){
-							alert("Please Enter a Valid Phone Number");
-							event.preventDefault();
-						}
 					}else if($("#occupation").val() == ""){
 						alert("Please Enter Your Occupation");
 						event.preventDefault();
@@ -1242,6 +1236,14 @@
 							}
 							i++;
 						}
+						 if(input_p !='')
+							{	
+								 if (!is_phone){
+									alert("Please Enter a Valid Phone Number");
+									event.preventDefault();
+									ajax = false;
+								}
+							}
 					}
 					if(ajax){
 						var name=$("#name").val();

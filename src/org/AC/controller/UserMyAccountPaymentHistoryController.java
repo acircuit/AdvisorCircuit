@@ -58,6 +58,10 @@ public class UserMyAccountPaymentHistoryController extends HttpServlet {
 			//Getting service,mode,price,discount,amount from request table
 			UserPaymentHistoryDAO requestInfo = new UserPaymentHistoryDAO();
 			requests = requestInfo.GetRequestInfo(requestId);
+			for (PaymentDTO paymentDTO : requests) {
+				double discount = paymentDTO.getDiscount()* paymentDTO.getPrice() /100;
+				paymentDTO.setDiscount((int)discount);
+			}
 			
 			//Getting date of payment, payment mode, and tracking id from payment table
 			UserPaymentHistoryDAO paymentInfo = new UserPaymentHistoryDAO();

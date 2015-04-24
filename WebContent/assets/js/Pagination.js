@@ -1,40 +1,56 @@
-// ul li pagination for photogallary
 
-(function ($) {
+        $(document).ready(function () {
+            $("div.holder").jPages({
+                containerID: "itemContainer",
+                perPage: 5,
+                keyBrowse: true,
+                scrollBrowse: true,
+                animation: "bounceInUp",
+                callback: function (pages,
+        items) {
+                    $("#legend1").html("Page " + pages.current + " of " + pages.count);
+                    $("#legend2").html("Elements "+items.range.start + " - " + items.range.end + " of " + items.count);
+                }
+            });
+            $("button").click(function () {
+                /* get given page */
+                var page = parseInt($("input").val());
+                /* jump to that page */
+                $("div.holder").jPages(page);
+            });
 
-    $.fn.Pagination = function (options) {
-
-        var defaults = {
-            PagingArea: 'PageList',
-            noOfPage: 0,
-            curObj: this,
-            ParentID: $(this).attr("id"),
-            curPage: 1
-        };
-
-        var options = $.extend(defaults, options);
-        var strHtml = '';
-        $("li", this).each(function () {
-            options.noOfPage++;
-
-            if (options.noOfPage == 1) {
-                $(this).show();
-            }
-            else {
-                $(this).hide();
-            }
-
-            $(this).attr('id', options.ParentID + '_li_' + options.noOfPage);
-            $("#" + options.PagingArea).append('<a id="Page_' + options.noOfPage + '" href=\"javascript:void(0);\">' + options.noOfPage + '</a>');
-            $("#Page_" + options.noOfPage).click(function () {
-                $("#Page_" + options.curPage).removeClass("activePageLink");
-                $("#" + options.ParentID + " li:nth-child(" + options.curPage + ")").hide();
-                options.curPage = $(this).text()
-                $("#Page_" + options.curPage).addClass("activePageLink");
-                $("#" + options.ParentID + " li:nth-child(" + options.curPage + ")").fadeIn("slow");
-
+            $("select#Itemsperpage").change(function () {
+                /* get new no of items per page */
+                var newPerPage = parseInt($(this).val());
+                /* destroy jPages and initiate plugin again */
+                $("div.holder").jPages("destroy").jPages({
+                    containerID: "itemContainer",
+                    perPage: newPerPage,
+                    keyBrowse: true,
+                    scrollBrowse: true,
+                    callback: function (pages,
+        items) {
+                        $("#legend1").html("Page " + pages.current + " of " + pages.count);
+                        $("#legend2").html("Elements "+items.range.start + " - " + items.range.end + " of " + items.count);
+                    }
+                });
+            });
+            $("select#Animation").change(function () {
+                /* get new css animation */
+                var newAnimation = $(this).val();
+                /* destroy jPages and initiate plugin again */
+                $("div.holder").jPages("destroy").jPages({
+                    containerID: "itemContainer",
+                    animation: newAnimation,
+                    keyBrowse: true,
+                    scrollBrowse: true,
+                    callback: function (pages,
+        items) {
+                        $("#legend1").html("Page " + pages.current + " of " + pages.count);
+                        $("#legend2").html("Elements "+items.range.start + " - " + items.range.end + " of " + items.count);
+                    }
+                });
             });
         });
-    }
-
-})(jQuery);
+    
+    

@@ -173,9 +173,25 @@
                                                 </div>				
                                                  
                                                 <div class="form-group">
-                                                	<label for="icode" class="col-md-2 control-label">Duration (Hrs):</label>
+                                                	<label for="icode" class="col-md-2 control-label">Duration:</label>
                                                     <div class="col-md-10">
-                                                        <span class="form-control"><c:out value="${userRequest.getDuration()}"/></span>
+                                                    <c:choose>
+			                                    		<c:when test="${userRequest.getDuration().equals('0.5')}">
+			                                        		<span class="form-control">30 mins</span>                                    		
+			                                    		</c:when>
+			                                    		<c:when test="${userRequest.getDuration().equals('0.75')}">
+			                                        		<span class="form-control">45 mins</span>	                                    		
+			                                    		</c:when>
+			                                    		<c:when test="${userRequest.getDuration().equals('1')}">
+			                                        		<span class="form-control">1 hour</span>                                    		
+			                                    		</c:when>
+			                                    		<c:when test="${userRequest.getDuration().equals('1.5')}">
+			                                        		<span class="form-control">1.5 hour</span>	                                    		
+			                                    		</c:when>
+			                                    		<c:otherwise>
+			                                    			<span class="form-control">N/A</span>	
+			                                    		</c:otherwise>
+			                                    	</c:choose>	
                                                     </div>
                                                 </div>
                                                 <c:if test="${userRequest.getMode().equals('phone') || userRequest.getMode().equals('webchat') }">
@@ -224,7 +240,7 @@
                                                 <c:if test="${userRequest.getService().equals('mockinterview') || userRequest.getService().equals('cvcritique')}">										
                                                 <div class="form-group">
                                                     <div class="col-md-10">
-                                                        <h4><a href="DownloadFile?rid=${userRequest.getRequestId()}">CLICK TO DOWNLOAD <%=userName.toUpperCase() %>'s CV</a></h4>
+                                                        <h4><a href="DownloadFile?rid=${userRequest.getRequestId()}" class="btn btn-info ">CLICK TO DOWNLOAD <%=userName.toUpperCase() %>'s CV</a></h4>
                                                     </div>
                                                 </div>
                                                 </c:if>
@@ -233,7 +249,7 @@
                                                     <div class="form-group">
                                                         <label for="icode" class="col-md-2 control-label"></label>
                                                         <div class="col-md-9">
-                                                            <h4><a href="DownloadFile?path=<%=path%>" >${fn:toUpperCase(userRequest.getService())} FeedBack Form</a></h4>
+                                                            <h4><a href="DownloadFile?path=<%=path%>" class="btn btn-info">${fn:toUpperCase(userRequest.getService())} FeedBack Form</a></h4>
                                                         </div>
                                                         
                                                         <div class="col-md-12">
@@ -300,20 +316,6 @@
                                                             <div class="radio">
                                                                 <label>
                                                                     <c:out value="${userRequest.getTimeString4()}"></c:out>
-                                                                </label>
-                                                            </div>
-                                                        </li>
-                                                        <li>
-                                                            <div class="radio">
-                                                                <label>
-                                                                    <c:out value="${userRequest.getTimeString5()}"></c:out>
-                                                                </label>
-                                                            </div>
-                                                        </li>
-                                                        <li>
-                                                            <div class="radio">
-                                                                <label>
-                                                                    <c:out value="${userRequest.getTimeString6()}"></c:out>
                                                                 </label>
                                                             </div>
                                                         </li>
@@ -496,13 +498,13 @@
                                                                                     <div class="form-group">
                                                                                         <label for="icode" class="col-md-2 control-label">Subject</label>
                                                                                         <div id="feedbacksubject" class="col-md-10">
-                                                                                            <input type="text" id="subjectemailadvisor" name="subject" style="width:80%" value="${mail.getAdvisorSubject()}">
+                                                                                            <input type="text" id="subjectemailadvisor" name="subject" style="width:80%" readonly="readonly" value="${mail.getAdvisorSubject()}">
                                                                                         </div>
                                                                                     </div>
                                                                                     <div class="form-group">
                                                                                         <label for="icode" class="col-md-2 control-label">Body</label>
                                                                                         <div id="feedbackbody" class="col-md-10">
-                                                                                            <textarea rows="10" id="bodyemailadvisor" name="body" style="width:100%">${mail.getAdvisorBody()}</textarea>                                   
+                                                                                            <textarea rows="10" id="bodyemailadvisor" name="body" readonly="readonly" style="width:100%">${mail.getAdvisorBody()}</textarea>                                   
                                                                                         </div>
                                                                                     </div>
                                                                                     <c:if test="${!mail.getAdvisorFile().equals('') && mail.getAdvisorFile().equals('')!= null}">
@@ -533,6 +535,9 @@
                                                                                 <c:param name="rId" value="${userRequest.getRequestId()}"/>
                                                                                 <c:param name="sId" value="${session.getSessionId()}"></c:param>
                                                                                 <c:param name="advisornoshow" value="true"></c:param>
+                                                                                <c:param name="isFree" value="${userRequest.getIsFree()}"/>
+									                                            <c:param name="aId" value="${userRequest.getAdvisorId()}"/>
+									                                            <c:param name="service" value="${userRequest.getService()}"/>
                                                                             </c:url>
                                                                             <a href="${myURL}" class="btn btn-info">SET SESSION CANCELLED DUE TO ADVISOR NO SHOW </a>
                                                                         </div>
@@ -541,6 +546,9 @@
                                                                                 <c:param name="rId" value="${userRequest.getRequestId()}"/>
                                                                                 <c:param name="sId" value="${session.getSessionId()}"></c:param>
                                                                                 <c:param name="usernoshow" value="true"></c:param>
+                                                                                <c:param name="isFree" value="${userRequest.getIsFree()}"/>
+				                                           						<c:param name="aId" value="${userRequest.getAdvisorId()}"/>
+				                                            					<c:param name="service" value="${userRequest.getService()}"/>
                                                                             </c:url>
                                                                             <a href="${myURL}" class="btn btn-info">SET SESSION CANCELLED DUE TO USER NO SHOW </a>
                                                                         </div>
@@ -559,6 +567,9 @@
                                                                                 <c:param name="rId" value="${userRequest.getRequestId()}"/>
                                                                                 <c:param name="sId" value="${session.getSessionId()}"></c:param>
                                                                                 <c:param name="advisorunavailabale" value="true"></c:param>
+                                                                                <c:param name="isFree" value="${userRequest.getIsFree()}"/>
+				                                           						<c:param name="aId" value="${userRequest.getAdvisorId()}"/>
+				                                            					<c:param name="service" value="${userRequest.getService()}"/>
                                                                             </c:url>
                                                                             <a href="${myURL}" class="btn btn-info">SET SESSION CANCELLED DUE TO ADVISOR UNAVAILABILITY </a>
                                                                         </div>
@@ -567,6 +578,9 @@
                                                                                 <c:param name="rId" value="${userRequest.getRequestId()}"/>
                                                                                 <c:param name="sId" value="${session.getSessionId()}"></c:param>
                                                                                 <c:param name="userunavailabale" value="true"></c:param>
+                                                                                <c:param name="isFree" value="${userRequest.getIsFree()}"/>
+				                                           						<c:param name="aId" value="${userRequest.getAdvisorId()}"/>
+				                                            					<c:param name="service" value="${userRequest.getService()}"/>
                                                                             </c:url>
                                                                             <a href="${myURL}" class="btn btn-info">SET SESSION CANCELLED DUE TO USER UNAVAILABILITY </a>
                                                                         </div>
@@ -602,7 +616,6 @@
     <script src="assets/js/plugins/metisMenu/metisMenu.min.js"></script>
 
     <!-- Custom Theme JavaScript -->
-    <script src="assets/js/sb-admin-2.js"></script>
 	<script src="assets/js/bootstrap-datetimepicker.min.js"></script>
     <script type="text/javascript">
     	function setImageSrc(){

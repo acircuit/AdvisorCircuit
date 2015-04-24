@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.AC.DAO.AdvisorMyAccountRequestViewDetailsDAO;
 import org.AC.DAO.ChangeRequestStatusDAO;
 import org.AC.DAO.ChangeSessionStatusDAO;
 import org.apache.log4j.BasicConfigurator;
@@ -70,6 +71,9 @@ public class AdminMyAccountUpcomingSessionViewDetailsFormController extends Http
 			String advisorUnavailable = request.getParameter("advisorunavailabale");
 			String userUnavailable = request.getParameter("userunavailabale");
 			String complete = request.getParameter("complete");
+			String isFree = request.getParameter("isFree");
+			 String aId = request.getParameter("aId");
+			 String service = request.getParameter("service");
 			String status = "";
 			String redirect = "";
 			Boolean isRequestStatusCommit =false;
@@ -99,6 +103,11 @@ public class AdminMyAccountUpcomingSessionViewDetailsFormController extends Http
 					isSessionStatusCommit = sessionStatus.setStatus(status, sId);
 				}
 				if(isSessionStatusCommit){
+					if(isFree != null && isFree.equals("true") && !redirect.equals("AdminPreviousSessions")){
+						//Decrement the free session count from the advisor services table
+						AdvisorMyAccountRequestViewDetailsDAO decrem = new AdvisorMyAccountRequestViewDetailsDAO();
+						decrem.DecrementFreeSession(Integer.parseInt(aId),service);
+					}
 					response.sendRedirect(redirect);
 				}
 				

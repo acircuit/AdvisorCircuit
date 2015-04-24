@@ -36,6 +36,7 @@
 	<%
 	Boolean isInvalidUsername= (Boolean)request.getAttribute("isInvalidUsername");
 	Boolean isInvalid= (Boolean)request.getAttribute("isInvalid");
+	Boolean isNotVerified= (Boolean)request.getAttribute("isNotVerified");
 	%>
 </head>
 <body>
@@ -62,27 +63,30 @@
                		<form id="forgot_password_form" class="form-horizontal" role="form" action="AdvisorRegistrationEmail" method="post">
                            <div class="form-group" id="demail">
                                 <div class="col-md-12">
-                                    <input type="email" id ="email" name="email" class="form-control" placeholder="Email Id" style="width:100%;">
+                                    <input type="email" id ="email" name="email" class="form-control" placeholder="Email Id" style="width:100%;" maxlength="125">
                                     <p class="required text-left" id="required_email">Field Required</p>
                                     <p class="required text-left" id="invalid_mail">Invalid Email</p>
                                 </div>
                            </div>
                            <div class="form-group" id="dsignup-password">
                                 <div class="col-md-12">
-                                    <input id="signup-password" type="password" class="form-control" name="passwd" placeholder="Password" style="width:100%;">
+                                    <input id="signup-password" type="password" class="form-control" name="passwd" placeholder="Password" style="width:100%;" maxlength="100">
                                     <p class="required text-left" id="required_pass">Field Required</p>
                                 </div>
                            </div>
                            <div class="form-group" id="dconfirm-password">
                                 <div class="col-md-12">
-                                    <input id="confirm-password" type="password" class="form-control" name="confirmpasswd" placeholder="Confirm Password" style="width:100%;">
+                                    <input id="confirm-password" type="password" class="form-control" name="confirmpasswd" placeholder="Confirm Password" style="width:100%;" maxlength="100">
                                     <p class="required text-left" id="required_confirm_pass">Field Required</p>
                                     <p class="required text-left" id="invalid_pass">Password does not match</p>
                                 </div>
                            </div>	
                            <c:if test="<%=isInvalid != null && isInvalid %>">
                                  <h5 style="color: #c84c4e">Looks like your email id already exists with us or your password is incorrect. </h5>
-                            </c:if>	
+                            </c:if>
+                             <c:if test="<%=isNotVerified != null && isNotVerified %>">
+                                 <h5 style="color: #c84c4e">We've sent you a verification link on your Email. Please verify your account to continue. </h5>
+                            </c:if>		
                                                        				
                            <div class="form-group">
                                <!-- Button -->                                        

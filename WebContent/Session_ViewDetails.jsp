@@ -3,6 +3,7 @@
 <%@page import="org.AC.dto.SessionDTO"%>
 <%@page import="org.AC.dto.UserDetailsDTO"%>
 <%@page import="org.AC.dto.SessionFeedBackDTO"%>
+<%@page import="org.AC.dto.FeedbackDTO"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
@@ -59,7 +60,7 @@
 		String uId = (String)request.getAttribute("uId");
 		String time = (String)request.getAttribute("time");
 		String date = (String)request.getAttribute("date");
-		String path = (String)request.getAttribute("path");
+		FeedbackDTO feed = (FeedbackDTO)request.getAttribute("feed");
 		SessionFeedBackDTO feedUser = (SessionFeedBackDTO)request.getAttribute("feedUser");
 		SessionFeedBackDTO feedAdvisor = (SessionFeedBackDTO)request.getAttribute("feedAdvisor");
 		SessionFeedBackDTO emailUser = (SessionFeedBackDTO)request.getAttribute("emailUser");
@@ -87,7 +88,7 @@
 		pageContext.setAttribute("emailAdvisor", emailAdvisor);
 		pageContext.setAttribute("fromCancelledSession", fromCancelledSession);
 		pageContext.setAttribute("fromPreviousSession", fromPreviousSession);
-		pageContext.setAttribute("path", path);
+		pageContext.setAttribute("feed	", feed);
 		pageContext.setAttribute("details", details);
 		if(feedAdvisor != null){
 			isRejectedFeedback = feedAdvisor.getAdvisorApproval();
@@ -148,7 +149,7 @@
                                 </div>
                             </div>
                             
-                            <h4>SCHEDULED FOR</h4>
+                            <h4>SCHEDULED FOR </h4>
                             <hr>	
                             
                             <div class="form-group">
@@ -158,7 +159,27 @@
                                     <tr><th>Time</td><td>:</td><td><%=time %></td></tr>
                                     <tr><th>Date</td><td>:</td><td><%=date %></td></tr>
                                     <c:if test="${!fromCancelledSession &&   !fromPreviousSession }">																																						
-                                    <tr><th>Duration (Hour)</th><td>:</td><td><c:out value="${request.getDuration()}"></c:out> </td></tr>													
+                                    <tr><th>Duration</th><td>:</td>
+                                    <td>
+											<c:choose>
+                                    		<c:when test="${request.getDuration().equals('0.5')}">
+                                        		30 mins                                    		
+                                    		</c:when>
+                                    		<c:when test="${request.getDuration().equals('0.75')}">
+                                        		45 mins                                    		
+                                    		</c:when>
+                                    		<c:when test="${request.getDuration().equals('1')}">
+                                        		1 hour                                   		
+                                    		</c:when>
+                                    		<c:when test="${request.getDuration().equals('1.5')}">
+                                        		1.5 hour                                  		
+                                    		</c:when>
+                                    		<c:otherwise>
+                                    			N/A	
+                                    		</c:otherwise>
+                                    	</c:choose>	
+
+									</td></tr>													
                                     <tr><th>Countdown</td><td>:</td><td><c:out value="${request.getDays()}"/> Day <c:out value="${request.getHours()}"/> Hour  <c:out value="${request.getMinutes()}"/> Minutes To Go</td></tr>
                                     </c:if>
                                 </table>
@@ -166,14 +187,37 @@
                                 
                             </div>
                             <hr>
-                            
                             <c:set var="rId" value="${request.getRequestId()}"></c:set>
                             <c:if test="${request.getService().equals('mockinterview') || request.getService().equals('cvcritique')}">
                             	<a href="DownloadFile?rid=${rId}" class="btn btn-info">CLICK TO DOWNLOAD <%=userName.toUpperCase() %>'s CV</a>
                             </c:if>
-                            
                             <c:if test="${request.getService().equals('mockinterview') || request.getService().equals('cvcritique')}">
-                                <div class="form-group">
+	                             <c:choose>
+	                            	<c:when test="${feed != null && feed.getApproved()}">
+	                            		<c:if test="<%=feed.getPath() != null && feed.getPath().length()>5%>">
+										<div class="form-group">
+											<label for="icode" class="col-md-2 control-label"></label>
+											<c:if test="${request.getService().equals('cvcritique')}">
+												<div class="col-md-10">
+													<h4>
+														<a href="DownloadFile?path=<%=feed.getPath()%>">Resume Critique
+															Feedback Form </a>
+													</h4>
+												</div>
+											</c:if>
+											<c:if test="${request.getService().equals('mockinterview')}">
+												<div class="col-md-10">
+													<h4>
+														<a href="DownloadFile?path=<%=feed.getPath()%>">Mock Interview
+															Feedback Form </a>
+													</h4>
+												</div>
+											</c:if>
+										</div>
+									</c:if>
+	                            	</c:when>
+	                            	<c:otherwise>
+	                            	      <div class="form-group">
                                     <c:if test="${request.getService().equals('cvcritique')}">
                                         <div class="col-md-5">
                                             <h4><a data-toggle="modal" data-target="#servicefeedback">Resume Critique  Feedback Form</a></br>                                        
@@ -184,13 +228,17 @@
                                             <h4><a data-toggle="modal" data-target="#servicefeedback">Mock Interview Feedback Form</a></br>
                                         </div>
                                     </c:if>
-                                    <div class="col-md-1">	
-                                        <button type="button" class="btn btn-default" data-container="body" data-toggle="popover" data-placement="right" data-content="Please download the form, enter your feedback and upload the same when it is completed." data-trigger="focus">
-                                        <small><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span></small> </button>   
-                                    </div>
+	                                    <div class="col-md-1">	
+	                                        <button type="button" class="btn btn-default" data-container="body" data-toggle="popover" data-placement="right" data-content="Please download the form, enter your feedback and upload the same when it is completed." data-trigger="focus">
+	                                        <small><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span></small> </button>   
+	                                    </div>
                                     <div id="messagewordfile" style="float: right" class="col-md-9"></div>													
-                                </div>
+                               	 </div>
+	                            	
+	                            	</c:otherwise>
+	                            </c:choose>
                             </c:if>
+
                             <div class="modal fade" id="servicefeedback" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                                 <div class="modal-dialog modal-lg">
                                     <div class="modal-content">
@@ -306,7 +354,7 @@
                             <div style="height:10px"></div>
                             
                             <c:if test="${(!fromCancelledSession)}">
-                            	<div class="text-right">
+                            	<div class="text-center">
                                 	<c:choose>
 	                          		<c:when test="${fromPreviousSession}">
                                 			<a data-toggle="modal" data-target="#messageuser" onclick="getmessages()" class="btn btn-career">View Chat</a>
@@ -684,64 +732,7 @@
 					</div>
 				</div>
 			</div>
-			
-
-
-								<script type="text/javascript">
-								
-									function initFileSelectionDialogue(){
-										$('#uploadFileViaMsgModal').click();
-									}
-									
-									$('#uploadFileViaMsgModal').change(function () {
-										
-										if($("#uploadFileViaMsgModal").val()){
-											if($("#uploadFileViaMsgModal").val().trim().length > 0){
-												var confirmUpload = confirm("Are you sure you want to upload attached file ?");		
-												
-												if(confirmUpload){
-													uploadFileViaAjax();
-												}else{
-													$("#uploadFileViaMsgModal").val("");
-												}											
-											}
-										}
-									});
-									
-									
-									function uploadFileViaAjax() {
-										var file = document.getElementById("uploadFileViaMsgModal");
-										if (file.value == "") {
-											alert("Please upload a valid file");
-										} else if (document.getElementById('uploadFileViaMsgModal').files[0] && $('#uploadFileViaMsgModal')[0].files[0].size > 2621440) {
-											alert("Please upload a file less than 2.5 MB");
-										}else{
-											var formData = new FormData();
-											formData.append("myFile", document.getElementById("uploadFileViaMsgModal").files[0]);
-											formData.append("sId", $("#sId").val());
-											formData.append("fromUser", false);
-											formData.append("purpose", "File uploaded via msg modal.");
-
-											var xhr = new XMLHttpRequest();
-											xhr.open("POST", "SessionFiles");
-											xhr.send(formData);
-											xhr.onreadystatechange = function() {
-												if (xhr.readyState == 4 && xhr.status == 200) {
-													console.log("file uploaded successfully.");
-													getmessages();
-
-												//	document.getElementById("response").innerHTML = xhr.responseText;
-												//	getFiles();
-												}
-											}
-										}
-									}
-								</script>			
-			
-			
-			
-            
-				<div class="modal fade" id="uploadfile" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal fade" id="uploadfile" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 				<div class="modal-dialog modal-lg">
 					<div class="modal-content" style="background-color:#E5E5E5">
 						<div class="modal-header">
@@ -821,6 +812,56 @@
       $(function () { $('.popover-toggle').popover('toggle');});
      $(function () { $(".popover-options a").popover({html : true });});
    </script>
+   <script type="text/javascript">
+								
+									function initFileSelectionDialogue(){
+										$('#uploadFileViaMsgModal').click();
+									}
+									
+									$('#uploadFileViaMsgModal').change(function () {
+										
+										if($("#uploadFileViaMsgModal").val()){
+											if($("#uploadFileViaMsgModal").val().trim().length > 0){
+												var confirmUpload = confirm("Are you sure you want to upload attached file ?");		
+												
+												if(confirmUpload){
+													uploadFileViaAjax();
+												}else{
+													$("#uploadFileViaMsgModal").val("");
+												}											
+											}
+										}
+									});
+									
+									
+									function uploadFileViaAjax() {
+										var file = document.getElementById("uploadFileViaMsgModal");
+										if (file.value == "") {
+											alert("Please upload a valid file");
+										} else if (document.getElementById('uploadFileViaMsgModal').files[0] && $('#uploadFileViaMsgModal')[0].files[0].size > 2621440) {
+											alert("Please upload a file less than 2.5 MB");
+										}else{
+											var formData = new FormData();
+											formData.append("myFile", document.getElementById("uploadFileViaMsgModal").files[0]);
+											formData.append("sId", $("#sId").val());
+											formData.append("fromUser", false);
+											formData.append("purpose", "File uploaded via msg modal.");
+
+											var xhr = new XMLHttpRequest();
+											xhr.open("POST", "SessionFiles");
+											xhr.send(formData);
+											xhr.onreadystatechange = function() {
+												if (xhr.readyState == 4 && xhr.status == 200) {
+													console.log("file uploaded successfully.");
+													getmessages();
+
+												//	document.getElementById("response").innerHTML = xhr.responseText;
+												//	getFiles();
+												}
+											}
+										}
+									}
+								</script>			
 	<script type="text/javascript">
 	  function checkkey(event){
 	      if (!event) event = event || window.event;
@@ -916,6 +957,7 @@
 	
 	  function sendfeedback(){
 		  var isError = false;
+		  var filename = $("#attachFile").val();
 		  if($("#advisorsubject").val() == ""){
 	    		 alert("Please Enter Subject");
 	    		 event.preventDefault();
@@ -929,6 +971,8 @@
 	    		 event.preventDefault();
 	    		 isError = true;
 	    	 }
+		  var body = $("#advisorbody").val();
+		  var subject = $("#advisorsubject").val();
 		  if(!isError){
 			  var formData = new FormData();
 			  formData.append("myFile", document.getElementById("attachFile").files[0]);
@@ -948,15 +992,16 @@
 			    }
 			  }
 			  var input = document.getElementById("advisorbody");
-			  input.value = "";
+			  input.value = body;
 			  var input1 = document.getElementById("attachFile");
-			  input1.value = "";
+			  input1.value = filename;
 			  var input2 = document.getElementById("advisorsubject");
-			  input2.value = "";
+			  input2.value = subject;
 		  }
 	  }
 	  function sendemail(){
 		  var isError = false;
+		  var filename = $("#attachFileemail").val();
 		  if($("#advisorsubjectemail").val() == ""){
 	    		 alert("Please Enter Subject");
 	    		 event.preventDefault();
@@ -970,6 +1015,8 @@
 	    		 event.preventDefault();
 	    		 isError = true;
 	    	 }
+		  var body = $("#advisorbodyemail").val();
+		  var subject = $("#advisorsubjectemail").val();
 		  if(!isError){
 			  var formData = new FormData();
 			  formData.append("myFile", document.getElementById("attachFileemail").files[0]);
@@ -990,11 +1037,11 @@
 			    }
 			  }
 			  var input = document.getElementById("advisorbodyemail");
-			  input.value = "";
+			  input.value = body;
 			  var input1 = document.getElementById("attachFileemail");
-			  input1.value = "";
+			  input1.value = filename;
 			  var input2 = document.getElementById("advisorsubjectemail");
-			  input2.value = "";
+			  input2.value = subject;
 		  }
 	  }
 	  function SubmitFeedBackForm(elem,event){

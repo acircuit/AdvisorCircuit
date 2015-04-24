@@ -197,4 +197,47 @@ public Boolean setNewDates(int sId, String newDate1,String newDate2,String newDa
 
 		return isNewDatesCommit;
 	}
+
+	public Boolean DecrementFreeSession(int advisorId,String service){
+		logger.info("Entered DecrementFreeSession method of AdvisorMyAccountRequestViewDetailsDAO");
+		String status = "Services.jsp"; 
+		Boolean isCommit = false;
+		try {
+			conn =ConnectionFactory.getConnection();
+			conn.setAutoCommit(false);
+			String query = "UPDATE advisorservices SET ISFREE = ISFREE+1 WHERE ADVISOR_ID = ? AND SERVICE = ?";
+			PreparedStatement pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, advisorId);
+			pstmt.setString(2, service);
+			int result = pstmt.executeUpdate(); 
+			if(result >0) {
+				conn.commit();
+				isCommit = true;
+			}
+		} catch (SQLException e) {
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				logger.error("DecrementFreeSession method of AdvisorMyAccountRequestViewDetailsDAO threw error:"+e.getMessage());
+				e1.printStackTrace();
+			}	
+			logger.error("DecrementFreeSession method of AdvisorMyAccountRequestViewDetailsDAO threw error:"+e.getMessage());
+			e.printStackTrace();
+		} catch (IOException e) {
+			logger.error("DecrementFreeSession method of AdvisorMyAccountRequestViewDetailsDAO threw error:"+e.getMessage());
+			e.printStackTrace();
+		} catch (PropertyVetoException e) {
+			logger.error("DecrementFreeSession method of AdvisorMyAccountRequestViewDetailsDAO threw error:"+e.getMessage());
+			e.printStackTrace();
+		}finally{
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				logger.error("DecrementFreeSession method of AdvisorMyAccountRequestViewDetailsDAO threw error:"+e.getMessage());
+				e.printStackTrace();
+			}
+		}		
+		logger.info("Entered DecrementFreeSession method of AdvisorMyAccountRequestViewDetailsDAO");
+		return isCommit;
+	}
 }

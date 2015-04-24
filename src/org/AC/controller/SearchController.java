@@ -111,10 +111,14 @@ public class SearchController extends HttpServlet {
 						professionalBackgroundDTO.setDesignation(professionalBackgroundDTO.getDesignation().substring(0, 18));
 					}
 				}*/
+				List<String> industries = new ArrayList<String>();
+				SearchDAO industry = new SearchDAO();
+				industries =industry.GetIndustries();
 				request.setAttribute("ids", ids);
 				request.setAttribute("advisorProfile", advisorProfile);
 				request.setAttribute("advisorService", advisorService);
 				request.setAttribute("profession", profession);
+				request.setAttribute("industries", industries);
 				RequestDispatcher rd = getServletContext().getRequestDispatcher("/AdvisorLandingPage.jsp");
 		        rd.forward(request, response);
 				

@@ -33,11 +33,12 @@
 	List<AdvisorProfileDTO> advisors= (List<AdvisorProfileDTO>)request.getAttribute("advisorProfile");
 		List<AdvisorServiceDTO> advisorskill= (List<AdvisorServiceDTO>)request.getAttribute("advisorService");
 		List<ProfessionalBackgroundDTO> professions= (List<ProfessionalBackgroundDTO>)request.getAttribute("profession");
+		List<String> industries= (List<String>)request.getAttribute("industries");
 		String ids =(String)request.getAttribute("ids");		
 		pageContext.setAttribute("advisors", advisors);
 		pageContext.setAttribute("advisorservice", advisorskill);
 		pageContext.setAttribute("professions", professions);
-		
+		pageContext.setAttribute("industries", industries);
 		String service = request.getParameter("service");
 		String searchWord = request.getParameter("search");
 		pageContext.setAttribute("service", service);
@@ -303,8 +304,8 @@
 											style="display: inline; float: left; margin-right: 30px; font-family: 'custom_light' !important; color: #555"><input
 											type="radio" name="webchat" id="optionsRadiowebchat2"
 											value="2" />2</li>
-										<li
-											style="display: inline; float: left; margin-right: 30px; font-family: 'custom_light' !important; color: #555"><input
+										<li style="display: inline; float: left; margin-right: 30px; font-family: 'custom_light' !important; color: #555">
+										<input
 											type="radio" name="webchat" id="optionsRadiowebchat3"
 											value="3" />3</li>
 									</div>
@@ -379,6 +380,7 @@
 
 					<div class="row">
 						<div class="col-md-12 pull-right text-right">
+
 							<ul class="pagination">
 								<li id="PageList"></li>
 							</ul>
@@ -394,38 +396,13 @@
 							<a class="selectServices" href="#">Select Filter</a>
 							<div id="sidebar-wrapper">
 								<h4>Industries</h4>
-								<ul class="sidebar-nav list-unstyled">
-									<li><label class="filter_lab"> <input
-											id="IndustryTeaching" onchange="CreateFilterParameter(this)"
-											type="checkbox" style="width: 25px;">Teaching
+								<ul class="sidebar-nav list-unstyled industry">
+									<c:forEach var="industry" items="${industries}">
+										<li><label class="filter_lab"> <input
+											id="Industry${industry}" onchange="CreateFilterParameter(this)"
+											type="checkbox" style="width: 25px;">${industry}
 									</label></li>
-									<li><label class="filter_lab"> <input
-											id="IndustryArchitecture"
-											onchange="CreateFilterParameter(this)" type="checkbox"
-											style="width: 25px;">Architecture
-									</label></li>
-									<li><label class="filter_lab"> <input
-											id="IndustryTV" onchange="CreateFilterParameter(this)"
-											type="checkbox" style="width: 25px;">TV, Media & Film
-									</label></li>
-									<li><label class="filter_lab"> <input
-											id="IndustryLaw" onchange="CreateFilterParameter(this)"
-											type="checkbox" style="width: 25px;">Law
-									</label></li>
-									<li><label class="filter_lab"> <input
-											id="IndustryManagementConsulting"
-											onchange="CreateFilterParameter(this)" type="checkbox"
-											style="width: 25px;">Management Consulting
-									</label></li>
-									<li><label class="filter_lab"> <input
-											id="IndustryMedicine" onchange="CreateFilterParameter(this)"
-											type="checkbox" style="width: 25px;">Medicine
-									</label></li>
-									<li><label class="filter_lab"> <input
-											id="IndustryLanguageLearning"
-											onchange="CreateFilterParameter(this)" type="checkbox"
-											style="width: 25px;">Language Learning
-									</label></li>
+									</c:forEach>
 								</ul>
 
 								<h4>Services</h4>
@@ -628,7 +605,7 @@
 										</c:when>
 										<c:otherwise>
 											<h4 style="font-style: solid">
-												<c:out value="Sorry there are no advisors that match your search. Please try a different keyword or click here to view all our advisors."></c:out>
+												<p>Sorry there are no advisors that match your search. Please try a different keyword or <a href = "Advisors?service=all">click here</a> to view all our advisors.</p>
 											</h4>
 										</c:otherwise>
 									</c:choose>
@@ -690,7 +667,6 @@
 	<script src="https://code.jquery.com/jquery-1.11.0.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 	<script src="assets/js/bootstrap-slider.js"></script>
-	<script src="assets/js/list.min.js"></script>
 	<script src="assets/js/DoublePagination.js"></script>
 	<!-- Menu Toggle Script -->
 	<script>
@@ -721,7 +697,7 @@
    </script>
 	<script type="text/javascript">
 	
-    if(${services == "CarrerTalk"}){
+    if(${services == "CareerTalk"}){
         document.getElementById("Servicecareertalk").checked = true;
     }else if(${services == "PersonalWorkshop"}){
         document.getElementById("Servicepersonalworkshops").checked = true;
@@ -750,6 +726,7 @@
     //var ids= "";
     var id = "${ids}";
     function CreateFilterParameter(e){
+    	debugger;
     	var val = e.id;
     	var flag = true;
     	var checkbox = document.getElementById(val);
@@ -777,11 +754,10 @@
 	     	    success : function(response) {
 	     	    	var responses = response.split(":::");
 	     	    	//ids = responses[1];
-	     	    	$('#PageList2').html("");
 	     	    	$('#PageList').html("");
+	     	    	$('#PageList2').html("");
 	     	       	$('#gallary').html(responses[0]);// create an empty div in your page with some id
 	     	      	$("#gallary").Pagination();
-	     	      	$("#gallary").Pagination2();
 	     	    },
 	     	    error : function(request, textStatus, errorThrown) {
 	     	        alert(errorThrown);
@@ -793,14 +769,11 @@
 
     $(document).ready(function() {
         $("#gallary").Pagination();
-        $("#gallary").Pagination2();
-        
 		$(".selectServices").click(function(e) {
 			e.preventDefault();
 			$("#sidebar-wrapper").slideToggle();
 		});
 		$("#submit_btn").click(function(event){
-			debugger;
         	var ajax = true;
         	var indus = $("#industry").val();
         	
@@ -839,13 +812,6 @@
 				alert("Invalid Email");
 				event.preventDefault();
 				ajax = false;
-			}else if(input_p=='')
-			{	
-				 if (!is_phone){
-					alert("Please Enter a Valid Phone Number");
-					event.preventDefault();
-					ajax = false;
-				}
 			}else if($("#occupation").val() == ""){
 				alert("Please Enter Your Occupation");
 				event.preventDefault();
@@ -887,6 +853,14 @@
 					}
 					i++;
 				}
+				 if(input_p !='')
+					{	
+						 if (!is_phone){
+							alert("Please Enter a Valid Phone Number");
+							event.preventDefault();
+							ajax = false;
+						}
+					}
 			}
 			if(ajax){
 				var name=$("#name").val();
@@ -942,6 +916,7 @@
 			}
         });
     });
+  
   </script>
 	<script type="text/javascript">
 		var _urq = _urq || [];

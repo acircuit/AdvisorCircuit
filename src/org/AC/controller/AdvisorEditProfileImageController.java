@@ -7,6 +7,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.Properties;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
@@ -46,8 +47,11 @@ public class AdvisorEditProfileImageController extends HttpServlet {
 			GetRelativeImageURL relImage = new GetRelativeImageURL();
 			path = relImage.getImageURL(path);
 		}
+		System.out.println(path); 
 		request.setAttribute("edit",true);
 		request.setAttribute("path",path);
+		RequestDispatcher rd = getServletContext().getRequestDispatcher("/Image.jsp");
+        rd.forward(request, response);
 		logger.info("Exit doGet method of AdvisorEditProfileServicesController");
 	}
 	/**

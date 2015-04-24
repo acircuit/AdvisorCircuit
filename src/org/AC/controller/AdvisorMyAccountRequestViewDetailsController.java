@@ -97,10 +97,28 @@ public class AdvisorMyAccountRequestViewDetailsController extends HttpServlet {
 					userRequestDTO.setTimeString2(new SimpleDateFormat("dd-MMM-yyyy' 'h:mm a").format(new Date(userRequestDTO.getTime2().getTime())));
 					userRequestDTO.setTimeString3(new SimpleDateFormat("dd-MMM-yyyy' 'h:mm a").format(new Date(userRequestDTO.getTime3().getTime())));
 					userRequestDTO.setTimeString4(new SimpleDateFormat("dd-MMM-yyyy' 'h:mm a").format(new Date(userRequestDTO.getTime4().getTime())));
-					userRequestDTO.setTimeString5(new SimpleDateFormat("dd-MMM-yyyy' 'h:mm a").format(new Date(userRequestDTO.getTime5().getTime())));
-					userRequestDTO.setTimeString6(new SimpleDateFormat("dd-MMM-yyyy' 'h:mm a").format(new Date(userRequestDTO.getTime6().getTime())));
 				}else{
 					userRequestDTO.setTimeString1(new SimpleDateFormat("dd-MMM-yyyy").format(new Date(userRequestDTO.getTime1().getTime())));
+				}
+				if(userRequestDTO.getIsFree() != null && userRequestDTO.getIsFree()){
+					if(userRequestDTO.getDuration().equals("0.5")){
+					     userRequestDTO.setAmount(0);
+					}else if (userRequestDTO.getDuration().equals("0.75")) {
+						int advisorPayment =  (int)Math.ceil(((userRequestDTO.getPrice() * 100)/(390)));
+						userRequestDTO.setAmount(advisorPayment);
+					}else if (userRequestDTO.getDuration().equals("1")) {
+						int advisorPayment =  (int)Math.ceil(((userRequestDTO.getPrice() * 100)/(260)));
+						userRequestDTO.setAmount(advisorPayment);
+					}else if (userRequestDTO.getDuration().equals("1.5")) {
+						int advisorPayment =  (int)Math.ceil(((userRequestDTO.getPrice() * 200)/(390)));
+						userRequestDTO.setAmount(advisorPayment);
+					}else{
+						userRequestDTO.setAmount(0);
+					}
+				}else{
+					 
+					int advisorPayment =  (int)Math.ceil(((userRequestDTO.getPrice() * 100)/(130)));
+					userRequestDTO.setAmount(advisorPayment);
 				}
 			}
 	

@@ -156,7 +156,7 @@
 		<input type="hidden" name="aId" id="aId" value="<%=advisorId%>">
         
       	<div class="profile-services text-center">
-        	<h1>${advisor.getName()} available for the following services</h1>
+        	<h1>${advisor.getName()} is available for the following services</h1>
         </div>
         
         <div class="row other-service">

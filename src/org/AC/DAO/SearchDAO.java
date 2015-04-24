@@ -14,6 +14,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 
 import org.AC.JDBC.ConnectionFactory;
@@ -155,7 +157,7 @@ public class SearchDAO {
 		}	
 
 		
-		logger.info("Exit getUserDetails method of SearchDAO");
+		logger.info("Exit getAdvisorService method of SearchDAO");
 		return list;
 	}
 	
@@ -413,6 +415,55 @@ public class SearchDAO {
 			return list;
 	}
 	
+	
+	public List<String> GetIndustries(){
+		logger.info("Entered GetIndustries method of SearchDAO");
+			PreparedStatement pstmt;
+	    	List<String> industries = new ArrayList<String>();
+
+			try {						HashSet hs = new HashSet();
+
+					conn =ConnectionFactory.getConnection();
+					conn.setAutoCommit(false);
+					String query ="SELECT INDUSTRY FROM advisordetails WHERE ISACTIVE = ? AND ISVISIBLE=? AND ISVERIFIED=?";
+					pstmt = conn.prepareStatement(query);
+					pstmt.setBoolean(1, true);
+					pstmt.setBoolean(2, true);
+					pstmt.setBoolean(3, true);
+				    ResultSet results = pstmt.executeQuery();
+				    while(results.next()){
+				    	//removi
+						hs.add(results.getString("INDUSTRY"));
+						
+				    }
+				    industries.clear();
+					industries.addAll(hs);
+			} catch (SQLException e) {
+				try {
+					conn.rollback();
+				} catch (SQLException e1) {
+					logger.error("GetIndustries method of SearchDAO threw error:"+e1.getMessage());
+					e1.printStackTrace();
+				}
+				logger.error("GetIndustries method of SearchDAO threw error:"+e.getMessage());
+				e.printStackTrace();
+			} catch (IOException e) {
+				logger.error("GetIndustries method of SearchDAO threw error:"+e.getMessage());
+				e.printStackTrace();
+			} catch (PropertyVetoException e) {
+				logger.error("GetIndustries method of SearchDAO threw error:"+e.getMessage());
+				e.printStackTrace();
+			}finally{
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					logger.error("GetIndustries method of SearchDAO threw error:"+e.getMessage());
+					e.printStackTrace();
+				}
+			}	
+			logger.info("Exit GetIndustries method of SearchDAO");
+			return industries;
+	}
 	private String generateQsForIn(int numQs) {
 	    String items = "";
 	    for (int i = 0; i < numQs; i++) {

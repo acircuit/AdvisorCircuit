@@ -11,8 +11,11 @@
 </head>
 <body>
 	<%
-	 String accessCode= "AVUQ04CC64AF66QUFA";		//Put in the Access Code in quotes provided by CCAVENUES.
-	 String workingKey = "18F62D2A438A259C8D85C9DB06C73485";
+	 Properties prop1 = new Properties();
+     InputStream resourceAsStream1 = Thread.currentThread().getContextClassLoader().getResourceAsStream("Resources/Path.properties");
+     prop1.load(resourceAsStream1);
+	 String accessCode= prop1.getProperty("ACCESS_CODE");		//Put in the Access Code in quotes provided by CCAVENUES.
+	 String workingKey = prop1.getProperty("WORKING_KEY");
 	 int merchant_id = 60380; 
 	 //Put in the 32 Bit Working Key provided by CCAVENUES.  
 	 Enumeration enumeration=request.getParameterNames();
@@ -25,11 +28,11 @@
 	      pvalue = request.getParameter(pname);
 	      ccaRequest = ccaRequest + pname + "=" + pvalue + "&";
 	 }
-     out.println(ccaRequest);
+
 	 AesCryptUtil aesUtil=new AesCryptUtil(workingKey);
 	 String encRequest = aesUtil.encrypt(ccaRequest);
 	%>
-	<form id="nonseamless" method="post" name="redirect" action="https://test.ccavenue.com/transaction/transaction.do?command=initiateTransaction"/> 
+	<form id="nonseamless" method="post" name="redirect" action="https://secure.ccavenue.com/transaction/transaction.do?command=initiateTransaction"/> 
 		<input type="hidden" id="encRequest" name="encRequest" value="<%= encRequest %>">
 		<input type="hidden" name="access_code" id="access_code" value="<%= accessCode %>">
 		<input type="hidden" name="redirect_url" id="redirect_url" value="http://192.168.2.49:8081/MCPG_JSP_KIT_2/ccavResponseHandler.jsp">

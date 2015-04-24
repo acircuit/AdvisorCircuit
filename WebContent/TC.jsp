@@ -158,7 +158,7 @@
                     <h3>Suggestions and Complaints</h3>
                     <p>We at AdvisorCircuit.com would be more than happy to receive your suggestions on how to improve our service as 
 					well as to cater to your complaints. We want to make sure that nothing comes in between you and a fruitful session. 
-					For any such suggestions or complaints please email us at <a href="mailto:contactus@advisorcircuit.com">contactus@advisorcircuit.com</a> and we will get back to you in no time!</p>
+					For any such suggestions or complaints please email us at contactus@advisorcircuit.com and we will get back to you in no time!</p>
                 </div>
                 <!-- Customer T&Cs End -->
                 
@@ -303,7 +303,7 @@ The Advisor profile would accordingly be edited to inform potential customers th
                     <p>From time to time Advisor Circuit may produce advertising material for publication detailing the Advisor Circuit Facility and particular Advisors. This material may include a particular Advisor's full name, location, image(s) and job title/business name in conjunction with Advisor Circuit marketing materials, including www.advisorcircuit.com. Advisor hereby permits the use of such information as is reasonably necessary for these purposes and consents to the publication of relevant text and images in Advisor Circuit's materials and publicity. </p>
                     <p>If Advisor fails to comply with the any of the above sections, Advisor Circuit may terminate the Advisor Agreement immediately without prior notice and withhold any payments due to such advisor. </p>
                     <h3>Suggestions and Complaints </h3>
-                    <p>We at AdvisorCircuit.com would be more than happy to receive your suggestions on how to improve our service as well as to cater to your complaints. We want to make sure that nothing comes in between you and a fruitful session. For any such suggestions or complaints please email us at <a href="mailto:contactus@advisorcircuit.com">contactus@advisorcircuit.com</a> and we will get back to you in no time! </p>
+                    <p>We at AdvisorCircuit.com would be more than happy to receive your suggestions on how to improve our service as well as to cater to your complaints. We want to make sure that nothing comes in between you and a fruitful session. For any such suggestions or complaints please email us at contactus@advisorcircuit.com and we will get back to you in no time! </p>
                 </div>
                 <!-- Advisor T&Cs End -->
             </fmt:bundle>

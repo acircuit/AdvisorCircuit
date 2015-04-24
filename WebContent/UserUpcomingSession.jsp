@@ -17,7 +17,7 @@
 	<fmt:bundle basename="Resources.Dependency" prefix="path.">
   		 <link rel="shortcut icon" href=<fmt:message key="shortcuticon"/>>	
   	</fmt:bundle>
-    <title>Upcoming Sessions</title>  		 
+    <title>Current Sessions</title>  		 
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
@@ -61,7 +61,7 @@
         	<div class="col-md-3">&nbsp;</div>
             <div class="col-md-9">
             	<h4></h4>
-            	<h1 class="page-header">Upcoming Sessions</h1>
+            	<h1 class="page-header">Current Sessions</h1>
             </div>
         </div>
         
@@ -88,7 +88,7 @@
                                     <div class="user-detail">
                                         <input type="hidden" name="rId" value="request.getRequestId()">
                                         <h1><c:out value="SESSION WITH ${advisor.getName()}"/></h1>
-                                        
+                                        <input type="hidden" id="advisorname" value="${advisor.getName()}">
                                         <c:if test="${request.getService().equals('careertalk')}">
                                             <h3 class="text-career">Career Talk</h3>
                                         </c:if>
@@ -213,7 +213,7 @@
 					</c:forEach> 
 				</c:when>
                 <c:otherwise>
-                    <c:out value="YOU HAVE NO UPCOMING SESSIONS"></c:out>
+                    <c:out value="YOU HAVE NO CURRENT SESSIONS"></c:out>
                 </c:otherwise>
                 </c:choose>
 					
@@ -281,7 +281,7 @@
 		if($("#reviewmessage"+sId).val() !=  ""){
 			$.ajax({
                 url : 'Recommend', // Your Servlet mapping or JSP(not suggested)
-                data : {"sId" : sId,"review":"true","reviewmessage": $("#reviewmessage"+sId).val()},
+                data : {"sId" : sId,"review":"true","reviewmessage": $("#reviewmessage"+sId).val(),"advisorname" : $("#advisorname").val()},
                 type : 'POST',
                 dataType : 'html', // Returns HTML as plain text; included script tags are evaluated when inserted in the DOM.
                 success : function(response) {

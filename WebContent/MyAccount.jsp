@@ -79,11 +79,10 @@
                     </div>
                     
                     <div class="grey-panel-1">
-                    	<div class="edit text-right"><a href="GeneralInfoEdit"><img width="35" id="" src="assets/img/Icon_Edit.png" alt="32321" border="0" align="absmiddle" style="margin-right:10px;"> Edit</a></div>
                         <div class="row">
                         	<div class="col-md-9">
                             <div class="account-info">
-                            	<dl>
+                            	<dl> 
                                 	<dt>Name</dt>
                                     <dd>${advisor.getName()}</dd>
                                 </dl>
@@ -108,18 +107,23 @@
                                     <dd>${advisor.getState()}</dd>
                                 </dl>
                                  <dl>
-                                	<dt>Nationality</dt>
-                                    <dd>${advisor.getNationalty()}</dd>
-                                </dl>
-                                 <dl>
                                 	<dt>Industry</dt>
-                                    <dd>${advisor.getIndustry()}</dd>
+                                    <dd>${advisor.getIndustry()}
+                                    </dd>
                                 </dl>
+                                
                             </div>
+                            
                             </div>
                             <div class="col-md-3">
                             	<img id="" src="${advisor.getImage()}" alt="${advisor.getName()}" border="0" width="110">
                             </div>
+   
+                            <div class="col-md-3">
+                            	   <div style="margin-top: 100%"> <a href="AdvisorProfile?aId=${advisor.getAdvisorId()}&advisor=true"><img width="35" id="" src="assets/img/Icon_Edit.png" alt="32321" border="0" align="absmiddle" style="margin-right:10px;"> View Profile	</a></div>
+                            </div>
+                                                                               
+                            
                         </div>
                     </div>
             

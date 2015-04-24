@@ -264,7 +264,7 @@ public class AdvisorProfileDTO implements Comparable<AdvisorProfileDTO> {
 	}
 	@Override
 	public int compareTo(AdvisorProfileDTO obj) {
-		return obj.getPageRank() - this.getPageRank();
+		return  this.getPageRank() - obj.getPageRank();
 	}
 	
 	

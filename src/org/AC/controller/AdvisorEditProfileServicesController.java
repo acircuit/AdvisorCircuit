@@ -93,23 +93,30 @@ public class AdvisorEditProfileServicesController extends HttpServlet {
 		String personalWorkshopPricePhone = "";
 		String personalWorkshopPriceEmail = "";
 		String personalWorkshopPriceWebchat = "";
-		String resumecritiquefreecheckbox = request.getParameter("resumecritiquefreecheckbox");
-		String mockinterviewfreecheckbox = request.getParameter("mockinterviewfreecheckbox");
-		String careertalkfreecheckbox = request.getParameter("careertalkfreecheckbox");
-		Boolean isFreeCareerTalk = false;
-		Boolean isFreeMockInterview = false;
-		Boolean isFreeResumeCritique= false;
-		if(careertalkfreecheckbox != null && ("true").equals(careertalkfreecheckbox)){
-			isFreeCareerTalk = true;
-		}
-		if(mockinterviewfreecheckbox != null && ("true").equals(mockinterviewfreecheckbox)){
-			isFreeMockInterview = true;
-		}
-		if(resumecritiquefreecheckbox != null && ("true").equals(resumecritiquefreecheckbox)){
-			isFreeResumeCritique = true;
-		}
+		String isFreeCareerTalk = request.getParameter("isfreecareertalk");
+		String isFreeMockInterview = request.getParameter("isfreemockinterview");
+		String isFreeResumeCritique = request.getParameter("isfreeresumecritique");
+		int isCareerTalkDiscount =0;
+		int isMockInterviewDiscount =0;
+		int isResumeCritiqueDiscount =0;
+
 		Boolean isServiceCommit = false;
 		if(advisorId !=0){
+		// Fetching the Discount details
+		List<AdvisorServiceDTO> ser = new ArrayList<AdvisorServiceDTO>();
+		AdvisorRegistrationDAO discount = new AdvisorRegistrationDAO();
+		ser =  discount.GetServicesDiscount(advisorId);
+		for (AdvisorServiceDTO advisorServiceDTO : ser) {
+			if(advisorServiceDTO.getService().equals("careertalk")){
+				isCareerTalkDiscount = advisorServiceDTO.getDiscount();
+			}
+			if(advisorServiceDTO.getService().equals("mockinterview")){
+				isMockInterviewDiscount = advisorServiceDTO.getDiscount();
+			}
+			if(advisorServiceDTO.getService().equals("cvcritique")){
+				isResumeCritiqueDiscount = advisorServiceDTO.getDiscount();
+			}
+		}
 		//Deleting the advisor services
 			AdvisorRegistrationDAO deleteService = new AdvisorRegistrationDAO();
 			deleteService.DeleteServices(advisorId);
@@ -179,7 +186,7 @@ public class AdvisorEditProfileServicesController extends HttpServlet {
 			for (String service : services) {
 				if(service.equals("careertalk")){
 					AdvisorRegistrationDAO dao = new AdvisorRegistrationDAO();
-					isServiceCommit = dao.setAdvisorServiceDetails("careertalk", advisorId , careerTalkDescription, isFreeCareerTalk );
+					isServiceCommit = dao.setAdvisorServiceDetails("careertalk", advisorId , careerTalkDescription, isFreeCareerTalk ,isCareerTalkDiscount);
 					if( isServiceCommit && careerTalkMode.length > 0){
 						for (String mode : careerTalkMode) {
 							if (mode.equals("phone")){
@@ -193,7 +200,7 @@ public class AdvisorEditProfileServicesController extends HttpServlet {
 					}
 				}else if (service.equals("mockinterview")) {
 					AdvisorRegistrationDAO dao = new AdvisorRegistrationDAO();
-					isServiceCommit = dao.setAdvisorServiceDetails("mockinterview", advisorId , mockInterviewDescription,isFreeMockInterview);
+					isServiceCommit = dao.setAdvisorServiceDetails("mockinterview", advisorId , mockInterviewDescription,isFreeMockInterview,isMockInterviewDiscount);
 					if(isServiceCommit && mockInterviewMode.length > 0){
 						for (String mode : mockInterviewMode) {
 							if (mode.equals("phone")){
@@ -207,7 +214,7 @@ public class AdvisorEditProfileServicesController extends HttpServlet {
 					}
 				}else if (service.equals("cvcritique")) {
 					AdvisorRegistrationDAO dao = new AdvisorRegistrationDAO();
-					isServiceCommit = dao.setAdvisorServiceDetails("cvcritique", advisorId , cvCritiqueDescription, isFreeResumeCritique );
+					isServiceCommit = dao.setAdvisorServiceDetails("cvcritique", advisorId , cvCritiqueDescription, isFreeResumeCritique ,isResumeCritiqueDiscount);
 					if(isServiceCommit && cvCritiqueMode.length > 0){
 						for (String mode : cvCritiqueMode) {
 							if (mode.equals("phone")){

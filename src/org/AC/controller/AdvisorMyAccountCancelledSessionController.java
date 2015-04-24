@@ -115,7 +115,7 @@ public class AdvisorMyAccountCancelledSessionController extends HttpServlet {
 				}
 				if(counter == 0){
 					list3.add(userRequestDTO);
-					userIds.add(userRequestDTO.getAdvisorId());
+					userIds.add(userRequestDTO.getUserId());
 				}
 			}
 			if(requestIds.size() > 0 ){

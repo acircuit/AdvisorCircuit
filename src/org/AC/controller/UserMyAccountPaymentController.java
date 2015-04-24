@@ -91,8 +91,22 @@ public class UserMyAccountPaymentController extends HttpServlet {
 		    ChangeRequestStatusDAO pay = new ChangeRequestStatusDAO();
 			req = pay.GetPaymentInfo(Integer.parseInt(rId));
 			if(req.getIsFree() != null && req.getIsFree()){
-				advisorPayment = 0.0;
-				fee = 0.0;
+				if(req.getDuration().equals("0.5")){
+					advisorPayment = 0.0;
+					fee = 0.0;
+				}else if (req.getDuration().equals("0.75")) {
+					advisorPayment =  (int)Math.ceil(((req.getPrice() * 100)/(390)));
+					fee = req.getAmount() - advisorPayment;
+				}else if (req.getDuration().equals("1")) {
+					advisorPayment =  (int)Math.ceil(((req.getPrice() * 100)/(260)));
+					fee = req.getAmount() - advisorPayment;
+				}else if (req.getDuration().equals("1.5")) {
+					advisorPayment =  (int)Math.ceil(((req.getPrice() * 200)/(390)));
+					fee = req.getAmount() - advisorPayment;
+				}else{
+					advisorPayment = 0.0;
+					fee = 0.0;
+				}
 			}else{
 				advisorPayment =  (req.getPrice() * 100)/(130);
 				fee = req.getAmount() - advisorPayment;
@@ -126,10 +140,8 @@ public class UserMyAccountPaymentController extends HttpServlet {
 				}
 			}
 		}else if (sId!= null && rId != null && acceptedDate != null) {
-			if(amount1 != null && !amount1.equals("0.0")){
-				System.out.println(acceptedDate);
+			if(amount1 != null && !amount1.equals("0")){
 				acceptedDate =acceptedDate.replace(':','#');
-				System.out.println(acceptedDate);
 				response.sendRedirect("payment?order_id="+sId+"&amount="+amount1+"&merchant_param1="+acceptedDate);
 			}else{
 				Date datepicker1 = null;
@@ -157,8 +169,22 @@ public class UserMyAccountPaymentController extends HttpServlet {
 				    ChangeRequestStatusDAO pay = new ChangeRequestStatusDAO();
 					req = pay.GetPaymentInfo(Integer.parseInt(rId));
 					if(req.getIsFree() != null && req.getIsFree()){
-						advisorPayment = 0.0;
-						fee = 0.0;
+						if(req.getDuration().equals("0.5")){
+							advisorPayment = 0.0;
+							fee = 0.0;
+						}else if (req.getDuration().equals("0.75")) {
+							advisorPayment =  (int)Math.ceil(((req.getPrice() * 100)/(390)));
+							fee = req.getAmount() - advisorPayment;
+						}else if (req.getDuration().equals("1")) {
+							advisorPayment =  (int)Math.ceil(((req.getPrice() * 100)/(260)));
+							fee = req.getAmount() - advisorPayment;
+						}else if (req.getDuration().equals("1.5")) {
+							advisorPayment =  (int)Math.ceil(((req.getPrice() * 200)/(390)));
+							fee = req.getAmount() - advisorPayment;
+						}else{
+							advisorPayment = 0.0;
+							fee = 0.0;
+						}
 					}else{
 						advisorPayment =  (req.getPrice() * 100)/(130);
 						fee = req.getAmount() - advisorPayment;
@@ -202,7 +228,6 @@ public class UserMyAccountPaymentController extends HttpServlet {
 						pname=(String)strTok.nextToken();
 						if(strTok.hasMoreTokens())
 							pvalue=(String)strTok.nextToken();
-						System.out.println(pname);
 							if(pname.equals("order_id")){
 								sId = pvalue;
 							}
@@ -228,8 +253,8 @@ public class UserMyAccountPaymentController extends HttpServlet {
 				}
 			}
 			if(sId != null && !sId.equals("") && order_status.equals("Success")){
-				double advisorPayment = 0.0;
-				double fee = 0.0;
+				int advisorPayment = 0;
+				int fee = 0;
 				//Getting the Request Id from session Id
 				ChangeRequestStatusDAO reqId = new ChangeRequestStatusDAO();
 				int requestId = reqId.GetRequestIdFromSessionId(sId);
@@ -244,11 +269,25 @@ public class UserMyAccountPaymentController extends HttpServlet {
 					ChangeRequestStatusDAO pay = new ChangeRequestStatusDAO();
 					req = pay.GetPaymentInfo(requestId);
 					if(req.getIsFree() != null && req.getIsFree()){
-						advisorPayment = 0.0;
-						fee = 0.0;
+						if(req.getDuration().equals("0.5")){
+							advisorPayment = 0;
+							fee = 0;
+						}else if (req.getDuration().equals("0.75")) {
+							advisorPayment =  (int)Math.ceil(((req.getPrice() * 100)/(390)));
+							fee = req.getAmount() - advisorPayment;
+						}else if (req.getDuration().equals("1")) {
+							advisorPayment =  (int)Math.ceil(((req.getPrice() * 100)/(260)));
+							fee = req.getAmount() - advisorPayment;
+						}else if (req.getDuration().equals("1.5")) {
+							advisorPayment =  (int)Math.ceil(((req.getPrice() * 200)/(390)));
+							fee = req.getAmount() - advisorPayment;
+						}else{
+							advisorPayment = 0;
+							fee = 0;
+						}
 					}else{
-						advisorPayment =  (req.getPrice() * 100)/(130);
-						fee = req.getAmount() - advisorPayment;
+						advisorPayment =  (int)Math.ceil(((req.getPrice() * 100)/(130)));
+						fee = req.getAmount() - (advisorPayment);
 					}
 						//Entering values in Payment table
 						ChangeSessionStatusDAO success = new ChangeSessionStatusDAO();
