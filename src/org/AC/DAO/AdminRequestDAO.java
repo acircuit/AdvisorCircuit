@@ -55,7 +55,7 @@ public class AdminRequestDAO {
 			try {
 				conn =ConnectionFactory.getConnection();
 				conn.setAutoCommit(false);
-				String query ="SELECT * FROM userrequest WHERE STATUS = ? OR STATUS = ? OR STATUS = ? OR STATUS = ?";
+				String query ="SELECT * FROM userrequest WHERE STATUS = ? OR STATUS = ? OR STATUS = ? OR STATUS = ? ORDER BY BOOKING_TIME  DESC";
 				PreparedStatement pstmt = conn.prepareStatement(query);
 				pstmt.setString(1,"PENDING FOR ADMIN APPROVAL");
 				pstmt.setString(2,"PENDING FOR ADVISOR APPROVAL");

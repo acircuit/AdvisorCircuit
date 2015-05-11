@@ -74,6 +74,8 @@ public class AdminMyAccountUpcomingSessionViewDetailsFormController extends Http
 			String isFree = request.getParameter("isFree");
 			 String aId = request.getParameter("aId");
 			 String service = request.getParameter("service");
+			 String userIsFree = request.getParameter("userIsFree");
+			 String uId = request.getParameter("uId");
 			String status = "";
 			String redirect = "";
 			Boolean isRequestStatusCommit =false;
@@ -107,6 +109,11 @@ public class AdminMyAccountUpcomingSessionViewDetailsFormController extends Http
 						//Decrement the free session count from the advisor services table
 						AdvisorMyAccountRequestViewDetailsDAO decrem = new AdvisorMyAccountRequestViewDetailsDAO();
 						decrem.DecrementFreeSession(Integer.parseInt(aId),service);
+					}
+					if(userIsFree != null && userIsFree.equals("true") && !redirect.equals("AdminPreviousSessions")){
+						//Toggle the free session column in the userdetails table
+						AdvisorMyAccountRequestViewDetailsDAO toggle = new AdvisorMyAccountRequestViewDetailsDAO();
+						toggle.ToggleUserFreeSession(Integer.parseInt(uId));
 					}
 					response.sendRedirect(redirect);
 				}

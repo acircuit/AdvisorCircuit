@@ -43,7 +43,17 @@
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
-		
+	<style type="text/css">
+    	table {
+		  table-layout: fixed;
+		  width: 120px; /* Important */
+		  
+		}
+		td,th {
+		  width: 30px;
+		  word-wrap: break-word;
+		}
+    </style>		
 	<%
 			List<HereToHelpDTO> help = (List<HereToHelpDTO>)request.getAttribute("heretohelp");
 			pageContext.setAttribute("help", help);
@@ -62,7 +72,7 @@
         	<div class="col-md-3">&nbsp;</div>
             <div class="col-md-9">
             	<h4></h4>
-            	<h1 class="page-header">Review And Recommendation</h1>
+            	<h1 class="page-header">Here to help</h1>
             </div>
         </div>
         

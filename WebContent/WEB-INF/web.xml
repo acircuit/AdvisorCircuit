@@ -1087,4 +1087,12 @@
     <servlet-name>adminpaymenthistrory</servlet-name>
     <url-pattern>/adminpaymenthistrory</url-pattern>
   </servlet-mapping>
+    <servlet>
+    <servlet-name>thankyouforpayment</servlet-name>
+    <jsp-file>/PaymentDone.jsp</jsp-file>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>thankyouforpayment</servlet-name>
+    <url-pattern>/thankyouforpayment</url-pattern>
+  </servlet-mapping>
 </web-app>

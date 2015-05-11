@@ -2,7 +2,7 @@ package org.AC.dto;
 
 import java.sql.Timestamp;
 
-public class UserRequestDTO {
+public class UserRequestDTO implements Comparable<UserRequestDTO>{
 	
 	int requestId;
 	int advisorId;
@@ -49,6 +49,13 @@ public class UserRequestDTO {
 	String bookingTimeString;
 	String acceptedDateForClock;
 	Boolean isFree;
+	Boolean userIsFree;
+	public Boolean getUserIsFree() {
+		return userIsFree;
+	}
+	public void setUserIsFree(Boolean userIsFree) {
+		this.userIsFree = userIsFree;
+	}
 	int discount;
 	int price;
 	public Boolean getIsFree() {
@@ -253,4 +260,9 @@ public class UserRequestDTO {
 		this.days = days;
 	}
 	
+	@Override
+	public int compareTo(UserRequestDTO obj) {
+		return  obj.getBookingTime().compareTo(this.getBookingTime());
+	}
+
 }

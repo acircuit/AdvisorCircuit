@@ -77,9 +77,12 @@ public class UserMyAccountPreviousSessionController extends HttpServlet {
 				MyAccountRequestDAO dao = new MyAccountRequestDAO();
 				list1 = dao.getRequestDetails(requestIds);	
 			}
-			for (UserRequestDTO requests : list1) {
-				for (SessionDTO sessionDTO : list11) {
+			for (SessionDTO sessionDTO : list11) {
+				for (UserRequestDTO requests : list1) {
 					if(requests.getRequestId() == sessionDTO.getRequestId()){
+						if(requests.getQuery().length() > 120){
+							requests.setQuery(requests.getQuery().substring(0, 120));
+						}
 						sessionDTO.setAcceptedDateString(new SimpleDateFormat("dd-MMM-yyyy' 'h:mm a").format(new Date(sessionDTO.getAcceptedDate().getTime())));
 						requests.setAcceptedDate(sessionDTO.getAcceptedDateString());
 					}

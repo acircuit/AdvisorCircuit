@@ -32,7 +32,14 @@ public class AdvisorProfileDTO implements Comparable<AdvisorProfileDTO> {
 	private int ratings;
 	private Boolean isActive;
 	private Boolean isVisible;
+	private String keywords;
 	
+	public String getKeywords() {
+		return keywords;
+	}
+	public void setKeywords(String keywords) {
+		this.keywords = keywords;
+	}
 	private int pageRank;
 	String status;
 

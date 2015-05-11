@@ -164,7 +164,7 @@ public class AdvisorPaymentHistoryDAO {
 		try {
 			conn =ConnectionFactory.getConnection();
 			conn.setAutoCommit(false);
-			String query ="SELECT SESSION_ID,REQUEST_ID,ACCEPTED_DATE FROM session_table WHERE STATUS=? OR STATUS = ? OR STATUS = ? OR STATUS = ? OR STATUS = ? OR STATUS = ?";
+			String query ="SELECT SESSION_ID,REQUEST_ID,ACCEPTED_DATE,USER_COMMENT,ADVISOR_COMMENT FROM session_table WHERE STATUS=? OR STATUS = ? OR STATUS = ? OR STATUS = ? OR STATUS = ? OR STATUS = ?";
 			PreparedStatement pstmt = conn.prepareStatement(query);
 			pstmt.setString(1,"WAITING FOR SESSION");
 			pstmt.setString(2,"SESSION COMPLETE");
@@ -178,6 +178,8 @@ public class AdvisorPaymentHistoryDAO {
 				pay.setSessionId(results.getInt("SESSION_ID"));
 				pay.setRequestId(results.getInt("REQUEST_ID"));
 				pay.setAcceptedDate(results.getTimestamp("ACCEPTED_DATE"));
+				pay.setUserComment(results.getString("USER_COMMENT"));
+				pay.setAdvisorComment(results.getString("ADVISOR_COMMENT"));
 				payment.add(pay);
 			}
 		} catch (SQLException e) {

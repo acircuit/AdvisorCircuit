@@ -43,6 +43,17 @@
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+    <style type="text/css">
+    	table {
+		  table-layout: fixed;
+		  width: 120px; /* Important */
+		  
+		}
+		td,th {
+		  width: 30px;
+		  word-wrap: break-word;
+		}
+    </style>
     	
 	<%
 			List<AdvisorProfileDTO> advisors = (List<AdvisorProfileDTO>)request.getAttribute("advisors");
@@ -83,7 +94,7 @@
             	<div id="page-wrapper">
 					
                     <div class="table-responsive">
-                    <table style="text-align:center" class="table table-bordered" id="tblData">
+                    <table style="text-align:center" class="table table-bordered " id="tblData">
 												<tr>
 													<th style="text-align:center">ACTION</th>
 													<th style="text-align:center">ID</th>
@@ -118,6 +129,7 @@
 																	<li><a id="${advisor.getAdvisorId()}" onclick="changeVisibility(this)">Change Visibility</a></li>
 																	<li><a id="${advisor.getAdvisorId()}" onclick="openFreeSessionModal(this)">Update Free Sessions</a></li>
 																	<li><a id="${advisor.getAdvisorId()}" onclick="openDiscountModal(this)">Update Discount</a></li>
+																	<li><a id="${advisor.getAdvisorId()}" onclick="OpenKeywords(this)">Update KeyWords</a></li>
 																</ul>
 															</li>
 														</ul>
@@ -247,6 +259,29 @@
 													          		<br/>
 													          		<button type="button" class="btn btn-primary"  onclick="updateDiscount(${advisor.getAdvisorId()})">Change</button>        		
 													          		<br/>
+													          		</form>
+													        	</div>
+														    </div>
+														  </div>
+														</div>
+														<div class="modal fade" id="keywords${advisor.getAdvisorId()}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+													<div class="modal-dialog modal-lg">
+														<div class="modal-content">
+															<div class="modal-header">
+															<button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+															<h4 class="modal-title" id="myModalLabel">Update KeyWords</h4>
+															</div>
+													        	<div class="modal-body">
+													        		<form action="">
+												        				<div class="form-group">
+																			<label  class="col-md-3 control-label">Keywords : </label>
+																			<div class="col-md-9">
+																				<textarea id="advisorkeywords${advisor.getAdvisorId()}" rows="10" cols="60" >${advisor.getKeywords()}</textarea>
+																			</div>
+																		</div>
+																		<c:if test="${!advisor.getKeywords().equals('')}">
+													          			   <button type="button" class="btn btn-primary"  onclick="updatekeyword(${advisor.getAdvisorId()})">Update</button>        																				
+																		</c:if>
 													          		</form>
 													        	</div>
 														    </div>
@@ -431,6 +466,11 @@
 	function openDiscountToAllModal(){
 		$('#discountToAll').modal();
 	}
+	
+	function OpenKeywords(elem){
+		var id = elem.id;
+		$("#keywords"+id).modal();
+	}
 	function UpdateFreeSessions(elem){
 		var advisorId = elem.id;
 		$.ajax({
@@ -509,7 +549,20 @@
             }
         }); 	
 	}
-	
+	function updatekeyword(id){
+		$.ajax({
+            url : 'AdminAdvisors',
+            data : {"operation": "updatekeywords", "keywords" : $("#advisorkeywords"+id).val(),"advisor" : id},
+            type : 'POST',
+            success : function(response) {
+            	location.reload();
+            },
+            error : function(request, textStatus, errorThrown) {
+            	alert("Error in updating keywords.")
+            }
+        }); 	
+		
+	}
 	</script>
 <script src="assets/js/gridSearch.js"></script>
 </body>

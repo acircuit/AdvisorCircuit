@@ -446,7 +446,9 @@
                                           </c:if>
                                           <c:param name="isFree" value="${userRequest.getIsFree()}"/>
                                           <c:param name="aId" value="${userRequest.getAdvisorId()}"/>
+                                          <c:param name="uId" value="${userRequest.getUserId()}"/>
                                           <c:param name="service" value="${userRequest.getService()}"/>
+				                          <c:param name="userIsFree" value="${userRequest.getUserIsFree()}"></c:param>                                          
                                       </c:url>
                                       <div class="row">
                                         <div class="col-md-12 text-center">

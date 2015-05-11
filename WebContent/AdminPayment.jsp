@@ -147,7 +147,7 @@
 					                                <div class="form-group">
 					                                    <label for="icode" class="col-md-3 control-label">Comment</label>
 					                                     <div class="col-md-9">
-					                                     	  <textarea rows="5" cols="50" id="usercomment${session.getSessionId()}" maxlength="750"></textarea>
+					                                     	  <textarea rows="5" cols="50" id="usercomment${session.getSessionId()}" maxlength="750">${session.getUserComment() }</textarea>
 														 </div>
 					                                </div>
 					                                <div class="form-group">
@@ -174,7 +174,7 @@
 					                                <div class="form-group">
 					                                    <label for="icode" class="col-md-3 control-label">Comment</label>
 					                                     <div class="col-md-9">
-					                                     	  <textarea rows="5" cols="50" id="advisorcomment${session.getSessionId()}" maxlength="750"></textarea>
+					                                     	  <textarea rows="5" cols="50" id="advisorcomment${session.getSessionId()}" maxlength="750">${session.getAdvisorComment() }</textarea>
 														 </div>
 					                                </div>
 					                                <div class="form-group">

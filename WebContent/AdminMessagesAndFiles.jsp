@@ -219,7 +219,7 @@ table{font-family:'custom_light' !important;}
 													<div class="modal-content">
 														<div class="modal-header">
 															<button type="button" class="close" data-dismiss="modal"
-																aria-hidden="true">×</button>
+																aria-hidden="true"><i class="glyphicon glyphicon-remove"></i></a></button>
 															<h4 class="modal-title" id="myModalLabel">User Message</h4>
 														</div>
 														<div class="modal-body">

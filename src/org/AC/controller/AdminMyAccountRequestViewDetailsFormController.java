@@ -72,6 +72,8 @@ public class AdminMyAccountRequestViewDetailsFormController extends HttpServlet 
 				 String isFree = request.getParameter("isFree");
 				 String aId = request.getParameter("aId");
 				 String service = request.getParameter("service");
+				 String userIsFree = request.getParameter("userIsFree");
+				 String uId = request.getParameter("uId");
 				//Check if the admin has accepted the request
 				if( cancel == null ){
 					String status = "PENDING FOR ADVISOR APPROVAL";
@@ -90,6 +92,11 @@ public class AdminMyAccountRequestViewDetailsFormController extends HttpServlet 
 							//Decrement the free session count from the advisor services table
 							AdvisorMyAccountRequestViewDetailsDAO decrem = new AdvisorMyAccountRequestViewDetailsDAO();
 							decrem.DecrementFreeSession(Integer.parseInt(aId),service);
+						}
+						if(userIsFree.equals("true")){
+							//Toggle the free session column in the userdetails table
+							AdvisorMyAccountRequestViewDetailsDAO toggle = new AdvisorMyAccountRequestViewDetailsDAO();
+							toggle.ToggleUserFreeSession(Integer.parseInt(uId));
 						}
 						response.sendRedirect("AdminCancelledSessions");
 					}

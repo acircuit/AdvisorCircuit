@@ -153,13 +153,13 @@
 					                                     <div class="col-md-9">
 					                                     		<c:choose>
 						                                		<c:when test="${request.getReviewMesage() != null && !request.getReviewMesage().equals('') && !request.getReviewMessageStatus().equals('REJECTED')}">
-					                                     			<textarea rows="3" id="reviewmessage${request.getSessionId()}" name="reviewmessage" class="form-control" maxlength="400" readonly="readonly">${request.getReviewMesage()}</textarea>						                                		
+					                                     			<textarea rows="3" id="reviewmessage${request.getSessionId()}" name="reviewmessage" class="form-control" maxlength="1000" readonly="readonly">${request.getReviewMesage()}</textarea>						                                		
 						                                		</c:when>
 						                                		<c:when test="${request.getReviewMesage() != null && request.getReviewMessageStatus().equals('REJECTED')}">
-					                                     			<textarea rows="3" id="reviewmessage${request.getSessionId()}" name="reviewmessage" class="form-control" maxlength="400">${request.getReviewMesage()}</textarea>						                                								                                		
+					                                     			<textarea rows="3" id="reviewmessage${request.getSessionId()}" name="reviewmessage" class="form-control" maxlength="1000">${request.getReviewMesage()}</textarea>						                                								                                		
 						                                		</c:when>
 				                                				<c:otherwise>
-					                                     			<textarea rows="3" id="reviewmessage${request.getSessionId()}" name="reviewmessage" class="form-control" maxlength="400"></textarea>						                                						                                				
+					                                     			<textarea rows="3" id="reviewmessage${request.getSessionId()}" name="reviewmessage" class="form-control" maxlength="1000"></textarea>						                                						                                				
 				                                				</c:otherwise>
 				                                				</c:choose>
 														 </div>

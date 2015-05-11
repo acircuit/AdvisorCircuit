@@ -361,7 +361,9 @@
 									   						<c:param name="cancel" value="true"/>
 									   						<c:param name="isFree" value="${userRequest.getIsFree()}"/>
 									   						<c:param name="service" value="${userRequest.getService()}"/>
-													</c:url>
+									   						<c:param name="userIsFree" value="${userRequest.getUserIsFree()}"></c:param>
+				                                            <c:param name="uId" value="${userRequest.getUserId()}"></c:param>
+									   				</c:url>
 													<a href="${myURL}" class="btn btn-info margin-10">Decline Request</a>
 												</c:if>
 											</div>

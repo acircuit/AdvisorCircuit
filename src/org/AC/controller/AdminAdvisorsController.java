@@ -240,6 +240,12 @@ public class AdminAdvisorsController extends HttpServlet {
 			
 			AdminAdvisorDAO advisor = new AdminAdvisorDAO();
 			advisor.UpdateDiscountToAll(advisors);
+		}else if (operation.equals("updatekeywords")) {
+			String keywords = request.getParameter("keywords");
+			String aId = request.getParameter("advisor");
+
+			AdminAdvisorDAO advisor = new AdminAdvisorDAO();
+			advisor.UpdateAdvisor(aId,keywords);
 		}
 		
 		logger.info("Exit doPost method of AdminAdvisorsController");

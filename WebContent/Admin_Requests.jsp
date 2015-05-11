@@ -96,9 +96,8 @@
 			<!-- Blog Post Row -->
 			<c:choose>
 			<c:when test="${userDetails.size() > 0 && requests.size() > 0 && advisorDetails.size() > 0 }">
-			
+			<c:forEach items="${requests}" var="request">
 			 <c:forEach items="${userDetails}" var="user">
-				<c:forEach items="${requests}" var="request">
 					<c:if test="${user.getUserId() == request.getUserId()}">
                     
                     	<div class="grey-panel">

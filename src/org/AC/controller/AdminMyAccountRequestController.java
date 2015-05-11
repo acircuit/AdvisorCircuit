@@ -86,8 +86,10 @@ public class AdminMyAccountRequestController extends HttpServlet {
 			List<Integer> requestIdsWithNewDates = new ArrayList<Integer>();
 				for (UserRequestDTO userRequestDTO : requestList) {
 					SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MMM-yyyy' 'h:mm a");
-					userRequestDTO.setBookingTimeString(dateFormat.format(userRequestDTO.getBookingTime()));	
-	
+					userRequestDTO.setBookingTimeString(dateFormat.format(userRequestDTO.getBookingTime()));
+					if(userRequestDTO.getQuery().length() > 120){
+						userRequestDTO.setQuery(userRequestDTO.getQuery().substring(0, 120));
+					}
 					String status = userRequestDTO.getStatus();
 					Timestamp bookingDate;
 					List<TimeDTO> difference = new ArrayList<TimeDTO>();
@@ -148,7 +150,6 @@ public class AdminMyAccountRequestController extends HttpServlet {
 						}
 					}
 				}
-				Collections.reverse(requestLists);
 				//Retrieving the user details from the retrieved userId's
 				List<UserDetailsDTO> userDetails = new ArrayList<UserDetailsDTO>();
 				AdminRequestDAO userDetail = new AdminRequestDAO();

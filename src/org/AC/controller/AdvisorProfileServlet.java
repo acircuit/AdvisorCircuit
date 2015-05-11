@@ -20,6 +20,7 @@ import org.AC.DAO.AdvisorModesDAO;
 import org.AC.DAO.AdvisorProfileDetailsDAO;
 import org.AC.DAO.AdvisorServicesDAO;
 import org.AC.DAO.ProfessionalBackgroundDAO;
+import org.AC.DAO.UserDetailsDAO;
 import org.AC.Util.GetRelativeImageURL;
 import org.AC.dto.AdvisorEducationDTO;
 import org.AC.dto.AdvisorModeDTO;
@@ -45,7 +46,13 @@ public class AdvisorProfileServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		logger.info("Enter doGet method of AdvisorProfileServlet.java");
 		String advisorId = request.getParameter("aId");
-		String isAdmin = request.getParameter("admin");	
+		String isAdmin = request.getParameter("admin");
+		int userId = 0;
+		Boolean userIsFree =false;
+		if(request.getSession().getAttribute("userId") !=null ){
+			userId = (Integer)request.getSession().getAttribute("userId");
+		}
+		
 		java.util.List<AdvisorProfileDTO> list = new ArrayList<AdvisorProfileDTO>();
 		List<ProfessionalBackgroundDTO> list1 = new ArrayList<ProfessionalBackgroundDTO>();
 		List<AdvisorServiceDTO> list2 = new ArrayList<AdvisorServiceDTO>();
@@ -57,7 +64,7 @@ public class AdvisorProfileServlet extends HttpServlet {
 			GetRelativeImageURL image = new GetRelativeImageURL();
 			advisorProfileDTO.setImage(image.getImageURL(advisorProfileDTO.getImage()));
 			advisorProfileDTO.setIntroduction(StringEscapeUtils.escapeJava(advisorProfileDTO.getIntroduction())); 
-			System.out.println(advisorProfileDTO.getIntroduction());
+
 		}
 		//This is to get the professional background for the advisor profile
 		//Getting the company,designation and duration
@@ -88,6 +95,14 @@ public class AdvisorProfileServlet extends HttpServlet {
 		//This is to get the services provided by the advisor
 		AdvisorServicesDAO dao2 = new AdvisorServicesDAO();
 		list2 = dao2.getAdvisorServiceDetails(advisorId);
+		for (AdvisorServiceDTO services : list2) {
+				services.setDescription(StringEscapeUtils.escapeJava(services.getDescription()));
+		}
+		if(userId != 0) {
+		//Getting the user details to check whether the user has is free available or not
+		UserDetailsDAO user = new UserDetailsDAO();
+		userIsFree = user.CheckUserIsFree(userId);
+		}
 		
 		//This is to get the modes and price for a service 
 		AdvisorModesDAO dao3 = new AdvisorModesDAO();
@@ -103,12 +118,28 @@ public class AdvisorProfileServlet extends HttpServlet {
 			for (AdvisorServiceDTO services : list2) {
 				if(mode.getService().equals(services.getService())){
 					if(services.getDiscount() == 0 && services.getIsFree() == 0	){
-						mode.setDiscounted_price(price);
+						if(userIsFree && !mode.getModeOfCommunication().equals("email")){
+							double afterFreePrice =  Math.ceil(Double.parseDouble(mode.getPrice())/2);
+							int discount = services.getDiscount();
+							int discountedPrice = (int)Math.ceil(afterFreePrice - (discount * afterFreePrice /100));
+							//double discountedPrice = 	Integer.parseInt(mode.getPrice()) - (discount * Integer.parseInt(mode.getPrice()) /100);				
+							mode.setUser_isfree_price(discountedPrice);
+						}
+							mode.setDiscounted_price(price);
+						
 					}else{
-						int discount = services.getDiscount();
-						int discountedPrice = (int)Math.ceil(Double.parseDouble(mode.getPrice()) - (discount * Double.parseDouble(mode.getPrice()) /100));
-						//double discountedPrice = 	Integer.parseInt(mode.getPrice()) - (discount * Integer.parseInt(mode.getPrice()) /100);				
-						mode.setDiscounted_price(discountedPrice);
+						if(userIsFree && !mode.getModeOfCommunication().equals("email")){
+							double afterFreePrice =  Math.ceil(Double.parseDouble(mode.getPrice())/2);
+							int discount = services.getDiscount();
+							int discountedPrice = (int)Math.ceil(afterFreePrice - (discount * afterFreePrice /100));
+							//double discountedPrice = 	Integer.parseInt(mode.getPrice()) - (discount * Integer.parseInt(mode.getPrice()) /100);				
+							mode.setUser_isfree_price(discountedPrice);
+						}
+							int discount = services.getDiscount();
+							int discountedPrice = (int)Math.ceil(Double.parseDouble(mode.getPrice()) - (discount * Double.parseDouble(mode.getPrice()) /100));
+							//double discountedPrice = 	Integer.parseInt(mode.getPrice()) - (discount * Integer.parseInt(mode.getPrice()) /100);				
+							mode.setDiscounted_price(discountedPrice);
+						
 					}
 				}
 			}
@@ -171,6 +202,7 @@ public class AdvisorProfileServlet extends HttpServlet {
 			request.setAttribute("reviews", reviews);
 			request.setAttribute("reviewUserDetails", reviewUserDetails);
 		}
+		request.setAttribute("userIsFree", userIsFree);
 		response.setCharacterEncoding("UTF-8");
 		request.setCharacterEncoding("UTF-8");
 		

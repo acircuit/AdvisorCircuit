@@ -9,6 +9,8 @@ package org.AC.controller;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -109,6 +111,9 @@ public class AdminMyAccountCancelledSessionController extends HttpServlet {
 			AdminSessionDAO requestDetails = new AdminSessionDAO();
 			list1 = requestDetails.getUserRequestDetails(requestStatus,requestStatus1,userRejectstatus);
 			for (UserRequestDTO userRequestDTO : list1) {
+				if(userRequestDTO.getQuery().length() > 120){
+					userRequestDTO.setQuery(userRequestDTO.getQuery().substring(0, 120));
+				}
 				int counter = 0;
 				for (SessionDTO sessionDTO : sessionList) {
 					if(sessionDTO.getStatus().equals("SESSION REJECTED BY USER") && (sessionDTO.getRequestId() == userRequestDTO.getRequestId())){
@@ -126,6 +131,11 @@ public class AdminMyAccountCancelledSessionController extends HttpServlet {
 			if(requestIds.size() > 0){
 				MyAccountRequestDAO dao = new MyAccountRequestDAO();
 				userRequest = dao.getRequestDetails(requestIds);
+				for (UserRequestDTO userRequestDTO : userRequest) {
+					if(userRequestDTO.getQuery().length() > 120){
+						userRequestDTO.setQuery(userRequestDTO.getQuery().substring(0, 120));
+					}
+				}
 			}
 			userRequest.addAll(list2);
 	
@@ -141,6 +151,7 @@ public class AdminMyAccountCancelledSessionController extends HttpServlet {
 				AdminRequestDAO advisorDetail = new AdminRequestDAO();
 				advisorDetails= advisorDetail.getAdvisorDetailsUsingAdvisorId(advisorIds);
 			}
+			Collections.sort(userRequest);
 			request.setAttribute("requestDetails", userRequest);
 			request.setAttribute("userDetails", userDetailsList);
 			request.setAttribute("advisorDetails", advisorDetails);

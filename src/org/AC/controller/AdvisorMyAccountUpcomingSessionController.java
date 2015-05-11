@@ -80,6 +80,7 @@ public class AdvisorMyAccountUpcomingSessionController extends HttpServlet {
 		if(advisorId != 0 ){
 			List<UserDetailsDTO> userDetailsList = new ArrayList<UserDetailsDTO>();
 			List<UserRequestDTO> list1 = new ArrayList<UserRequestDTO>();
+			List<UserRequestDTO> list3 = new ArrayList<UserRequestDTO>();
 			List<TimeDTO> difference = new ArrayList<TimeDTO>();
 
 			//Getting the session details where aId= advisorId and status = "Waiting for session"
@@ -96,8 +97,8 @@ public class AdvisorMyAccountUpcomingSessionController extends HttpServlet {
 				list1 = dao.getRequestDetails(requestIds);	
 			}
 			//Setting time left for the session
-			for (UserRequestDTO userRequestDTO : list1) {
-				for (SessionDTO sessionDTO : list) {
+			for (SessionDTO sessionDTO : list) {
+				for (UserRequestDTO userRequestDTO : list1) {
 					if(sessionDTO.getRequestId() == userRequestDTO.getRequestId()){
 						Timestamp sessionDate = sessionDTO.getAcceptedDate();
 						SimpleDateFormat dateFormat = new SimpleDateFormat("MMMMM dd','yyyy' 'h:mm a");
@@ -119,7 +120,7 @@ public class AdvisorMyAccountUpcomingSessionController extends HttpServlet {
 							userRequestDTO.setHours(0);
 							userRequestDTO.setMinutes(0);
 						}
-						
+						list3.add(userRequestDTO);
 					}
 				}
 			}
@@ -129,7 +130,7 @@ public class AdvisorMyAccountUpcomingSessionController extends HttpServlet {
 				userDetailsList = user1.getUserDetails(userIds);
 			}	
 				request.setAttribute("SessionDate", SessionDate);
-				request.setAttribute("requests", list1);
+				request.setAttribute("requests", list3);
 				request.setAttribute("userDetailsList", userDetailsList);
 				RequestDispatcher rd = getServletContext().getRequestDispatcher("/UpcomingSessions.jsp");
 		        rd.forward(request, response);

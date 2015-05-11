@@ -119,6 +119,8 @@ public class SessionFeedBackDAO {
 				feed.setAdvisorBody(results.getString("ADVISOR_BODY"));
 				feed.setAdvisorSubject(results.getString("ADVISOR_SUBJECT"));
 				feed.setAdvisorFile(results.getString("ADVISOR_FILE"));
+				feed.setUserApproval(results.getBoolean("USER_APPROVAL"));
+				feed.setAdvisorApproval(results.getBoolean("ADVISOR_APPROVAL"));
 			}
 		} catch (SQLException e) {
 			logger.error("GetFeedBack method of SessionFeedBackDAO threw error:"+e.getMessage());

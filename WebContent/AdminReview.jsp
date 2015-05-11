@@ -43,7 +43,17 @@
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
-		
+	<style type="text/css">
+    	table {
+		  table-layout: fixed;
+		  width: 120px; /* Important */
+		  
+		}
+		td,th {
+		  width: 30px;
+		  word-wrap: break-word;
+		}
+    </style>		
 	<%
 			List<SessionDTO> sessionList = (List<SessionDTO>)request.getAttribute("sessionList");
 			pageContext.setAttribute("sessionList", sessionList);
@@ -81,7 +91,8 @@
                     	<table style="text-align:center" class="table table-bordered" id="tblData">
 												<tr><th style="text-align:center">SESSION_ID</th><th style="text-align:center">REQUEST_ID</th><th style="text-align:center">STATUS</th><th style="text-align:center">REVIEW MESSAGE</th><th style="text-align:center">RECOMMENDATION</th><th style="text-align:center">REVIEW MESSAGE STATUS</th></tr>
 														<c:forEach items="${sessionList}" var="session">
-																<c:url value="SessionViewDetails" var="myURL">
+														   <c:if test="${session.getReviewMessage() !=null   && !session.getReviewMessage().equals('')}">
+														   <c:url value="SessionViewDetails" var="myURL">
 										   						<c:param name="rId" value="${session.getRequestId()}"/>
 														</c:url>
 														<tr><td><a href="${myURL}" target="_blank">${session.getSessionId()}</a></td><td><p>${session.getRequestId()}</p></td><td><p>${session.getStatus()}</p></td>
@@ -134,6 +145,11 @@
 															</div><!-- /.modal-content -->
 														</div><!-- /.modal-dialog -->
 													</div><!-- /.modal -->
+														   
+														   
+														   
+														   </c:if>
+																
 													</c:forEach>
 												</table>
 					</div>

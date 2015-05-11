@@ -97,6 +97,11 @@ public class AdminMyAccountPreviousSessionController extends HttpServlet {
 				MyAccountRequestDAO dao = new MyAccountRequestDAO();
 				userRequest = dao.getRequestDetails(requestIds);	
 			}
+			for (UserRequestDTO userRequestDTO : userRequest) {
+				if(userRequestDTO.getQuery().length() > 120){
+					userRequestDTO.setQuery(userRequestDTO.getQuery().substring(0, 120));
+				}
+			}
 			//Getting the User Details
 			if(userIds.size() > 0){
 				//Fetching user details from the userdetails table
@@ -165,6 +170,7 @@ public class AdminMyAccountPreviousSessionController extends HttpServlet {
 				MyAccountRequestDAO dao = new MyAccountRequestDAO();
 				userRequest = dao.getRequestDetails(requestIds);	
 			}
+			
 			//Getting the User Details
 			if(userIds.size() > 0){
 				//Fetching user details from the userdetails table

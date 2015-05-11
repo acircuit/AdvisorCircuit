@@ -303,6 +303,8 @@
                                                             <c:url value="AdminSetNoUserPayment" var="myURL">
                                                                     <c:param name="rId" value="${userRequest.getRequestId()}"/>
                                                                     <c:param name="sId" value="${session.getSessionId()}"></c:param>
+                                                                     <c:param name="userIsFree" value="${userRequest.getUserIsFree()}"></c:param>
+				                                                     <c:param name="uId" value="${userRequest.getUserId()}"></c:param>
                                                             </c:url>
                                                                 <a href="${myURL}" class="btn btn-info">SET SESSION CANCELLED DUE NO USER PAYMENT </a>
                                                         </div>
@@ -324,6 +326,8 @@
                                                             <c:param name="isFree" value="${userRequest.getIsFree()}"/>
 				                                            <c:param name="aId" value="${userRequest.getAdvisorId()}"/>
 				                                            <c:param name="service" value="${userRequest.getService()}"/>
+				                                            <c:param name="userIsFree" value="${userRequest.getUserIsFree()}"></c:param>
+				                                            <c:param name="uId" value="${userRequest.getUserId()}"></c:param>
                                                     	</c:url>
                                                         <a href="${myURL}" class="btn btn-info">Reject</a>
                                                     </div>

@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.AC.DAO.AdvisorMyAccountRequestViewDetailsDAO;
 import org.AC.DAO.ChangeRequestStatusDAO;
 import org.AC.DAO.ChangeSessionStatusDAO;
 import org.apache.log4j.BasicConfigurator;
@@ -64,7 +65,9 @@ public class AdminMyAccountSetStatusNoUserPayment extends HttpServlet {
 		if(isError!= null &&  !isError){
 			String rId = request.getParameter("rId");
 			String sId = request.getParameter("sId");
-			
+			String userIsFree = request.getParameter("userIsFree");
+			String uId = request.getParameter("uId");
+
 			if(rId != null && sId != null){
 				Boolean isRequestStatusCommit = false;
 				Boolean isSessionStatusCommit = false;
@@ -78,6 +81,11 @@ public class AdminMyAccountSetStatusNoUserPayment extends HttpServlet {
 					isSessionStatusCommit = sessionStatus.setStatus(status, sId);
 				}
 				if(isSessionStatusCommit){
+					if(userIsFree.equals("true")){
+						//Toggle the free session column in the userdetails table
+						AdvisorMyAccountRequestViewDetailsDAO toggle = new AdvisorMyAccountRequestViewDetailsDAO();
+						toggle.ToggleUserFreeSession(Integer.parseInt(uId));
+					}
 					response.sendRedirect("AdminCancelledSessions.jsp");
 				}
 			}

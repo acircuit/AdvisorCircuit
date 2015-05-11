@@ -79,8 +79,9 @@
 			
                     <c:choose>
                       <c:when test="${userDetailsList.size() > 0 && userRequestDetails.size() > 0}">
-                         <c:forEach items="${userDetailsList}" var="user">		  	
-                            <c:forEach items="${userRequestDetails}" var="request">
+                      
+                      <c:forEach items="${userRequestDetails}" var="request">
+                        <c:forEach items="${userDetailsList}" var="user">		  	
                               <c:if test="${user.getUserId() == request.getUserId()}">
                                 
                                 <!-- Blog Post Row -->

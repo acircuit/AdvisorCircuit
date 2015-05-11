@@ -168,7 +168,7 @@ public class AdminAdvisorDAO {
 		try {
 			conn = ConnectionFactory.getConnection();
 			conn.setAutoCommit(false);
-			String query = "SELECT ADVISOR_ID,NAME,EMAIL,PHONE_NUMBER,ISACTIVE,PAGE_RANK,ISVISIBLE,INDUSTRY FROM advisordetails";
+			String query = "SELECT ADVISOR_ID,NAME,EMAIL,PHONE_NUMBER,ISACTIVE,PAGE_RANK,ISVISIBLE,INDUSTRY,KEYWORDS FROM advisordetails";
 			PreparedStatement pstmt = conn.prepareStatement(query);
 			results = pstmt.executeQuery();
 			while (results.next()) {
@@ -181,6 +181,7 @@ public class AdminAdvisorDAO {
 				advisor.setPageRank(results.getInt("PAGE_RANK"));
 				advisor.setIsVisible(results.getBoolean("ISVISIBLE"));
 				advisor.setIndustry(results.getString("INDUSTRY"));
+				advisor.setKeywords(results.getString("KEYWORDS"));
 				advisors.add(advisor);
 			}
 			Collections.sort(advisors);
@@ -848,6 +849,54 @@ public class AdminAdvisorDAO {
 		}
 		return advisors;
 	}
+	
+	public Boolean UpdateAdvisor(String aId, String keywords) {
+
+		logger.info("Entered UpdateAdvisor method of AdminAdvisorDAO");
+		Boolean isFlagCommit = false;
+		try {
+			conn = ConnectionFactory.getConnection();
+			conn.setAutoCommit(false);
+			String query = "UPDATE advisordetails SET KEYWORDS = ? WHERE ADVISOR_ID = ?";
+			PreparedStatement pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, keywords);
+			pstmt.setString(2, aId);
+			int result = pstmt.executeUpdate();
+			if (result > 0) {
+				conn.commit();
+				isFlagCommit = true;
+			}
+			logger.info("Exit UpdateAdvisor method of AdminAdvisorDAO");
+		} catch (Exception e) {
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				try {
+					conn.rollback();
+				} catch (SQLException e2) {
+					logger.error("UpdateAdvisor method of AdminAdvisorDAO threw error:"
+							+ e2.getMessage());
+					e2.printStackTrace();
+				}
+				logger.error("UpdateAdvisor method of AdminAdvisorDAO threw error:"
+						+ e1.getMessage());
+				e1.printStackTrace();
+			}
+			logger.error("UpdateAdvisor method of AdminAdvisorDAO threw error:"
+					+ e.getMessage());
+			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				logger.error("UpdateAdvisor method of AdminAdvisorDAO threw error:"
+						+ e.getMessage());
+				e.printStackTrace();
+			}
+		}
+		return isFlagCommit;
+	}
+	
 	
 	private String generateQsForIn(int numQs) {
 	    String items = "";

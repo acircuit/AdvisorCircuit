@@ -7,6 +7,14 @@ public class AdvisorModeDTO {
 	private String modeOfCommunication;
 	private String price;
 	private int discounted_price;
+	private int user_isfree_price;
+	
+	public int getUser_isfree_price() {
+		return user_isfree_price;
+	}
+	public void setUser_isfree_price(int user_isfree_price) {
+		this.user_isfree_price = user_isfree_price;
+	}
 	public int getDiscounted_price() {
 		return discounted_price;
 	}

@@ -240,4 +240,46 @@ public Boolean setNewDates(int sId, String newDate1,String newDate2,String newDa
 		logger.info("Entered DecrementFreeSession method of AdvisorMyAccountRequestViewDetailsDAO");
 		return isCommit;
 	}
+	
+	public Boolean ToggleUserFreeSession(int uId){
+		logger.info("Entered ToggleUserFreeSession method of AdvisorMyAccountRequestViewDetailsDAO");
+		Boolean isCommit = false;
+		try {
+			conn =ConnectionFactory.getConnection();
+			conn.setAutoCommit(false);
+			String query = "UPDATE userdetails SET ISFREE = ? WHERE USER_ID = ?";
+			PreparedStatement pstmt = conn.prepareStatement(query);
+			pstmt.setBoolean(1,true);
+			pstmt.setInt(2, uId);
+			int result = pstmt.executeUpdate(); 
+			if(result >0) {
+				conn.commit();
+				isCommit = true;
+			}
+		} catch (SQLException e) {
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				logger.error("ToggleUserFreeSession method of AdvisorMyAccountRequestViewDetailsDAO threw error:"+e.getMessage());
+				e1.printStackTrace();
+			}	
+			logger.error("ToggleUserFreeSession method of AdvisorMyAccountRequestViewDetailsDAO threw error:"+e.getMessage());
+			e.printStackTrace();
+		} catch (IOException e) {
+			logger.error("ToggleUserFreeSession method of AdvisorMyAccountRequestViewDetailsDAO threw error:"+e.getMessage());
+			e.printStackTrace();
+		} catch (PropertyVetoException e) {
+			logger.error("ToggleUserFreeSession method of AdvisorMyAccountRequestViewDetailsDAO threw error:"+e.getMessage());
+			e.printStackTrace();
+		}finally{
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				logger.error("ToggleUserFreeSession method of AdvisorMyAccountRequestViewDetailsDAO threw error:"+e.getMessage());
+				e.printStackTrace();
+			}
+		}		
+		logger.info("Entered ToggleUserFreeSession method of AdvisorMyAccountRequestViewDetailsDAO");
+		return isCommit;
+	}
 }

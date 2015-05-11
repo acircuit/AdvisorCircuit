@@ -53,7 +53,7 @@ public class AdminSessionDAO {
 		try {
 			conn = ConnectionFactory.getConnection();
 			conn.setAutoCommit(false);
-			String query = "SELECT * FROM session_table WHERE STATUS = ?";
+			String query = "SELECT * FROM session_table WHERE STATUS = ? ORDER BY ACCEPTED_DATE";
 			PreparedStatement pstmt = conn.prepareStatement(query);
 			pstmt.setString(1, status);
 			results = pstmt.executeQuery();

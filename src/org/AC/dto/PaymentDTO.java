@@ -24,6 +24,7 @@ public class PaymentDTO {
 	Boolean paidToAdvisor;
 	int amountPayable;
 	int fee;
+
 	public int getFee() {
 		return fee;
 	}

@@ -55,7 +55,7 @@ public class BookASessionDAO {
 	 *
 	 ***************************************************************************************************/
 
-	public int  setBookASessionDetails(String advisorId,String service,String mode,String duration ,String datetimepicker1,String datetimepicker2,String datetimepicker3,String datetimepicker4,String userQuery,int userId,String price,String isFree, String registrationPrice, String discount) { 
+	public int  setBookASessionDetails(String advisorId,String service,String mode,String duration ,String datetimepicker1,String datetimepicker2,String datetimepicker3,String datetimepicker4,String userQuery,int userId,String price,String isFree, String registrationPrice, String discount,String userIsFree) { 
 		logger.info("Entered setBookASessionDetails method of BookASessionDAO");
 		int rId =0;
 		int result = 0;
@@ -111,7 +111,7 @@ public class BookASessionDAO {
 				conn =ConnectionFactory.getConnection();
 				conn.setAutoCommit(false);
 				if(mode.equals("email")){
-					String query = "insert into userrequest"+"(ADVISOR_ID,SERVICE,MODE_OF_COMMUNICATION,QUERY,DURATION,BOOKING_TIME,DATE_TIME1,STATUS,USER_ID,AMOUNT,IS_FREE_FROM_ADVISOR,PRICE,DISCOUNT) values" + "(?,?,?,?,?,?,?,?,?,?,?,?,?)";
+					String query = "insert into userrequest"+"(ADVISOR_ID,SERVICE,MODE_OF_COMMUNICATION,QUERY,DURATION,BOOKING_TIME,DATE_TIME1,STATUS,USER_ID,AMOUNT,IS_FREE_FROM_ADVISOR,PRICE,DISCOUNT,IS_FREE_USER) values" + "(?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 					pstmt = conn.prepareStatement(query,Statement.RETURN_GENERATED_KEYS);
 					pstmt.setString(1,advisorId);
 					pstmt.setString(2,service);
@@ -134,9 +134,10 @@ public class BookASessionDAO {
 					}else{
 						pstmt.setDouble(13, Double.parseDouble(discount));
 					}
+					pstmt.setBoolean(14,false);
 					result = pstmt.executeUpdate(); 
 				}else{
-					String query = "insert into userrequest"+"(ADVISOR_ID,SERVICE,MODE_OF_COMMUNICATION,QUERY,DURATION,BOOKING_TIME,DATE_TIME1,DATE_TIME2,DATE_TIME3,DATE_TIME4,STATUS,USER_ID,AMOUNT,IS_FREE_FROM_ADVISOR,PRICE,DISCOUNT) values" + "(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+					String query = "insert into userrequest"+"(ADVISOR_ID,SERVICE,MODE_OF_COMMUNICATION,QUERY,DURATION,BOOKING_TIME,DATE_TIME1,DATE_TIME2,DATE_TIME3,DATE_TIME4,STATUS,USER_ID,AMOUNT,IS_FREE_FROM_ADVISOR,PRICE,DISCOUNT,IS_FREE_USER) values" + "(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 					pstmt = conn.prepareStatement(query,Statement.RETURN_GENERATED_KEYS);
 					pstmt.setString(1,advisorId);
 					pstmt.setString(2,service);
@@ -158,7 +159,13 @@ public class BookASessionDAO {
 					}
 					pstmt.setDouble(15, Double.parseDouble(registrationPrice));
 					pstmt.setDouble(16,  Double.parseDouble(discount));
+					if(userIsFree.equals("true")){
+						pstmt.setBoolean(17,true);
+					}else{
+						pstmt.setBoolean(17,false);
+					}
 					result = pstmt.executeUpdate(); 
+					
 				}
 				if(result >0) {
 					ResultSet generatedKeys = pstmt.getGeneratedKeys();
@@ -278,6 +285,47 @@ public class BookASessionDAO {
 			}
 		}
 		logger.info("Exit DecrementIsFree method of BookASessionDAO");
+		return isFlagCommit;
+	}
+	public Boolean  ToggleUserIsFree(int userId) { 
+		logger.info("Entered ToggleUserIsFree method of BookASessionDAO");
+		Boolean isFlagCommit = false ;
+		try {
+			conn =ConnectionFactory.getConnection();
+			conn.setAutoCommit(false);
+			String query ="UPDATE userdetails SET ISFREE = ? WHERE USER_ID = ?";
+			PreparedStatement pstmt = conn.prepareStatement(query);
+			pstmt.setBoolean(1,false);
+			pstmt.setInt(2, userId);
+			int result = pstmt.executeUpdate(); 
+			if(result >0) {
+				conn.commit();
+				isFlagCommit = true;
+			}
+		}catch(Exception e){
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				try {
+					conn.rollback();
+				} catch (SQLException e2) {
+					logger.error("DecrementIsFree method of BookASessionDAO threw error:"+e2.getMessage());
+					e2.printStackTrace();
+				}
+				logger.error("DecrementIsFree method of BookASessionDAO threw error:"+e1.getMessage());
+				e1.printStackTrace();
+			}
+			logger.error("ToggleUserIsFree method of BookASessionDAO threw error:"+e.getMessage());
+			e.printStackTrace();
+		}finally{
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				logger.error("ToggleUserIsFree method of BookASessionDAO threw error:"+e.getMessage());
+				e.printStackTrace();
+			}
+		}
+		logger.info("Exit ToggleUserIsFree method of BookASessionDAO");
 		return isFlagCommit;
 	}
 }

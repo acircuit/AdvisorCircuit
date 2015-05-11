@@ -58,6 +58,7 @@ public class UserMyAccountUpcomingSessionController extends HttpServlet {
 		if(username != null &&  userId != 0 && !("").equals(username)){
 			List<AdvisorProfileDTO> list2 = new ArrayList<AdvisorProfileDTO>();
 			List<UserRequestDTO> list1 = new ArrayList<UserRequestDTO>();
+			List<UserRequestDTO> list3 = new ArrayList<UserRequestDTO>();
 			List<TimeDTO> difference = new ArrayList<TimeDTO>();
 
 			//Getting the session details where uId= userId and status = "Waiting for session"
@@ -82,8 +83,8 @@ public class UserMyAccountUpcomingSessionController extends HttpServlet {
 				list1 = dao.getRequestDetails(requestIds);	
 			}
 			//Setting time left for the session
-			for (UserRequestDTO userRequestDTO : list1) {
-				for (SessionDTO sessionDTO : list) {
+			for (SessionDTO sessionDTO : list) {
+				for (UserRequestDTO userRequestDTO : list1) {
 					if(sessionDTO.getRequestId() == userRequestDTO.getRequestId()){
 						userRequestDTO.setReviewMesage(sessionDTO.getReviewMessage());
 						userRequestDTO.setRating(sessionDTO.getIsRating());
@@ -106,11 +107,11 @@ public class UserMyAccountUpcomingSessionController extends HttpServlet {
 							userRequestDTO.setHours(0);
 							userRequestDTO.setMinutes(0);
 						}
-						
+						list3.add(userRequestDTO);	
 					}
 				}
 			}
-				request.setAttribute("requests", list1);
+				request.setAttribute("requests", list3);
 				request.setAttribute("advisordetails", list2);
 				request.setAttribute("sId", sessionId);
 				RequestDispatcher rd = getServletContext().getRequestDispatcher("/UserUpcomingSession.jsp");

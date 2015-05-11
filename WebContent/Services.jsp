@@ -178,8 +178,8 @@
                                                    	
                                                    	</c:otherwise>
                                                 </c:choose>
-                                                   	<button type="button" class="btn btn-default" data-html=" " data-trigger="focus" data-container="body" data-toggle="popover" data-placement="right"  data-content="Please select if you want to give users a free introductory session. Session here means 30 mins. ">
-                                                        <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> </button>
+                                                     <p>Please select if you want to give users a free introductory session. Session here means 30 mins. </p>
+         
                                                    </div> 
                                                   </div>
                                                    
@@ -418,8 +418,8 @@
                                                    	
                                                    	</c:otherwise>
                                                 </c:choose>
-                                                   	<button type="button" class="btn btn-default" data-html=" " data-trigger="focus" data-container="body" data-toggle="popover" data-placement="right"  data-content="Please select if you want to give users a free introductory session. Session here means 30 mins. ">
-                                                        <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> </button>
+                                                <p>Please select if you want to give users a free introductory session. Session here means 30 mins. </p>
+
                                                    </div> 
                                                   </div>
                                                     <c:set value="0" var="miphone"></c:set>
@@ -614,8 +614,8 @@
                                                    	
                                                    	</c:otherwise>
                                                 </c:choose>
-                                                   	<button type="button" class="btn btn-default" data-html=" " data-trigger="focus" data-container="body" data-toggle="popover" data-placement="right"  data-content="Please select if you want to give users a free introductory session. Session here means 30 mins. ">
-                                                        <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> </button>
+                                                	<p>Please select if you want to give users a free introductory session. Session here means 30 mins. </p>
+
                                                    </div> 
                                                   </div>
                                            
@@ -1023,8 +1023,8 @@
 			                                                      <option value="3">3</option>
 			                                                      <option value="4">4</option>
 			                                              </select>
-                                                   	<button type="button" class="btn btn-default" data-html=" " data-trigger="focus" data-container="body" data-toggle="popover" data-placement="right"  data-content="Please select if you want to give users a free introductory session. Session here means 30 mins. ">
-                                                    <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> </button>
+			                                              <p>Please select if you want to give users a free introductory session. Session here means 30 mins. </p>
+                                                 
                                             	</div>
                                             </div>
                                             <div class="form-group" id="collapsecareertalkprice">
@@ -1118,8 +1118,8 @@
 			                                                      <option value="3">3</option>
 			                                                      <option value="4">4</option>
 			                                              </select>
-                                                   	<button type="button" class="btn btn-default" data-html=" " data-trigger="focus" data-container="body" data-toggle="popover" data-placement="right"  data-content="Please select if you want to give users a free introductory session. Session here means 30 mins. ">
-                                                    <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> </button>                                           		  </div>                                         
+			                                              <p>Please select if you want to give users a free introductory session. Session here means 30 mins. </p>
+                                                                            		  </div>                                         
                                             </div>
                                             <div class="form-group" id="dmockInterview_mode">
                                             	<div class="col-md-3">
@@ -1197,8 +1197,8 @@
 			                                                      <option value="3">3</option>
 			                                                      <option value="4">4</option>
 			                                              </select>
-                                                   	<button type="button" class="btn btn-default" data-html=" " data-trigger="focus" data-container="body" data-toggle="popover" data-placement="right"  data-content="Please select if you want to give users a free introductory session. Session here means 30 mins. ">
-                                                    <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> </button>  
+			                                              <p>Please select if you want to give users a free introductory session. Session here means 30 mins.</p>
+                                           
                                             	</div>
                                             </div>          
                                             <div class="form-group" id="dcvCritique_mode">

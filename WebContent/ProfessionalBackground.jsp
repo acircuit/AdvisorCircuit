@@ -160,7 +160,20 @@
                                                         <c:set value="${desccounter +1 }" var="desccounter"></c:set>					                                	
                                                     </c:if>
                                         </c:forEach>					                                	
-                                                    
+                                         <c:if test="${desccounter ==0 }">
+                                         		<div class="form-group" id="ddescription${counter}${desccounter}">
+                                                            <label for="icode" class="col-md-3 control-label">Description(Explain your work in bullet points)</label>
+                                                            <div class="col-md-5 col-xs-8">
+                                                                <input id="description${counter}${desccounter}" class="form-control" name="description${counter}[]" value="${desc}" maxlength="350">
+                                                                <p class="required" id="required_description${counter}">Field Required</p>																			                                        	                                        
+                                                            </div>
+                                                            <div class="col-md-2">
+                                                            <button type="button" class="btn btn-default" data-container="body" data-toggle="popover" data-placement="right" data-trigger="focus" data-content="Example: Manage and develop newspaper, magazine and internet advertising for existing and new accounts while building and cultivating client relations by continually updating my knowledge of the ever-changing media and market.Assist with the clients advertising strategy, ad message and creative development.Consistently grew business and established strong relationships with clients.">
+                                                               			 <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> </button>
+                                                            </div>
+                                                </div>
+                                                <c:set value="${desccounter +1 }" var="desccounter"></c:set>					                                	
+                                         </c:if>           
                                         <div id="adddescription${counter}">
                                         </div>
                                         

@@ -49,6 +49,7 @@ public class UserMyAccountRequestViewDetailsFormController extends HttpServlet {
 		 String isFree = request.getParameter("isFree");
 		 String aId = request.getParameter("aId");
 		 String service = request.getParameter("service");
+		 String userIsFree = request.getParameter("userIsFree");
 		 Properties prop = new Properties();
 	     InputStream resourceAsStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("Resources/mail.properties");
 		 prop.load(resourceAsStream);
@@ -72,6 +73,11 @@ public class UserMyAccountRequestViewDetailsFormController extends HttpServlet {
 						AdvisorMyAccountRequestViewDetailsDAO decrem = new AdvisorMyAccountRequestViewDetailsDAO();
 						decrem.DecrementFreeSession(Integer.parseInt(aId),service);
 					}
+					if(userIsFree.equals("true")){
+						//Toggle the free session column in the userdetails table
+						AdvisorMyAccountRequestViewDetailsDAO toggle = new AdvisorMyAccountRequestViewDetailsDAO();
+						toggle.ToggleUserFreeSession(Integer.parseInt(uId));
+					}
 					String subject = "Session Rejected By User!";
 					String content = "Hi, <br><br>The Session was rejected by the user for Session Id : "+sessionId+ " and Request Id :"+rId1+"<br><img src=\"http://www.advisorcircuit.com/Test/assets/img/logo_black.png\" style='float:right' width='25%'>";
 					SendMail mail = new SendMail(subject, content, prop.getProperty("MAIL_ADMIN"),prop.getProperty("MAIL_ADMIN"));
@@ -79,6 +85,11 @@ public class UserMyAccountRequestViewDetailsFormController extends HttpServlet {
 					response.sendRedirect("UserCancelledSessions");
 				}
 			}else if (isStatusCommit) {
+				if(userIsFree.equals("true")){
+					//Toggle the free session column in the userdetails table
+					AdvisorMyAccountRequestViewDetailsDAO toggle = new AdvisorMyAccountRequestViewDetailsDAO();
+					toggle.ToggleUserFreeSession(Integer.parseInt(uId));
+				}
 				String subject = "Session Rejected By User!";
 				String content = "Hi, <br><br>The Session was rejected by the user for Request Id :"+rId1+"<br><img src=\"http://www.advisorcircuit.com/Test/assets/img/logo_black.png\" style='float:right' width='25%'>";
 				SendMail mail = new SendMail(subject, content, prop.getProperty("MAIL_ADMIN"),prop.getProperty("MAIL_ADMIN"));

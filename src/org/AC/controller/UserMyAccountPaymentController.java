@@ -305,7 +305,7 @@ public class UserMyAccountPaymentController extends HttpServlet {
 								String content = "Hi, <br><br>User Payment Done For Session Id : "+sId+" <br>Now, Waiting for session to happen"+"<br><img src=\"http://www.advisorcircuit.com/Test/assets/img/logo_black.png\" style='float:right' width='25%'>";
 								SendMail mail = new SendMail(subject, content, prop1.getProperty("MAIL_ADMIN"),prop1.getProperty("MAIL_ADMIN"));
 								mail.start();
-								String site = new String("UserUpcomingSessions");
+								String site = new String("thankyouforpayment");
 							    response.setStatus(response.SC_MOVED_TEMPORARILY);
 							    response.setHeader("Location", site); 
 						}

@@ -48,7 +48,7 @@
     List<AdvisorProfileDTO> awards= (List<AdvisorProfileDTO>)request.getAttribute("awards");
 	List<RecommendationDTO> reviews= (List<RecommendationDTO>)request.getAttribute("reviews");
 	List<UserDetailsDTO> reviewUserDetails= (List<UserDetailsDTO>)request.getAttribute("reviewUserDetails");
-   	 	
+   	Boolean userIsFree = (Boolean) request.getAttribute("userIsFree"); 	
 	String advisorId = (String)request.getParameter("aId");
 	request.setAttribute("advisorId", advisorId);	
 		int  uId =  0;
@@ -60,6 +60,7 @@
 			redirect = true;
 		}
 		pageContext.setAttribute("advisors", advisors);
+		pageContext.setAttribute("userIsFree", userIsFree);
 		pageContext.setAttribute("profession", profession);
 		pageContext.setAttribute("services", services);
 		pageContext.setAttribute("modes", modes);
@@ -194,13 +195,13 @@
 				          			</c:when>
 				          			<c:otherwise>
 				          				<c:if test="${mode.getModeOfCommunication().equals('email')}">
-						            		<li><img src="assets/img/ProfileImages/Panel_4_Icon_Mail.png" width="50"><span>Email</br>Rs.${mode.getPrice()}</span></li>
+						            		<li><img src="assets/img/ProfileImages/Panel_4_Icon_Mail.png" width="50"><span>Email<br>Rs.${mode.getPrice()}</span></li>
 								        </c:if>
 								        <c:if test="${mode.getModeOfCommunication().equals('phone')}">
-								        	<li><img src="assets/img/ProfileImages/Panel_4_Icon_Phone.png" width="50"><span>Phone</br>Rs.${mode.getPrice()}</span></li>
+								        	<li><img src="assets/img/ProfileImages/Panel_4_Icon_Phone.png" width="50"><span>Phone<br>Rs.${mode.getPrice()}</span></li>
 								        </c:if>
 			         					<c:if test="${mode.getModeOfCommunication().equals('webchat')}">
-								        	<li><img src="assets/img/ProfileImages/Panel_4_Icon_WebChat.png" width="50"><span>Webchat</br>Rs.${mode.getPrice()}</span></li>
+								        	<li><img src="assets/img/ProfileImages/Panel_4_Icon_WebChat.png" width="50"><span>Webchat<br>Rs.${mode.getPrice()}</span></li>
 								        </c:if>
 				          			</c:otherwise>
 				          		</c:choose>
@@ -208,7 +209,7 @@
 				            </c:forEach>
 		       			</ul>
 					</div>
-			        
+			        <p style="color: #c84c4e">Prices shown for Phone/Webchat are for 30 mins.</p>
                     <div class="book-session text-center">
 			      		<a href="#" id="book_a_session2" onclick="div_show(this)"><img src="assets/img/ProfileImages/Panel_Services_Book.png" height="50"><br>Book a Session</a>
 			      	</div>
@@ -223,7 +224,7 @@
 								<h4 class="modal-title" id="myModalLabel">Career Talk Description</h4>
 							</div>
 							<div class="modal-body">
-								<p style = "font-size: 18px!important"> ${service.getDescription()}</p>
+								<p style = "font-size: 18px!important" id="ctdesc"> </p>
 							</div>
 						</div>
                      </div>
@@ -272,7 +273,7 @@
 				            </c:forEach>
 		       			</ul>
 			          </div>
-			        
+			        <p style="color: #c84c4e">Prices shown for Phone/Webchat are for 30 mins.</p>			        
                     <div class="book-session text-center">
 			      		<a href="#" id="book_a_session3" onclick="div_show(this)"><img src="assets/img/ProfileImages/Panel_Services_Book.png" height="50"><br>Book a Session</a>
 			      	</div>
@@ -288,7 +289,7 @@
 									<h4 class="modal-title" id="myModalLabel">Mock Interview Description</h4>
 								</div>
 								<div class="modal-body">
-										<p style = "font-size: 18px!important"> ${service.getDescription()}</p>
+										<p style = "font-size: 18px!important" id="midesc"></p>
 								</div>
 							</div>
                      	</div>
@@ -329,7 +330,7 @@
 								        	<li><img src="assets/img/ProfileImages/Panel_4_Icon_Phone.png" width="50"><span>Phone</br>Rs.${mode.getPrice()}</span></li>
 								        </c:if>
 			         					<c:if test="${mode.getModeOfCommunication().equals('webchat')}">
-								        	<li><img src="assets/img/ProfileImages/Panel_4_Icon_WebChat.png" width="50"><span>Webchat</br>Rs.${mode.getPrice()}</span></li>
+									        <li><img src="assets/img/ProfileImages/Panel_4_Icon_WebChat.png" width="50"><span>Webchat</br>Rs.${mode.getPrice()}</span></li>
 								        </c:if>
 				          			</c:otherwise>
 				          		</c:choose>
@@ -337,7 +338,7 @@
 				            </c:forEach>
 		       			</ul>
 			          </div>
-                      
+      			        <p style="color: #c84c4e">Prices shown for Phone/Webchat are for 30 mins</p>                     
 			          <div class="book-session text-center">
 			      		<a href="#" id="book_a_session4" onclick="div_show(this)"><img src="assets/img/ProfileImages/Panel_Services_Book.png" height="50"><br>Book a Session</a>
 			      	  </div>
@@ -353,7 +354,7 @@
 									<h4 class="modal-title" id="myModalLabel">Resume Critique Description</h4>
 								</div>
 								<div class="modal-body">
-										<p style = "font-size: 18px!important"> ${service.getDescription()}</p>
+										<p style = "font-size: 18px!important" id="rcdesc"></p>
 								</div>
 							</div>
                      	</div>
@@ -378,10 +379,10 @@
 				            		<li><img src="assets/img/ProfileImages/Panel_4_Icon_Mail.png" height="50"><span>Email<br/>Rs.${mode.getPrice()}</span></li>
 						        </c:if>
 						        <c:if test="${mode.getModeOfCommunication().equals('phone')}">
-						        	<li><img src="assets/img/ProfileImages/Panel_4_Icon_Phone.png" height="50"><span>Phone<br/>Rs.${mode.getPrice()}</span></li>
+						        	<li><img src="assets/img/ProfileImages/Panel_4_Icon_Phone.png" height="50"><span>Phone/30 mins<br/>Rs.${mode.getPrice()}</span></li>
 						        </c:if>
 	         					<c:if test="${mode.getModeOfCommunication().equals('webchat')}">
-						        	<li><img src="assets/img/ProfileImages/Panel_4_Icon_WebChat.png" height="50"><span>Webchat<br/>Rs.${mode.getPrice()}</span></li>
+						        	<li><img src="assets/img/ProfileImages/Panel_4_Icon_WebChat.png" height="50"><span>Webchat/30 mins<br/>Rs.${mode.getPrice()}</span></li>
 						        </c:if>
 					        </c:if>
 				            </c:forEach>
@@ -497,7 +498,7 @@
 							<div class="modal-content">
 								<div class="modal-header">
 									<button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
-									<h4 class="modal-title" id="myModalLabel" style="font-family:'custom_light' !important;" >Book A Session</h4>
+									<h3 class="modal-title" id="myModalLabel" style="font-family:'custom_light' !important;text-align: center;" >Book A Session</h3>
 								</div>
 								<div class="modal-body">
 									<form id="signupform" class="form-horizontal" role="form" action="BookASession" method="post" enctype="multipart/form-data">
@@ -508,6 +509,7 @@
                                 </div>
                                 <input type="hidden" id="isfree" name="isFree">
                                 <input type="hidden" id="discount" name="discount">
+                                <input type="hidden" id="userisfree" name="userisfree">
                                 <div class="form-group">
                                     <label for="icode" style="font-family:'custom_light' !important;" class="col-md-3 control-label">Services</label>
                                      <div class="col-md-6">
@@ -551,28 +553,40 @@
                                             <label for="icode" style="font-family:'custom_light' !important;" class="col-md-3 control-label">Duration</label>
                                             <div class="col-md-9">
 											<label id="duration" font-family:'custom_light' !important; class="radio-inline">
-                                                <input type="radio" style="font-family:'custom_light' !important;" onchange="getPrice()" name="duration" id="optionsRadiosInline1" value="0.5">Half Hour
+                                                <input type="radio" style="font-family:'custom_light' !important;" onchange="CheckUserIsFree()" name="duration" id="optionsRadiosInline1" value="0.5">Half Hour
                                             </label>
                                             <label class="radio-inline" font-family:'custom_light' !important;>
-                                                <input type="radio" style="font-family:'custom_light' !important;" onchange="getPrice()" name="duration" id="optionsRadiosInline2" value="0.75">45 mins
+                                                <input type="radio" style="font-family:'custom_light' !important;" onchange="CheckUserIsFree()" name="duration" id="optionsRadiosInline2" value="0.75">45 mins
                                             </label>
                                          	 <label class="radio-inline" font-family:'custom_light' !important;>
-                                                <input type="radio" style="font-family:'custom_light' !important;" onchange="getPrice()" name="duration" id="optionsRadiosInline3" value="1">1 Hour
+                                                <input type="radio" style="font-family:'custom_light' !important;" onchange="CheckUserIsFree()" name="duration" id="optionsRadiosInline3" value="1">1 Hour
                                             </label>
                                             <label class="radio-inline" font-family:'custom_light' !important;>
-                                                <input type="radio" style="font-family:'custom_light' !important;" onchange="getPrice()" name="duration" id="optionsRadiosInline4" value="1.5">1.5  Hour
+                                                <input type="radio" style="font-family:'custom_light' !important;" onchange="CheckUserIsFree()" name="duration" id="optionsRadiosInline4" value="1.5">1.5  Hour
                                             </label>
 										</div>	
                                 </div>
+                                <div id="userFree" class="form-group collapse">
+                                            <label for="icode" style="font-family:'custom_light' !important;" class="col-md-3 control-label">Do you want to use your 15 mins free session</label>
+                                            <div class="col-md-9">
+											<label id="duration" font-family:'custom_light' !important; class="radio-inline">
+                                                <input type="radio" style="font-family:'custom_light' !important;" onchange="getPrice()" name="free" id="optionsRadiosInlinefree1" value="yes">Yes
+                                            </label>
+                                            <label class="radio-inline" font-family:'custom_light' !important;>
+                                                <input type="radio" style="font-family:'custom_light' !important;" onchange="getPrice()" name="free" id="optionsRadiosInlinefree2" value="no">No
+                                            </label>
+                                         	</div>	
+                                </div>
+                                
                                 <div id="regpricediv" class="form-group collapse">
                                     <label for="icode" style="font-family:'custom_light' !important;" class="col-md-3 control-label">Price(Rs)</label>
-                                    <div class="col-md-9">
+                                    <div class="col-md-6">
                                         <input type="text" id="registrationPrice" name="registrationPrice" style="font-family:'custom_light' !important;" class="form-control" readonly="readonly">
                                     </div>
                                 </div>								
 								<div id="pricediv" class="form-group collapse">
                                     <label for="icode" style="font-family:'custom_light' !important;" class="col-md-3 control-label">Discounted Price(Rs)</label>
-                                    <div class="col-md-9">
+                                    <div class="col-md-6">
                                         <input type="text" name="price" style="font-family:'custom_light' !important;" class="form-control" id="disabledInput" placeholder="" readOnly="true">
 					     				<h4 id="freesession" style="font-family:'custom_light' !important;color: #c84c4e;text-align: left;display: none;">Great news ! The first 30 mins is free for you. </h4> 
                                    		<h4 id="freesession1" style="font-family:'custom_light' !important;color: #c84c4e;text-align: left;display: none;">Great news ! This session is free for you. </h4> 
@@ -583,12 +597,11 @@
 								
 								
 								<div style="height:10px"></div>
-								<div id="notemail" style="display: none">
-								<h3 style="font-family:'custom_light' !important;text-align: left;">Choose Date and Time</h3>
+								<div id="notemail" style="display: none;">
+								<h4 style="font-family:'custom_light' !important;text-align: center;">Choose Date and Time</h4>
 								<hr>
-								
-							
-								 <div class="form-group">
+
+									<div class="form-group">
 										<label for="icode" style="font-family:'custom_light' !important;" class="col-md-3 control-label">Slot 1</label>
 										<div id="datetimepicker1" class="input-append date" >
 										  <input type="datetime" style="font-family:'custom_light' !important;" id="datepicker1" name="datetimepicker1" readonly="readonly"></input>
@@ -596,9 +609,9 @@
 											<i data-time-icon="icon-time" data-date-icon="icon-calendar" style="margin-top:7px"></i>
 										  </span>
 										</div>
-								</div>
-								
-								<div class="form-group">
+									</div>
+
+									<div class="form-group">
 										<label for="icode" style="font-family:'custom_light' !important;" class="col-md-3 control-label">Slot 2</label>
 										<div id="datetimepicker2" class="input-append date" >
 										  <input type="datetime" style="font-family:'custom_light' !important;" id="datepicker2" name="datetimepicker2" readonly="readonly"></input>
@@ -606,8 +619,9 @@
 											<i data-time-icon="icon-time" data-date-icon="icon-calendar" style="margin-top:7px"></i>
 										  </span>
 										</div>
-								</div>
-								<div class="form-group">
+									</div>
+
+									<div class="form-group">
 										<label for="icode" style="font-family:'custom_light' !important;" class="col-md-3 control-label">Slot 3</label>
 										<div id="datetimepicker3" class="input-append date" >
 										  <input type="datetime" style="font-family:'custom_light' !important;" id="datepicker3" name="datetimepicker3" readonly="readonly"></input>
@@ -615,8 +629,9 @@
 											<i data-time-icon="icon-time" data-date-icon="icon-calendar" style="margin-top:7px"></i>
 										  </span>
 										</div>
-								</div>
-								<div class="form-group">
+									</div>
+
+									<div class="form-group">
 										<label for="icode" style="font-family:'custom_light' !important;" class="col-md-3 control-label">Slot 4</label>
 										<div id="datetimepicker4" class="input-append date">
 										  <input type="datetime" style="font-family:'custom_light' !important;" id="datepicker4" name="datetimepicker4" readonly="readonly"></input>
@@ -625,9 +640,11 @@
 										  </span>
 										</div>
 								</div>
+
+
 								</div>
 								<div id="emailslot" style="display: none">
-									<h3 style="font-family:'custom_light' !important;text-align: left;">Chose the date by which you want the reply</h3>
+									<h4 style="font-family:'custom_light' !important;text-align: center;">Chose the date by which you want the reply</h4>
 									<hr>
 									<div class="form-group">
 											<label for="icode" style="font-family:'custom_light' !important;" class="col-md-3 control-label">Slot 1</label>
@@ -639,18 +656,16 @@
 											</div>
 									</div>
 								</div>
-								<hr>
-								
+								<h4 style="font-family:'custom_light' !important;text-align: center;">Enter Your Query</h4>
+									<hr>
 								<div class="form-group">
-                                    <label id="query-label" for="icode" style="font-family:'custom_light' !important;" class="col-md-3 control-label">Enter Your Query :</label>
+									
+									<label for="icode" style="font-family:'custom_light' !important;" class="col-md-3 control-label"></label>
                                     <div class="col-md-6">
-                                        <textarea class="form-control" style="font-family:'custom_light' !important;" id="query" name="query" rows="3" maxlength="6000"></textarea>
+                                        <textarea class="form-control" style="font-family:'custom_light' !important;" id="query" name="query" rows="3" maxlength="6000" placeholder="Write your query in detail"></textarea>
                                         <p class="required" id="complete-query">Please write your complete email.</p>
                                     </div>
-                                    <div class="col-md-2">
-	                                    <button type="button" style="float:left" class="btn btn-default" data-container="#datacontent" data-toggle="popover" data-html="true" data-placement="bottom" data-content="<p>Write your query in detail and mention the following:<br>a. Background Info <br>b. Query & Doubts <br>c. How you want the advisor to help you <br>Example: Hi Mr. Rao, I'm pursuing Civil Engineering from ABC University. I am currently in my final year and want to take up this field professionally. I want to discuss:<br>1.Different specializations and Job Opportunities<br>2.Expected career growth<br>3.How should I plan my future<br>I want to especially focus on making a career plan. Looking forward to our session.</p>" >
-							   			<span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> </button> 
-						   			</div>
+                                   
                                 </div>
                                       
                                 <div id="datacontent"></div>
@@ -715,11 +730,12 @@
         interval: 5000 //changes the speed
     });
 	 <c:forEach items="${advisors}" var="advisor">
-    var intro = "${advisor.getIntroduction()}";
+   	 var intro ="${advisor.getIntroduction()}";
+	 var intro1 = ShowDoubleQuotes(intro);
     var length = intro.length;
     if(length > 500){
-    	intro = intro.substring(0,500);
-    	$('#selfintroduction').html(intro+" .. <a style='float:none !important;text-decoration:underline !important' data-toggle='modal' data-target='#intro'>View More</a>")
+    	intro1 = intro.substring(0,500);
+    	$('#selfintroduction').html(intro1+" .. <a style='float:none !important;text-decoration:underline !important' data-toggle='modal' data-target='#intro'>View More</a>")
     	$('#intr').html(intro);
     }else{
     	$('#selfintroduction').html(intro);
@@ -737,25 +753,37 @@
     		counter++;
     		var service = "${service.getDescription()}";
     		var length = service.length;
+    		var service1 =  ShowDoubleQuotes(service);
     		if(length > 188){
-    			service = service.substring(0,150);
-    			$('.careertalkdescription').html(service+" .. <a style='float:none !important;text-decoration:underline !important' data-toggle='modal' data-target='#careertalkdesc'>View More</a>");
+    			service1 = service.substring(0,150);
+    			$('.careertalkdescription').html(service1+" .. <a style='float:none !important;text-decoration:underline !important' data-toggle='modal' data-target='#careertalkdesc'>View More</a>");
+    			$("#ctdesc").html(service);
+    		}else{
+    			$('.careertalkdescription').html(service);
     		}
     	}else if(${service.getService() == "mockinterview"}){
     		counter++;
     		var service = "${service.getDescription()}";
     		var length = service.length;
+    		var service1 =  ShowDoubleQuotes(service);
     		if(length > 188){
-    			service = service.substring(0,150);
-    			$('.mockinterviewdescription').html(service+" .. <a style='float:none !important;text-decoration:underline !important' data-toggle='modal' data-target='#mockinterviewdesc'>View More</a>");
+    			service1 = service.substring(0,150);
+    			$('.mockinterviewdescription').html(service1+" .. <a style='float:none !important;text-decoration:underline !important' data-toggle='modal' data-target='#mockinterviewdesc'>View More</a>");
+    			$("#midesc").html(service);
+    		}else{
+    			$('.mockinterviewdescription').html(service);
     		}
     	}else if(${service.getService() == "cvcritique"}){
     		counter++;
-    		var service = "${service.getDescription()}";
+    		var service ="${service.getDescription()}";
     		var length = service.length;
+    		var service1 =  ShowDoubleQuotes(service);
     		if(length > 188){
-    			service = service.substring(0,150);
-    			$('.cvcritiquedescription').html(service+" .. <a style='float:none !important;text-decoration:underline !important' data-toggle='modal' data-target='#cvdesc'>View More</a>");
+    			service1 = service.substring(0,150);
+    			$('.cvcritiquedescription').html(service1+" .. <a style='float:none !important;text-decoration:underline !important' data-toggle='modal' data-target='#resumecritiquedesc'>View More</a>");
+    			$("#rcdesc").html(service);
+    		}else{
+    			$('.cvcritiquedescription').html(service);
     		}
     	}else if(${service.getService() == "personalworkshops"}){
     		counter++;
@@ -895,6 +923,7 @@
         $("#complete-query").hide();
         $("#pricediv").hide();
         $("#regpricediv").hide();
+        $("#userFree").hide();
         $("#modediv").show();
         $("#modes ul").html('');     
         var i =1;
@@ -929,9 +958,24 @@
          $("#pricediv").hide();
          $("#regpricediv").hide();
          $("#complete-query").hide();
+         $("#userFree").hide();
     	$("#durationdiv").show();
 		document.getElementById('notemail').style.display = "block";
 		document.getElementById('emailslot').style.display = "none";
+    }
+    function CheckUserIsFree(){
+    	var advisorFree = 0;
+    	<c:forEach items="${services}" var="service">
+    	if(document.getElementById('services_dropdown').value == "${service.getService()}"){
+    		advisorFree = "${service.getIsFree()}";
+    	}
+    	</c:forEach>
+    	if(<%= userIsFree%> && $('input:radio[name=mode]:checked').val() != "email"  && advisorFree == 0){
+    		$("#userFree").show();
+    	}else{
+    		$("#userFree").hide();
+    		getPrice();
+    	}
     }
     function getPrice(){
     	var valuemode = $('input:radio[name=mode]:checked').val();
@@ -940,16 +984,20 @@
     	if(valuemode != "email"){
 	    	valueduration = $('input:radio[name=duration]:checked').val();
     	}else{
+    		$("#userFree").hide();
 			document.getElementById('durationdiv').style.display = "none";
 			document.getElementById('notemail').style.display = "none";
 			document.getElementById('emailslot').style.display = "block";
     	}
+    	var isUserOptFree = $('input:radio[name=free]:checked').val();
 	var price;
 	var free= false;
+	var isFreeSessions = 0;
     	<c:forEach items="${modes}" var="mode">
     		if("${mode.getModeOfCommunication()}" == valuemode && "${mode.getService()}" ==  document.getElementById('services_dropdown').value){
     			<c:forEach items="${services}" var="service">
     				if("${mode.getService()}" == "${service.getService()}"){
+    					isFreeSessions = "${service.getIsFree()}";
     					if(("${service.getIsFree()}" > 0 && $('input:radio[name=duration]:checked').val()== "0.5") || ("${service.getIsFree()}" > 0 && valuemode=="email") ){
     						price= "0";
     						free = true;
@@ -967,9 +1015,17 @@
 							price = "${mode.getPrice()}";			    						
     					}
     					else if("${mode.getDiscounted_price()}" == 0 && "${service.getDiscount()}" == 0){
-    	    				price = "${mode.getPrice()}"  * 2;
+    						if(isUserOptFree == "yes" && <%= userIsFree%> && valuemode != "email"){
+    							price =	"${mode.getUser_isfree_price()}";
+    						}else{
+        	    				price = "${mode.getPrice()}"  * 2;
+    						}
     	    			}else{
-    	    				price = "${mode.getDiscounted_price()}";
+    	    				if(isUserOptFree == "yes" && <%= userIsFree%> && valuemode != "email"){
+    							price =	"${mode.getUser_isfree_price()}";
+    						}else{
+        	    				price = "${mode.getDiscounted_price()}";
+    						}
     	    			}
     					if(valuemode != "email"){
     						$("#registrationPrice").val(Math.round("${mode.getPrice()}" * valueduration * 2 ));
@@ -984,6 +1040,11 @@
     	</c:forEach>
     	if(free){
     		$("#isfree").val(true);
+    	}
+    	if(isUserOptFree == "yes" && <%= userIsFree%> && valuemode != "email" && isFreeSessions == 0){
+    		$("#userisfree").val(true);
+    	}else{
+    		$("#userisfree").val(false);
     	}
     	if(valuemode != "email" &&  !free){
     		price = Math.round(price * valueduration * 2);
@@ -1011,14 +1072,24 @@
 		$("#freesession1").hide();
 	}
     }
- 
+	function ShowDoubleQuotes(str){
+		 var i = str.length,
+         aRet = [];
+
+     while (i--) {
+       var iC = str[i].charCodeAt();
+       if (iC < 65 || iC > 127 || (iC>90 && iC<97)) {
+         aRet[i] = '&#'+iC+';';
+       } else {
+         aRet[i] = str[i];
+       }
+      }
+     return aRet.join('');    
+    }
     
     
     </script>
   <script type="text/javascript">
-  	
-
-  
 	$(document).ready(function() {
 		var dt = new Date();
 		dt.setDate(dt.getDate() + 3);
@@ -1093,6 +1164,10 @@
 				}
 		});
 	});
+	$('#pop').on('click', function (e) {
+            $('[data-toggle="popover"]').popover('hide');
+        
+    });
 	</script>
 	<script type="text/javascript">
 		var _urq = _urq || [];

@@ -137,7 +137,6 @@ public class UserMyAccountRequestController extends HttpServlet {
 				MyAccountRequestDAO name = new MyAccountRequestDAO();
 				list3 = name.getAdvisorDetails(advisorIds);
 			}	
-			Collections.reverse(list1);
 			if(!error){
 				request.setAttribute("list1", list1);
 				request.setAttribute("advisorDetailsList", list3);

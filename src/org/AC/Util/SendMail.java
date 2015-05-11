@@ -59,7 +59,7 @@ public class SendMail extends Thread{
 	         MimeMessage message = new MimeMessage(session);
 
 	         // Set From: header field of the header.
-	         message.setFrom(new InternetAddress(mailFrom));
+	         message.setFrom(new InternetAddress(mailFrom,"Advisor Circuit"));
 
 	         // Set To: header field of the header.
 	         message.addRecipient(Message.RecipientType.TO,
@@ -69,7 +69,6 @@ public class SendMail extends Thread{
 	         message.setSubject(subject);
 	         // Now set the actual message
 	         message.setContent(content, "text/html");
-
 	         // Send message
 	         Transport.send(message);
 	         System.out.println("Sent message successfully....");

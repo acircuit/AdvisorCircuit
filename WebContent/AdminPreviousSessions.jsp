@@ -109,7 +109,6 @@
 								<c:if test="${request.getService().equals('personalworkshops')}">
 									<h3 class="text-personal">Service : Personal Workshop</h3>
 								</c:if>
-                                
 				                <p><c:out value="${request.getQuery()}"/></p>
                                 
 				                <c:url value="AdminPreviousSessionsViewDetails" var="myURL">

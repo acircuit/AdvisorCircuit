@@ -282,8 +282,6 @@ public class UserDetailsDAO {
 		    	user.setTime2(results.getTimestamp("DATE_TIME2"));
 		    	user.setTime3(results.getTimestamp("DATE_TIME3"));
 		    	user.setTime4(results.getTimestamp("DATE_TIME4"));
-		    	user.setTime5(results.getTimestamp("DATE_TIME5"));
-		    	user.setTime6(results.getTimestamp("DATE_TIME6"));
 		    	user.setStatus(results.getString("STATUS"));	    	
 		    	list.add(user);
 		    }
@@ -586,6 +584,45 @@ public class UserDetailsDAO {
 			}
 		}	
 		return isDetailsCommit;
+	}
+	
+	public Boolean CheckUserIsFree( int uId){
+		logger.info("Entered CheckUserIsFree method of UserDetailsDAO");
+		List<UserRequestDTO> list = new ArrayList<UserRequestDTO>();
+		Boolean isFree = false;
+		try {
+			conn =ConnectionFactory.getConnection();
+			conn.setAutoCommit(false);
+			String query ="SELECT ISFREE FROM userdetails WHERE USER_ID=?";
+			PreparedStatement pstmt;
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1,uId);
+		    ResultSet results = pstmt.executeQuery();
+		    if(results.next()){
+		    	isFree = results.getBoolean("ISFREE");
+		    }
+		logger.info("Exit CheckUserIsFree method of UserDetailsDAO");
+		} catch (SQLException e) {
+				logger.error("CheckUserIsFree method of UserDetailsDAO threw error:"+e.getMessage());
+				e.printStackTrace();
+		} catch (IOException e) {
+			logger.error("CheckUserIsFree method of UserDetailsDAO threw error:"+e.getMessage());
+			e.printStackTrace();
+		} catch (PropertyVetoException e) {
+			logger.error("CheckUserIsFree method of UserDetailsDAO threw error:"+e.getMessage());
+			e.printStackTrace();
+		}finally{
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				logger.error("CheckUserIsFree method of UserDetailsDAO threw error:"+e.getMessage());
+				e.printStackTrace();
+			}
+		}	
+
+		
+		logger.info("Exit CheckRegistraion method of UserDetailsDAO");
+		return isFree;
 	}
 	
 }

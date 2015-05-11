@@ -1313,15 +1313,7 @@ ul.tab-list li {
 .profile-reviews .review:last-child {
 	margin-bottom:0;
 }
-table {
-  table-layout: fixed;
-  width: 120px; /* Important */
-  
-}
-td,th {
-  width: 30px;
-  word-wrap: break-word;
-}
+
 #datetimepicker1, 
 #datetimepickeremail input,
 #datetimepicker1 input,

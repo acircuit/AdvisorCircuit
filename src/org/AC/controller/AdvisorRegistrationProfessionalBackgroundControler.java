@@ -180,7 +180,7 @@ public class AdvisorRegistrationProfessionalBackgroundControler extends HttpServ
 						isDescriptionCommit =	professions.setDescription(aId,descriptions);
 					}
 				}
-					if(isDescriptionCommit && !edit.equals("true")){
+					if(!edit.equals("true")){
 						String status = "OtherInfo.jsp";
 						//Change the Registration Status in advisorregistrationprofiledetails table
 						AdvisorRegistrationDAO dao1 = new AdvisorRegistrationDAO();	

@@ -84,6 +84,8 @@ public class BookASessionServlet extends HttpServlet {
 		String datetimeemail = request.getParameter("datetimepickeremail");
 		String price = request.getParameter("price");
 		String isFree =request.getParameter("isFree");
+		String userIsFree =request.getParameter("userisfree");
+		
 		String registrationPrice = request.getParameter("registrationPrice");
 		String discount = request.getParameter("discount");
 		int requestId = 0;
@@ -115,7 +117,7 @@ public class BookASessionServlet extends HttpServlet {
 			datetimepicker3 = dateFormat1.format(datepicker3);
 			datetimepicker4 = dateFormat1.format(datepicker4);
 		}
-		if(isFree.equals("true")){
+		if(isFree.equals("true") || userIsFree.equals("true")){
 			if( Double.parseDouble(registrationPrice) > Double.parseDouble(price)){
 				double disc = (((Double.parseDouble(registrationPrice) - Double.parseDouble(price)) * 100) /Double.parseDouble(registrationPrice));
 				discount = String.valueOf(disc);
@@ -127,7 +129,7 @@ public class BookASessionServlet extends HttpServlet {
 		Boolean isCvCommit = false;
 		//Instantiate Book a session dao class for setting the value in the userrequest table.
 		BookASessionDAO dao = new BookASessionDAO();
-		requestId = dao.setBookASessionDetails(aId, service,mode,duration,datetimepicker1,datetimepicker2,datetimepicker3,datetimepicker4,query,userId,price,isFree,registrationPrice,discount);
+		requestId = dao.setBookASessionDetails(aId, service,mode,duration,datetimepicker1,datetimepicker2,datetimepicker3,datetimepicker4,query,userId,price,isFree,registrationPrice,discount,userIsFree);
 		//If the service was cvcritique or moack interview then the user would have uploaded the Cv.
 		//So need to set the CV in the required folder and put the CV details in the user_cv table.
 		if(("mockinterview").equals(service) || ("cvcritique").equals(service) ){
@@ -140,11 +142,16 @@ public class BookASessionServlet extends HttpServlet {
 				isCvCommit = resume.setCV(absoluteURL, requestId, userId);
 			}
 		}
-		if(isFree.equals("true")){
-			BookASessionDAO free = new BookASessionDAO();
-			free.DecrementIsFree(aId,service);
-		}
+		
 		if(requestId != 0){	
+			if(isFree.equals("true")){
+				BookASessionDAO free = new BookASessionDAO();
+				free.DecrementIsFree(aId,service);
+			}
+			if(userIsFree.equals("true")){
+				BookASessionDAO free = new BookASessionDAO();
+				free.ToggleUserIsFree(userId);
+			}
 			//Send Mail to Admin
 			String subject = "A new session request!";
 			String content = "Hi, <br><br>A new SESSION REQUEST by the user ! Following are the details :<br>User Name : " +userName+"<br>Query: "+query+"<br>Mode : "+mode+"<br><img src=\"http://www.advisorcircuit.com/Test/assets/img/logo_black.png\" style='float:right' width='25%'>";

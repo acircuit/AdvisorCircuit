@@ -398,15 +398,17 @@
                                                                                         </div>
                                                                                     </c:if>
                                                                                     <div id="responsefeedbackuser">
-                                                                                    </div>											            
-                                                                                     <div class="form-group">
-                                                                                        <!-- Button -->
-                                                                                        <label for="icode" class="col-md-2 control-label"></label>                                 
-                                                                                        <div class="col-md-10">
-                                                                                            <input id="btn-signup" type="button" onclick="ApproveUserFeedBack()" class="btn btn-info" value="Approve">
-                                                                                            <input id="btn-signup" type="button" onclick="RejectUserFeedBack()" class="btn btn-info" value="Reject" >
-                                                                                        </div>
                                                                                     </div>
+                                                                                    <c:if test="${!feedback.getUserApproval()}">											            
+	                                                                                     <div class="form-group">
+	                                                                                        <!-- Button -->
+	                                                                                        <label for="icode" class="col-md-2 control-label"></label>                                 
+	                                                                                        <div class="col-md-10">
+	                                                                                            <input id="btn-signup" type="button" onclick="ApproveUserFeedBack()" class="btn btn-info" value="Approve">
+	                                                                                            <input id="btn-signup" type="button" onclick="RejectUserFeedBack()" class="btn btn-info" value="Reject" >
+	                                                                                        </div>
+	                                                                                    </div>
+                                                                                    </c:if>
                                                                              </div><!--part2-->	
                                                                             <hr>																	 
                                                                              <div id="part2">
@@ -435,14 +437,16 @@
                                                                                     <div id="responsefeedbackadvisor">
                                                                                     </div>
                                                                                     <hr>
-                                                                                     <div class="form-group">
-                                                                                        <!-- Button -->    
-                                                                                        <label for="icode" class="col-md-2 control-label"></label>                                    
-                                                                                        <div class="col-md-10">
-                                                                                            <input id="btn-signup" type="button" onclick="ApproveAdvisorFeedBack()" class="btn btn-info" value="Approve">
-                                                                                            <input id="btn-signup" type="button" onclick="RejectAdvisorFeedBack()" class="btn btn-info" value="Reject">
-                                                                                        </div>
-                                                                                    </div>
+                                                                                    <c:if test="${!feedback.getAdvisorApproval()}">											            
+                                                                                        <div class="form-group">
+	                                                                                        <!-- Button -->    
+	                                                                                        <label for="icode" class="col-md-2 control-label"></label>                                    
+	                                                                                        <div class="col-md-10">
+	                                                                                            <input id="btn-signup" type="button" onclick="ApproveAdvisorFeedBack()" class="btn btn-info" value="Approve">
+	                                                                                            <input id="btn-signup" type="button" onclick="RejectAdvisorFeedBack()" class="btn btn-info" value="Reject">
+	                                                                                        </div>
+	                                                                                    </div>
+	                                                                                </c:if>    
                                                                             </div>
                                                                     </div>
                                                             </div>
@@ -538,6 +542,8 @@
                                                                                 <c:param name="isFree" value="${userRequest.getIsFree()}"/>
 									                                            <c:param name="aId" value="${userRequest.getAdvisorId()}"/>
 									                                            <c:param name="service" value="${userRequest.getService()}"/>
+									                                             <c:param name="userIsFree" value="${userRequest.getUserIsFree()}"></c:param>
+				                                            					<c:param name="uId" value="${userRequest.getUserId()}"></c:param>
                                                                             </c:url>
                                                                             <a href="${myURL}" class="btn btn-info">SET SESSION CANCELLED DUE TO ADVISOR NO SHOW </a>
                                                                         </div>
@@ -549,6 +555,8 @@
                                                                                 <c:param name="isFree" value="${userRequest.getIsFree()}"/>
 				                                           						<c:param name="aId" value="${userRequest.getAdvisorId()}"/>
 				                                            					<c:param name="service" value="${userRequest.getService()}"/>
+				                                            					 <c:param name="userIsFree" value="${userRequest.getUserIsFree()}"></c:param>
+				                                            					<c:param name="uId" value="${userRequest.getUserId()}"></c:param>
                                                                             </c:url>
                                                                             <a href="${myURL}" class="btn btn-info">SET SESSION CANCELLED DUE TO USER NO SHOW </a>
                                                                         </div>
@@ -557,6 +565,7 @@
                                                                                 <c:param name="rId" value="${userRequest.getRequestId()}"/>
                                                                                 <c:param name="sId" value="${session.getSessionId()}"></c:param>
                                                                                 <c:param name="complete" value="true"></c:param>
+                                                                                
                                                                             </c:url>
                                                                             <a href="${myURL}" class="btn btn-info">SET SESSION COMPLETE </a>
                                                                         </div>
@@ -570,6 +579,8 @@
                                                                                 <c:param name="isFree" value="${userRequest.getIsFree()}"/>
 				                                           						<c:param name="aId" value="${userRequest.getAdvisorId()}"/>
 				                                            					<c:param name="service" value="${userRequest.getService()}"/>
+				                                            					 <c:param name="userIsFree" value="${userRequest.getUserIsFree()}"></c:param>
+				                                            					<c:param name="uId" value="${userRequest.getUserId()}"></c:param>
                                                                             </c:url>
                                                                             <a href="${myURL}" class="btn btn-info">SET SESSION CANCELLED DUE TO ADVISOR UNAVAILABILITY </a>
                                                                         </div>
@@ -581,6 +592,8 @@
                                                                                 <c:param name="isFree" value="${userRequest.getIsFree()}"/>
 				                                           						<c:param name="aId" value="${userRequest.getAdvisorId()}"/>
 				                                            					<c:param name="service" value="${userRequest.getService()}"/>
+				                                            					 <c:param name="userIsFree" value="${userRequest.getUserIsFree()}"></c:param>
+				                                            					<c:param name="uId" value="${userRequest.getUserId()}"></c:param>
                                                                             </c:url>
                                                                             <a href="${myURL}" class="btn btn-info">SET SESSION CANCELLED DUE TO USER UNAVAILABILITY </a>
                                                                         </div>

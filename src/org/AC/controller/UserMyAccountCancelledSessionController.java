@@ -8,6 +8,7 @@ package org.AC.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -105,6 +106,9 @@ public class UserMyAccountCancelledSessionController extends HttpServlet {
 			UserDetailsDAO requestDetails = new UserDetailsDAO();
 			list1 = requestDetails.getUserRequestDetailsUsingUserId(requestStatus,userId);
 			for (UserRequestDTO userRequestDTO : list1) {
+				if(userRequestDTO.getQuery().length() > 120){
+					userRequestDTO.setQuery(userRequestDTO.getQuery().substring(0, 120));
+				}
 				int counter = 0;
 				for (SessionDTO sessionDTO : list) {
 					if(sessionDTO.getStatus().equals("SESSION REJECTED BY USER") && (sessionDTO.getRequestId() == userRequestDTO.getRequestId())){
@@ -123,12 +127,16 @@ public class UserMyAccountCancelledSessionController extends HttpServlet {
 				MyAccountRequestDAO dao = new MyAccountRequestDAO();
 				list2 = dao.getRequestDetails(requestIds);	
 				for (UserRequestDTO userRequestDTO : list2) {
+					if(userRequestDTO.getQuery().length() > 120){
+						userRequestDTO.setQuery(userRequestDTO.getQuery().substring(0, 120));
+					}
 					advisorIds.add(userRequestDTO.getAdvisorId());
 				}
 				if(list2.size() > 0){
 					list3.addAll(list2);
 				}
 			}
+			Collections.sort(list3);
 			if(advisorIds.size() > 0){
 				//Fetching advisor details from the advisordetails table
 				AdvisorMyAccountSessionDAO profile = new AdvisorMyAccountSessionDAO();

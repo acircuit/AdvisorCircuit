@@ -82,6 +82,7 @@ public class AdvisorMyAccountRequestViewDetailsFormController extends HttpServle
 		String emailDate = request.getParameter("emaildate");
 		String isFree  = request.getParameter("isFree");
 		String service  = request.getParameter("service");
+		 String userIsFree = request.getParameter("userIsFree");
 		Properties prop = new Properties();
 	    InputStream resourceAsStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("Resources/mail.properties");
 	    prop.load(resourceAsStream);
@@ -225,6 +226,11 @@ public class AdvisorMyAccountRequestViewDetailsFormController extends HttpServle
 					//Decrement the free session count from the advisor services table
 					AdvisorMyAccountRequestViewDetailsDAO decrem = new AdvisorMyAccountRequestViewDetailsDAO();
 					decrem.DecrementFreeSession(aId,service);
+				}
+				if(userIsFree.equals("true")){
+					//Toggle the free session column in the userdetails table
+					AdvisorMyAccountRequestViewDetailsDAO toggle = new AdvisorMyAccountRequestViewDetailsDAO();
+					toggle.ToggleUserFreeSession(Integer.parseInt(uId));
 				}
 				//Send Mail to Admin
 				String subject = "Advisor Rejected the session!";

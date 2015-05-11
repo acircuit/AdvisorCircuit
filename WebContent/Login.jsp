@@ -96,8 +96,8 @@
 		                                   		<span style="float: left; font-size:17px"><b>Account Type</b></span>
 			                                     <div class="col-md-9">
 													  <select id = "type" name="type" >
-													  	<option value="Advisor">Advisor</option>
 													  	<option value="User">User</option>
+													  	<option value="Advisor">Advisor</option>
 													  </select>
 												 </div>
 									 </div>
@@ -139,7 +139,7 @@
                                             Sign Up as User
                                             </a>
                                             </br>
-                                            Click <a href="becomeanadvisor">Here</a> to sign up as an Advisor
+                                            Click <a href="Email">Here</a> to sign up as an Advisor
                                         </div>
                                     </div>
                                 </div>    

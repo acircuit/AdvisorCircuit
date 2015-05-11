@@ -42,7 +42,7 @@ public class MyAccountRequestDAO {
 		try {
 			conn =ConnectionFactory.getConnection();
 			conn.setAutoCommit(false);
-			String query ="SELECT * FROM userrequest WHERE ADVISOR_ID = ?";
+			String query ="SELECT * FROM userrequest WHERE ADVISOR_ID = ? ORDER BY BOOKING_TIME DESC ";
 			pstmt = conn.prepareStatement(query);
 			pstmt.setInt(1, advisorId);
 		    ResultSet results = pstmt.executeQuery();
@@ -125,6 +125,7 @@ public class MyAccountRequestDAO {
 		    	user.setDiscount(results.getInt("DISCOUNT"));
 		    	user.setPrice(results.getInt("PRICE"));
 		    	user.setIsFree(results.getBoolean("IS_FREE_FROM_ADVISOR"));
+		    	user.setUserIsFree(results.getBoolean("IS_FREE_USER"));
 		    	list.add(user);
 		    }
 		} catch (SQLException e) {
@@ -262,7 +263,7 @@ public class MyAccountRequestDAO {
 		try {
 			conn =ConnectionFactory.getConnection();
 			conn.setAutoCommit(false);
-			String query ="SELECT * FROM userrequest WHERE USER_ID = ?";
+			String query ="SELECT * FROM userrequest WHERE USER_ID = ? ORDER BY BOOKING_TIME DESC ";
 			pstmt = conn.prepareStatement(query);
 			pstmt.setInt(1, userId);
 		    ResultSet results = pstmt.executeQuery();
@@ -450,7 +451,7 @@ public class MyAccountRequestDAO {
 				//System.out.println(parameters);
 				//Array array = conn.createArrayOf("INTEGER", id.toArray());
 				String q4in = generateQsForIn(id.size());			
-				String query ="SELECT * FROM userrequest WHERE REQUEST_ID IN ( " + q4in + " )";
+				String query ="SELECT * FROM userrequest WHERE REQUEST_ID IN ( " + q4in + " ) ";
 				PreparedStatement pstmt;
 				pstmt = conn.prepareStatement(query);
 				//Array array = conn.createArrayOf("INT", list.toArray());
@@ -474,7 +475,8 @@ public class MyAccountRequestDAO {
 				    	user.setTime2(results.getTimestamp("DATE_TIME2"));
 				    	user.setTime3(results.getTimestamp("DATE_TIME3"));
 				    	user.setTime4(results.getTimestamp("DATE_TIME4"));
-				    	user.setStatus(results.getString("STATUS"));	    	
+				    	user.setStatus(results.getString("STATUS"));
+				    	user.setUserIsFree(results.getBoolean("IS_FREE_USER"));
 				    	list.add(user);
 				    }
 				   conn.commit();
