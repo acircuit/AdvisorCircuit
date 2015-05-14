@@ -964,6 +964,8 @@
 		document.getElementById('emailslot').style.display = "none";
     }
     function CheckUserIsFree(){
+    	$("#pricediv").hide();
+        $("#regpricediv").hide();
     	var advisorFree = 0;
     	<c:forEach items="${services}" var="service">
     	if(document.getElementById('services_dropdown').value == "${service.getService()}"){
@@ -971,6 +973,8 @@
     	}
     	</c:forEach>
     	if(<%= userIsFree%> && $('input:radio[name=mode]:checked').val() != "email"  && advisorFree == 0){
+    		$("#optionsRadiosInlinefree1").prop('checked', false);
+    		$("#optionsRadiosInlinefree2").prop('checked', false);
     		$("#userFree").show();
     	}else{
     		$("#userFree").hide();
@@ -1016,13 +1020,18 @@
     					}
     					else if("${mode.getDiscounted_price()}" == 0 && "${service.getDiscount()}" == 0){
     						if(isUserOptFree == "yes" && <%= userIsFree%> && valuemode != "email"){
-    							price =	"${mode.getUser_isfree_price()}";
+    							price =	Math.round("${mode.getPrice()}" * valueduration * 2 );
+    							price = price - "${mode.getUser_isfree_price()}";
     						}else{
         	    				price = "${mode.getPrice()}"  * 2;
     						}
     	    			}else{
+    	    				var discount= "${service.getDiscount()}";
     	    				if(isUserOptFree == "yes" && <%= userIsFree%> && valuemode != "email"){
-    							price =	"${mode.getUser_isfree_price()}";
+    	    					price =	Math.round("${mode.getPrice()}" * valueduration * 2 );
+    							price = price - "${mode.getUser_isfree_price()}";
+    							debugger;
+    							price = Math.round(price - ((discount * price)/100));
     						}else{
         	    				price = "${mode.getDiscounted_price()}";
     						}
@@ -1046,7 +1055,7 @@
     	}else{
     		$("#userisfree").val(false);
     	}
-    	if(valuemode != "email" &&  !free){
+    	if(valuemode != "email" &&  !free && isUserOptFree != "yes"){
     		price = Math.round(price * valueduration * 2);
     	}
     	$("#regpricediv").show();
