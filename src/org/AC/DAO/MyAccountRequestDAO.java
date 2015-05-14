@@ -476,6 +476,11 @@ public class MyAccountRequestDAO {
 				    	user.setTime3(results.getTimestamp("DATE_TIME3"));
 				    	user.setTime4(results.getTimestamp("DATE_TIME4"));
 				    	user.setStatus(results.getString("STATUS"));
+				    	user.setStatus(results.getString("STATUS"));
+				    	user.setAmount(results.getInt("AMOUNT"));
+				    	user.setDiscount(results.getInt("DISCOUNT"));
+				    	user.setPrice(results.getInt("PRICE"));
+				    	user.setIsFree(results.getBoolean("IS_FREE_FROM_ADVISOR"));
 				    	user.setUserIsFree(results.getBoolean("IS_FREE_USER"));
 				    	list.add(user);
 				    }

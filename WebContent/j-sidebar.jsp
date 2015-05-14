@@ -1,5 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<a class="selectServices" href="#">Select Menu</a>
+<a class="selectServices" href="#">Menu</a>
 <div id="j_sidebar">
 <div class="sidebar-nav">
     <ul class="nav" id="side-menu">

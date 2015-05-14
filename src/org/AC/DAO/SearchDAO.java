@@ -50,7 +50,7 @@ public class SearchDAO {
 		logger.info("Entered checkKeyWord method of SearchDAO");
 		List<AdvisorProfileDTO> list = new ArrayList<AdvisorProfileDTO>();
 		if( keywords != null && !("").equals(keywords)){
-			String query ="SELECT ADVISOR_ID,NAME,INDUSTRY,INTRODUCTION,IMAGE,RATING FROM advisordetails WHERE KEYWORDS LIKE ? AND ISACTIVE=?";
+			String query ="SELECT ADVISOR_ID,NAME,INDUSTRY,INTRODUCTION,IMAGE,RATING FROM advisordetails WHERE KEYWORDS LIKE ? AND ISACTIVE=? AND ISVISIBLE=?";
 			PreparedStatement pstmt;
 			try {
 				conn =ConnectionFactory.getConnection();
@@ -58,6 +58,7 @@ public class SearchDAO {
 				pstmt = conn.prepareStatement(query);
 				pstmt.setString(1, '%'+ keywords.toUpperCase() +'%');
 				pstmt.setBoolean(2, true);
+				pstmt.setBoolean(3, true);
 			    ResultSet results = pstmt.executeQuery();
 			    while(results.next()){
 			    	conn.commit();

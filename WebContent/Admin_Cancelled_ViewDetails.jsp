@@ -179,7 +179,36 @@
 		                                    	</c:choose>	
                                             </div>
 										</div>
-                                        
+                                        <div class="form-group">
+				                                 	<label for="icode" class="col-md-2 control-label">Registered Price(Rs):</label>
+				                                    <div class="col-md-10">
+				                                        <span class="form-control"><c:out value="${userRequest.getPrice()}"/></span>
+				                                    </div>
+				                                </div>	
+                                                 <div class="form-group">
+                                                        <label for="icode" class="col-md-2 control-label">Discount(%)</label>
+                                                    <div class="col-md-10">
+														<span class="form-control"><c:out value="${userRequest.getDiscount()}"/></span>
+													</div>	                                                  
+                                                </div>
+                                                 <div class="form-group">
+                                                        <label for="icode" class="col-md-2 control-label">Discounted Price(Rs)</label>
+                                                    <div class="col-md-10">
+                                                        <span class="form-control"><c:out value="${userRequest.getAmount()}"/></span>
+                                                    </div>
+                                                </div>
+                                                 <div class="form-group">
+                                                        <label for="icode" class="col-md-2 control-label">Advisor Is Free</label>
+                                                    <div class="col-md-10">
+                                                        <span class="form-control"><c:out value="${userRequest.getIsFree()}"/></span>
+                                                    </div>
+                                                </div>
+                                                 <div class="form-group">
+                                                        <label for="icode" class="col-md-2 control-label">User Is Free</label>
+                                                    <div class="col-md-10">
+                                                        <span class="form-control"><c:out value="${userRequest.getUserIsFree()}"/></span>
+                                                    </div>
+                                                </div>
 										<input type="hidden" name="rId" value="${userRequest.getRequestId()}">
                                         
 										<c:if test="${userRequest.getService().equals('mockinterview') || userRequest.getService().equals('cvcritique')}">										

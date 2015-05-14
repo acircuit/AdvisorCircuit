@@ -397,40 +397,7 @@
             	</div>
         	</div>
       
-    <div class="row similar-advisors">	
-    <h1>Similar Advisors</h1>
-
-    <div class="col-lg-4 text-center">
-        <c:url value="AdvisorProfile" var="michael">
-            <c:param name="aId" value="23"/>
-        </c:url>
-        <a href="${michael}"><img src="assets/UserImages/michaeldiias@gmail.com/Mr_MichaelDias.jpg" width="210"></a>
-        <h3>Michael Dias, Lawyer</h3>
-        <p>Mr. Dias is a stalwart of corporate law. Having an experience of almost 40 years in the field of law he is ..</p>
-    </div>
-    <!--/col-lg-4 -->
-    
-    <div class="col-lg-4 text-center">
-        <c:url value="AdvisorProfile" var="keshav">
-            <c:param name="aId" value="21"/>
-        </c:url>
-        <a href="${keshav}"><img src="assets/UserImages/Keshav@gmail.com/KK1.jpg" width="210"></a>
-        <h3>Keshav Kanoria, Management Consultant</h3>
-        <p>Having worked with three different organizations in the fields of consulting, marketing and advisory services, Keshav ..</p>
-    </div>
-    <!--/col-lg-4 -->
-    
-    <div class="col-lg-4">
-        <c:url value="AdvisorProfile" var="mathew">
-            <c:param name="aId" value="24"/>
-        </c:url>
-        <a href="${mathew}"><img src="assets/UserImages/mathewk@gmail.com/pic2.jpg" width="210"></a>
-        <h3>Mathew Thomas, Teacher</h3>
-        <p>Mathews Thomas has been a teacher for over 20 years. He has not only taught at numerous institutes but is also a ..</p>
-    </div>
-    <!--/col-lg-4 -->
-    </div>
-    
+       
     <%@include file="/Footer.jsp" %>
     </div>
     <!-- end .container -->

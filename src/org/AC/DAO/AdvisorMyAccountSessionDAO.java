@@ -32,7 +32,7 @@ public class AdvisorMyAccountSessionDAO {
 			try {
 				conn =ConnectionFactory.getConnection();
 				conn.setAutoCommit(false);
-				String query ="SELECT * FROM session_table WHERE ADVISOR_ID=? AND STATUS = ? ORDER BY ACCEPTED_DATE";
+				String query ="SELECT * FROM session_table WHERE ADVISOR_ID=? AND STATUS = ? ORDER BY ACCEPTED_DATE DESC";
 				PreparedStatement pstmt = conn.prepareStatement(query);
 				pstmt.setInt(1, aId);
 				pstmt.setString(2, status);
@@ -139,7 +139,7 @@ public List<SessionDTO> getSessionDetailsUsingUserId(int uId, String status){
 		try {
 			conn =ConnectionFactory.getConnection();
 			conn.setAutoCommit(false);
-			String query ="SELECT * FROM session_table WHERE USER_ID=? AND STATUS = ? ORDER BY ACCEPTED_DATE";
+			String query ="SELECT * FROM session_table WHERE USER_ID=? AND STATUS = ? ORDER BY ACCEPTED_DATE DESC";
 			PreparedStatement pstmt = conn.prepareStatement(query);
 			pstmt.setInt(1, uId);
 			pstmt.setString(2, status);

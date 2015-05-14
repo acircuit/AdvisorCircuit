@@ -360,7 +360,7 @@
                                 			<a data-toggle="modal" data-target="#messageuser" onclick="getmessages()" class="btn btn-career">View Chat</a>
 	                          		</c:when>
 	                          		<c:otherwise>
-                                			<a data-toggle="modal" data-target="#messageuser" onclick="getmessages()" class="btn btn-career">Chat with the User</a>
+                                			<a data-toggle="modal" data-target="#messageuser" onclick="getmessages()" class="btn btn-career">Chat with <span style="text-transform: capitalize"><%=userName%></span></a>
 	                          		</c:otherwise>
                                	</c:choose>
                                 	<!-- <a data-toggle="modal" data-target="#uploadfile" onclick="getFiles()" class="btn btn-career">Upload Files</a> -->
@@ -381,11 +381,11 @@
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
-                                    <h4 class="modal-title" id="myModalLabel">Session Feedback</h4>
+                                    <h4 class="modal-title" id="myModalLabel">Follow Up Mail</h4>
                                 </div>
                                 <div class="modal-body">
                                     <div id="part2">
-                                        <h4>User FeedBack :</h4>
+                                        <h4>User Follow Up Mail :</h4>
                                         <hr>
                                             <div class="form-group">
                                                 <label for="icode" class="col-md-2 control-label">Subject</label>
@@ -411,7 +411,7 @@
                                      <c:choose>
                                      		<c:when test="${!feedAdvisor.getAdvisorSubject().equals('') && feedAdvisor.getAdvisorSubject() != null && !feedAdvisor.getAdvisorBody().equals('') &&  feedAdvisor.getAdvisorBody()!=null  }">
                                      				 <div id="part2">
-			                                        <h4>Your FeedBack : <span style="color: #c84c4e">(After pressing send, please don't close the window till you see the message - 'Your Feedback has been sent')</span></h4>
+			                                        <h4>Your Follow Up Mail : <span style="color: #c84c4e">(After pressing send, please don't close the window till you see the message - 'Your Feedback has been sent')</span></h4>
 			                                        <hr>
 								 <c:choose>
 			                                        <c:when test="<%=!isRejectedFeedback && (fromPreviousSession == null || !fromPreviousSession)  %>">

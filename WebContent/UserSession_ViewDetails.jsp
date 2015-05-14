@@ -357,7 +357,7 @@
 													<a data-toggle="modal" data-target="#messageadvisor" onclick="getmessages()" class="btn btn-career margin-10">View  Chat</a>
 												</c:when>
 												<c:otherwise>
-													<a data-toggle="modal" data-target="#messageadvisor" onclick="getmessages()" class="btn btn-career margin-10">Chat with the Advisor</a>
+													<a data-toggle="modal" data-target="#messageadvisor" onclick="getmessages()" class="btn btn-career margin-10">Chat with <span style="text-transform: capitalize"><%=advisorname%></span> </a>
 												</c:otherwise>
 											</c:choose>
 

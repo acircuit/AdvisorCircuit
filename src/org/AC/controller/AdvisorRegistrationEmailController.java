@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.AC.DAO.AdminNotificationDAO;
 import org.AC.DAO.AdvisorRegistrationDAO;
 import org.AC.Util.PasswordHashing;
 import org.AC.Util.SendMail;
@@ -73,6 +74,7 @@ public class AdvisorRegistrationEmailController extends HttpServlet {
 						//If the advisor has not started the registration process then set the email address and change the status
 						AdvisorRegistrationDAO dao2 = new AdvisorRegistrationDAO();
 						advisorId = dao2.setEmail(email,securedPassword);
+
 						//This is a new advisor.Send verification mail
 						String subject ="";
 						String content ="";

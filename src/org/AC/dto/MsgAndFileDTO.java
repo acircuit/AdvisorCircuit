@@ -10,17 +10,28 @@ public class MsgAndFileDTO implements Comparable<MsgAndFileDTO> {
 	private String msgType;				// msg or file link
 	private String sender;
 	private Timestamp messageTime;
+	private String messageStatus;
 	
-	
-	public MsgAndFileDTO(String timeStampStr, String message, String msgType, String sender, Timestamp messageTime) {
+	public MsgAndFileDTO(String timeStampStr, String message, String msgType, String sender, Timestamp messageTime, String messageStatus) {
 		this.timeStampStr = timeStampStr;
 		this.message = message;
 		this.msgType = msgType;
 		this.sender = sender;
 		this.messageTime = messageTime;
+		this.messageStatus = messageStatus;
 	}
 	
 	
+	public String getMessageStatus() {
+		return messageStatus;
+	}
+
+
+	public void setMessageStatus(String messageStatus) {
+		this.messageStatus = messageStatus;
+	}
+
+
 	public String getTimeStampStr() {
 		return timeStampStr;
 	}
@@ -59,13 +70,25 @@ public class MsgAndFileDTO implements Comparable<MsgAndFileDTO> {
 		
 //		if(this.getMsgType().equals("text")){
 			if(this.getSender().equalsIgnoreCase("advisor")){
-				data = "<li class='left clearfix'><span class='chat-img pull-left'><i class='glyphicon glyphicon-user red'></i></span><div class='chat-body clearfix' style='margin-left:0px'>"
-						+ "<div class='header'><strong class='primary-font'>Advisor</strong><small class='pull-right text-muted'><i class='fa fa-clock-o fa-fw gray' style='width:inherit; font-size:12px'>"+
-						this.getTimeStampStr()+"</i></small></div><p>"+this.getMessage()+"</p></div></li>";			
+				if(this.getMessageStatus() != null && this.getMessageStatus().equals("REJECTED")){
+					data = "<li class='left clearfix'><span class='chat-img pull-left'><i class='glyphicon glyphicon-user red'></i></span><div class='chat-body clearfix' style='margin-left:0px'>"
+							+ "<div class='header'><strong class='primary-font'>Advisor</strong><small class='pull-right text-muted'><i class='fa fa-clock-o fa-fw gray' style='width:inherit; font-size:12px'>"+
+							this.getTimeStampStr()+"</i></small><img src='assets/img/reject1.png' style='margin-left:1%'><span style='margin-left:1%'>Rejected</span></div><p>"+this.getMessage()+"</p></div></li>";		
+				}else{
+					data = "<li class='left clearfix'><span class='chat-img pull-left'><i class='glyphicon glyphicon-user red'></i></span><div class='chat-body clearfix' style='margin-left:0px'>"
+							+ "<div class='header'><strong class='primary-font'>Advisor</strong><small class='pull-right text-muted'><i class='fa fa-clock-o fa-fw gray' style='width:inherit; font-size:12px'>"+
+							this.getTimeStampStr()+"</i></small></div><p>"+this.getMessage()+"</p></div></li>";	
+				}
 			}else if(this.getSender().equalsIgnoreCase("user")){
-				data = "<li class='left clearfix'><span class='chat-img pull-right'><i class='glyphicon glyphicon-user'></i></span><div class='chat-body clearfix' style='margin-left:0px'><div class='header'>"
-						+ "<small ><i class='fa fa-clock-o fa-fw gray' style='width:inherit; font-size:12px'>"+this.getTimeStampStr()+"</i></small><strong class='pull-right primary-font'>User</strong></div>"
-								+ "<p class = 'pull-right'>"+this.getMessage()+"</p></div></li>";			
+				if(this.getMessageStatus() != null && this.getMessageStatus().equals("REJECTED")){
+					data = "<li class='left clearfix'><span class='chat-img pull-right'><i class='glyphicon glyphicon-user'></i></span><div class='chat-body clearfix' style='margin-left:0px'><div class='header'>"
+							+ "<small ><i class='fa fa-clock-o fa-fw gray' style='width:inherit; font-size:12px'>"+this.getTimeStampStr()+"</i></small><span><img src='assets/img/reject1.png' style='margin-left:1%'><span style='margin-left:1%'>Rejected</span></span><strong class='pull-right primary-font'>User</strong></div>"
+									+ "<p class = 'pull-right'>"+this.getMessage()+"</p></div></li>";
+				}else{
+					data = "<li class='left clearfix'><span class='chat-img pull-right'><i class='glyphicon glyphicon-user'></i></span><div class='chat-body clearfix' style='margin-left:0px'><div class='header'>"
+							+ "<small ><i class='fa fa-clock-o fa-fw gray' style='width:inherit; font-size:12px'>"+this.getTimeStampStr()+"</i></small><strong class='pull-right primary-font'>User</strong></div>"
+									+ "<p class = 'pull-right'>"+this.getMessage()+"</p></div></li>";	
+				}
 			}
 //		}else if(this.getMsgType().equals("file")){
 			

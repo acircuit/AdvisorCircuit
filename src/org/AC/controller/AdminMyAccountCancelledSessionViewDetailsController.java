@@ -138,11 +138,13 @@ public class AdminMyAccountCancelledSessionViewDetailsController extends HttpSer
 					AdvisorMyAccountSessionDAO sessionDetails = new AdvisorMyAccountSessionDAO();
 					sessionDetail = sessionDetails.getSessionDetails(rId);
 					for (SessionDTO sessionDTO : sessionDetail) {
-						if(mode.equals("email")){
-							sessionDTO.setAcceptedDateString(new SimpleDateFormat("dd-MMM-yyyy").format(new Date(sessionDTO.getAcceptedDate().getTime())));
-						}else{
-							sessionDTO.setAcceptedDateString(new SimpleDateFormat("dd-MMM-yyyy' 'h:mm a").format(new Date(sessionDTO.getAcceptedDate().getTime())));
-	
+						if(sessionDTO.getAcceptedDate() != null){
+							if(mode.equals("email")){
+								sessionDTO.setAcceptedDateString(new SimpleDateFormat("dd-MMM-yyyy").format(new Date(sessionDTO.getAcceptedDate().getTime())));
+							}else{
+								sessionDTO.setAcceptedDateString(new SimpleDateFormat("dd-MMM-yyyy' 'h:mm a").format(new Date(sessionDTO.getAcceptedDate().getTime())));
+		
+							}
 						}
 					}
 				}

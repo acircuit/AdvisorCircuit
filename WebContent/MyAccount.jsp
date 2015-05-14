@@ -42,7 +42,9 @@
     <![endif]-->
     <%
     	AdvisorProfileDTO advisor = (AdvisorProfileDTO)request.getAttribute("advisor");
+   		 List<String> comment= (List<String>)request.getAttribute("comment");
     	pageContext.setAttribute("advisor", advisor);
+    	pageContext.setAttribute("comment", comment);
     %>
 </head>
 
@@ -70,11 +72,12 @@
             <div class="col-md-9">
             	<div id="page-wrapper">
 					
-            		<div class="grey-panel-1" style="display:none;">
-                    	<p class="notification-msg">You have 2 message</p>
+            		<div class="grey-panel-1" >
+                    	<p class="notification-msg" style="display:none;">You have 2 message</p>
                         <ul class="notification-list">
-                        	<li>- Aditya Raina has replied to your session request.</li>
-                            <li>- You have a new message from Lavi Aggarwal.</li>
+                        	<c:forEach var="com" items="${comment}">
+                        		<li><a href="">${com}</a></li>
+                        	</c:forEach>
                         </ul>
                     </div>
                     
@@ -120,7 +123,7 @@
                             </div>
    
                             <div class="col-md-3">
-                            	   <div style="margin-top: 100%"> <a href="AdvisorProfile?aId=${advisor.getAdvisorId()}&advisor=true"><img width="35" id="" src="assets/img/Icon_Edit.png" alt="32321" border="0" align="absmiddle" style="margin-right:10px;"> View Profile	</a></div>
+                            	   <div style="margin-top: 100%"> <a href="AdvisorProfile?aId=${advisor.getAdvisorId()}&advisor=true"><img width="35" id="" src="assets/img/Icon_Advisor.png" alt="32321" border="0" align="absmiddle" style="margin-right:10px;"> View Profile	</a></div>
                             </div>
                                                                                
                             

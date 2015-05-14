@@ -1,5 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<a class="selectServices" href="#">Select Menu</a>
+<a class="selectServices" href="#">Menu</a>
 <div id="j_sidebar">
 <div class="sidebar-nav">
     <ul class="nav" id="side-menu">
@@ -34,8 +34,8 @@
             </ul>
             <!-- /.nav-second-level -->
         </li>
-        <li class="request"><a href="AdminReview"><span class="request"></span> Review & Recommendation</a></li>
-        <li class="request"><a href="AdminMessages"><span class="msgadmin"></span> Messages & File Uploads</a></li>
+        <li class="request"><a href="AdminReview"><span class="request"></span> Reviews </a></li>
+        <li class="request"><a href="AdminMessages"><span class="msgadmin"></span> Messages </a></li>
         <li class="request"><a href="AdminContactUs"><span class="request"></span> Contact Us</a></li>
         <li class="request"><a href="AdminHereToHelp"><span class="request"></span> We Are Here To Help</a></li>
         <li class="request"><a href="AdminPayment"><span class="request"></span> Payment</a></li>

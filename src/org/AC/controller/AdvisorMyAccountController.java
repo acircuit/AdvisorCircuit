@@ -1,6 +1,8 @@
 package org.AC.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -9,6 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.AC.DAO.AdvisorNotificationDAO;
 import org.AC.DAO.AdvisorRegistrationDAO;
 import org.AC.Util.GetRelativeImageURL;
 import org.AC.dto.AdvisorProfileDTO;
@@ -43,7 +46,11 @@ public class AdvisorMyAccountController extends HttpServlet {
 			advisors = advisor.GetGeneralInfo(aId);
 			GetRelativeImageURL img = new GetRelativeImageURL();
 			advisors.setImage(img.getImageURL(advisors.getImage()));
+			List<String> comment = new ArrayList<String>();
+			AdvisorNotificationDAO advisorNotification = new AdvisorNotificationDAO();
+			comment = advisorNotification.GetNotification(aId);
 			request.setAttribute("advisor", advisors);
+			request.setAttribute("comment", comment);
 	        RequestDispatcher rd = getServletContext().getRequestDispatcher("/dashboard");
 	        rd.forward(request, response);
 		}
