@@ -153,7 +153,7 @@ public class BookASessionServlet extends HttpServlet {
 				free.ToggleUserIsFree(userId);
 			}
 			//Send Mail to Admin
-			String subject = "A new session request!!";
+			String subject = "A new session request!";
 			String content = "Hi, <br><br>A new SESSION REQUEST by the user ! Following are the details :<br>User Name : " +userName+"<br>Query: "+query+"<br>Mode : "+mode+"<br><img src=\"http://www.advisorcircuit.com/Test/assets/img/logo_black.png\" style='float:right' width='25%'>";
 			SendMail mail = new SendMail(subject, content, prop.getProperty("MAIL_ADMIN"),prop.getProperty("MAIL_ADMIN"));
 			mail.start();
