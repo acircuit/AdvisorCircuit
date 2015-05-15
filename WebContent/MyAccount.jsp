@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<%@page import="org.AC.dto.NotificationDTO"%>
 <%@page import="org.AC.dto.UserRequestDTO"%>
 <%@page import="org.AC.dto.AdvisorProfileDTO"%>
 <%@page import="org.AC.dto.UserDetailsDTO"%>
@@ -42,9 +43,9 @@
     <![endif]-->
     <%
     	AdvisorProfileDTO advisor = (AdvisorProfileDTO)request.getAttribute("advisor");
-   		 List<String> comment= (List<String>)request.getAttribute("comment");
+   		 List<NotificationDTO> notify= (List<NotificationDTO>)request.getAttribute("notify");
     	pageContext.setAttribute("advisor", advisor);
-    	pageContext.setAttribute("comment", comment);
+    	pageContext.setAttribute("notify", notify);
     %>
 </head>
 
@@ -71,16 +72,16 @@
             
             <div class="col-md-9">
             	<div id="page-wrapper">
-					
+					<c:if test="${notify.size() > 0 }">
             		<div class="grey-panel-1" >
                     	<p class="notification-msg" style="display:none;">You have 2 message</p>
                         <ul class="notification-list">
-                        	<c:forEach var="com" items="${comment}">
-                        		<li><a href="">${com}</a></li>
+                        	<c:forEach var="note" items="${notify}">
+                        		<li><a href="${note.getHref()}&nId=${note.getnId()}">${note.getComment()}</a></li>
                         	</c:forEach>
                         </ul>
                     </div>
-                    
+                    </c:if>
                     <div class="grey-panel-1">
                         <div class="row">
                         	<div class="col-md-9">

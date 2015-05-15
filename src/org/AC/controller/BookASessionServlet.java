@@ -154,6 +154,11 @@ public class BookASessionServlet extends HttpServlet {
 				BookASessionDAO free = new BookASessionDAO();
 				free.ToggleUserIsFree(userId);
 			}
+			String comment = userName+" sent a session request";
+			String href = "AdvisorRequests?new=true";
+			//Notification for Advisor
+			AdvisorNotificationDAO notify = new AdvisorNotificationDAO();
+			notify.InsertRequestNotification(comment, aId,href);
 			//Send Mail to Admin
 			String subject = "A new session request!";
 			String content = "Hi, <br><br>A new SESSION REQUEST by the user ! Following are the details :<br>User Name : " +userName+"<br>Query: "+query+"<br>Mode : "+mode+"<br><img src=\"http://www.advisorcircuit.com/Test/assets/img/logo_black.png\" style='float:right' width='25%'>";

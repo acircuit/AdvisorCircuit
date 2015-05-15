@@ -22,6 +22,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.AC.DAO.AdvisorNotificationDAO;
 import org.AC.DAO.ChangeRequestStatusDAO;
 import org.AC.DAO.MyAccountRequestDAO;
 import org.AC.DAO.UserDetailsDAO;
@@ -70,6 +71,7 @@ public class AdvisorMyAccountRequestController extends HttpServlet {
 		Boolean error = false;
 		String newRequests = (String) request.getParameter("new");
 		String answeredRequests = (String) request.getParameter("answered");
+		String nId = (String) request.getParameter("nId");
 		try{
 	    advisorId = (int) request.getSession().getAttribute("advisorId");
 	    username = (String) request.getSession().getAttribute("username");
@@ -159,6 +161,10 @@ public class AdvisorMyAccountRequestController extends HttpServlet {
 				userDetailsList = user1.getUserDetails(userIds);
 			}
 			if(!error){
+				if(nId != null){
+					AdvisorNotificationDAO deleteNotification = new AdvisorNotificationDAO();
+					deleteNotification.DeletNote(nId);
+				}
 				request.setAttribute("list1", list1);
 				//request.setAttribute("userRequestDetails", userRequestDetails);
 				request.setAttribute("userDetailsList", userDetailsList);
