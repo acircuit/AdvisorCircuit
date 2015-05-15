@@ -52,20 +52,12 @@
 	String advisorId = (String)request.getParameter("aId");
 	request.setAttribute("advisorId", advisorId);	
 		int  uId =  0;
-		int adId = 0;
-		Boolean isAdvisor = false;
 		if(session.getAttribute("userId") != null){
-			uId = (Integer)session.getAttribute("userId");
+		uId = (Integer)session.getAttribute("userId");
 		}
-		if( session.getAttribute("advisorId") !=null){
-			adId = (Integer)session.getAttribute("advisorId");
-		} 
 		Boolean redirect = false;
 		if ( uId == 0){
 			redirect = true;
-		}
-		if(adId != 0 ){
-			isAdvisor = true;
 		}
 		pageContext.setAttribute("advisors", advisors);
 		pageContext.setAttribute("userIsFree", userIsFree);
@@ -118,14 +110,10 @@
                     Book a Session
                 </a>
             </div>
-            
         </div>   
       </div>
       <!--end profile intro-->
-     
-
-                
-    
+        
       <div class="profile-details content">
       	<h1>Education</h1>
         <ul>
@@ -237,19 +225,6 @@
 							</div>
 							<div class="modal-body">
 								<p style = "font-size: 18px!important" id="ctdesc"> </p>
-							</div>
-						</div>
-                     </div>
-				</div>
-				<div class="modal fade" id="advbook" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-					<div class="modal-dialog modal-lg">
-						<div class="modal-content">
-							<div class="modal-header">
-								<button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
-								<h4 class="modal-title" id="myModalLabel">Oops !</h4>
-							</div>
-							<div class="modal-body">
-								<p style = "font-size: 18px!important">You have to login as a user to book a session. </p>
 							</div>
 						</div>
                      </div>
@@ -607,9 +582,8 @@
                                     <label for="icode" style="font-family:'custom_light' !important;" class="col-md-3 control-label">Price(Rs)</label>
                                     <div class="col-md-6">
                                         <input type="text" id="registrationPrice" name="registrationPrice" style="font-family:'custom_light' !important;" class="form-control" readonly="readonly">
-                                        <p id="serviceDiscount" style="color: #c84c4e"></p>								
                                     </div>
-                                </div>
+                                </div>								
 								<div id="pricediv" class="form-group collapse">
                                     <label for="icode" style="font-family:'custom_light' !important;" class="col-md-3 control-label">Discounted Price(Rs)</label>
                                     <div class="col-md-6">
@@ -903,9 +877,7 @@
     function div_show(elem) {
     	var id = elem.id;
     	var val = document.getElementById("redirect").value;
-    	if(<%=isAdvisor%>){
-    		$("#advbook").modal('show'); 
-    	}else if( val == "true"){
+		if( val == "true"){
 			
 			if(id == "book_a_session1"){
     		$("#book_a_session1").attr({
@@ -992,6 +964,8 @@
 		document.getElementById('emailslot').style.display = "none";
     }
     function CheckUserIsFree(){
+    	$("#pricediv").hide();
+        $("#regpricediv").hide();
     	var advisorFree = 0;
     	<c:forEach items="${services}" var="service">
     	if(document.getElementById('services_dropdown').value == "${service.getService()}"){
@@ -999,6 +973,8 @@
     	}
     	</c:forEach>
     	if(<%= userIsFree%> && $('input:radio[name=mode]:checked').val() != "email"  && advisorFree == 0){
+    		$("#optionsRadiosInlinefree1").prop('checked', false);
+    		$("#optionsRadiosInlinefree2").prop('checked', false);
     		$("#userFree").show();
     	}else{
     		$("#userFree").hide();
@@ -1021,13 +997,11 @@
 	var price;
 	var free= false;
 	var isFreeSessions = 0;
-	var disc = 0;
     	<c:forEach items="${modes}" var="mode">
     		if("${mode.getModeOfCommunication()}" == valuemode && "${mode.getService()}" ==  document.getElementById('services_dropdown').value){
     			<c:forEach items="${services}" var="service">
     				if("${mode.getService()}" == "${service.getService()}"){
     					isFreeSessions = "${service.getIsFree()}";
-    					disc = "${service.getDiscount()}";
     					if(("${service.getIsFree()}" > 0 && $('input:radio[name=duration]:checked').val()== "0.5") || ("${service.getIsFree()}" > 0 && valuemode=="email") ){
     						price= "0";
     						free = true;
@@ -1035,33 +1009,29 @@
     						var price1 = "${mode.getPrice()}";
     						price = Math.round(price1/2);
     						free = true;
-    						if(disc > 0){
-    							price = Math.round(price - (disc * price) /100);
-    						}
     					}else if("${service.getIsFree()}" > 0 && $('input:radio[name=duration]:checked').val()== "1"){
     						price = "${mode.getPrice()}";
     						free = true;
-    						if(disc > 0){
-    							price = Math.round(price - (disc * price) /100);
-    						}
     					}else if("${service.getIsFree()}" > 0 && $('input:radio[name=duration]:checked').val()== "1.5"){
     						price = "${mode.getPrice()}" * 2;
     						free = true;
-    						if(disc > 0){
-    							price = Math.round(price - (disc * price) /100);
-    						}
-    					}else if("${service.getIsFree()}" == 0 && valuemode=="email" && "${service.getDiscount()}"==0){
+    					}else if("${service.getIsFree()}" == 0 && valuemode=="email"){
 							price = "${mode.getPrice()}";			    						
     					}
     					else if("${mode.getDiscounted_price()}" == 0 && "${service.getDiscount()}" == 0){
     						if(isUserOptFree == "yes" && <%= userIsFree%> && valuemode != "email"){
-    							price =	"${mode.getUser_isfree_price()}";
+    							price =	Math.round("${mode.getPrice()}" * valueduration * 2 );
+    							price = price - "${mode.getUser_isfree_price()}";
     						}else{
         	    				price = "${mode.getPrice()}"  * 2;
     						}
     	    			}else{
+    	    				var discount= "${service.getDiscount()}";
     	    				if(isUserOptFree == "yes" && <%= userIsFree%> && valuemode != "email"){
-    							price =	"${mode.getUser_isfree_price()}";
+    	    					price =	Math.round("${mode.getPrice()}" * valueduration * 2 );
+    							price = price - "${mode.getUser_isfree_price()}";
+    							debugger;
+    							price = Math.round(price - ((discount * price)/100));
     						}else{
         	    				price = "${mode.getDiscounted_price()}";
     						}
@@ -1077,10 +1047,6 @@
     			
     		}
     	</c:forEach>
-    	if(disc > 0){
-    		$("#serviceDiscount").html(disc +"% Discount");
-    		
-    	}
     	if(free){
     		$("#isfree").val(true);
     	}
@@ -1089,16 +1055,11 @@
     	}else{
     		$("#userisfree").val(false);
     	}
-    	if(valuemode != "email" &&  !free){
+    	if(valuemode != "email" &&  !free && isUserOptFree != "yes"){
     		price = Math.round(price * valueduration * 2);
     	}
     	$("#regpricediv").show();
-
-    	if(isFreeSessions > 0 || disc > 0 || isUserOptFree== "yes"){
-        	$("#pricediv").show();
-    	}else{
-    		$("#pricediv").hide();
-    	}
+    	$("#pricediv").show();
 	if(valuemode == "email"){
     		$("#disabledInput").val(price);
     		$("#complete-query").show();
