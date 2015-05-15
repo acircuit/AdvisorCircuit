@@ -1,4 +1,4 @@
- /*************************************************************************************************
+/*************************************************************************************************
  * ********************************ADVISOR CIRCUIT*************************************************
  * ************************************************************************************************
  * @author AdvisorCircuit
@@ -21,103 +21,118 @@ import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Logger;
 
 /* *******************************CLASS SUMMARY****************************************************
-* 
-* This class will fetch the details from the view details form and change the status 
-* of the the request and session .
-* 
-* 
-*
-***************************************************************************************************/
+ * 
+ * This class will fetch the details from the view details form and change the status 
+ * of the the request and session .
+ * 
+ * 
+ *
+ ***************************************************************************************************/
 /**
- * Servlet implementation class AdminMyAccountUpcomingSessionViewDetailsFormController
+ * Servlet implementation class
+ * AdminMyAccountUpcomingSessionViewDetailsFormController
  */
 @WebServlet("/AdminMyAccountUpcomingSessionViewDetailsFormController")
-public class AdminMyAccountUpcomingSessionViewDetailsFormController extends HttpServlet {
+public class AdminMyAccountUpcomingSessionViewDetailsFormController extends
+		HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private static final Logger logger = Logger.getLogger(AdminMyAccountUpcomingSessionViewDetailsFormController.class);     
+	private static final Logger logger = Logger
+			.getLogger(AdminMyAccountUpcomingSessionViewDetailsFormController.class);
 
-       
-	/**************************************COMMENTS***************************************************
-	 * * This class will fetch the details from the view details form and change the status 
+	/**************************************
+	 * COMMENTS*************************************************** * This class
+	 * will fetch the details from the view details form and change the status
 	 * of the the request and session .
-	 *   @return :None
-	 *   @param : HttpServletRequest request
-	 *   		  HttpServletResponse response
-	 *   		  
+	 * 
+	 * @return :None
+	 * @param : HttpServletRequest request HttpServletResponse response
+	 * 
 	 *
 	 ***************************************************************************************************/
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
 		logger.info("Entered doGet method of AdminMyAccountUpcomingSessionViewDetailsFormController");
 		Boolean isAdmin = false;
 		Boolean isError = false;
-		try{
-			isAdmin = (Boolean) request.getSession().getAttribute("admin"); 
-			}catch(Exception e){
-				response.sendRedirect("Error");
-				isError = true;
-			}
-		if(isAdmin == null){
+		try {
+			isAdmin = (Boolean) request.getSession().getAttribute("admin");
+		} catch (Exception e) {
+			response.sendRedirect("Error");
+			isError = true;
+		}
+		if (isAdmin == null) {
 			isError = true;
 			response.sendRedirect("Error");
 		}
-		if(isError!= null &&  !isError){
+		if (isError != null && !isError) {
 			String rId = request.getParameter("rId");
 			String sId = request.getParameter("sId");
 			String advisorNoShow = request.getParameter("advisornoshow");
 			String userNoShow = request.getParameter("usernoshow");
-			String advisorUnavailable = request.getParameter("advisorunavailabale");
+			String advisorUnavailable = request
+					.getParameter("advisorunavailabale");
 			String userUnavailable = request.getParameter("userunavailabale");
 			String complete = request.getParameter("complete");
 			String isFree = request.getParameter("isFree");
-			 String aId = request.getParameter("aId");
-			 String service = request.getParameter("service");
-			 String userIsFree = request.getParameter("userIsFree");
-			 String uId = request.getParameter("uId");
+			String aId = request.getParameter("aId");
+			String service = request.getParameter("service");
+			String userIsFree = request.getParameter("userIsFree");
+			String uId = request.getParameter("uId");
 			String status = "";
 			String redirect = "";
-			Boolean isRequestStatusCommit =false;
+			Boolean isRequestStatusCommit = false;
 			Boolean isSessionStatusCommit = false;
-			if(rId != null  && sId != null){
-				if(advisorNoShow != null && ("true").equals(advisorNoShow)){
-					 status = "SESSION CANCELLED DUE TO ADVISOR NO SHOW";
-					 redirect = "AdminCancelledSessions";
-				}else if (userNoShow != null && ("true").equals(userNoShow)) {
-					 status = "SESSION CANCELLED DUE TO USER NO SHOW";
-					 redirect = "AdminCancelledSessions";
-				}else if (advisorUnavailable != null && ("true").equals(advisorUnavailable)) {
-					 status = "SESSION CANCELLED DUE TO ADVISOR UNAVAILABILITY";
-					 redirect = "AdminCancelledSessions";
-				}else if (userUnavailable != null && ("true").equals(userUnavailable)){
+			if (rId != null && sId != null) {
+				if (advisorNoShow != null && ("true").equals(advisorNoShow)) {
+					status = "SESSION CANCELLED DUE TO ADVISOR NO SHOW";
+					redirect = "AdminCancelledSessions";
+				} else if (userNoShow != null && ("true").equals(userNoShow)) {
+					status = "SESSION CANCELLED DUE TO USER NO SHOW";
+					redirect = "AdminCancelledSessions";
+				} else if (advisorUnavailable != null
+						&& ("true").equals(advisorUnavailable)) {
+					status = "SESSION CANCELLED DUE TO ADVISOR UNAVAILABILITY";
+					redirect = "AdminCancelledSessions";
+				} else if (userUnavailable != null
+						&& ("true").equals(userUnavailable)) {
 					status = "SESSION CANCELLED DUE TO USER UNAVAILABILITY";
-					 redirect = "AdminCancelledSessions";
-				}else{
+					redirect = "AdminCancelledSessions";
+				} else {
 					status = "SESSION COMPLETE";
-					 redirect = "AdminPreviousSessions";
+					redirect = "AdminPreviousSessions";
 				}
-				ChangeRequestStatusDAO requestStatus =  new ChangeRequestStatusDAO();
-				isRequestStatusCommit = requestStatus.setStatus(status, Integer.parseInt(rId));
-				if(isRequestStatusCommit){
-					//Set Session Status
+				ChangeRequestStatusDAO requestStatus = new ChangeRequestStatusDAO();
+				isRequestStatusCommit = requestStatus.setStatus(status,
+						Integer.parseInt(rId));
+				if (isRequestStatusCommit) {
+					// Set Session Status
 					ChangeSessionStatusDAO sessionStatus = new ChangeSessionStatusDAO();
-					isSessionStatusCommit = sessionStatus.setStatus(status, sId);
+					isSessionStatusCommit = sessionStatus
+							.setStatus(status, sId);
 				}
-				if(isSessionStatusCommit){
-					if(isFree != null && isFree.equals("true") && !redirect.equals("AdminPreviousSessions")){
-						//Decrement the free session count from the advisor services table
+				if (isSessionStatusCommit) {
+					if (isFree != null && isFree.equals("true")
+							&& !redirect.equals("AdminPreviousSessions")) {
+						// Decrement the free session count from the advisor
+						// services table
 						AdvisorMyAccountRequestViewDetailsDAO decrem = new AdvisorMyAccountRequestViewDetailsDAO();
-						decrem.DecrementFreeSession(Integer.parseInt(aId),service);
+						decrem.DecrementFreeSession(Integer.parseInt(aId),
+								service);
 					}
-					if(userIsFree != null && userIsFree.equals("true") && !redirect.equals("AdminPreviousSessions")){
-						//Toggle the free session column in the userdetails table
+					if (userIsFree != null && userIsFree.equals("true")
+							&& !redirect.equals("AdminPreviousSessions")) {
+						// Toggle the free session column in the userdetails
+						// table
 						AdvisorMyAccountRequestViewDetailsDAO toggle = new AdvisorMyAccountRequestViewDetailsDAO();
 						toggle.ToggleUserFreeSession(Integer.parseInt(uId));
 					}
 					response.sendRedirect(redirect);
 				}
-				
+
 			}
 		}
 		logger.info("Entered doGet method of AdminMyAccountUpcomingSessionViewDetailsFormController");

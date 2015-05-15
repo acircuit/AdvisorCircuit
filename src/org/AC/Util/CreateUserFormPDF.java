@@ -39,96 +39,108 @@ import com.itextpdf.text.pdf.PdfTemplate;
 import com.itextpdf.text.pdf.PdfWriter;
 import com.lowagie.text.HeaderFooter;
 
-
 public class CreateUserFormPDF {
-	private static final Logger logger = Logger.getLogger(CreateUserFormPDF.class);
+	private static final Logger logger = Logger
+			.getLogger(CreateUserFormPDF.class);
 	private static Font catFont = new Font(Font.FontFamily.HELVETICA, 12,
-		      Font.UNDEFINED);
+			Font.UNDEFINED);
 	private static Font titleFont = new Font(Font.FontFamily.TIMES_ROMAN, 18,
-		      Font.UNDERLINE);
-	public void createPDF(HttpServletResponse response,int userId,String email,String name,String phone,String age,String occupation,String image,Timestamp dateOfRegistration,Boolean isActive){
+			Font.UNDERLINE);
+
+	public void createPDF(HttpServletResponse response, int userId,
+			String email, String name, String phone, String age,
+			String occupation, String image, Timestamp dateOfRegistration,
+			Boolean isActive) {
 		logger.info("Entered createPDF method of CreateUserFormPDF");
-		//browser will open the document only if this is set
-	    response.setContentType("application/pdf");
+		// browser will open the document only if this is set
+		response.setContentType("application/pdf");
 		Document document = new Document();
-	    try {
-	    	OutputStream out=response.getOutputStream();
+		try {
+			OutputStream out = response.getOutputStream();
 			PdfWriter.getInstance(document, out);
 			document.open();
 			addTitlePage(document);
-			addImage(document,image);
-			addProfileDetails(document,userId,email,name,phone,age,occupation,dateOfRegistration,isActive);
+			addImage(document, image);
+			addProfileDetails(document, userId, email, name, phone, age,
+					occupation, dateOfRegistration, isActive);
 			document.close();
 			logger.info("Exit createPDF method of CreateUserFormPDF");
 		} catch (FileNotFoundException e) {
-			logger.error("createPDF method of CreateUserFormPDF threw error:"+e.getMessage());
+			logger.error("createPDF method of CreateUserFormPDF threw error:"
+					+ e.getMessage());
 			e.printStackTrace();
 		} catch (DocumentException e) {
-			logger.error("createPDF method of CreateUserFormPDF threw error:"+e.getMessage());
+			logger.error("createPDF method of CreateUserFormPDF threw error:"
+					+ e.getMessage());
 			e.printStackTrace();
-		}catch (IOException e1) {
-			logger.error("createPDF method of CreateUserFormPDF threw error:"+e1.getMessage());
+		} catch (IOException e1) {
+			logger.error("createPDF method of CreateUserFormPDF threw error:"
+					+ e1.getMessage());
 			e1.printStackTrace();
 		}
 	}
-	
 
 	private static void addTitlePage(Document document)
-		      throws DocumentException {
-			logger.info("Entered addTitlePage method of CreateUserFormPDF");
+			throws DocumentException {
+		logger.info("Entered addTitlePage method of CreateUserFormPDF");
 
-		    Paragraph preface = new Paragraph();
-		    // We add one empty line
-		    document.add( Chunk.NEWLINE );
-		    // Lets write a big header
-		    preface.add(new Paragraph("User Form"+"\n", titleFont));
-		    document.add(preface);
-			logger.info("Entered addTitlePage method of CreateUserFormPDF");
-		  }
-	
-	 private static void addProfileDetails(Document document,int userId,String email,String name,String phone,String age,String occupation,Timestamp dateOfRegistration, Boolean isActive) {
-		 
-		 logger.info("Entered addProfileDetails method of CreateUserFormPDF");
-		 Paragraph preface = new Paragraph();
-		 try {
-		 preface.add(new Paragraph("UserId :"+userId+"\n", catFont));
-		 preface.add(new Paragraph("Name :"+name+"\n", catFont));
-		 preface.add(new Paragraph("Age :"+age+"\n", catFont));
-		 preface.add(new Paragraph("Email :"+email+"\n", catFont));
-		 preface.add(new Paragraph("Phone :"+phone+"\n", catFont));
-		 preface.add(new Paragraph("Occupation :"+occupation+"\n", catFont));
-		 preface.add(new Paragraph("Date Of Registration :"+dateOfRegistration+"\n", catFont));
-		 preface.add(new Paragraph("Is Active  :"+isActive+"\n", catFont));
-		 document.add(preface);
-		 logger.info("Exit addProfileDetails method of CreateUserFormPDF");
+		Paragraph preface = new Paragraph();
+		// We add one empty line
+		document.add(Chunk.NEWLINE);
+		// Lets write a big header
+		preface.add(new Paragraph("User Form" + "\n", titleFont));
+		document.add(preface);
+		logger.info("Entered addTitlePage method of CreateUserFormPDF");
+	}
+
+	private static void addProfileDetails(Document document, int userId,
+			String email, String name, String phone, String age,
+			String occupation, Timestamp dateOfRegistration, Boolean isActive) {
+
+		logger.info("Entered addProfileDetails method of CreateUserFormPDF");
+		Paragraph preface = new Paragraph();
+		try {
+			preface.add(new Paragraph("UserId :" + userId + "\n", catFont));
+			preface.add(new Paragraph("Name :" + name + "\n", catFont));
+			preface.add(new Paragraph("Age :" + age + "\n", catFont));
+			preface.add(new Paragraph("Email :" + email + "\n", catFont));
+			preface.add(new Paragraph("Phone :" + phone + "\n", catFont));
+			preface.add(new Paragraph("Occupation :" + occupation + "\n",
+					catFont));
+			preface.add(new Paragraph("Date Of Registration :"
+					+ dateOfRegistration + "\n", catFont));
+			preface.add(new Paragraph("Is Active  :" + isActive + "\n", catFont));
+			document.add(preface);
+			logger.info("Exit addProfileDetails method of CreateUserFormPDF");
 		} catch (DocumentException e) {
-			logger.error("addProfileDetails method of CreateUserFormPDF threw error:"+e.getMessage());
+			logger.error("addProfileDetails method of CreateUserFormPDF threw error:"
+					+ e.getMessage());
 			e.printStackTrace();
 		}
-	 }
-	 
-	 
-private static void addImage(Document document,String imageURL){
-		 
-		 logger.info("Entered addImage method of CreateUserFormPDF");
-		 try {
-			 if( !imageURL.isEmpty()) {
-				        document.open();
-				        //imageURL1 = imageURL.replaceAll('\', "\\");
-				        Image image2 = Image.getInstance(imageURL);
-				        image2.setAbsolutePosition(300, 600);
-				        image2.scaleAbsolute(159f, 159f);
-		                document.add(image2);
-					}
-			 logger.info("Exit addImage method of CreateUserFormPDF");
-		 }catch (DocumentException e) {
-				logger.error("addImage method of CreateUserFormPDF threw error:"+e.getMessage());
-				e.printStackTrace();
-			}catch (Exception e) {
-				logger.error("addImage method of CreateUserFormPDF threw error:"+e.getMessage());
-				e.printStackTrace();
+	}
+
+	private static void addImage(Document document, String imageURL) {
+
+		logger.info("Entered addImage method of CreateUserFormPDF");
+		try {
+			if (!imageURL.isEmpty()) {
+				document.open();
+				// imageURL1 = imageURL.replaceAll('\', "\\");
+				Image image2 = Image.getInstance(imageURL);
+				image2.setAbsolutePosition(300, 600);
+				image2.scaleAbsolute(159f, 159f);
+				document.add(image2);
 			}
-			
+			logger.info("Exit addImage method of CreateUserFormPDF");
+		} catch (DocumentException e) {
+			logger.error("addImage method of CreateUserFormPDF threw error:"
+					+ e.getMessage());
+			e.printStackTrace();
+		} catch (Exception e) {
+			logger.error("addImage method of CreateUserFormPDF threw error:"
+					+ e.getMessage());
+			e.printStackTrace();
+		}
+
 	}
 }
-	 

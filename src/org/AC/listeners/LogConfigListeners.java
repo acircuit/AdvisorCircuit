@@ -17,14 +17,17 @@ public class LogConfigListeners implements ServletContextListener {
 	public void contextInitialized(ServletContextEvent e) {
 
 		ServletContext ctx = e.getServletContext();
-		String prefix =  ctx.getRealPath("/");     
-		String file = "WEB-INF"+System.getProperty("file.separator")+"log4j.properties";
+		String prefix = ctx.getRealPath("/");
+		String file = "WEB-INF" + System.getProperty("file.separator")
+				+ "log4j.properties";
 
-		if(file != null) {
-			PropertyConfigurator.configure(prefix+file);
-			System.out.println("Log4J Logging started for application: " + prefix+file);
+		if (file != null) {
+			PropertyConfigurator.configure(prefix + file);
+			System.out.println("Log4J Logging started for application: "
+					+ prefix + file);
 		}
 	}
+
 	public void contextDestroyed(ServletContextEvent arg0) {
 	}
 

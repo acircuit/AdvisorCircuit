@@ -1,4 +1,4 @@
- /*************************************************************************************************
+/*************************************************************************************************
 \ * ********************************ADVISOR CIRCUIT*************************************************
  * ************************************************************************************************
  * @author AdvisorCircuit
@@ -41,127 +41,154 @@ import org.apache.log4j.Logger;
  *
  ***************************************************************************************************/
 
-
 @WebServlet("/BookASessionServlet")
 @MultipartConfig
 public class BookASessionServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private static final Logger logger = Logger.getLogger(BookASessionServlet.class);
-	
-	/**************************************COMMENTS***************************************************
-	 * This function  retrieves the values from "BOOK A SESSION"Form and put them into Request Table .
-	 *   @
-	 *   @return :None
-	 *   @param : HttpServletRequest request
-	 *   		  HttpServletResponse response
-	 *   		  
+	private static final Logger logger = Logger
+			.getLogger(BookASessionServlet.class);
+
+	/**************************************
+	 * COMMENTS*************************************************** This function
+	 * retrieves the values from "BOOK A SESSION"Form and put them into Request
+	 * Table . @ * @return :None
+	 * 
+	 * @param : HttpServletRequest request HttpServletResponse response
+	 * 
 	 *
 	 ***************************************************************************************************/
-	
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+	protected void doPost(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
 		logger.info("Entered doPost method of BookASessionServlet");
 		int userId = 0;
 		String userName = "";
 		Properties prop = new Properties();
-	    InputStream resourceAsStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("Resources/mail.properties");
-	    prop.load(resourceAsStream);
-		try{
-			userId = (Integer)request.getSession().getAttribute("userId");
-			userName = (String)request.getSession().getAttribute("username");
-		}catch(Exception e){
+		InputStream resourceAsStream = Thread.currentThread()
+				.getContextClassLoader()
+				.getResourceAsStream("Resources/mail.properties");
+		prop.load(resourceAsStream);
+		try {
+			userId = (Integer) request.getSession().getAttribute("userId");
+			userName = (String) request.getSession().getAttribute("username");
+		} catch (Exception e) {
 			response.sendRedirect("Error");
 		}
-		try{
-		//Retrieving the form values
-		String service = request.getParameter("services_dropdown");
-		String mode = request.getParameter("mode");
-		String duration = request.getParameter("duration");
-		String datetime1 = request.getParameter("datetimepicker1");
-		String datetime2 = request.getParameter("datetimepicker2");
-		String datetime3 = request.getParameter("datetimepicker3");
-		String datetime4 = request.getParameter("datetimepicker4");
-		String query = request.getParameter("query");
-		String datetimeemail = request.getParameter("datetimepickeremail");
-		String price = request.getParameter("price");
-		String isFree =request.getParameter("isFree");
-		String userIsFree =request.getParameter("userisfree");
-		
-		String registrationPrice = request.getParameter("registrationPrice");
-		String discount = request.getParameter("discount");
-		int requestId = 0;
-		String aId = (String) request.getParameter("aId");
-		String datetimepicker1 = "";
-		String datetimepicker2 = "";
-		String datetimepicker3 = "";
-		String datetimepicker4 = "";
-		if(query != null){
-			query = query.replaceAll("\r\n", "");
-			query = query.replaceAll( "\r", "");
-			query = query.replaceAll("\n", "");
-		}
-		if(mode.equals("email")){
-			duration = "N/A";
-			DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
-			Date datepicker1 = dateFormat.parse(datetimeemail);
-			SimpleDateFormat dateFormat1 = new SimpleDateFormat("dd/MM/yyyy");
-		    datetimepicker1 = dateFormat1.format(datepicker1);
-		}else{
-			DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy h:mm a");
-			Date datepicker1 = dateFormat.parse(datetime1); 
-			Date datepicker2 = dateFormat.parse(datetime2);
-			Date datepicker3 = dateFormat.parse(datetime3);
-			Date datepicker4 = dateFormat.parse(datetime4);
-			SimpleDateFormat dateFormat1 = new SimpleDateFormat("dd/MM/yyyy' 'HH:mm:ss");
-			datetimepicker1 = dateFormat1.format(datepicker1);
-			datetimepicker2 = dateFormat1.format(datepicker2);
-			datetimepicker3 = dateFormat1.format(datepicker3);
-			datetimepicker4 = dateFormat1.format(datepicker4);
-		}
-		if(isFree.equals("true") || userIsFree.equals("true")){
-			if( Double.parseDouble(registrationPrice) > Double.parseDouble(price)){
-				double disc = (((Double.parseDouble(registrationPrice) - Double.parseDouble(price)) * 100) /Double.parseDouble(registrationPrice));
-				discount = String.valueOf(disc);
-			}else{
-				discount = "100";
+		try {
+			// Retrieving the form values
+			String service = request.getParameter("services_dropdown");
+			String mode = request.getParameter("mode");
+			String duration = request.getParameter("duration");
+			String datetime1 = request.getParameter("datetimepicker1");
+			String datetime2 = request.getParameter("datetimepicker2");
+			String datetime3 = request.getParameter("datetimepicker3");
+			String datetime4 = request.getParameter("datetimepicker4");
+			String query = request.getParameter("query");
+			String datetimeemail = request.getParameter("datetimepickeremail");
+			String price = request.getParameter("price");
+			String isFree = request.getParameter("isFree");
+			String userIsFree = request.getParameter("userisfree");
+
+			String registrationPrice = request
+					.getParameter("registrationPrice");
+			String discount = request.getParameter("discount");
+			int requestId = 0;
+			String aId = (String) request.getParameter("aId");
+			String datetimepicker1 = "";
+			String datetimepicker2 = "";
+			String datetimepicker3 = "";
+			String datetimepicker4 = "";
+			if (query != null) {
+				query = query.replaceAll("\r\n", "");
+				query = query.replaceAll("\r", "");
+				query = query.replaceAll("\n", "");
 			}
-		}
-		String absoluteURL = "";
-		Boolean isCvCommit = false;
-		//Instantiate Book a session dao class for setting the value in the userrequest table.
-		BookASessionDAO dao = new BookASessionDAO();
-		requestId = dao.setBookASessionDetails(aId, service,mode,duration,datetimepicker1,datetimepicker2,datetimepicker3,datetimepicker4,query,userId,price,isFree,registrationPrice,discount,userIsFree);
-		//If the service was cvcritique or moack interview then the user would have uploaded the Cv.
-		//So need to set the CV in the required folder and put the CV details in the user_cv table.
-		if(("mockinterview").equals(service) || ("cvcritique").equals(service) ){
-			
-			//set the CV in the required folder and retrieving the absolute URL
-			SetCV cv = new SetCV();
-			absoluteURL = cv.putCV(request, response, userId);
-			if(!("").equals(absoluteURL)){
-				BookASessionDAO resume = new BookASessionDAO();
-				isCvCommit = resume.setCV(absoluteURL, requestId, userId);
+			if (mode.equals("email")) {
+				duration = "N/A";
+				DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+				Date datepicker1 = dateFormat.parse(datetimeemail);
+				SimpleDateFormat dateFormat1 = new SimpleDateFormat(
+						"dd/MM/yyyy");
+				datetimepicker1 = dateFormat1.format(datepicker1);
+			} else {
+				DateFormat dateFormat = new SimpleDateFormat(
+						"MM/dd/yyyy h:mm a");
+				Date datepicker1 = dateFormat.parse(datetime1);
+				Date datepicker2 = dateFormat.parse(datetime2);
+				Date datepicker3 = dateFormat.parse(datetime3);
+				Date datepicker4 = dateFormat.parse(datetime4);
+				SimpleDateFormat dateFormat1 = new SimpleDateFormat(
+						"dd/MM/yyyy' 'HH:mm:ss");
+				datetimepicker1 = dateFormat1.format(datepicker1);
+				datetimepicker2 = dateFormat1.format(datepicker2);
+				datetimepicker3 = dateFormat1.format(datepicker3);
+				datetimepicker4 = dateFormat1.format(datepicker4);
 			}
-		}
-		
-		if(requestId != 0){	
-			if(isFree.equals("true")){
-				BookASessionDAO free = new BookASessionDAO();
-				free.DecrementIsFree(aId,service);
+			if (isFree.equals("true") || userIsFree.equals("true")) {
+				if (Double.parseDouble(registrationPrice) > Double
+						.parseDouble(price)) {
+					double disc = (((Double.parseDouble(registrationPrice) - Double
+							.parseDouble(price)) * 100) / Double
+							.parseDouble(registrationPrice));
+					discount = String.valueOf(disc);
+				} else {
+					discount = "100";
+				}
 			}
-			if(userIsFree.equals("true")){
-				BookASessionDAO free = new BookASessionDAO();
-				free.ToggleUserIsFree(userId);
+			String absoluteURL = "";
+			Boolean isCvCommit = false;
+			// Instantiate Book a session dao class for setting the value in the
+			// userrequest table.
+			BookASessionDAO dao = new BookASessionDAO();
+			requestId = dao.setBookASessionDetails(aId, service, mode,
+					duration, datetimepicker1, datetimepicker2,
+					datetimepicker3, datetimepicker4, query, userId, price,
+					isFree, registrationPrice, discount, userIsFree);
+			// If the service was cvcritique or moack interview then the user
+			// would have uploaded the Cv.
+			// So need to set the CV in the required folder and put the CV
+			// details in the user_cv table.
+			if (("mockinterview").equals(service)
+					|| ("cvcritique").equals(service)) {
+
+				// set the CV in the required folder and retrieving the absolute
+				// URL
+				SetCV cv = new SetCV();
+				absoluteURL = cv.putCV(request, response, userId);
+				if (!("").equals(absoluteURL)) {
+					BookASessionDAO resume = new BookASessionDAO();
+					isCvCommit = resume.setCV(absoluteURL, requestId, userId);
+				}
 			}
-			//Send Mail to Admin
-			String subject = "A new session request!";
-			String content = "Hi, <br><br>A new SESSION REQUEST by the user ! Following are the details :<br>User Name : " +userName+"<br>Query: "+query+"<br>Mode : "+mode+"<br><img src=\"http://www.advisorcircuit.com/Test/assets/img/logo_black.png\" style='float:right' width='25%'>";
-			SendMail mail = new SendMail(subject, content, prop.getProperty("MAIL_ADMIN"),prop.getProperty("MAIL_ADMIN"));
-			mail.start();
-			response.sendRedirect("UserRequests?bookasession=true");
-		}
-		logger.info("Exit doPost method of BookASessionServlet");
-		}catch(Exception e){
-			logger.equals("doPost method of BookASessionServlet threw error:"+e.getMessage());
+
+			if (requestId != 0) {
+				if (isFree.equals("true")) {
+					BookASessionDAO free = new BookASessionDAO();
+					free.DecrementIsFree(aId, service);
+				}
+				if (userIsFree.equals("true")) {
+					BookASessionDAO free = new BookASessionDAO();
+					free.ToggleUserIsFree(userId);
+				}
+				// Send Mail to Admin
+				String subject = "A new session request!";
+				String content = "Hi, <br><br>A new SESSION REQUEST by the user ! Following are the details :<br>User Name : "
+						+ userName
+						+ "<br>Query: "
+						+ query
+						+ "<br>Mode : "
+						+ mode
+						+ "<br><img src=\"http://www.advisorcircuit.com/Test/assets/img/logo_black.png\" style='float:right' width='25%'>";
+				SendMail mail = new SendMail(subject, content,
+						prop.getProperty("MAIL_ADMIN"),
+						prop.getProperty("MAIL_ADMIN"));
+				mail.start();
+				response.sendRedirect("UserRequests?bookasession=true");
+			}
+			logger.info("Exit doPost method of BookASessionServlet");
+		} catch (Exception e) {
+			logger.equals("doPost method of BookASessionServlet threw error:"
+					+ e.getMessage());
 			e.printStackTrace();
 		}
 	}

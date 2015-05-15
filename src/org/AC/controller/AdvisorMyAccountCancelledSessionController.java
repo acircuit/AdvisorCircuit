@@ -1,4 +1,4 @@
- /*************************************************************************************************
+/*************************************************************************************************
  * ********************************ADVISOR CIRCUIT*************************************************
  * ************************************************************************************************
  * @author AdvisorCircuit
@@ -30,65 +30,69 @@ import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Logger;
 
 /********************************CLASS SUMMARY*****************************************************
-* 
-* This class will fetch all session details from the session table where 
-* 			 status1 = "SESSION CANCELLED DUE TO ADVISOR UNAVAILABILITY";
-*			 status2 = "SESSION CANCELLED DUE TO ADVISOR NO SHOW";
-*			 status3 = "SESSION CANCELLED DUE TO USER UNAVAILABILITY";
-*			 status4 = "SESSION CANCELLED DUE TO NO USER PAYMENT";
-*			 status5 = "SESSION REJECTED BY USER";
-* 
-* 
-*
-***************************************************************************************************/
+ * 
+ * This class will fetch all session details from the session table where 
+ * 			 status1 = "SESSION CANCELLED DUE TO ADVISOR UNAVAILABILITY";
+ *			 status2 = "SESSION CANCELLED DUE TO ADVISOR NO SHOW";
+ *			 status3 = "SESSION CANCELLED DUE TO USER UNAVAILABILITY";
+ *			 status4 = "SESSION CANCELLED DUE TO NO USER PAYMENT";
+ *			 status5 = "SESSION REJECTED BY USER";
+ * 
+ * 
+ *
+ ***************************************************************************************************/
 /**
  * Servlet implementation class AdvisorMyAccountCancelledSessionController
  */
 @WebServlet("/AdvisorMyAccountCancelledSessionController")
 public class AdvisorMyAccountCancelledSessionController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private static final Logger logger = Logger.getLogger(AdvisorMyAccountCancelledSessionController.class);     
-   
- 	/**************************************COMMENTS***************************************************
-	 * This method will  fetch all the session details  where status1 = "SESSION CANCELLED DUE TO ADVISOR UNAVAILABILITY";
-	 *			 status2 = "SESSION CANCELLED DUE TO ADVISOR NO SHOW";
-	 *			 status3 = "SESSION CANCELLED DUE TO USER UNAVAILABILITY";
-	 *			 status4 = "SESSION CANCELLED DUE TO NO USER PAYMENT";
-	 *			 status5 = "SESSION REJECTED BY USER";
-	 *   and then fetch the user details
-	 *   @return :None
-	 *   @param : HttpServletRequest request
-	 *   		  HttpServletResponse response
-	 *   		  
+	private static final Logger logger = Logger
+			.getLogger(AdvisorMyAccountCancelledSessionController.class);
+
+	/**************************************
+	 * COMMENTS*************************************************** This method
+	 * will fetch all the session details where status1 =
+	 * "SESSION CANCELLED DUE TO ADVISOR UNAVAILABILITY"; status2 =
+	 * "SESSION CANCELLED DUE TO ADVISOR NO SHOW"; status3 =
+	 * "SESSION CANCELLED DUE TO USER UNAVAILABILITY"; status4 =
+	 * "SESSION CANCELLED DUE TO NO USER PAYMENT"; status5 =
+	 * "SESSION REJECTED BY USER"; and then fetch the user details
+	 * 
+	 * @return :None
+	 * @param : HttpServletRequest request HttpServletResponse response
+	 * 
 	 *
 	 ***************************************************************************************************/
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
 		logger.info("Entered doGet method of AdvisorMyAccountCancelledSessionController");
 		int advisorId = 0;
 		String username = "";
 		int userId = 0;
 		int requestId = 0;
-		String userName= "";
+		String userName = "";
 		Boolean isError = false;
 		Timestamp acceptedDate = null;
 		List<Integer> requestIds = new ArrayList<Integer>();
 		List<Integer> userIds = new ArrayList<Integer>();
-		try{
-	    advisorId = (int) request.getSession().getAttribute("advisorId"); 
-		}catch(Exception e){
+		try {
+			advisorId = (int) request.getSession().getAttribute("advisorId");
+		} catch (Exception e) {
 			response.sendRedirect("Error");
 			isError = true;
 		}
 		List<SessionDTO> list = new ArrayList<SessionDTO>();
-		if(advisorId != 0 ){
+		if (advisorId != 0) {
 			List<UserRequestDTO> list2 = new ArrayList<UserRequestDTO>();
 			List<UserRequestDTO> list1 = new ArrayList<UserRequestDTO>();
 			List<UserRequestDTO> list3 = new ArrayList<UserRequestDTO>();
 			List<UserDetailsDTO> userDetailsList = new ArrayList<UserDetailsDTO>();
-			//Getting the session details where aId= advisorId 
+			// Getting the session details where aId= advisorId
 			ArrayList<String> status = new ArrayList<String>();
 			status.add("SESSION CANCELLED DUE TO ADVISOR UNAVAILABILITY");
 			status.add("SESSION CANCELLED DUE TO ADVISOR NO SHOW");
@@ -101,52 +105,60 @@ public class AdvisorMyAccountCancelledSessionController extends HttpServlet {
 			for (SessionDTO sessionDTO : list) {
 				requestIds.add(sessionDTO.getRequestId());
 			}
-			//Getting the request details from request table where status = "REQUEST REJECTED BY ADVISOR"
+			// Getting the request details from request table where status =
+			// "REQUEST REJECTED BY ADVISOR"
 			ArrayList<String> requestStatus = new ArrayList<String>();
 			requestStatus.add("REQUEST REJECTED BY ADVISOR");
 			requestStatus.add("REQUEST REJECTED BY USER");
 			UserDetailsDAO requestDetails = new UserDetailsDAO();
-			list1 = requestDetails.getUserRequestDetails( requestStatus,advisorId);
+			list1 = requestDetails.getUserRequestDetails(requestStatus,
+					advisorId);
 			for (UserRequestDTO userRequestDTO : list1) {
-				if(userRequestDTO.getQuery().length() > 120){
-					userRequestDTO.setQuery(userRequestDTO.getQuery().substring(0, 120));
+				if (userRequestDTO.getQuery().length() > 120) {
+					userRequestDTO.setQuery(userRequestDTO.getQuery()
+							.substring(0, 120));
 				}
 				int counter = 0;
 				System.out.println(userRequestDTO.getRequestId());
 				for (SessionDTO sessionDTO : list) {
-					if(sessionDTO.getStatus().equals("SESSION REJECTED BY USER") && (sessionDTO.getRequestId() == userRequestDTO.getRequestId())){
-						counter = counter +1;
+					if (sessionDTO.getStatus().equals(
+							"SESSION REJECTED BY USER")
+							&& (sessionDTO.getRequestId() == userRequestDTO
+									.getRequestId())) {
+						counter = counter + 1;
 					}
 				}
-				if(counter == 0){
+				if (counter == 0) {
 					list3.add(userRequestDTO);
 					userIds.add(userRequestDTO.getUserId());
 				}
 			}
-			if(requestIds.size() > 0 ){
+			if (requestIds.size() > 0) {
 				MyAccountRequestDAO dao = new MyAccountRequestDAO();
-				list2 = dao.getRequestDetails(requestIds);	
+				list2 = dao.getRequestDetails(requestIds);
 				for (UserRequestDTO userRequestDTO : list2) {
-					if(userRequestDTO.getQuery().length() > 120){
-						userRequestDTO.setQuery(userRequestDTO.getQuery().substring(0, 120));
+					if (userRequestDTO.getQuery().length() > 120) {
+						userRequestDTO.setQuery(userRequestDTO.getQuery()
+								.substring(0, 120));
 					}
 					userIds.add(userRequestDTO.getUserId());
 				}
-				if(list2.size() > 0){
+				if (list2.size() > 0) {
 					list3.addAll(list2);
 				}
 			}
-			if(userIds.size() > 0){
-				//Fetching user details from the uderdetails table
+			if (userIds.size() > 0) {
+				// Fetching user details from the uderdetails table
 				UserDetailsDAO user1 = new UserDetailsDAO();
 				userDetailsList = user1.getUserDetails(userIds);
 			}
 			Collections.sort(list3);
-			if(!isError){
+			if (!isError) {
 				request.setAttribute("requests", list3);
 				request.setAttribute("userDetailsList", userDetailsList);
-				RequestDispatcher rd = getServletContext().getRequestDispatcher("/CancelledSessions.jsp");
-		        rd.forward(request, response);
+				RequestDispatcher rd = getServletContext()
+						.getRequestDispatcher("/CancelledSessions.jsp");
+				rd.forward(request, response);
 			}
 		}
 		logger.info("Exit doGet method of AdvisorMyAccountCancelledSessionController");

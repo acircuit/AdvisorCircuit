@@ -1,4 +1,4 @@
- /*************************************************************************************************
+/*************************************************************************************************
  * ********************************ADVISOR CIRCUIT*************************************************
  * ************************************************************************************************
  * @author AdvisorCircuit
@@ -7,12 +7,12 @@
 package org.AC.controller;
 
 /* *******************************CLASS SUMMARY****************************************************
-* 
-* This class will fetch  session  and user details to display on the view details form.
-* 
-* 
-*
-***************************************************************************************************/
+ * 
+ * This class will fetch  session  and user details to display on the view details form.
+ * 
+ * 
+ *
+ ***************************************************************************************************/
 import java.io.IOException;
 import java.nio.channels.SeekableByteChannel;
 import java.sql.Timestamp;
@@ -44,29 +44,34 @@ import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Logger;
 
 /**
- * Servlet implementation class AdvisorMyAccountPreviousSessionViewDetailController
+ * Servlet implementation class
+ * AdvisorMyAccountPreviousSessionViewDetailController
  */
 @WebServlet("/AdvisorMyAccountPreviousSessionViewDetailController")
-public class AdvisorMyAccountPreviousSessionViewDetailController extends HttpServlet {
+public class AdvisorMyAccountPreviousSessionViewDetailController extends
+		HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private static final Logger logger = Logger.getLogger(AdvisorMyAccountPreviousSessionViewDetailController.class); 
-	
- 	/**************************************COMMENTS***************************************************
-	 * This method will fetch  session  and user details to display on the view details form.
-	 *   
-	 *   @return :None
-	 *   @param : HttpServletRequest request
-	 *   		  HttpServletResponse response
-	 *   		  
+	private static final Logger logger = Logger
+			.getLogger(AdvisorMyAccountPreviousSessionViewDetailController.class);
+
+	/**************************************
+	 * COMMENTS*************************************************** This method
+	 * will fetch session and user details to display on the view details form.
+	 * 
+	 * @return :None
+	 * @param : HttpServletRequest request HttpServletResponse response
+	 * 
 	 *
 	 ***************************************************************************************************/
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+	protected void doGet(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+
 		logger.info("Entered doGet method of AdvisorMyAccountPreviousSessionViewDetailController");
-		
+
 		logger.info("Entered doGet method of AdvisorMyAccountPreviousSessionViewDetailController");
 		int advisorId = 0;
 		String username = "";
@@ -75,39 +80,40 @@ public class AdvisorMyAccountPreviousSessionViewDetailController extends HttpSer
 		String advisorName = "";
 		String picture = "";
 		String relImage = "";
-		String userName= "";
-		String mode="";
+		String userName = "";
+		String mode = "";
 		int sId = 0;
-		FeedbackDTO feeds = new FeedbackDTO(); 
+		FeedbackDTO feeds = new FeedbackDTO();
 		Boolean isFeedback = false;
 		Timestamp acceptedDate = null;
-		try{
-	    advisorId = (int) request.getSession().getAttribute("advisorId"); 
-	    username = (String) request.getSession().getAttribute("username");
-	    rId = (String) request.getParameter("rId");
-	    
-		}catch(Exception e){
+		try {
+			advisorId = (int) request.getSession().getAttribute("advisorId");
+			username = (String) request.getSession().getAttribute("username");
+			rId = (String) request.getParameter("rId");
+
+		} catch (Exception e) {
 			response.sendRedirect("Error");
 		}
 		List<SessionDTO> list = new ArrayList<SessionDTO>();
-		if(username != null &&  advisorId != 0 && !("").equals(username)){
+		if (username != null && advisorId != 0 && !("").equals(username)) {
 			List<UserDetailsDTO> list2 = new ArrayList<UserDetailsDTO>();
 			List<UserRequestDTO> list1 = new ArrayList<UserRequestDTO>();
 			List<AdvisorProfileDTO> list3 = new ArrayList<AdvisorProfileDTO>();
 
-
-			//Getting the session details
+			// Getting the session details
 			AdvisorMyAccountSessionDAO session = new AdvisorMyAccountSessionDAO();
 			list = session.getSessionDetails(rId);
 			for (SessionDTO SessionDTO : list) {
 				sId = SessionDTO.getSessionId();
 				userId = SessionDTO.getUserId();
 				acceptedDate = SessionDTO.getAcceptedDate();
-				SessionDTO.setAcceptedDateString(new SimpleDateFormat("dd-MMM-yyyy' 'h:mm a").format(new Date(SessionDTO.getAcceptedDate().getTime())));
+				SessionDTO.setAcceptedDateString(new SimpleDateFormat(
+						"dd-MMM-yyyy' 'h:mm a").format(new Date(SessionDTO
+						.getAcceptedDate().getTime())));
 			}
-		
+
 			MyAccountRequestDAO name = new MyAccountRequestDAO();
-			list3= name.getAdvisorName(advisorId);
+			list3 = name.getAdvisorName(advisorId);
 			for (AdvisorProfileDTO advisorProfileDTO : list3) {
 				advisorName = advisorProfileDTO.getName();
 			}
@@ -117,28 +123,29 @@ public class AdvisorMyAccountPreviousSessionViewDetailController extends HttpSer
 				userName = userDetailsDTO.getFullName();
 				picture = userDetailsDTO.getImage();
 			}
-			if(!("").equals(picture)){
+			if (!("").equals(picture)) {
 				GetRelativeImageURL image1 = new GetRelativeImageURL();
-				 relImage = image1.getImageURL(picture);
+				relImage = image1.getImageURL(picture);
 			}
 			List<TimeDTO> difference = new ArrayList<TimeDTO>();
-			//After retrieving the user details, get the user request details
+			// After retrieving the user details, get the user request details
 			MyAccountRequestDAO dao = new MyAccountRequestDAO();
-			list1 = dao.getUserRequestDetails(rId);	
+			list1 = dao.getUserRequestDetails(rId);
 			GetTimeLeftForReply time = new GetTimeLeftForReply();
 			difference = time.getTimeLeftForSession(acceptedDate);
 			for (UserRequestDTO userRequestDTO : list1) {
 				mode = userRequestDTO.getMode();
-				if(userRequestDTO.getService().equals("cvcritique") || userRequestDTO.getService().equals("mockinterview")){
+				if (userRequestDTO.getService().equals("cvcritique")
+						|| userRequestDTO.getService().equals("mockinterview")) {
 					isFeedback = true;
 				}
-				if(difference.size() > 0){
+				if (difference.size() > 0) {
 					for (TimeDTO timeDTO : difference) {
 						userRequestDTO.setDays(timeDTO.getDay());
 						userRequestDTO.setHours(timeDTO.getHours());
 						userRequestDTO.setMinutes(timeDTO.getMinutes());
-					}	
-				}else{
+					}
+				} else {
 					userRequestDTO.setDays(0);
 					userRequestDTO.setHours(0);
 					userRequestDTO.setMinutes(0);
@@ -147,42 +154,45 @@ public class AdvisorMyAccountPreviousSessionViewDetailController extends HttpSer
 			String sessionDate = "";
 			String date = "";
 			String time1 = "";
-			if(acceptedDate != null){
-				 sessionDate =  acceptedDate.toString();
-				 Timestamp timestamp = new Timestamp(acceptedDate.getTime());
-				 SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MMM-yyyy");
-				 SimpleDateFormat simpleDateFormat1 = new SimpleDateFormat("h:mm a");
-				 date = simpleDateFormat.format(timestamp);
-				 if(mode.equals("email")){
-					 time1 = "N/A";
-				 }else{
-					 time1 = simpleDateFormat1.format(timestamp);
-				 }
-			}else{
-				 date = "NOT FIXED";
-				 time1 = "NOT FIXED";
+			if (acceptedDate != null) {
+				sessionDate = acceptedDate.toString();
+				Timestamp timestamp = new Timestamp(acceptedDate.getTime());
+				SimpleDateFormat simpleDateFormat = new SimpleDateFormat(
+						"dd-MMM-yyyy");
+				SimpleDateFormat simpleDateFormat1 = new SimpleDateFormat(
+						"h:mm a");
+				date = simpleDateFormat.format(timestamp);
+				if (mode.equals("email")) {
+					time1 = "N/A";
+				} else {
+					time1 = simpleDateFormat1.format(timestamp);
+				}
+			} else {
+				date = "NOT FIXED";
+				time1 = "NOT FIXED";
 			}
-			//Check if the user has given any feedback
+			// Check if the user has given any feedback
 			SessionFeedBackDTO feedUser = new SessionFeedBackDTO();
 			SessionFeedBackDTO feedAdvisor = new SessionFeedBackDTO();
-			//Check if the user has given any feedback
+			// Check if the user has given any feedback
 			SessionFeedBackDAO feedback = new SessionFeedBackDAO();
 			feedUser = feedback.GetUserFeedBackDetailsForUser(sId);
 			SessionFeedBackDAO feedbackAdvisor = new SessionFeedBackDAO();
-			feedAdvisor = feedbackAdvisor.GetAdvisorFeedbackDetailsForAdvisor(sId);
-			if(isFeedback){
-				//Getting the FeedBack Form Path
+			feedAdvisor = feedbackAdvisor
+					.GetAdvisorFeedbackDetailsForAdvisor(sId);
+			if (isFeedback) {
+				// Getting the FeedBack Form Path
 				MyAccountRequestDAO form = new MyAccountRequestDAO();
 				feeds = form.GetFeedbackPath(sId);
 			}
-			//Check if the user has sent any mail
+			// Check if the user has sent any mail
 			SessionFeedBackDTO emailUser = new SessionFeedBackDTO();
 			SessionFeedBackDTO emailAdvisor = new SessionFeedBackDTO();
 			SessionFeedBackDAO mail = new SessionFeedBackDAO();
 			emailUser = mail.GetUserMailForAdvisor(sId);
 			SessionFeedBackDAO mailAdvisor = new SessionFeedBackDAO();
 			emailAdvisor = mailAdvisor.GetAdvisorMailForAdvisor(sId);
-			if(list.size() > 0  && list1.size() > 0 && list2.size() > 0) {
+			if (list.size() > 0 && list1.size() > 0 && list2.size() > 0) {
 				request.setAttribute("advisorname", advisorName);
 				request.setAttribute("userName", userName);
 				request.setAttribute("image", relImage);
@@ -198,8 +208,9 @@ public class AdvisorMyAccountPreviousSessionViewDetailController extends HttpSer
 				request.setAttribute("userdetails", list2);
 				request.setAttribute("sessionDate", sessionDate);
 				request.setAttribute("feed", feeds);
-				RequestDispatcher rd = getServletContext().getRequestDispatcher("/Session_ViewDetails.jsp");
-		        rd.forward(request, response);
+				RequestDispatcher rd = getServletContext()
+						.getRequestDispatcher("/Session_ViewDetails.jsp");
+				rd.forward(request, response);
 			}
 		}
 		logger.info("Exit doGet method of AdvisorMyAccountPreviousSessionViewDetailController");

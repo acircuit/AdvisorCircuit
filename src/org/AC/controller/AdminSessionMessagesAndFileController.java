@@ -22,38 +22,47 @@ import org.apache.log4j.Logger;
 @WebServlet("/AdminSessionMessagesAndFileController")
 public class AdminSessionMessagesAndFileController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private static final Logger logger = Logger.getLogger(AdminSessionMessagesAndFileController.class);     
+	private static final Logger logger = Logger
+			.getLogger(AdminSessionMessagesAndFileController.class);
+
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
 		logger.info("Entered doPost method of AdminSessionMessagesAndFileController");
 		Boolean isAdmin = false;
 		Boolean isError = false;
-		try{
-			isAdmin = (Boolean) request.getSession().getAttribute("admin"); 
-			}catch(Exception e){
-				response.sendRedirect("Error");
-				isError = true;
-			}
-		if(isAdmin == null){
+		try {
+			isAdmin = (Boolean) request.getSession().getAttribute("admin");
+		} catch (Exception e) {
+			response.sendRedirect("Error");
+			isError = true;
+		}
+		if (isAdmin == null) {
 			isError = true;
 			response.sendRedirect("Error");
 		}
-		if(isError!= null &&  !isError){
-		String fileId = (String)request.getParameter("fileId");
-			String userMessageId = (String)request.getParameter("userMessageId");	
-			String advisorMessageId = (String)request.getParameter("advisorMessageId");
-			String status =(String)request.getParameter("status");
+		if (isError != null && !isError) {
+			String fileId = (String) request.getParameter("fileId");
+			String userMessageId = (String) request
+					.getParameter("userMessageId");
+			String advisorMessageId = (String) request
+					.getParameter("advisorMessageId");
+			String status = (String) request.getParameter("status");
 			Properties prop = new Properties();
-		    InputStream resourceAsStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("Resources/mail.properties");
-		    prop.load(resourceAsStream);
-			if(fileId != null && status != null){
+			InputStream resourceAsStream = Thread.currentThread()
+					.getContextClassLoader()
+					.getResourceAsStream("Resources/mail.properties");
+			prop.load(resourceAsStream);
+			if (fileId != null && status != null) {
 				SessionMssagesDAO setStatus = new SessionMssagesDAO();
-				Boolean isStatusCommit = setStatus.SetFileStatus(fileId, status);
-				if(isStatusCommit){
-					if(status.equals("REJECTED")){
-						//Getting File Purpose.
+				Boolean isStatusCommit = setStatus
+						.SetFileStatus(fileId, status);
+				if (isStatusCommit) {
+					if (status.equals("REJECTED")) {
+						// Getting File Purpose.
 						FilesDTO file = new FilesDTO();
 						SessionMssagesDAO purpose = new SessionMssagesDAO();
 						file = purpose.GetPurpose(fileId);
@@ -61,79 +70,92 @@ public class AdminSessionMessagesAndFileController extends HttpServlet {
 						String comment = file.getComment();
 						int id = 0;
 						int sessionId = file.getSessionId();
-						//Getting the advisor Id;
+						// Getting the advisor Id;
 						SessionMssagesDAO ids = new SessionMssagesDAO();
 						id = ids.GetId(sessionId, uploadedBy);
-						//Getting user/advisor email 
+						// Getting user/advisor email
 						SessionMssagesDAO emails = new SessionMssagesDAO();
-						String email =emails.GetEmail(id,uploadedBy);
-						String subject ="";
-						String content ="";
+						String email = emails.GetEmail(id, uploadedBy);
+						String subject = "";
+						String content = "";
 						subject = "Your Communication has been rejected";
-						content = "Hi, <br><br>We are sorry but your communication has been rejected. For further information please contact <b>Advisor Circuit at </b>contactus@advisorcircuit.com<br><h3>File Purpose : </h3>" +comment+"<br><img src=\"http://www.advisorcircuit.com/Test/assets/img/logo_black.png\" style='float:right' width='25%'>";
-						SendMail mail = new SendMail(subject, content,email ,prop.getProperty("MAIL_ADMIN"));
+						content = "Hi, <br><br>We are sorry but your communication has been rejected. For further information please contact <b>Advisor Circuit at </b>contactus@advisorcircuit.com<br><h3>File Purpose : </h3>"
+								+ comment
+								+ "<br><img src=\"http://www.advisorcircuit.com/Test/assets/img/logo_black.png\" style='float:right' width='25%'>";
+						SendMail mail = new SendMail(subject, content, email,
+								prop.getProperty("MAIL_ADMIN"));
 						mail.start();
-						response.getWriter().write("THE STATUS HAS BEEN CHANGED.PLEASE REFRESH THE PAGE");
-	
-	
-	
+						response.getWriter()
+								.write("THE STATUS HAS BEEN CHANGED.PLEASE REFRESH THE PAGE");
+
 					}
 				}
-			}else if (userMessageId != null && status != null) {
-					SessionMssagesDAO setStatus1 = new SessionMssagesDAO();
-					Boolean isStatusCommit1 = setStatus1.SetUserMessage(userMessageId, status);
-					if(isStatusCommit1){
-						if(status.equals("REJECTED")){
-							//Getting Message.
-							SessionMssagesDAO message = new SessionMssagesDAO(); 
-							MessageDTO messages = new MessageDTO();
-							messages = message.GetMessage(userMessageId,"USER");
-							int sessionId = messages.getSessionId();
-							String userMessage = messages.getAdvisorMessage();
-							//Getting the user Id;
-							SessionMssagesDAO ids = new SessionMssagesDAO();
-							int id = ids.GetId(sessionId, "USER");
-							//Getting user/advisor email 
-							SessionMssagesDAO emails = new SessionMssagesDAO();
-							String email =emails.GetEmail(id,"USER");
-							String subject ="";
-							String content ="";
-							subject = "Your Communication has been rejected";
-							content = "Hi, <br><br>We are sorry but your communication has been rejected. For further information please contact <b>Advisor Circuit at </b>contactus@advisorcircuit.com<br><h3>Message : </h3>" +userMessage+"<br><img src=\"http://www.advisorcircuit.com/Test/assets/img/logo_black.png\" style='float:right' width='25%'>";
-							SendMail mail = new SendMail(subject, content, email ,prop.getProperty("MAIL_ADMIN"));
-							mail.start();
-								response.getWriter().write("THE STATUS HAS BEEN CHANGED.PLEASE REFRESH THE PAGE");
-						}
-					} 
-				}else if (advisorMessageId != null && status != null) {
-					SessionMssagesDAO setStatus1 = new SessionMssagesDAO();
-					Boolean isStatusCommit1 = setStatus1.SetAdvisorMessage(advisorMessageId, status);
-					if(isStatusCommit1){
-						if(status.equals("REJECTED")){
-							//Getting Message.
-							SessionMssagesDAO message = new SessionMssagesDAO(); 
-							MessageDTO messages = new MessageDTO();
-							messages = message.GetMessage(advisorMessageId,"ADVISOR");
-							int sessionId = messages.getSessionId();
-							String advisorMessage = messages.getAdvisorMessage();
-							//Getting the user Id;
-							SessionMssagesDAO ids = new SessionMssagesDAO();
-							int id = ids.GetId(sessionId, "ADVISOR");
-							//Getting user/advisor email 
-							SessionMssagesDAO emails = new SessionMssagesDAO();
-							String email =emails.GetEmail(id,"ADVISOR");
-							String subject ="";
-							String content ="";
-							subject = "Your Communication has been rejected";
-							content = "Hi, <br><br>We are sorry but your communication has been rejected. For further information please contact <b>Advisor Circuit at </b>contactus@advisorcircuit.com<br><h3>Message : </h3>" +advisorMessage+"<br><img src=\"http://www.advisorcircuit.com/Test/assets/img/logo_black.png\" style='float:right' width='25%'>";
-							SendMail mail = new SendMail(subject, content,email ,prop.getProperty("MAIL_ADMIN"));
-							mail.start();
-								response.getWriter().write("THE STATUS HAS BEEN CHANGED.PLEASE REFRESH THE PAGE");
-							}
-						}
+			} else if (userMessageId != null && status != null) {
+				SessionMssagesDAO setStatus1 = new SessionMssagesDAO();
+				Boolean isStatusCommit1 = setStatus1.SetUserMessage(
+						userMessageId, status);
+				if (isStatusCommit1) {
+					if (status.equals("REJECTED")) {
+						// Getting Message.
+						SessionMssagesDAO message = new SessionMssagesDAO();
+						MessageDTO messages = new MessageDTO();
+						messages = message.GetMessage(userMessageId, "USER");
+						int sessionId = messages.getSessionId();
+						String userMessage = messages.getAdvisorMessage();
+						// Getting the user Id;
+						SessionMssagesDAO ids = new SessionMssagesDAO();
+						int id = ids.GetId(sessionId, "USER");
+						// Getting user/advisor email
+						SessionMssagesDAO emails = new SessionMssagesDAO();
+						String email = emails.GetEmail(id, "USER");
+						String subject = "";
+						String content = "";
+						subject = "Your Communication has been rejected";
+						content = "Hi, <br><br>We are sorry but your communication has been rejected. For further information please contact <b>Advisor Circuit at </b>contactus@advisorcircuit.com<br><h3>Message : </h3>"
+								+ userMessage
+								+ "<br><img src=\"http://www.advisorcircuit.com/Test/assets/img/logo_black.png\" style='float:right' width='25%'>";
+						SendMail mail = new SendMail(subject, content, email,
+								prop.getProperty("MAIL_ADMIN"));
+						mail.start();
+						response.getWriter()
+								.write("THE STATUS HAS BEEN CHANGED.PLEASE REFRESH THE PAGE");
 					}
+				}
+			} else if (advisorMessageId != null && status != null) {
+				SessionMssagesDAO setStatus1 = new SessionMssagesDAO();
+				Boolean isStatusCommit1 = setStatus1.SetAdvisorMessage(
+						advisorMessageId, status);
+				if (isStatusCommit1) {
+					if (status.equals("REJECTED")) {
+						// Getting Message.
+						SessionMssagesDAO message = new SessionMssagesDAO();
+						MessageDTO messages = new MessageDTO();
+						messages = message.GetMessage(advisorMessageId,
+								"ADVISOR");
+						int sessionId = messages.getSessionId();
+						String advisorMessage = messages.getAdvisorMessage();
+						// Getting the user Id;
+						SessionMssagesDAO ids = new SessionMssagesDAO();
+						int id = ids.GetId(sessionId, "ADVISOR");
+						// Getting user/advisor email
+						SessionMssagesDAO emails = new SessionMssagesDAO();
+						String email = emails.GetEmail(id, "ADVISOR");
+						String subject = "";
+						String content = "";
+						subject = "Your Communication has been rejected";
+						content = "Hi, <br><br>We are sorry but your communication has been rejected. For further information please contact <b>Advisor Circuit at </b>contactus@advisorcircuit.com<br><h3>Message : </h3>"
+								+ advisorMessage
+								+ "<br><img src=\"http://www.advisorcircuit.com/Test/assets/img/logo_black.png\" style='float:right' width='25%'>";
+						SendMail mail = new SendMail(subject, content, email,
+								prop.getProperty("MAIL_ADMIN"));
+						mail.start();
+						response.getWriter()
+								.write("THE STATUS HAS BEEN CHANGED.PLEASE REFRESH THE PAGE");
+					}
+				}
+			}
 		}
-				logger.info("Exit doPost method of AdminSessionMessagesAndFileController");
+		logger.info("Exit doPost method of AdminSessionMessagesAndFileController");
 	}
 
 }

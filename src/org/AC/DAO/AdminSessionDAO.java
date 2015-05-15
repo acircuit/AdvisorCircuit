@@ -100,8 +100,8 @@ public class AdminSessionDAO {
 		return sessionList;
 	}
 
-	
-	public List<SessionDTO> SearchSessionDetailsByDate(String status, String fromDate, String toDate) {
+	public List<SessionDTO> SearchSessionDetailsByDate(String status,
+			String fromDate, String toDate) {
 
 		logger.info("Entered GetSessionDetails method of AdminSessionDAO");
 		ResultSet results = null;
@@ -110,13 +110,13 @@ public class AdminSessionDAO {
 			conn = ConnectionFactory.getConnection();
 			conn.setAutoCommit(false);
 			String query = "SELECT * FROM session_table WHERE STATUS = ? AND ACCEPTED_DATE >= ? AND ACCEPTED_DATE <= ?";
-						
+
 			PreparedStatement pstmt = conn.prepareStatement(query);
-			
+
 			pstmt.setString(1, status);
-			pstmt.setString(2, fromDate	+ " 00:00:00");
-			pstmt.setString(3, toDate	+ " 23:59:59");
-			
+			pstmt.setString(2, fromDate + " 00:00:00");
+			pstmt.setString(3, toDate + " 23:59:59");
+
 			results = pstmt.executeQuery();
 			while (results.next()) {
 				SessionDTO session = new SessionDTO();
@@ -160,10 +160,7 @@ public class AdminSessionDAO {
 		}
 		return sessionList;
 	}
-	
-	
-	
-	
+
 	/**************************************
 	 * COMMENTS*************************************************** This function
 	 * will retrieve all the session with status

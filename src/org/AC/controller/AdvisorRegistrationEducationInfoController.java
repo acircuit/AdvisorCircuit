@@ -24,88 +24,96 @@ import org.apache.log4j.Logger;
 @WebServlet("/AdvisorRegistrationEducationInfoController")
 public class AdvisorRegistrationEducationInfoController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private static final Logger logger = Logger.getLogger(AdvisorRegistrationEducationInfoController.class); 
-	
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+	private static final Logger logger = Logger
+			.getLogger(AdvisorRegistrationEducationInfoController.class);
+
+	protected void doGet(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+
 		logger.info("Entered doGet method of AdvisorRegistrationEducationInfoController");
 		int advisorId = 0;
-		try{
-	    advisorId = (int) request.getSession().getAttribute("aId");
-		}catch(Exception e){
+		try {
+			advisorId = (int) request.getSession().getAttribute("aId");
+		} catch (Exception e) {
 			response.sendRedirect("Email");
 		}
 		String fromTab = request.getParameter("tab");
 		List<AdvisorEducationDTO> educations = new ArrayList<AdvisorEducationDTO>();
-		if(advisorId != 0){
+		if (advisorId != 0) {
 			if (fromTab != null && fromTab.equals("true")) {
 				AdvisorEducationDTO education = new AdvisorEducationDTO();
-				//Getting Education Information of the advisor
+				// Getting Education Information of the advisor
 				AdvisorRegistrationDAO dao = new AdvisorRegistrationDAO();
 				educations = dao.GetEducationInfo(advisorId);
-				if(educations.size() >0 ){
-					request.setAttribute("education",educations);
-					RequestDispatcher rd = getServletContext().getRequestDispatcher("/EducationInfo.jsp");
-			        rd.forward(request, response);
-				}else{
-					//Getting the status of the registration process.
+				if (educations.size() > 0) {
+					request.setAttribute("education", educations);
+					RequestDispatcher rd = getServletContext()
+							.getRequestDispatcher("/EducationInfo.jsp");
+					rd.forward(request, response);
+				} else {
+					// Getting the status of the registration process.
 					AdvisorRegistrationDAO status = new AdvisorRegistrationDAO();
 					String stat = status.getStatus(advisorId);
 					response.sendRedirect(stat);
 				}
-			}else{
-					AdvisorEducationDTO education = new AdvisorEducationDTO();
-					//Getting Education Information of the advisor
-					AdvisorRegistrationDAO dao = new AdvisorRegistrationDAO();
-					educations = dao.GetEducationInfo(advisorId);
-					request.setAttribute("education",educations);
-					RequestDispatcher rd = getServletContext().getRequestDispatcher("/EducationInfo.jsp");
-			        rd.forward(request, response);
+			} else {
+				AdvisorEducationDTO education = new AdvisorEducationDTO();
+				// Getting Education Information of the advisor
+				AdvisorRegistrationDAO dao = new AdvisorRegistrationDAO();
+				educations = dao.GetEducationInfo(advisorId);
+				request.setAttribute("education", educations);
+				RequestDispatcher rd = getServletContext()
+						.getRequestDispatcher("/EducationInfo.jsp");
+				rd.forward(request, response);
 			}
 		}
 		logger.info("Exit doGet method of AdvisorRegistrationEducationInfoController");
 	}
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 * This method will retrieve the education info from the form and put them in the required table
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response) This method will retrieve the education info from the form
+	 *      and put them in the required table
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+	protected void doPost(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+
 		logger.info("Entered doPost method of AdvisorRegistrationEducationInfoController");
 		int aId = 0;
-		try{
+		try {
 			aId = (int) request.getSession().getAttribute("aId");
-			}catch(Exception e){
-				response.sendRedirect("Email");
-			}
+		} catch (Exception e) {
+			response.sendRedirect("Email");
+		}
 		String[] education = request.getParameterValues("education[]");
 		String edit = request.getParameter("edit");
-		if(edit == null){
+		if (edit == null) {
 			edit = "false";
 		}
-		if(aId != 0){
-			if(education.length > 0){
-				//Deleting the Education Details
+		if (aId != 0) {
+			if (education.length > 0) {
+				// Deleting the Education Details
 				AdvisorRegistrationDAO deledu = new AdvisorRegistrationDAO();
 				Boolean isDeleted = deledu.DeleteEducation(aId);
-				//Calling DAO to put the values into table
+				// Calling DAO to put the values into table
 				AdvisorRegistrationDAO dao = new AdvisorRegistrationDAO();
-				Boolean isEducationInfoCommit = dao.setEducationInfo(education,aId);
-				if(isEducationInfoCommit && !edit.equals("true")){
-					//Changing the status of the Advisor To ProfessionalBackground.jsp
+				Boolean isEducationInfoCommit = dao.setEducationInfo(education,
+						aId);
+				if (isEducationInfoCommit && !edit.equals("true")) {
+					// Changing the status of the Advisor To
+					// ProfessionalBackground.jsp
 					AdvisorRegistrationDAO status = new AdvisorRegistrationDAO();
-					Boolean isStatusCommit = status.setRegistrationStatus(aId, "ProfessionalBackground.jsp");
-					if(isStatusCommit){
+					Boolean isStatusCommit = status.setRegistrationStatus(aId,
+							"ProfessionalBackground.jsp");
+					if (isStatusCommit) {
 						response.sendRedirect("AdvisorRegistrationProfessionalBackground");
 					}
-			}else{
-				response.sendRedirect("AdvisorRegistrationProfessionalBackground");
+				} else {
+					response.sendRedirect("AdvisorRegistrationProfessionalBackground");
+				}
 			}
-		}
 
-		
-		logger.info("Entered doPost method of AdvisorRegistrationEducationInfoController");
+			logger.info("Entered doPost method of AdvisorRegistrationEducationInfoController");
 		}
 	}
 }

@@ -20,13 +20,15 @@ import org.AC.dto.ProfessionalBackgroundDTO;
 @WebServlet("/AdvisorRegistrationController")
 public class AdvisorRegistrationController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
+
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		//Retrieving Advisor Profile DTO Attributes
+	protected void doPost(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+
+		// Retrieving Advisor Profile DTO Attributes
 		String name = request.getParameter("name");
 		String gender = request.getParameter("gender");
 		String age = request.getParameter("age");
@@ -48,9 +50,10 @@ public class AdvisorRegistrationController extends HttpServlet {
 		String keyskills = request.getParameter("keyskills");
 		String hobbies = request.getParameter("hobbies");
 		String funfact = request.getParameter("funfact");
-		String introduction_prof = request.getParameter("introduction_professionalbackground");
-		
-		//Retrieving Advisor Services Attributes
+		String introduction_prof = request
+				.getParameter("introduction_professionalbackground");
+
+		// Retrieving Advisor Services Attributes
 		String[] services = request.getParameterValues("services");
 		String careerTalkDescription = "";
 		String careerTalkPricePhone = "";
@@ -72,18 +75,25 @@ public class AdvisorRegistrationController extends HttpServlet {
 		String personalWorkshopPricePhone = "";
 		String personalWorkshopPriceEmail = "";
 		String personalWorkshopPriceWebchat = "";
-		
-		//Retrieving Advisor Professional Background
+
+		// Retrieving Advisor Professional Background
 		String[] company = request.getParameterValues("company[]");
 		String[] designation = request.getParameterValues("designation[]");
 		String[] description = request.getParameterValues("description[]");
 		List<ProfessionalBackgroundDTO> list = new ArrayList<ProfessionalBackgroundDTO>();
 		ProfessionalBackgroundObject professionalBackground = new ProfessionalBackgroundObject();
-		/*list =  professionalBackground.getProfessionalBackgroundObject(company,designation,description);
-		CreateAdvisorFormPDF pdf = new CreateAdvisorFormPDF();
-		pdf.createPDF(response,name,gender,age,email,city,nationality,phone,industry,occupation,introduction,organisation,job,experience,ug,pg,others,achievements
-				,knowyouradvisor,keyskills,hobbies,funfact,introduction_prof,list);*/
-		
+		/*
+		 * list =
+		 * professionalBackground.getProfessionalBackgroundObject(company,
+		 * designation,description); CreateAdvisorFormPDF pdf = new
+		 * CreateAdvisorFormPDF();
+		 * pdf.createPDF(response,name,gender,age,email,city
+		 * ,nationality,phone,industry
+		 * ,occupation,introduction,organisation,job,experience
+		 * ,ug,pg,others,achievements
+		 * ,knowyouradvisor,keyskills,hobbies,funfact,introduction_prof,list);
+		 */
+
 	}
 
 }

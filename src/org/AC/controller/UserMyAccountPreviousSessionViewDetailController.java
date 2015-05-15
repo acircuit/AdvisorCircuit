@@ -1,4 +1,4 @@
- /*************************************************************************************************
+/*************************************************************************************************
  * ********************************ADVISOR CIRCUIT*************************************************
  * ************************************************************************************************
  * @author AdvisorCircuit
@@ -35,35 +35,38 @@ import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Logger;
 
 /* *******************************CLASS SUMMARY****************************************************
-* 
-* This class will fetch  session  and user details to display on the view details form.
-* 
-* 
-*
-***************************************************************************************************/
+ * 
+ * This class will fetch  session  and user details to display on the view details form.
+ * 
+ * 
+ *
+ ***************************************************************************************************/
 /**
  * Servlet implementation class UserMyAccountPreviousSessionViewDetailController
  */
 @WebServlet("/UserMyAccountPreviousSessionViewDetailController")
-public class UserMyAccountPreviousSessionViewDetailController extends HttpServlet {
+public class UserMyAccountPreviousSessionViewDetailController extends
+		HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private static final Logger logger = Logger.getLogger(UserMyAccountPreviousSessionViewDetailController.class); 
-	
- 	/**************************************COMMENTS***************************************************
-	 * This method will fetch  session  and user details to display on the view details form.
-	 *   
-	 *   @return :None
-	 *   @param : HttpServletRequest request
-	 *   		  HttpServletResponse response
-	 *   		  
-	 *
-	 ***************************************************************************************************/   
+	private static final Logger logger = Logger
+			.getLogger(UserMyAccountPreviousSessionViewDetailController.class);
 
+	/**************************************
+	 * COMMENTS*************************************************** This method
+	 * will fetch session and user details to display on the view details form.
+	 * 
+	 * @return :None
+	 * @param : HttpServletRequest request HttpServletResponse response
+	 * 
+	 *
+	 ***************************************************************************************************/
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
 		logger.info("Entered doGet method of UserMyAccountUpcomingSessionViewDetailController");
 		int advisorId = 0;
 		String username = "";
@@ -72,36 +75,38 @@ public class UserMyAccountPreviousSessionViewDetailController extends HttpServle
 		String advisorName = "";
 		String picture = "";
 		String relImage = "";
-		String userName= "";
-		String mode="";
+		String userName = "";
+		String mode = "";
 		Boolean isFeedback = false;
-		String path="";
+		String path = "";
 		int sId = 0;
 		Timestamp acceptedDate = null;
-	    rId = (String) request.getParameter("rId");
-		try{
-			userId = (int) request.getSession().getAttribute("userId"); 
-	    username = (String) request.getSession().getAttribute("username");
-	    
-		}catch(Exception e){
+		rId = (String) request.getParameter("rId");
+		try {
+			userId = (int) request.getSession().getAttribute("userId");
+			username = (String) request.getSession().getAttribute("username");
+
+		} catch (Exception e) {
 			response.sendRedirect("Error");
 		}
 		List<SessionDTO> list = new ArrayList<SessionDTO>();
-		if(username != null &&  userId != 0 && !("").equals(username)){
+		if (username != null && userId != 0 && !("").equals(username)) {
 			List<UserDetailsDTO> list2 = new ArrayList<UserDetailsDTO>();
 			List<UserRequestDTO> list1 = new ArrayList<UserRequestDTO>();
 			List<AdvisorProfileDTO> list3 = new ArrayList<AdvisorProfileDTO>();
-			//Getting the session details
+			// Getting the session details
 			AdvisorMyAccountSessionDAO session = new AdvisorMyAccountSessionDAO();
 			list = session.getSessionDetails(rId);
 			for (SessionDTO SessionDTO : list) {
 				sId = SessionDTO.getSessionId();
 				advisorId = SessionDTO.getAdvisorId();
 				acceptedDate = SessionDTO.getAcceptedDate();
-				SessionDTO.setAcceptedDateString(new SimpleDateFormat("dd-MMM-yyyy' 'h:mm a").format(new Date(SessionDTO.getAcceptedDate().getTime())));
+				SessionDTO.setAcceptedDateString(new SimpleDateFormat(
+						"dd-MMM-yyyy' 'h:mm a").format(new Date(SessionDTO
+						.getAcceptedDate().getTime())));
 
 			}
-		
+
 			MyAccountRequestDAO name = new MyAccountRequestDAO();
 			list3 = name.getAdvisorName(advisorId);
 			for (AdvisorProfileDTO advisorProfileDTO : list3) {
@@ -113,28 +118,29 @@ public class UserMyAccountPreviousSessionViewDetailController extends HttpServle
 			for (UserDetailsDTO userDetailsDTO : list2) {
 				userName = userDetailsDTO.getFullName();
 			}
-			if(!("").equals(picture)){
+			if (!("").equals(picture)) {
 				GetRelativeImageURL image1 = new GetRelativeImageURL();
-				 relImage = image1.getImageURL(picture);
+				relImage = image1.getImageURL(picture);
 			}
 			List<TimeDTO> difference = new ArrayList<TimeDTO>();
-			//After retrieving the user details, get the user request details
+			// After retrieving the user details, get the user request details
 			MyAccountRequestDAO dao = new MyAccountRequestDAO();
-			list1 = dao.getUserRequestDetails(rId);	
+			list1 = dao.getUserRequestDetails(rId);
 			GetTimeLeftForReply time = new GetTimeLeftForReply();
 			difference = time.getHoursAndMinutes(acceptedDate);
 			for (UserRequestDTO userRequestDTO : list1) {
-				mode= userRequestDTO.getMode();
-				if(userRequestDTO.getService().equals("cvcritique") || userRequestDTO.getService().equals("mockinterview")){
+				mode = userRequestDTO.getMode();
+				if (userRequestDTO.getService().equals("cvcritique")
+						|| userRequestDTO.getService().equals("mockinterview")) {
 					isFeedback = true;
 				}
-				if(difference.size() > 0){
+				if (difference.size() > 0) {
 					for (TimeDTO timeDTO : difference) {
 						userRequestDTO.setDays(timeDTO.getDay());
 						userRequestDTO.setHours(timeDTO.getHours());
 						userRequestDTO.setMinutes(timeDTO.getMinutes());
-					}	
-				}else{
+					}
+				} else {
 					userRequestDTO.setDays(0);
 					userRequestDTO.setHours(0);
 					userRequestDTO.setMinutes(0);
@@ -143,41 +149,44 @@ public class UserMyAccountPreviousSessionViewDetailController extends HttpServle
 			String sessionDate = "";
 			String date = "";
 			String time1 = "";
-			if(acceptedDate != null){
-				 sessionDate =  acceptedDate.toString();
-				 Timestamp timestamp = new Timestamp(acceptedDate.getTime());
-				 SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MMM-yyyy");
-				 SimpleDateFormat simpleDateFormat1 = new SimpleDateFormat("h:mm a");
-				 date = simpleDateFormat.format(timestamp);
-				 if(mode.equals("email")){
-					 time1 = "N/A";
-				 }else{
-					 time1 = simpleDateFormat1.format(timestamp);
-				 }
-			}else{
-				 date = "NOT FIXED";
-				 time1 = "NOT FIXED";
+			if (acceptedDate != null) {
+				sessionDate = acceptedDate.toString();
+				Timestamp timestamp = new Timestamp(acceptedDate.getTime());
+				SimpleDateFormat simpleDateFormat = new SimpleDateFormat(
+						"dd-MMM-yyyy");
+				SimpleDateFormat simpleDateFormat1 = new SimpleDateFormat(
+						"h:mm a");
+				date = simpleDateFormat.format(timestamp);
+				if (mode.equals("email")) {
+					time1 = "N/A";
+				} else {
+					time1 = simpleDateFormat1.format(timestamp);
+				}
+			} else {
+				date = "NOT FIXED";
+				time1 = "NOT FIXED";
 			}
-			if(isFeedback){
-				//Getting the FeedBack Form Path
+			if (isFeedback) {
+				// Getting the FeedBack Form Path
 				MyAccountRequestDAO form = new MyAccountRequestDAO();
 				path = form.GetFeedbackPathForUser(sId);
 			}
 			SessionFeedBackDTO feedUser = new SessionFeedBackDTO();
 			SessionFeedBackDTO feedAdvisor = new SessionFeedBackDTO();
-			//Check if the user has given any feedback
+			// Check if the user has given any feedback
 			SessionFeedBackDAO feedback = new SessionFeedBackDAO();
 			feedUser = feedback.GetUserFeedBackDetailsForUser(sId);
 			SessionFeedBackDAO feedbackAdvisor = new SessionFeedBackDAO();
-			feedAdvisor = feedbackAdvisor.GetAdvisorFeedbackDetailsForAdvisor(sId);
-			
+			feedAdvisor = feedbackAdvisor
+					.GetAdvisorFeedbackDetailsForAdvisor(sId);
+
 			SessionFeedBackDTO emailUser = new SessionFeedBackDTO();
 			SessionFeedBackDTO emailAdvisor = new SessionFeedBackDTO();
 			SessionFeedBackDAO mail = new SessionFeedBackDAO();
-			emailUser = mail.GetUserMailForUser(sId);	
+			emailUser = mail.GetUserMailForUser(sId);
 			SessionFeedBackDAO mailAdvisor = new SessionFeedBackDAO();
 			emailAdvisor = mailAdvisor.GetAdvisorMailForUser(sId);
-			if(list.size() > 0  && list1.size() > 0 && list2.size() > 0) {
+			if (list.size() > 0 && list1.size() > 0 && list2.size() > 0) {
 				request.setAttribute("advisorname", advisorName);
 				request.setAttribute("userName", userName);
 				request.setAttribute("image", relImage);
@@ -193,14 +202,13 @@ public class UserMyAccountPreviousSessionViewDetailController extends HttpServle
 				request.setAttribute("path", path);
 				request.setAttribute("userdetails", list2);
 				request.setAttribute("sessionDate", sessionDate);
-				RequestDispatcher rd = getServletContext().getRequestDispatcher("/UserSession_ViewDetails.jsp");
-		        rd.forward(request, response);
+				RequestDispatcher rd = getServletContext()
+						.getRequestDispatcher("/UserSession_ViewDetails.jsp");
+				rd.forward(request, response);
 			}
 		}
 		logger.info("Exit doGet method of UserMyAccountPreviousSessionViewDetailController");
 
 	}
-
-
 
 }
