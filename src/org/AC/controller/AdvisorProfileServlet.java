@@ -119,21 +119,17 @@ public class AdvisorProfileServlet extends HttpServlet {
 				if(mode.getService().equals(services.getService())){
 					if(services.getDiscount() == 0 && services.getIsFree() == 0	){
 						if(userIsFree && !mode.getModeOfCommunication().equals("email")){
-							double afterFreePrice =  Math.ceil(Double.parseDouble(mode.getPrice())/2);
-							int discount = services.getDiscount();
-							int discountedPrice = (int)Math.ceil(afterFreePrice - (discount * afterFreePrice /100));
-							//double discountedPrice = 	Integer.parseInt(mode.getPrice()) - (discount * Integer.parseInt(mode.getPrice()) /100);				
-							mode.setUser_isfree_price(discountedPrice);
+							int afterFreePrice = (int) Math.ceil(Double.parseDouble(mode.getPrice())/2);
+											
+							mode.setUser_isfree_price(afterFreePrice);
 						}
 							mode.setDiscounted_price(price);
 						
 					}else{
 						if(userIsFree && !mode.getModeOfCommunication().equals("email")){
-							double afterFreePrice =  Math.ceil(Double.parseDouble(mode.getPrice())/2);
-							int discount = services.getDiscount();
-							int discountedPrice = (int)Math.ceil(afterFreePrice - (discount * afterFreePrice /100));
-							//double discountedPrice = 	Integer.parseInt(mode.getPrice()) - (discount * Integer.parseInt(mode.getPrice()) /100);				
-							mode.setUser_isfree_price(discountedPrice);
+							int afterFreePrice =  (int)Math.ceil(Double.parseDouble(mode.getPrice())/2);
+		
+							mode.setUser_isfree_price(afterFreePrice);
 						}
 							int discount = services.getDiscount();
 							int discountedPrice = (int)Math.ceil(Double.parseDouble(mode.getPrice()) - (discount * Double.parseDouble(mode.getPrice()) /100));
