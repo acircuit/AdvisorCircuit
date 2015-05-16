@@ -74,7 +74,11 @@ public class AdvisorRegistrationEmailController extends HttpServlet {
 						//If the advisor has not started the registration process then set the email address and change the status
 						AdvisorRegistrationDAO dao2 = new AdvisorRegistrationDAO();
 						advisorId = dao2.setEmail(email,securedPassword);
-						//
+						String comment = email+" with AdvisorId =" + advisorId+" started the registration process";
+						String href = "AdminAdvisors";
+						//Notify Admin
+						AdminNotificationDAO notify = new AdminNotificationDAO();
+						notify.InsertNotification(comment,href);
 						
 						//This is a new advisor.Send verification mail
 						String subject ="";

@@ -23,6 +23,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 
+import org.AC.DAO.AdminNotificationDAO;
 import org.AC.DAO.UserDetailsDAO;
 import org.AC.Util.PasswordHashing;
 import org.AC.Util.SendMail;
@@ -97,6 +98,11 @@ public class User_RegistrationController extends HttpServlet {
 						UserDetailsDAO dao = new UserDetailsDAO();
 						int userId = dao.setUserDetails(email,hashPassword,fullname,phone,age,occupation,absolutePath);
 						if(userId != 0){
+							String comment = fullname+" signed up as a user";
+							String href = "AdminUsers";
+							AdminNotificationDAO notify = new AdminNotificationDAO();
+							notify.InsertNotification(comment, href);
+							
 						 	String subject ="";
 							String content ="";
 							subject = "Thank Your For Registering";

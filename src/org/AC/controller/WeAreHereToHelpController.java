@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.AC.DAO.AdminNotificationDAO;
 import org.AC.DAO.UserDetailsDAO;
 import org.AC.Util.SendMail;
 import org.apache.log4j.Logger;
@@ -58,6 +59,12 @@ public class WeAreHereToHelpController extends HttpServlet {
 			UserDetailsDAO here = new UserDetailsDAO();
 			Boolean isDetailsCommit = here.SetHereToHelpDetails(name,email,phone,occupation,industry,service,phonemode,emailmode,webchat,query,other);
 			if(isDetailsCommit){
+				//Notify Admin
+				String comment = name+" wants your help";
+				String href = "AdminHereToHelp";
+				AdminNotificationDAO notify = new AdminNotificationDAO();
+				notify.InsertNotification(comment, href);
+				
 				String subject ="";
 				String content ="";
 				subject = "We Are here to help";

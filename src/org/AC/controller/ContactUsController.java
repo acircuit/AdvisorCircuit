@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.AC.DAO.AdminNotificationDAO;
 import org.AC.DAO.ContactUsDAO;
 import org.AC.Util.SendMail;
 import org.apache.log4j.BasicConfigurator;
@@ -61,6 +62,11 @@ public class ContactUsController extends HttpServlet {
 			ContactUsDAO contact = new ContactUsDAO();
 			isCommit = contact.SetContactUsDetails(name,email,phone,message);
 			if(isCommit){
+				//Notify Admin
+				String comment = name + " contacted you";
+				String href = "AdminContactUs";
+				AdminNotificationDAO notify = new AdminNotificationDAO();
+				notify.InsertNotification(comment, href);
 				int image = 1;
 				String subject = "Contact Us!";
 				String content = "Hi, <br><br>A user has sent a query through the contact us page. Following are the details:<br>Name: " +name+ "<br>Email Id: " +email+"<br>Phone: " +phone+"<br>Message: "+ message+"<br><img src=\"http://www.advisorcircuit.com/Test/assets/img/logo_black.png\" style='float:right' width='25%'>";

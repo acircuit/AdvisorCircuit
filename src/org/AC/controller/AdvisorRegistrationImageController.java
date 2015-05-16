@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.AC.DAO.AdminNotificationDAO;
 import org.AC.DAO.AdvisorRegistrationDAO;
 import org.AC.Util.SendMail;
 import org.AC.Util.SetFormImage;
@@ -73,6 +74,11 @@ public class AdvisorRegistrationImageController extends HttpServlet {
 				Boolean isImageCommit = dao.setImageURL(aId, url, status);
 				
 				if(isImageCommit){
+					//Notify Admin
+					String comment = email+" completed the registration process";
+					String href = "AdminAdvisors";
+					AdminNotificationDAO notify = new AdminNotificationDAO();
+					notify.InsertNotification(comment, href);
 					//Mail the admin
 					String subject = "New Registration by Advisor!!!!!";
 					String content = "Hi, <br><br>An advisor registered with us. Following are the details: <br>Email Id :</h3>" +email+"<br><img src=\"http://www.advisorcircuit.com/Test/assets/img/logo_black.png\" style='float:right' width='25%'>";

@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.AC.DAO.AdvisorMyAccountRequestViewDetailsDAO;
 import org.AC.DAO.ChangeRequestStatusDAO;
+import org.AC.DAO.UserNotificationDAO;
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Logger;
 
@@ -80,6 +81,13 @@ public class AdminMyAccountRequestViewDetailsFormController extends HttpServlet 
 					ChangeRequestStatusDAO requestStatus = new ChangeRequestStatusDAO();
 					Boolean isStatusCommit = requestStatus.setStatus(status, Integer.parseInt(rId));
 					if(isStatusCommit){
+						System.out.println("user Id " + uId);
+						String comment = "Admin has approved your session request";
+						String href = "UserRequests";
+						//Notify User 
+						UserNotificationDAO notify = new UserNotificationDAO();
+						notify.InsertNotification(comment, href,uId);
+						
 						response.sendRedirect("AdminRequests?approved=true");
 					}
 				}else{
@@ -98,6 +106,7 @@ public class AdminMyAccountRequestViewDetailsFormController extends HttpServlet 
 							AdvisorMyAccountRequestViewDetailsDAO toggle = new AdvisorMyAccountRequestViewDetailsDAO();
 							toggle.ToggleUserFreeSession(Integer.parseInt(uId));
 						}
+						
 						response.sendRedirect("AdminCancelledSessions");
 					}
 					
