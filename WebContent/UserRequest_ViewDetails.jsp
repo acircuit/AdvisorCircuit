@@ -127,6 +127,12 @@
                                         </a>
                                     </div>
 								</div>
+								<div class="form-group">
+                                	<label for="icode" class="col-md-2 control-label">Request Id</label>
+                                    <div class="col-md-10">
+                                        <p><c:out value="${userRequest.getRequestId()}"></c:out></p>	
+                                    </div>
+                                </div>
 								
                                 <c:if test="${sessionDetails.size() > 0}">
 											<c:forEach items="${sessionDetails}" var="session">

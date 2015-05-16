@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+\<!DOCTYPE html>
 <%@page import="org.AC.dto.PaymentDTO"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
@@ -94,7 +94,7 @@
                                 <th>Date of Payment</th>
                                 <th>Payment Mode</th>
                                 <th>Tracking Id</th>
-                                <th>Admin's Comment</th>
+                                <th>Details</th>
                             </tr>
                             	<c:forEach var="session" items="${sessions}">
                             		<c:forEach var="request" items="${requests}">  
@@ -136,7 +136,7 @@
                            					<td>${payment.getPurchaseDateString()}</td>
                            					<td>${payment.getPaymentMode()}</td>
                            					<td>${payment.getTrackingId()}</td>
-                           					<td><a data-toggle="modal" data-target="#ucomment${session.getSessionId() }"> Admin's Comment </a></td>
+                           					<td><a data-toggle="modal" data-target="#ucomment${session.getSessionId() }"> View Details </a></td>
                            					<div class="modal fade" id="ucomment${session.getSessionId()}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 												<div class="modal-dialog modal-lg">
 													<div class="modal-content" style="overflow-y :hidden">

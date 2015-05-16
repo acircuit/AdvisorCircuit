@@ -125,6 +125,12 @@
                                         <img style="width:100px; float:left;" id="userimage"  src="<%=userImage %>" alt="">
                                     </div>
                                 </div>
+                                <div class="form-group">
+                                	<label for="icode" class="col-md-2 control-label">Request Id</label>
+                                    <div class="col-md-10">
+                                        <p><c:out value="${userRequest.getRequestId()}"></c:out></p>	
+                                    </div>
+                                </div>
                                 
                                 <div class="form-group">
                                     <label for="icode" class="col-md-2 control-label">Service :</label>

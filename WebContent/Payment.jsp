@@ -84,7 +84,7 @@
                                 <th>Price(Rs)</th>
                                 <th>Your due amount(Rs)</th>
                                 <th>Payment Status</th>
-                                <th>Admin's Comment</th>
+                                <th>Details</th>
                             </tr>
                           
                             	<c:forEach var="session" items="${sessions}">
@@ -133,7 +133,7 @@
                            				</c:if>
                            				
                            			</c:forEach>
-                           			<td><a data-toggle="modal" data-target="#ucomment${session.getSessionId() }"> Admin's Comment </a></td>
+                           			<td><a data-toggle="modal" data-target="#ucomment${session.getSessionId() }"> View Details </a></td>
                            			<div class="modal fade" id="ucomment${session.getSessionId()}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 												<div class="modal-dialog modal-lg">
 													<div class="modal-content" style="overflow-y :hidden">
