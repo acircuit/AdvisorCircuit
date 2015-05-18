@@ -60,7 +60,7 @@ public class WeAreHereToHelpController extends HttpServlet {
 			Boolean isDetailsCommit = here.SetHereToHelpDetails(name,email,phone,occupation,industry,service,phonemode,emailmode,webchat,query,other);
 			if(isDetailsCommit){
 				//Notify Admin
-				String comment = name+" wants your help";
+				String comment = name+" sent a message through We Are Here to Help";
 				String href = "AdminHereToHelp";
 				AdminNotificationDAO notify = new AdminNotificationDAO();
 				notify.InsertNotification(comment, href);

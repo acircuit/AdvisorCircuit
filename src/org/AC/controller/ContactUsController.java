@@ -63,7 +63,7 @@ public class ContactUsController extends HttpServlet {
 			isCommit = contact.SetContactUsDetails(name,email,phone,message);
 			if(isCommit){
 				//Notify Admin
-				String comment = name + " contacted you";
+				String comment = name + "  sent a message through the Contact Us Page";
 				String href = "AdminContactUs";
 				AdminNotificationDAO notify = new AdminNotificationDAO();
 				notify.InsertNotification(comment, href);

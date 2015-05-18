@@ -154,7 +154,7 @@ public class BookASessionServlet extends HttpServlet {
 				BookASessionDAO free = new BookASessionDAO();
 				free.ToggleUserIsFree(userId);
 			}
-			String comment = userName+" sent a session request";
+			String comment = "You've got a new Session request";
 			String href = "AdminRequests?pending=true";
 			//Notification for Admin
 			AdminNotificationDAO notify = new AdminNotificationDAO();
