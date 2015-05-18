@@ -12,7 +12,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 
+import org.AC.DAO.AdminNotificationDAO;
 import org.AC.DAO.SessionFeedBackDAO;
+import org.AC.DAO.UserNotificationDAO;
 import org.AC.Util.SendMail;
 import org.AC.Util.SetFile;
 import org.apache.log4j.Logger;
@@ -132,6 +134,20 @@ public class SessionFeedBackController extends HttpServlet {
 			if(action.equals("show")){
 				SessionFeedBackDAO feedback = new SessionFeedBackDAO();
 				showfeedback = feedback.SessionFeedback(sId,true);
+				int[] ids = new int[3];
+				//Get Advisor Id
+				UserNotificationDAO id = new UserNotificationDAO();
+				ids = id.GetAdvisorId(sId);
+				
+				//Get Advisr Name
+				AdminNotificationDAO name = new AdminNotificationDAO();
+				String advisorName = name.GetAdvisorName(String.valueOf(ids[1]));
+				
+				String comment = "You can now send a follow up mail within 48 hours to " + advisorName;
+				String href = "UserUpcomingSessionViewDetails?rId="+ids[2];
+				UserNotificationDAO user = new UserNotificationDAO();
+				user.InsertNotification(comment, href, String.valueOf(ids[0]));
+				
 				if(showfeedback){
 					response.getWriter().write("Follow up mail is now visible");
 				}	

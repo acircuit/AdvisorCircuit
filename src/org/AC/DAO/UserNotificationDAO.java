@@ -4,6 +4,7 @@ import java.beans.PropertyVetoException;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import org.AC.JDBC.ConnectionFactory;
@@ -57,4 +58,75 @@ public class UserNotificationDAO {
 			return isNotification;
 
 		}
+	
+	public int[] GetId(String rId){
+		logger.info("Entered GetId method of UserNotificationDAO");
+		int[] id = new int[2];
+		try {
+			conn =ConnectionFactory.getConnection();
+			conn.setAutoCommit(false);
+			String query ="SELECT ADVISOR_ID,USER_ID FROM userrequest WHERE REQUEST_ID=?";
+			PreparedStatement pstmt = conn.prepareStatement(query);
+			pstmt.setString(1,rId);
+			ResultSet results = pstmt.executeQuery();
+			if(results.first()){
+				id[0] = results.getInt("USER_ID");
+				id[1] = results.getInt("ADVISOR_ID");
+			}
+		} catch (SQLException e) {
+			logger.error("GetId method of UserNotificationDAO threw error:"+e.getMessage());
+			e.printStackTrace();
+		} catch (IOException e) {
+			logger.error("GetId method of UserNotificationDAO threw error:"+e.getMessage());
+			e.printStackTrace();
+		} catch (PropertyVetoException e) {
+			logger.error("GetId method of UserNotificationDAO threw error:"+e.getMessage());
+			e.printStackTrace();
+		}finally{
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				logger.error("GetId method of UserNotificationDAO threw error:"+e.getMessage());
+				e.printStackTrace();
+			}
+		}
+		logger.info("Entered GetId method of UserNotificationDAO");
+		return id;
+	}
+	
+	public int[] GetAdvisorId(String rId){
+		logger.info("Entered GetAdvisorId method of UserNotificationDAO");
+		int[] id = new int[3];
+		try {
+			conn =ConnectionFactory.getConnection();
+			conn.setAutoCommit(false);
+			String query ="SELECT ADVISOR_ID,USER_ID,REQUEST_ID FROM session_table WHERE SESSION_ID=?";
+			PreparedStatement pstmt = conn.prepareStatement(query);
+			pstmt.setString(1,rId);
+			ResultSet results = pstmt.executeQuery();
+			if(results.first()){
+				id[0] = results.getInt("USER_ID");
+				id[1] = results.getInt("ADVISOR_ID");
+				id[2] = results.getInt("REQUEST_ID");
+			}
+		} catch (SQLException e) {
+			logger.error("GetAdvisorId method of UserNotificationDAO threw error:"+e.getMessage());
+			e.printStackTrace();
+		} catch (IOException e) {
+			logger.error("GetAdvisorId method of UserNotificationDAO threw error:"+e.getMessage());
+			e.printStackTrace();
+		} catch (PropertyVetoException e) {
+			logger.error("GetAdvisorId method of UserNotificationDAO threw error:"+e.getMessage());
+			e.printStackTrace();
+		}finally{
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				logger.error("GetAdvisorId method of UserNotificationDAO threw error:"+e.getMessage());
+				e.printStackTrace();
+			}
+		}
+		logger.info("Entered GetAdvisorId method of UserNotificationDAO");
+		return id;
+	}
 }

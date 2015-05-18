@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.AC.DAO.AdvisorNotificationDAO;
 import org.AC.DAO.MessageDAO;
 import org.AC.Util.SendMail;
 import org.apache.log4j.Logger;
@@ -43,6 +44,7 @@ public class AdminMyAccountAdvisorMessageFormController extends HttpServlet {
 		}
 		if(isError!= null && !isError){
 			String messageId = request.getParameter("mId");
+			String aId = request.getParameter("aId");
 			String adminMessage = request.getParameter("adminmessage");
 			String email = request.getParameter("email");
 			Boolean isMessageCommit = false;
@@ -59,6 +61,11 @@ public class AdminMyAccountAdvisorMessageFormController extends HttpServlet {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
+			         String comment = "You've got a message from our team.";
+			         String href = "AdvisorMessageAdmin";
+			         AdvisorNotificationDAO advisor = new AdvisorNotificationDAO();
+			         advisor.InsertRequestNotification(comment, aId, href);
+			         
 					 String subject ="";
 					String content ="";
 					subject = "You received a communication by Admin";

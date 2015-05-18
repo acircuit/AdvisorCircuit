@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.AC.JDBC.ConnectionFactory;
+import org.AC.dto.AdvisorRegistrationCheckEmailDTO;
 import org.AC.dto.ProfessionalBackgroundDTO;
 import org.apache.log4j.Logger;
 
@@ -62,4 +63,73 @@ public class AdminNotificationDAO {
 			return isNotification;
 
 		}
+	
+	
+	public String GetUserName(String uId){
+		logger.info("Entered GetUserName method of AdminNotificationDAO");
+		String userName = "";
+		try {
+			conn =ConnectionFactory.getConnection();
+			conn.setAutoCommit(false);
+			String query ="SELECT FULL_NAME FROM userdetails WHERE USER_ID=?";
+			PreparedStatement pstmt = conn.prepareStatement(query);
+			pstmt.setString(1,uId);
+			ResultSet results = pstmt.executeQuery();
+			if(results.first()){
+				userName = results.getString("FULL_NAME");
+			}
+		} catch (SQLException e) {
+			logger.error("GetUserName method of AdminNotificationDAO threw error:"+e.getMessage());
+			e.printStackTrace();
+		} catch (IOException e) {
+			logger.error("GetUserName method of AdminNotificationDAO threw error:"+e.getMessage());
+			e.printStackTrace();
+		} catch (PropertyVetoException e) {
+			logger.error("GetUserName method of AdminNotificationDAO threw error:"+e.getMessage());
+			e.printStackTrace();
+		}finally{
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				logger.error("GetUserName method of AdminNotificationDAO threw error:"+e.getMessage());
+				e.printStackTrace();
+			}
+		}
+		logger.info("Entered GetUserName method of AdminNotificationDAO");
+		return userName;
+	}
+	
+	public String GetAdvisorName(String aId){
+		logger.info("Entered GetAdvisorName method of AdminNotificationDAO");
+		String advisorName = "";
+		try {
+			conn =ConnectionFactory.getConnection();
+			conn.setAutoCommit(false);
+			String query ="SELECT NAME FROM advisordetails WHERE ADVISOR_ID=?";
+			PreparedStatement pstmt = conn.prepareStatement(query);
+			pstmt.setString(1,aId);
+			ResultSet results = pstmt.executeQuery();
+			if(results.first()){
+				advisorName = results.getString("NAME");
+			}
+		} catch (SQLException e) {
+			logger.error("GetAdvisorName method of AdminNotificationDAO threw error:"+e.getMessage());
+			e.printStackTrace();
+		} catch (IOException e) {
+			logger.error("GetAdvisorName method of AdminNotificationDAO threw error:"+e.getMessage());
+			e.printStackTrace();
+		} catch (PropertyVetoException e) {
+			logger.error("GetAdvisorName method of AdminNotificationDAO threw error:"+e.getMessage());
+			e.printStackTrace();
+		}finally{
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				logger.error("GetAdvisorName method of AdminNotificationDAO threw error:"+e.getMessage());
+				e.printStackTrace();
+			}
+		}
+		logger.info("Entered GetAdvisorName method of AdminNotificationDAO");
+		return advisorName;
+	}
 }

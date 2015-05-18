@@ -24,8 +24,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.AC.DAO.AdminNotificationDAO;
+import org.AC.DAO.AdvisorNotificationDAO;
 import org.AC.DAO.ChangeRequestStatusDAO;
 import org.AC.DAO.ChangeSessionStatusDAO;
+import org.AC.DAO.UserNotificationDAO;
 import org.AC.Util.SendMail;
 import org.AC.dto.UserRequestDTO;
 import org.apache.commons.io.FileUtils;
@@ -127,6 +130,39 @@ public class UserMyAccountPaymentController extends HttpServlet {
 				ChangeSessionStatusDAO sessionStatus = new ChangeSessionStatusDAO();
 				Boolean isSessionStatus = sessionStatus.setStatus(status1, sId);
 				if(isSessionStatus){
+					int[] ids = new int[2];
+					//Getting the userId and advisor Id from rId
+					UserNotificationDAO id = new UserNotificationDAO();
+					ids = id.GetId(rId);
+					
+					//Notify user 
+					String userComment = "Your session has succesfully been confirmed.";
+					String userHref = "UserUpcomingSessions";
+					UserNotificationDAO user = new UserNotificationDAO();
+					user.InsertNotification(userComment, userHref, String.valueOf(ids[0]));
+					
+					//Getting the username for admin notifications
+					AdminNotificationDAO name = new AdminNotificationDAO();
+					String userName = name.GetUserName(String.valueOf(ids[0]));
+					
+					//Notify advisor
+					String advisorComment = "The session with "+userName+" has been confirmed.";
+					String advisorHref = "AdvisorUpcomingSessions";
+					AdvisorNotificationDAO advisor = new AdvisorNotificationDAO();
+					advisor.InsertRequestNotification(advisorComment, String.valueOf(ids[1]), advisorHref);
+					
+					//Getting advisor Name 
+					AdminNotificationDAO advisorName = new AdminNotificationDAO();
+					String advName = advisorName.GetAdvisorName(String.valueOf(ids[1]));
+					
+					String comment = userName + " has made payment and confirmed the session with " + advName;
+					String href = "AdminPayment";
+					//Notify admin 
+					AdminNotificationDAO admin = new AdminNotificationDAO();
+					admin.InsertNotification(comment, href);
+					
+					
+					
 					//Checkin the service=cvcritique or mockinterview
 					ChangeRequestStatusDAO copy = new ChangeRequestStatusDAO();
 					String service = copy.GetService(rId);				
@@ -198,6 +234,38 @@ public class UserMyAccountPaymentController extends HttpServlet {
 					ChangeSessionStatusDAO sessionStatus = new ChangeSessionStatusDAO();
 					Boolean isSessionStatus = sessionStatus.setStatus(status1, sId,acceptedDate);
 					if(isSessionStatus){
+						
+						int[] ids = new int[2];
+						//Getting the userId and advisor Id from rId
+						UserNotificationDAO id = new UserNotificationDAO();
+						ids = id.GetId(rId);
+						
+						//Notify user 
+						String userComment = "Your session has succesfully been confirmed.";
+						String userHref = "UserUpcomingSessions";
+						UserNotificationDAO user = new UserNotificationDAO();
+						user.InsertNotification(userComment, userHref, String.valueOf(ids[0]));
+						
+						//Getting the username for admin notifications
+						AdminNotificationDAO name = new AdminNotificationDAO();
+						String userName = name.GetUserName(String.valueOf(ids[0]));
+						
+						//Notify advisor
+						String advisorComment = "The session with "+userName+" has been confirmed.";
+						String advisorHref = "AdvisorUpcomingSessions";
+						AdvisorNotificationDAO advisor = new AdvisorNotificationDAO();
+						advisor.InsertRequestNotification(advisorComment, String.valueOf(ids[1]), advisorHref);
+						
+						//Getting advisor Name 
+						AdminNotificationDAO advisorName = new AdminNotificationDAO();
+						String advName = advisorName.GetAdvisorName(String.valueOf(ids[1]));
+						
+						String comment = userName + " has made payment and confirmed the session with " + advName;
+						String href = "AdminPayment";
+						//Notify admin 
+						AdminNotificationDAO admin = new AdminNotificationDAO();
+						admin.InsertNotification(comment, href);
+						
 						//Checkin the service=cvcritique or mockinterview
 						ChangeRequestStatusDAO copy = new ChangeRequestStatusDAO();
 						String service = copy.GetService(rId);
@@ -301,6 +369,38 @@ public class UserMyAccountPaymentController extends HttpServlet {
 						Boolean isSessionStatus = sessionStatus.UpdateStatus(sId,accDate);
 						
 						if(isSessionStatus){
+							int[] ids = new int[2];
+							//Getting the userId and advisor Id from rId
+							UserNotificationDAO id = new UserNotificationDAO();
+							ids = id.GetId(rId);
+							
+							//Notify user 
+							String userComment = "Your session has succesfully been confirmed.";
+							String userHref = "UserUpcomingSessions";
+							UserNotificationDAO user = new UserNotificationDAO();
+							user.InsertNotification(userComment, userHref, String.valueOf(ids[0]));
+							
+							//Getting the username for admin notifications
+							AdminNotificationDAO name = new AdminNotificationDAO();
+							String userName = name.GetUserName(String.valueOf(ids[0]));
+							
+							//Notify advisor
+							String advisorComment = "The session with "+userName+" has been confirmed.";
+							String advisorHref = "AdvisorUpcomingSessions";
+							AdvisorNotificationDAO advisor = new AdvisorNotificationDAO();
+							advisor.InsertRequestNotification(advisorComment, String.valueOf(ids[1]), advisorHref);
+							
+							//Getting advisor Name 
+							AdminNotificationDAO advisorName = new AdminNotificationDAO();
+							String advName = advisorName.GetAdvisorName(String.valueOf(ids[1]));
+							
+							String comment = userName + " has made payment and confirmed the session with " + advName;
+							String href = "AdminPayment";
+							//Notify admin 
+							AdminNotificationDAO admin = new AdminNotificationDAO();
+							admin.InsertNotification(comment, href);
+							
+							
 								String subject = "User Payment Done!";
 								String content = "Hi, <br><br>User Payment Done For Session Id : "+sId+" <br>Now, Waiting for session to happen"+"<br><img src=\"http://www.advisorcircuit.com/Test/assets/img/logo_black.png\" style='float:right' width='25%'>";
 								SendMail mail = new SendMail(subject, content, prop1.getProperty("MAIL_ADMIN"),prop1.getProperty("MAIL_ADMIN"));

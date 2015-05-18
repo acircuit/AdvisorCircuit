@@ -32,8 +32,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.AC.DAO.AdminNotificationDAO;
 import org.AC.DAO.AdvisorMyAccountRequestViewDetailsDAO;
 import org.AC.DAO.ChangeRequestStatusDAO;
+import org.AC.DAO.UserNotificationDAO;
 import org.AC.Util.SendMail;
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Logger;
@@ -120,6 +122,21 @@ public class AdvisorMyAccountRequestViewDetailsFormController extends HttpServle
 					int rId1 = Integer.parseInt(rId);
 					ChangeRequestStatusDAO requestStatus = new ChangeRequestStatusDAO();
 					isStatusCommit = requestStatus.setStatus( status1,rId1);
+					//Notify the user 
+					String comment = "Your request has been accepted by the Advisor . Pay to confirm the session";
+					String href = "UserRequests";
+					UserNotificationDAO userNotification = new UserNotificationDAO();
+					userNotification.InsertNotification(comment, href, uId);
+					
+					//Getting username and the advisor name for the admin notification
+					AdminNotificationDAO userName = new AdminNotificationDAO();
+					String uName = userName.GetUserName(uId);
+					
+					String comment1 = advisorName+ " accepted the session with "+ uName;
+					String ahref = "AdminRequests?approved=true";
+					//Notify Admin
+					AdminNotificationDAO notify = new AdminNotificationDAO();
+					notify.InsertNotification(comment1, ahref);
 					}
 				}else{
 					Date datepicker1 = null;
@@ -200,11 +217,44 @@ public class AdvisorMyAccountRequestViewDetailsFormController extends HttpServle
 						int rId1 = Integer.parseInt(rId);
 						ChangeRequestStatusDAO requestStatus = new ChangeRequestStatusDAO();
 						isStatusCommit = requestStatus.setStatus( status1,rId1);
-
+						if(sessionId != 0 && isNewDate){
+							//Notify the user 
+							String comment = "Your request has been accepted by the Advisor with revised dates! Choose 1 date and Pay to confirm the session";
+							String href = "UserRequests";
+							UserNotificationDAO userNotification = new UserNotificationDAO();
+							userNotification.InsertNotification(comment, href, uId);
+							
+							//Getting username and the advisor name for the admin notification
+							AdminNotificationDAO userName = new AdminNotificationDAO();
+							String uName = userName.GetUserName(uId);
+							
+							String comment1 = advisorName+ " accepted the session with "+ uName+" with revised dates";
+							String ahref = "AdminRequests?approved=true";
+							//Notify Admin
+							AdminNotificationDAO notify = new AdminNotificationDAO();
+							notify.InsertNotification(comment1, ahref);
+						}else{
+							//Notify the user 
+							String comment = "Your request has been accepted by the Advisor . Pay to confirm the session";
+							String href = "UserRequests";
+							UserNotificationDAO userNotification = new UserNotificationDAO();
+							userNotification.InsertNotification(comment, href, uId);
+							
+							//Getting username and the advisor name for the admin notification
+							AdminNotificationDAO userName = new AdminNotificationDAO();
+							String uName = userName.GetUserName(uId);
+							
+							String comment1 = advisorName+ " accepted the session with "+ uName;
+							String ahref = "AdminRequests?approved=true";
+							//Notify Admin
+							AdminNotificationDAO notify = new AdminNotificationDAO();
+							notify.InsertNotification(comment1, ahref);
+						}
 				}
 				//RequestDispatcher rd = getServletContext().getRequestDispatcher("/AdvisorMyAccountRequestController");
 		        //rd.forward(request, response);
 				if(isStatusCommit){
+					
 					//Send Mail to Admin
 					String subject = "Advisor Accepted the session!";
 					String content = "Hi, <br><br>The SESSION REQUEST was accepted by the advisor!! Following are the details:<br>Advisor Name : " +advisorName+"<br>Request Id: "+rId+"<br>Session Id: "+sessionId+"<br> Accepted Date: "+acceptedTime+"<br>Session Plan: "+sessionPlan+"<br><img src=\"http://www.advisorcircuit.com/Test/assets/img/logo_black.png\" style='float:right' width='25%'>";
@@ -232,6 +282,22 @@ public class AdvisorMyAccountRequestViewDetailsFormController extends HttpServle
 					AdvisorMyAccountRequestViewDetailsDAO toggle = new AdvisorMyAccountRequestViewDetailsDAO();
 					toggle.ToggleUserFreeSession(Integer.parseInt(uId));
 				}
+				//Notify the user 
+				String comment = "We're sorry but the Advisor has declined the session. You will get a mail regarding this soon.";
+				String href = "UserCancelledSessions";
+				UserNotificationDAO userNotification = new UserNotificationDAO();
+				userNotification.InsertNotification(comment, href, uId);
+				
+				//Getting username and the advisor name for the admin notification
+				AdminNotificationDAO userName = new AdminNotificationDAO();
+				String uName = userName.GetUserName(uId);
+				
+				String comment1 = advisorName+ " has rejected the session with "+ uName;
+				String ahref = "AdminCancelledSessions";
+				//Notify Admin
+				AdminNotificationDAO notify = new AdminNotificationDAO();
+				notify.InsertNotification(comment1, ahref);
+				
 				//Send Mail to Admin
 				String subject = "Advisor Rejected the session!";
 				String content = "Hi, <br><br>The SESSION REQUEST was accepted by the advisor!! Following are the details: <br>Advisor Name : " +advisorName+"<br>Request Id: "+rId1+"<br><img src=\"http://www.advisorcircuit.com/Test/assets/img/logo_black.png\" style='float:right' width='25%'>";

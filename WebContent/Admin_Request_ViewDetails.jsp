@@ -211,7 +211,6 @@
                                                     </div>
                                                 </div>
                                 <input type="hidden" name="rId" value="${userRequest.getRequestId()}">
-                                
                                 <c:if test="${userRequest.getService().equals('mockinterview') || userRequest.getService().equals('cvcritique')}">										
                                 <div class="form-group">
                                     <div class="col-md-12">
@@ -284,7 +283,8 @@
                                     </div>
                                     </c:otherwise>
                                     </c:choose>
-                                        
+                                    <input type="hidden" name="uId" value="${userRequest.getUserId()}">
+                                    <input type="hidden" name="aId" value="${userRequest.getAdvisorId()}">        
                                     <c:if test="${sessionDetail.size() > 0}">
                                         <c:forEach var="session" items="${sessionDetail}">
                                             <h3>Session Details</h3>

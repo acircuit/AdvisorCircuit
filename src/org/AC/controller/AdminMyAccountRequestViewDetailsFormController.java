@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.AC.DAO.AdvisorMyAccountRequestViewDetailsDAO;
+import org.AC.DAO.AdvisorNotificationDAO;
 import org.AC.DAO.ChangeRequestStatusDAO;
 import org.AC.DAO.UserNotificationDAO;
 import org.apache.log4j.BasicConfigurator;
@@ -81,12 +82,17 @@ public class AdminMyAccountRequestViewDetailsFormController extends HttpServlet 
 					ChangeRequestStatusDAO requestStatus = new ChangeRequestStatusDAO();
 					Boolean isStatusCommit = requestStatus.setStatus(status, Integer.parseInt(rId));
 					if(isStatusCommit){
-						System.out.println("user Id " + uId);
-						String comment = "Admin has approved your session request";
+						String comment = "Your request has been succesfully placed. Keep checking your account for updates.";
 						String href = "UserRequests";
 						//Notify User 
 						UserNotificationDAO notify = new UserNotificationDAO();
 						notify.InsertNotification(comment, href,uId);
+						
+						//Notify Advisor
+						String advisorComment = "You've got a new session request !";
+						String advisorHref =  "AdvisorRequests?new=true";
+						AdvisorNotificationDAO notifyAdvisor = new AdvisorNotificationDAO();
+						notifyAdvisor.InsertRequestNotification(advisorComment, aId, advisorHref);
 						
 						response.sendRedirect("AdminRequests?approved=true");
 					}
@@ -106,6 +112,11 @@ public class AdminMyAccountRequestViewDetailsFormController extends HttpServlet 
 							AdvisorMyAccountRequestViewDetailsDAO toggle = new AdvisorMyAccountRequestViewDetailsDAO();
 							toggle.ToggleUserFreeSession(Integer.parseInt(uId));
 						}
+						String comment = "We're sorry but your request could not be placed. You will get a mail regarding this soon.";
+						String href = "UserCancelledSessions";
+						//Notify User 
+						UserNotificationDAO notify = new UserNotificationDAO();
+						notify.InsertNotification(comment, href,uId);
 						
 						response.sendRedirect("AdminCancelledSessions");
 					}
