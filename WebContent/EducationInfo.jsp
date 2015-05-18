@@ -85,7 +85,7 @@
                             <div id="education">
                                 <c:forEach var="edu" items="${education}">
                                     <div class="form-group" id="dunder${counter }">
-                                        <label for="icode" class="col-md-3 control-label">Education</label>
+                                        <label for="icode" class="col-md-3 control-label">&#8226;</label>
                                             <div class="col-md-5">
                                                  <input id="under${counter }" name="education[]" class="form-control" maxlength='350' value="${edu.getEducation()}"></input>
                                             </div>
@@ -112,7 +112,7 @@
                         <c:otherwise>
                             <div id="education">
                                 <div class="form-group" id="dunder">
-                                    <label for="icode" class="col-md-3 control-label">Education</label>
+                                    <label for="icode" class="col-md-3 control-label">&#8226;</label>
                                     <div class="col-md-5">
                                          <input id="under" name="education[]" class="form-control" maxlength='350'></input>
                                     </div>
@@ -162,12 +162,12 @@
 			$("#btn-signup").click(function(event){
 				var i =0;
 				while(i<10){
-					var input_city = $("#under"+i).val();
-					if ($("#under"+i).is(':visible') && input_city==''){
-						$("#required_name"+i).show();
+					var input_city = $("#under").val();
+					if ($("#under").is(':visible') && input_city==''){
+						$("#required_name").show();
 						event.preventDefault(); 
 					}else{
-						$("#required_name"+i).hide();
+						$("#required_name").hide();
 					}
 					i++;
 				}
@@ -190,7 +190,7 @@
 			  $("#add-education").click(function(e){
 				  if( 1<=max_fields){
 				  e.preventDefault();
-					  var neweducation = "<div class='form-group' id='dother"+i+"'><label for='icode' class='col-md-3 control-label'>Any other</label><div class='col-md-9'><div class='row'><div class='col-md-6 col-xs-10'><input id='other"+i+"' name='education[]' class='form-control' maxlength='350'></input></div><div class='col-md-2 col-xs-2' style='padding-left:0; padding-top:4px;'><a id='"+i+"' onclick=closediv(this)><i class='glyphicon glyphicon-remove'></i></a></div></div></div></div>";
+					  var neweducation = "<div class='form-group' id='dother"+i+"'><label for='icode' class='col-md-3 control-label'>&#8226;</label><div class='col-md-9'><div class='row'><div class='col-md-6 col-xs-10'><input id='other"+i+"' name='education[]' class='form-control' maxlength='350'></input></div><div class='col-md-2 col-xs-2' style='padding-left:0; padding-top:4px;'><a id='"+i+"' onclick=closediv(this)><i class='glyphicon glyphicon-remove'></i></a></div></div></div></div>";
 					  $("#education").append(neweducation);
 					  i++;
 				  }

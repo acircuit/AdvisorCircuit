@@ -298,7 +298,7 @@
 												</c:when>
 												<c:otherwise>
 													<c:forEach items="${newDate}" var="date">
-													<h4>Choose from the Below Date And Time Submitted by the Advisor</h4>
+													<h4>Choose from the below new dates sent by the Advisor</h4>
 													<div class="form-group">
 																
 														<div class="col-md-6" >

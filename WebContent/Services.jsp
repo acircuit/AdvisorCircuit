@@ -1264,7 +1264,7 @@
                                  </c:choose>
                                     </div>
                                  </div>	
-                                 <h4 style="font-family:'custom_light' !important;color: #c84c4e;text-align: left;">Note :<br>1. The price shown on your profile will be your price+ our service fee.<br>2. The prices for phone or webchat are the same.</h4> 
+                                 <h4 style="font-family:'custom_light' !important;color: #c84c4e;text-align: left;">Note :<br>1. The price shown on your profile will be your price+ our service fee.<br>2. The prices for phone and webchat are the same.</h4> 
                                  		
                             </div>
                     </form>									                                

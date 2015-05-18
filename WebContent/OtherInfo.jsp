@@ -81,8 +81,8 @@
                                     <li><a href="<%=service %>?tab=true">Service Information</a></li>
                                     <li><a href="<%=image%>">Upload Image</a></li>
                                 </ul>
-								
-                                <hr>
+                                <label for="icode">Awards And Acheivement </label>
+								<hr>
                                 	<c:choose>
                                 		<c:when test="${keySkill.size() >0 }">
                                 		
@@ -91,7 +91,7 @@
                                 			<c:set var="counter" value="0"></c:set>
                                 				<c:forEach var="achievement" items="${achievements}">
 	                                				<div class="form-group" id="daward${counter }">
-														<label for="icode" class="col-md-3 control-label">Achievements and Awards</label>
+														<label for="icode" class="col-md-3 control-label">&#8226; </label>
 					                                    <div class="col-md-5">
 					                                        <input id="award${counter}" class="form-control" name="achievement[]" value="${achievement.getAchievements() }" maxlength='350' >
 															<p class="required" id="required_award${counter}">Field Required</p>																			                                        
@@ -118,7 +118,7 @@
                                 			</c:when>
                                 			<c:otherwise>
                                 					<div class="form-group" id="daward">
-														<label for="icode" class="col-md-3 control-label">Achievements and Awards</label>
+														<label for="icode" class="col-md-3 control-label">&#8226; </label>
 					                                    <div class="col-md-5">
 					                                        <input id="award0" class="form-control" name="achievement[]" maxlength='350'>
 															<p class="required" id="required_award">Field Required</p>																			                                        
@@ -131,13 +131,13 @@
 			                                		<div  id="awards0">
 				                                	</div >
 				                                	<a href="" onclick="AddAchievements(event)">Add More Achievements</a> 
-				                                	<hr>
                                 			</c:otherwise>
                                 		</c:choose>
+                                		<label for="icode">I can help you with (Skills):</label>
                                 		<c:set  var="skillcounter"  value="0"></c:set>
                                 		<c:forEach var="skill" items="${keySkill}">
                                 			<div class="form-group" id="dskill${skillcounter}">
-												<label for="icode" class="col-md-3 control-label">Key Skills</label>
+												<label for="icode" class="col-md-3 control-label">&#8226; </label>
 			                                    <div class="col-md-5">
 			                                        <input id="skill${skillcounter}" class="form-control" name="keyskills[]" value="${skill.getKeyskill()}" maxlength='350'>  
 													<p class="required" id="required_skill">Field Required</p>																			                                        
@@ -182,7 +182,7 @@
                                 		</c:when>
                                 		<c:otherwise>
                              		<div class="form-group" id="daward">
-										<label for="icode" class="col-md-3 control-label">Achievements and Awards</label>
+										<label for="icode" class="col-md-3 control-label">&#8226; </label>
 	                                    <div class="col-md-5">
 	                                        <input id="award0" class="form-control" name="achievement[]" maxlength='350'>
 											<p class="required" id="required_award">Field Required</p>																			                                        
@@ -196,8 +196,10 @@
                                 	</div >
                                 	<a href="" onclick="AddAchievements(event)" class="add-edu">Add More Achievements</a> 
                                 	<hr>
+                                	<label for="icode">I can help you with (Skills):</label>
+                                	<c:set  var="skillcounter"  value="1"></c:set>
                                 	 <div class="form-group" id="dskill">
-										<label for="icode" class="col-md-3 control-label">Key Skills</label>
+										<label for="icode" class="col-md-3 control-label">&#8226; </label>
 	                                    <div class="col-md-5">
 	                                        <input id="skill0" class="form-control" name="keyskills[]" maxlength='350'>  
 											<p class="required" id="required_skill">Field Required</p>																			                                        
@@ -329,16 +331,18 @@
 			if(i <= max_award) {
 				  i++;
 				  l++;
-				  $("#awards0").append("<div class='form-group' id='dawards"+l+"'><label for='icode' class='col-md-3 control-label'>Achievements and Awards</label><div class='col-md-4'><input id='awards"+i+"'  class='form-control award"+i+"' name='achievement[]' maxlength='350'><p class='required achieve"+i+"' id='required_award'>Field Required</p></div><div class='col-md-2'><a id='hide"+l+"' style='float:right' onclick=closediv(this)><i class='glyphicon glyphicon-remove'></i></a></div></div>");	  	
+				  $("#awards0").append("<div class='form-group' id='dawards"+l+"'><label for='icode' class='col-md-3 control-label'>&#8226; </label><div class='col-md-5'><input id='awards"+i+"'  class='form-control award"+i+"' name='achievement[]' maxlength='350'><p class='required achieve"+i+"' id='required_award'>Field Required</p></div><div class='col-md-2'><a id='hide"+l+"' style='float:right' onclick=closediv(this)><i class='glyphicon glyphicon-remove'></i></a></div></div>");	  	
 			}
 		}
 		var k="${skillcounter}";
 		function AddSkills(event){
+			
 			var max_skill = 10;
 			event.preventDefault();
 			if(k <= max_skill) {
-				$("#skills0").append("<div class='form-group' id='dskill"+k+"'><label for='icode' class='col-md-3 control-label'>Key Skills</label><div class='col-md-4'><input id='skill"+k+"' class='form-control skill"+k+"' name='keyskills[]' maxlength='350' ><p class='required key"+k+"' id='required_skill'>Field Required</p></div><div class='col-md-2'><a id='hide"+k+"' style='float:right' onclick=closeskill(this)><i class='glyphicon glyphicon-remove'></i></div></div>");	
+				$("#skills0").append("<div class='form-group' id='dskill"+k+"'><label for='icode' class='col-md-3 control-label'>&#8226; </label><div class='col-md-5'><input id='skill"+k+"' class='form-control skill"+k+"' name='keyskills[]' maxlength='350' ><p class='required key"+k+"' id='required_skill'>Field Required</p></div><div class='col-md-2'><a id='hide"+k+"' style='float:right' onclick=closeskill(this)><i class='glyphicon glyphicon-remove'></i></div></div>");	
 				k++;
+				i++;
 			}
 		}
 		

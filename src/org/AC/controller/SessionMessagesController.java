@@ -101,14 +101,14 @@ public class SessionMessagesController extends HttpServlet {
 				
 				if(advisormessages.size() > 0){
 					for(AdvisorMessageDTO advisorMessageObj: advisormessages) {
-						MsgAndFileDTO msgAndFileDTOObj = new MsgAndFileDTO(advisorMessageObj.getAdvisorMessageTimeString(), advisorMessageObj.getAdvisorMessage(), "text", "advisor", advisorMessageObj.getAdvisorMessageTime());
+						MsgAndFileDTO msgAndFileDTOObj = new MsgAndFileDTO(advisorMessageObj.getAdvisorMessageTimeString(), advisorMessageObj.getAdvisorMessage(), "text", "advisor", advisorMessageObj.getAdvisorMessageTime(),advisorMessageObj.getStatus());
 						listMsgAndFile.add(msgAndFileDTOObj);
 					}
 				}
 				
 				if(usermessages.size() > 0){
 					for(UserMessageDTO userMessageObj: usermessages) {
-						MsgAndFileDTO msgAndFileDTOObj = new MsgAndFileDTO(userMessageObj.getUserMessageTimeString(), userMessageObj.getUserMessage(), "text", "user", userMessageObj.getUserMessageTime());
+						MsgAndFileDTO msgAndFileDTOObj = new MsgAndFileDTO(userMessageObj.getUserMessageTimeString(), userMessageObj.getUserMessage(), "text", "user", userMessageObj.getUserMessageTime(),userMessageObj.getStatus());
 						listMsgAndFile.add(msgAndFileDTOObj);
 					}
 				}
@@ -139,12 +139,12 @@ public class SessionMessagesController extends HttpServlet {
 						
 						if(("true").equals(isAdvisor)){
 							if((("APPROVED").equals(fileDTOObj.getStatus()) && ("USER").equals(fileDTOObj.getUploadedBy())) || ("ADVISOR").equals(fileDTOObj.getUploadedBy())){
-								MsgAndFileDTO msgAndFileDTOObj = new MsgAndFileDTO(fileDTOObj.getTimeString(), "<a href='DownloadFile?id="+fileDTOObj.getId()+"'>"+fileName+"</a>", "file", fileDTOObj.getUploadedBy(), fileDTOObj.getTime());
+								MsgAndFileDTO msgAndFileDTOObj = new MsgAndFileDTO(fileDTOObj.getTimeString(), "<a href='DownloadFile?id="+fileDTOObj.getId()+"'>"+fileName+"</a>", "file", fileDTOObj.getUploadedBy(), fileDTOObj.getTime(),fileDTOObj.getStatus());
 								listMsgAndFile.add(msgAndFileDTOObj);
 							}
 						}else{
 							if((("APPROVED").equals(fileDTOObj.getStatus()) && ("ADVISOR").equals(fileDTOObj.getUploadedBy())) || ("USER").equals(fileDTOObj.getUploadedBy())){
-								MsgAndFileDTO msgAndFileDTOObj = new MsgAndFileDTO(fileDTOObj.getTimeString(), "<a href='DownloadFile?id="+fileDTOObj.getId()+"'>"+fileName+"</a>", "file", fileDTOObj.getUploadedBy(), fileDTOObj.getTime());
+								MsgAndFileDTO msgAndFileDTOObj = new MsgAndFileDTO(fileDTOObj.getTimeString(), "<a href='DownloadFile?id="+fileDTOObj.getId()+"'>"+fileName+"</a>", "file", fileDTOObj.getUploadedBy(), fileDTOObj.getTime(),fileDTOObj.getStatus());
 								listMsgAndFile.add(msgAndFileDTOObj);
 							}				
 						}

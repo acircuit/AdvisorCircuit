@@ -366,7 +366,6 @@
     <script src="assets/js/plugins/metisMenu/metisMenu.min.js"></script>
 
     <!-- Custom Theme JavaScript -->
-    <script src="assets/js/sb-admin-2.js"></script>
 	<script src="assets/js/bootstrap-datetimepicker.min.js"></script>
     <script type="text/javascript">
     	function setImageSrc(){

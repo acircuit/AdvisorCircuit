@@ -193,7 +193,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                            	<label for="icode" class="col-md-2 control-label">Amount Due to Advisor(Rs)	:</label>
+                            	<label for="icode" class="col-md-2 control-label">Amount Due on completion(Rs)	:</label>
                                 <div class="col-md-10">	
                                     <p name="optionsRadiosInlinem" id="optionsRadiosInlinem1">${userRequest.getAmount()}</p>	
                                 </div>

@@ -134,7 +134,7 @@
         </ul>
 		</c:forEach>
         
-        <h1>Skills</h1>
+        <h1>I can help you with</h1>
         <ul>
 			<c:forEach items="${advisorskills}" var="skill">
 				<li class="details">${skill.getKeyskill()}</li>
@@ -567,7 +567,7 @@
 										</div>	
                                 </div>
                                 <div id="userFree" class="form-group collapse">
-                                            <label for="icode" style="font-family:'custom_light' !important;" class="col-md-3 control-label">Do you want to use your 15 mins free session</label>
+                                            <label for="icode" style="font-family:'custom_light' !important;" class="col-md-3 control-label">Do you want to use your Free 15 minutes credit ?</label>
                                             <div class="col-md-9">
 											<label id="duration" font-family:'custom_light' !important; class="radio-inline">
                                                 <input type="radio" style="font-family:'custom_light' !important;" onchange="getPrice()" name="free" id="optionsRadiosInlinefree1" value="yes">Yes
@@ -580,13 +580,14 @@
                                 
                                 <div id="regpricediv" class="form-group collapse">
                                     <label for="icode" style="font-family:'custom_light' !important;" class="col-md-3 control-label">Price(Rs)</label>
-                                    <div class="col-md-6">
+                                    <div class="col-md-4">
                                         <input type="text" id="registrationPrice" name="registrationPrice" style="font-family:'custom_light' !important;" class="form-control" readonly="readonly">
                                     </div>
+                                    <p id="serviceDiscount" style="color: #c84c4e"></p>
                                 </div>								
 								<div id="pricediv" class="form-group collapse">
                                     <label for="icode" style="font-family:'custom_light' !important;" class="col-md-3 control-label">Discounted Price(Rs)</label>
-                                    <div class="col-md-6">
+                                    <div class="col-md-4">
                                         <input type="text" name="price" style="font-family:'custom_light' !important;" class="form-control" id="disabledInput" placeholder="" readOnly="true">
 					     				<h4 id="freesession" style="font-family:'custom_light' !important;color: #c84c4e;text-align: left;display: none;">Great news ! The first 30 mins is free for you. </h4> 
                                    		<h4 id="freesession1" style="font-family:'custom_light' !important;color: #c84c4e;text-align: left;display: none;">Great news ! This session is free for you. </h4> 
@@ -996,12 +997,15 @@
     	var isUserOptFree = $('input:radio[name=free]:checked').val();
 	var price;
 	var free= false;
+	var pr;
 	var isFreeSessions = 0;
     	<c:forEach items="${modes}" var="mode">
     		if("${mode.getModeOfCommunication()}" == valuemode && "${mode.getService()}" ==  document.getElementById('services_dropdown').value){
     			<c:forEach items="${services}" var="service">
     				if("${mode.getService()}" == "${service.getService()}"){
     					isFreeSessions = "${service.getIsFree()}";
+    					disc = "${service.getDiscount()}";
+    					pr = "${mode.getPrice()}";
     					if(("${service.getIsFree()}" > 0 && $('input:radio[name=duration]:checked').val()== "0.5") || ("${service.getIsFree()}" > 0 && valuemode=="email") ){
     						price= "0";
     						free = true;
@@ -1015,7 +1019,7 @@
     					}else if("${service.getIsFree()}" > 0 && $('input:radio[name=duration]:checked').val()== "1.5"){
     						price = "${mode.getPrice()}" * 2;
     						free = true;
-    					}else if("${service.getIsFree()}" == 0 && valuemode=="email"){
+    					}else if("${service.getIsFree()}" == 0 && valuemode=="email" && "${service.getDiscount()}"==0){
 							price = "${mode.getPrice()}";			    						
     					}
     					else if("${mode.getDiscounted_price()}" == 0 && "${service.getDiscount()}" == 0){
@@ -1029,9 +1033,8 @@
     	    				var discount= "${service.getDiscount()}";
     	    				if(isUserOptFree == "yes" && <%= userIsFree%> && valuemode != "email"){
     	    					price =	Math.round("${mode.getPrice()}" * valueduration * 2 );
-    							price = price - "${mode.getUser_isfree_price()}";
-    							debugger;
     							price = Math.round(price - ((discount * price)/100));
+    							price = price - "${mode.getUser_isfree_price()}";
     						}else{
         	    				price = "${mode.getDiscounted_price()}";
     						}
@@ -1047,6 +1050,10 @@
     			
     		}
     	</c:forEach>
+    	if(disc > 0 && pr != 0){
+    		$("#serviceDiscount").html(disc +"% Discount");
+    		
+    	}
     	if(free){
     		$("#isfree").val(true);
     	}
@@ -1059,8 +1066,13 @@
     		price = Math.round(price * valueduration * 2);
     	}
     	$("#regpricediv").show();
-    	$("#pricediv").show();
-	if(valuemode == "email"){
+    	if(isFreeSessions > 0 || disc > 0 || isUserOptFree== "yes"){
+        	$("#pricediv").show();
+    	}else{
+    		$("#pricediv").hide();
+    	}
+
+	if(valuemode == "email" && (isFreeSessions > 0 || disc > 0 || isUserOptFree== "yes")){
     		$("#disabledInput").val(price);
     		$("#complete-query").show();
 	}else if(valuemode != "email" && free){
