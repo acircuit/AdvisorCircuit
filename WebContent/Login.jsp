@@ -154,7 +154,7 @@
 									</div>
 								<div class="modal-body">
 									<form id="signupform" class="form-horizontal" role="form" enctype="multipart/form-data"  action="UserRegistration" method="post" >
-										<p style="color: #c84c4e">Sign Up Now and get first 15 mins with any Advisor of your choice</p>
+										<p style="color: #c84c4e">Sign Up Now and get first 15 mins free with any Advisor of your choice</p>
 										<div id="signupalert" style="display:none" class="alert alert-danger">
 											<p>Error:</p>
 											<span></span>
