@@ -123,13 +123,13 @@
 												   						<c:param name="email" value="${advisor.getEmail()}"/>
 																	</c:url>
 																	<li><a href="${AdminAdvisorMessage}" target="_blank">Message</a></li>
-																	<li><a id="${advisor.getAdvisorId()}" onclick="deactivate(this)">Deactivate Account</a></li>
-																	<li><a id="${advisor.getAdvisorId()}" onclick="activate(this)">Activate Account</a></li>	
-																	<li><a id="${advisor.getAdvisorId()}" onclick="openChangePriorityModal(${advisor.getAdvisorId()},${advisor.getPageRank()})">Change Priority</a></li>
-																	<li><a id="${advisor.getAdvisorId()}" onclick="changeVisibility(this)">Change Visibility</a></li>
-																	<li><a id="${advisor.getAdvisorId()}" onclick="openFreeSessionModal(this)">Update Free Sessions</a></li>
-																	<li><a id="${advisor.getAdvisorId()}" onclick="openDiscountModal(this)">Update Discount</a></li>
-																	<li><a id="${advisor.getAdvisorId()}" onclick="OpenKeywords(this)">Update KeyWords</a></li>
+																	<li><a id="${advisor.getAdvisorId()}" onclick="deactivate(this)" href="#">Deactivate Account</a></li>
+																	<li><a id="${advisor.getAdvisorId()}" onclick="activate(this)" href="#">Activate Account</a></li>	
+																	<li><a id="${advisor.getAdvisorId()}" onclick="openChangePriorityModal(${advisor.getAdvisorId()},${advisor.getPageRank()})" href="#">Change Priority</a></li>
+																	<li><a id="${advisor.getAdvisorId()}" onclick="changeVisibility(this)" href="#">Change Visibility</a></li>
+																	<li><a id="${advisor.getAdvisorId()}" onclick="openFreeSessionModal(this)" href="#">Update Free Sessions</a></li>
+																	<li><a id="${advisor.getAdvisorId()}" onclick="openDiscountModal(this)" href="#">Update Discount</a></li>
+																	<li><a id="${advisor.getAdvisorId()}" onclick="OpenKeywords(this)" href="#">Update KeyWords</a></li>
 																</ul>
 															</li>
 														</ul>

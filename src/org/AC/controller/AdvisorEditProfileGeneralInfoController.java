@@ -126,7 +126,7 @@ public class AdvisorEditProfileGeneralInfoController extends HttpServlet {
 						subject = "An Advisor just edited his profile";
 						content = "Hi, <br><br>An Advisor just edited his profile. Following are the details: <br> Advisor Id : "
 								+ advisorId
-								+ "<br>Section : General Info <br><img src=http://www.advisorcircuit.com/assets/img/logo_black.png\" style='float:right' width='25%'>";
+								+ "<br>Section : General Info <br><img src=\"http://www.advisorcircuit.com/Test/assets/img/logo_black.png\" style='float:right' width='25%'>";
 						SendMail mail = new SendMail(subject, content,
 								prop.getProperty("MAIL_ADMIN"),
 								prop.getProperty("MAIL_ADMIN"));

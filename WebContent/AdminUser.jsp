@@ -110,9 +110,9 @@
                                                 <c:url value="/AdminViewUserProfile" var="viewprofile">
                                                     <c:param name="email" value="${user.getEmail()}"/>
                                                 </c:url>
-                                                <li><a href="${viewprofile}" target="_blank">View Profile</a></li>
-                                                <li><a id="${user.getUserId()}" onclick="deactivate(this)">Deactivate Account</a></li>
-                                                <li><a id="${user.getUserId()}" onclick="activate(this)">Activate Account</a></li>	
+                                                <li><a href="${viewprofile}" target="_blank" href="#">View Profile</a></li>
+                                                <li><a id="${user.getUserId()}" onclick="deactivate(this)" href="#">Deactivate Account</a></li>
+                                                <li><a id="${user.getUserId()}" onclick="activate(this)" href="#">Activate Account</a></li>	
                                             </ul>
                                         </li>
                                     </ul>

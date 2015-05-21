@@ -95,6 +95,8 @@ public class AdminMyAccountPreviousSessionViewDetailsController extends HttpServ
 			List<SessionDTO> sessionDetail = new ArrayList<SessionDTO>();
 			List<AdvisorNewDatesDTO> advisorNewDates = new ArrayList<AdvisorNewDatesDTO>();
 		    rId = (String)request.getParameter("rId");
+		    Boolean isFeedback = false;
+		    String path="";
 		    if(rId != null && !("").equals(rId)){	
 				MyAccountRequestDAO dao = new MyAccountRequestDAO();
 				requestDetails = dao.getUserRequestDetails(rId);
@@ -103,6 +105,10 @@ public class AdminMyAccountPreviousSessionViewDetailsController extends HttpServ
 					userId = userRequestDTO.getUserId();
 					requestStatus = userRequestDTO.getStatus();
 					mode= userRequestDTO.getMode();
+					if (userRequestDTO.getService().equals("cvcritique")
+							|| userRequestDTO.getService().equals("mockinterview")) {
+						isFeedback = true;
+					}
 					if(mode.equals("email")){
 						userRequestDTO.setTimeString1(new SimpleDateFormat("dd-MMM-yyyy").format(new Date(userRequestDTO.getTime1().getTime())));
 					}else{
@@ -153,12 +159,19 @@ public class AdminMyAccountPreviousSessionViewDetailsController extends HttpServ
 				//Get mail details
 				SessionFeedBackDAO mails = new SessionFeedBackDAO();
 				mail = mails.GetMail(sessionId);
+				
+				if (isFeedback) {
+					// Getting the FeedBack Form Path
+					MyAccountRequestDAO form = new MyAccountRequestDAO();
+					path = form.GetFeedbackPathForUser(sessionId);
+				}
 		    }
 			request.setAttribute("advisorImage", advisorRelImage);
 			request.setAttribute("userImage", userRelImage);
 			request.setAttribute("userName", userName);
 			request.setAttribute("feed", feed);
 			request.setAttribute("mail", mail);
+			request.setAttribute("path", path);
 			request.setAttribute("advisorName", advisorName);
 			request.setAttribute("requestDetails", requestDetails);
 			request.setAttribute("sessionDetail", sessionDetail);

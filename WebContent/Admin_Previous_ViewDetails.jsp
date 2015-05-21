@@ -55,6 +55,7 @@
 						String userName =	(String)request.getAttribute("userName");
 						String advisorname = (String)request.getAttribute("advisorName");
 						SessionFeedBackDTO feedback	 = (SessionFeedBackDTO)request.getAttribute("feed");
+						String path = (String)request.getAttribute("path");
 						SessionFeedBackDTO mail	 = (SessionFeedBackDTO)request.getAttribute("mail");
 						List<UserRequestDTO> userRequestDetails = (List<UserRequestDTO>)request.getAttribute("requestDetails");
 						List<SessionDTO> sessionDetail = (List<SessionDTO>)request.getAttribute("sessionDetail");	
@@ -225,6 +226,28 @@
 													</div>
 											</div>
 										</c:if>
+										<c:if test="<%=path != null && path.length()>5%>">
+										<div class="form-group">
+											<label for="icode" class="col-md-2 control-label"></label>
+											<c:if test="${userRequest.getService().equals('cvcritique')}">
+												<div class="col-md-10">
+													<h4>
+														<a href="DownloadFile?path=<%=path%>">Resume Critique
+															Feedback Form </a>
+													</h4>
+												</div>
+											</c:if>
+											<c:if test="${userRequest.getService().equals('mockinterview')}">
+												<div class="col-md-10">
+													<h4>
+														<a href="DownloadFile?path=<%=path%>">Mock Interview
+															Feedback Form </a>
+													</h4>
+												</div>
+											</c:if>
+										</div>
+									</c:if>
+										
 										<c:choose>
 											<c:when test="${userRequest.getMode().equals('email')}">
 												<h3>Date and Time Submitted:</h3>

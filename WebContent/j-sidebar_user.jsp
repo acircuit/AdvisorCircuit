@@ -12,6 +12,7 @@
         	</ul>
         	<!-- /.nav-second-level -->
     	</li>
+    	<li><a href="usermyaccount?edit=true"><span class="request"></span>Edit Profile</a></li>
     	<li><a href="userpayment"><span class="request"></span>Payment</a></li>
 	</ul>
 </div>

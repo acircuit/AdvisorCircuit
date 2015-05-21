@@ -676,5 +676,69 @@ public class UserDetailsDAO {
 		logger.info("Exit CheckRegistraion method of UserDetailsDAO");
 		return isFree;
 	}
+	
+	public Boolean setUserEditDetails(String email, String name,String phone,String occupation,String path, int userId) {
+
+		logger.info("Entered setUserEditDetails method of UserDetailsDAO");
+		Boolean isFlagCommit = false;
+		Boolean flag = true;
+		String query="";
+		PreparedStatement pstmt=null;
+		try {
+			conn = ConnectionFactory.getConnection();
+			conn.setAutoCommit(false);
+			if(path.equals("")){
+				query = "UPDATE userdetails SET EMAIL = ?,FULL_NAME=?,PHONE_NUMBER=?,OCCUPATION=? WHERE USER_ID = ?";
+				pstmt = conn.prepareStatement(query);
+				pstmt.setString(1, email);
+				pstmt.setString(2, name);
+				pstmt.setString(3, phone);
+				pstmt.setString(4, occupation);
+				pstmt.setInt(5, userId);
+			}else{
+				query = "UPDATE userdetails SET EMAIL = ?,FULL_NAME=?,PHONE_NUMBER=?,OCCUPATION=?,IMAGE=? WHERE USER_ID = ?";
+				pstmt = conn.prepareStatement(query);
+				pstmt.setString(1, email);
+				pstmt.setString(2, name);
+				pstmt.setString(3, phone);
+				pstmt.setString(4, occupation);
+				pstmt.setString(5,path);
+				pstmt.setInt(6, userId);
+			}
+			int result = pstmt.executeUpdate();
+			if (result > 0) {
+				conn.commit();
+				isFlagCommit = true;
+			}
+			logger.info("Exit setUserEditDetails method of UserDetailsDAO");
+		} catch (Exception e) {
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				try {
+					conn.rollback();
+				} catch (SQLException e2) {
+					logger.error("setUserEditDetails method of UserDetailsDAO threw error:"
+							+ e2.getMessage());
+					e2.printStackTrace();
+				}
+				logger.error("setUserEditDetails method of UserDetailsDAO threw error:"
+						+ e1.getMessage());
+				e1.printStackTrace();
+			}
+			logger.error("setUserEditDetails method of UserDetailsDAO threw error:"
+					+ e.getMessage());
+			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				logger.error("setUserEditDetails method of UserDetailsDAO threw error:"
+						+ e.getMessage());
+				e.printStackTrace();
+			}
+		}
+		return isFlagCommit;
+	}
 
 }

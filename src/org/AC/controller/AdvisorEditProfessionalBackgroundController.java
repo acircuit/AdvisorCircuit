@@ -167,7 +167,7 @@ public class AdvisorEditProfessionalBackgroundController extends HttpServlet {
 					subject = "An Advisor just edited his profile";
 					content = "Hi, <br><br>An Advisor just edited his profile. Following are the details: <br> Advisor Id : "
 							+ aId
-							+ "<br>Section : Professional Background<br><img src=http://www.advisorcircuit.com/assets/img/logo_black.png\" style='float:right' width='25%'>";
+							+ "<br>Section : Professional Background<br><img src=\"http://www.advisorcircuit.com/Test/assets/img/logo_black.png\" style='float:right' width='25%'>";
 					SendMail mail = new SendMail(subject, content,
 							prop.getProperty("MAIL_ADMIN"),
 							prop.getProperty("MAIL_ADMIN"));

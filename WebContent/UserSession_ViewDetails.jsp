@@ -414,6 +414,7 @@
 																<ul id="message" class='chat'></ul>
 															</div>
 															<c:if test="${(!fromPreviousSession)}">
+																<form>
 																<div class="panel-footer col-xs-12">
 																	<form class="form-inline">
 																		  <div class="form-group col-xs-11">
@@ -427,6 +428,7 @@
 																	<input type="file" id="uploadFileViaMsgModal" style="display: none;" name="file"/>
 																	
 																</div>
+																</form>
 															</c:if>
 															<!-- /.panel-footer -->
 														</div>

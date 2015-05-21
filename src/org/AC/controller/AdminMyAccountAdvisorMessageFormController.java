@@ -68,7 +68,7 @@ public class AdminMyAccountAdvisorMessageFormController extends HttpServlet {
 					subject = "You received a communication by Admin";
 					content = "Hi, <br><br>You've received a message from the Advisor Circuit Administrator. The message is given below: <br>"
 							+ adminMessage
-							+ " <br><br>Cheers, <br> Team Advisor Circuit<img src=http://www.advisorcircuit.com/assets/img/logo_black.png\" style='float:right' width='25%'>";
+							+ " <br><br>Cheers, <br> Team Advisor Circuit<img src=\"http://www.advisorcircuit.com/Test/assets/img/logo_black.png\" style='float:right' width='25%'>";
 					SendMail mail = new SendMail(subject, content, email,
 							prop.getProperty("MAIL_ADMIN"));
 					mail.start();
