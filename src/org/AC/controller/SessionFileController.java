@@ -31,7 +31,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 
+import org.AC.DAO.AdminNotificationDAO;
 import org.AC.DAO.SessionMssagesDAO;
+import org.AC.DAO.UserNotificationDAO;
 import org.AC.Util.SendMail;
 import org.AC.Util.SetFile;
 import org.AC.dto.FilesDTO;
@@ -75,6 +77,46 @@ public class SessionFileController extends HttpServlet {
 				SessionMssagesDAO setFile = new SessionMssagesDAO();
 				Boolean isFileCommit = setFile.SetFiles(sId, fileURL, purpose,fromUser);
 				if(isFileCommit){
+					 if(("true").equals(fromUser)){
+						 int[] ids = new int[3];
+							//GETTING THE USERID, ADVISORID, AND REQUEST ID
+							UserNotificationDAO id = new UserNotificationDAO();
+							ids = id.GetAdvisorId(sId);
+							
+							//Getting username
+							AdminNotificationDAO name = new AdminNotificationDAO();
+							String uName = name.GetUserName(String.valueOf(ids[0]));
+							
+							//Getting advisor name
+							AdminNotificationDAO aName = new AdminNotificationDAO();
+							String advisorName = aName.GetAdvisorName(String.valueOf(ids[1]));
+							
+							//Notify Admin
+							String comment = uName+" sent a message/file to "+advisorName;
+							String href = "AdminUserAdvisorMessages?sessionid="+sId;
+							AdminNotificationDAO admin = new AdminNotificationDAO();
+							admin.InsertNotification(comment, href);
+					 }else{
+						 int[] ids = new int[3];
+							//GETTING THE USERID, ADVISORID, AND REQUEST ID
+							UserNotificationDAO id = new UserNotificationDAO();
+							ids = id.GetAdvisorId(sId);
+							
+							//Getting username
+							AdminNotificationDAO name = new AdminNotificationDAO();
+							String uName = name.GetUserName(String.valueOf(ids[0]));
+							
+							//Getting advisor name
+							AdminNotificationDAO aName = new AdminNotificationDAO();
+							String advisorName = aName.GetAdvisorName(String.valueOf(ids[1]));
+							
+							//Notify Admin
+							String comment = advisorName+" sent a message/file to "+uName;
+							String href = "AdminUserAdvisorMessages?sessionid="+sId;
+							AdminNotificationDAO admin = new AdminNotificationDAO();
+							admin.InsertNotification(comment, href);
+					 }
+					
 					 String subject ="";
 					 String content ="";
 					 if(("true").equals(fromUser)){

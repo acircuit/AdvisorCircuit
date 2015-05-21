@@ -13,9 +13,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 
+import org.AC.DAO.AdminNotificationDAO;
 import org.AC.DAO.AdminSessionDAO;
 import org.AC.DAO.AdvisorMyAccountSessionDAO;
+import org.AC.DAO.AdvisorNotificationDAO;
 import org.AC.DAO.ChangeRequestStatusDAO;
+import org.AC.DAO.UserNotificationDAO;
 import org.AC.Util.SendMail;
 import org.AC.Util.SetFile;
 import org.apache.log4j.Logger;
@@ -40,10 +43,33 @@ public class ApproveFeedbackController extends HttpServlet {
 		String details= request.getParameter("details");
 		String service= request.getParameter("service");
 		if(sId != null && type == null && details== null ){
+			
 			//Approve the Feedback
 			AdminSessionDAO form = new AdminSessionDAO();
 			Boolean isApproved = form.ApproveFeedback(sId);
 			if(isApproved){
+				int[] ids = new int[3];
+				//GETTING THE USERID, ADVISORID, AND REQUEST ID
+				UserNotificationDAO id = new UserNotificationDAO();
+				ids = id.GetAdvisorId(sId);
+				
+				//Getting username
+				AdminNotificationDAO name = new AdminNotificationDAO();
+				String uName = name.GetUserName(String.valueOf(ids[0]));
+				//Getting advisor name
+				AdminNotificationDAO aName = new AdminNotificationDAO();
+				String advisorName = aName.GetAdvisorName(String.valueOf(ids[1]));
+				
+				String userComment = "You've received a feedback form from "+advisorName;
+				String userHref ="UserUpcomingSessionViewDetails?rId="+ids[2];
+				UserNotificationDAO user = new UserNotificationDAO();
+				user.InsertNotification(userComment, userHref, String.valueOf(ids[0]));
+				
+				//Notify advisor
+				String comment = "Your feedback has been successfully sent to "+uName;
+				String href = "AdvisorUpcomingSessionViewDetails?rId="+ids[2];
+				AdvisorNotificationDAO notify = new AdvisorNotificationDAO();
+				notify.InsertRequestNotification(comment, String.valueOf(ids[1]) , href);
 				response.getWriter().write("The FeedBack has been approved");
 			}
 		}else if (sId != null && type != null && type.equals("advisor") && details== null && service!= null) {
@@ -72,6 +98,23 @@ public class ApproveFeedbackController extends HttpServlet {
 				}
 				
 				if(isFeedbackFormCommit){
+					int[] ids = new int[3];
+					//GETTING THE USERID, ADVISORID, AND REQUEST ID
+					UserNotificationDAO id = new UserNotificationDAO();
+					ids = id.GetAdvisorId(sId);
+					//Getting username
+					 AdminNotificationDAO name = new AdminNotificationDAO();
+					 String uName = name.GetUserName(String.valueOf(ids[0]));
+					 
+					 //Getting advisor name
+					 AdminNotificationDAO aName = new AdminNotificationDAO();
+					 String advisorName = aName.GetAdvisorName(String.valueOf(ids[1]));
+					
+					 String comment = advisorName + "  has sent a Feedback form to " + uName;
+					 String href = "AdminMyUpcomingSessionViewDetail?rId="+ids[2];
+					 AdminNotificationDAO admin = new AdminNotificationDAO();
+					 admin.InsertNotification(comment, href);
+					
 					Properties prop1 = new Properties();
 			        InputStream resourceAsStream1 = Thread.currentThread().getContextClassLoader().getResourceAsStream("Resources/mail.properties");
 			        prop1.load(resourceAsStream1);
@@ -85,6 +128,21 @@ public class ApproveFeedbackController extends HttpServlet {
 			AdminSessionDAO setModeDetail = new AdminSessionDAO();
 			Boolean isDetailsCommit = setModeDetail.SetModeDetails(sId , details);
 			if(isDetailsCommit){
+				int[] ids = new int[3];
+				//GETTING THE USERID, ADVISORID, AND REQUEST ID
+				UserNotificationDAO id = new UserNotificationDAO();
+				ids = id.GetAdvisorId(sId);
+				//Notify advisor
+				String comment = "Mode of communication details for your session have been updated ";
+				String href = "AdvisorUpcomingSessionViewDetails?rId="+ids[2];
+				AdvisorNotificationDAO notify = new AdvisorNotificationDAO();
+				notify.InsertRequestNotification(comment, String.valueOf(ids[1]) , href);
+				
+				String userComment = "Mode of communication details for your session have been updated";
+				String userHref = "UserUpcomingSessionViewDetails?rId="+ids[2];
+				UserNotificationDAO user = new UserNotificationDAO();
+				user.InsertNotification(userComment, userHref, String.valueOf(ids[0]));
+				
 				response.getWriter().write("The Mode details has been submitted");
 			}
 		}

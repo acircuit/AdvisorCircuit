@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 
 import org.AC.DAO.AdminNotificationDAO;
+import org.AC.DAO.AdvisorNotificationDAO;
 import org.AC.DAO.SessionFeedBackDAO;
 import org.AC.DAO.UserNotificationDAO;
 import org.AC.Util.SendMail;
@@ -67,6 +68,24 @@ public class SessionFeedBackController extends HttpServlet {
 				SessionFeedBackDAO feedback = new SessionFeedBackDAO();
 				Boolean isFeedbackCommit= feedback.SetUserFeedBack(sId,body,subject,fileURL);
 				if(isFeedbackCommit){
+					 int[] ids = new int[3];
+					 //GETTING THE USERID, ADVISORID, AND REQUEST ID
+					 UserNotificationDAO id = new UserNotificationDAO();
+					 ids = id.GetAdvisorId(sId);
+					 
+					 //Getting username
+					 AdminNotificationDAO name = new AdminNotificationDAO();
+					 String uName = name.GetUserName(String.valueOf(ids[0]));
+					 
+					 //Getting advisor name
+					 AdminNotificationDAO aName = new AdminNotificationDAO();
+					 String advisorName = aName.GetAdvisorName(String.valueOf(ids[1]));
+					
+					 String comment = uName + " has sent a follow up mail to " + advisorName;
+					 String href = "AdminMyUpcomingSessionViewDetail?rId="+ids[2];
+					 AdminNotificationDAO admin = new AdminNotificationDAO();
+					 admin.InsertNotification(comment, href);
+					 
 					 String subjects = "Follow Up Mail sent by User";
 					 String content = "Hi, <br><br>A Follow Up Mail has been sent by the User to the Advisor for: <br>Session Id : " +sId+ "<br>Given By : USER"+"<br><img src=\"http://www.advisorcircuit.com/Test/assets/img/logo_black.png\" style='float:right' width='25%'>";
 					 SendMail mail = new SendMail(subjects, content, prop1.getProperty("MAIL_ADMIN"),prop1.getProperty("MAIL_ADMIN"));
@@ -89,6 +108,24 @@ public class SessionFeedBackController extends HttpServlet {
 					SessionFeedBackDAO feedback = new SessionFeedBackDAO();
 					Boolean isFeedbackCommit= feedback.SetUserFeedBackAgain(sId,body,subject,fileURL);
 					if(isFeedbackCommit){
+						 int[] ids = new int[3];
+						 //GETTING THE USERID, ADVISORID, AND REQUEST ID
+						 UserNotificationDAO id = new UserNotificationDAO();
+						 ids = id.GetAdvisorId(sId);
+						 
+						 //Getting username
+						 AdminNotificationDAO name = new AdminNotificationDAO();
+						 String uName = name.GetUserName(String.valueOf(ids[0]));
+						 
+						 //Getting advisor name
+						 AdminNotificationDAO aName = new AdminNotificationDAO();
+						 String advisorName = aName.GetAdvisorName(String.valueOf(ids[1]));
+						
+						 String comment = uName + " has sent a follow up mail to " + advisorName;
+						 String href = "AdminMyUpcomingSessionViewDetail?rId="+ids[2];
+						 AdminNotificationDAO admin = new AdminNotificationDAO();
+						 admin.InsertNotification(comment, href);
+						
 						 String subjects = "Follow Up Mail sent by User after rejection";
 						 String content = "Hi, <br><br>A Follow Up Mail has been sent by the User to the Advisor after rejection for: <br>Session Id : " +sId+ "<br>Given By : USER"+"<br><img src=\"http://www.advisorcircuit.com/Test/assets/img/logo_black.png\" style='float:right' width='25%'>";
 						 SendMail mail = new SendMail(subjects, content, prop1.getProperty("MAIL_ADMIN"),prop1.getProperty("MAIL_ADMIN"));
@@ -104,6 +141,52 @@ public class SessionFeedBackController extends HttpServlet {
 			SessionFeedBackDAO approve = new SessionFeedBackDAO();
 			Boolean isStatusCommit = approve.SetFeedBackStatus(sId,type);
 			if(isStatusCommit){
+				if(type.equals("user")) {
+				int[] ids = new int[3];
+				//GETTING THE USERID, ADVISORID, AND REQUEST ID
+				UserNotificationDAO id = new UserNotificationDAO();
+				ids = id.GetAdvisorId(sId);
+				//Getting advisor name
+				AdminNotificationDAO aName = new AdminNotificationDAO();
+				String advisorName = aName.GetAdvisorName(String.valueOf(ids[1]));
+				
+				String userComment ="Your follow up mail has been succesfully sent to "+advisorName;
+				String userHref = "UserUpcomingSessionViewDetails?rId="+ids[2];
+				UserNotificationDAO user = new UserNotificationDAO();
+				user.InsertNotification(userComment, userHref, String.valueOf(ids[0]));
+				
+				//Getting username
+				AdminNotificationDAO name = new AdminNotificationDAO();
+				String uName = name.GetUserName(String.valueOf(ids[0]));
+				
+				String advisorComment ="You've got a follow up mail from "+uName;
+				String advisorHref = "AdvisorUpcomingSessionViewDetails?rId="+ids[2];
+				AdvisorNotificationDAO adv = new AdvisorNotificationDAO();
+				adv.InsertRequestNotification(advisorComment, String.valueOf(ids[1]), advisorHref);
+				}else if (type.equals("advisor")) {
+					int[] ids = new int[3];
+					//GETTING THE USERID, ADVISORID, AND REQUEST ID
+					UserNotificationDAO id = new UserNotificationDAO();
+					ids = id.GetAdvisorId(sId);
+					
+					//Getting advisor name
+					AdminNotificationDAO aName = new AdminNotificationDAO();
+					String advisorName = aName.GetAdvisorName(String.valueOf(ids[1]));
+					
+					//Getting username
+					AdminNotificationDAO name = new AdminNotificationDAO();
+					String uName = name.GetUserName(String.valueOf(ids[0]));
+					
+					String userComment =advisorName+" has sent a reply to your follow up mail.";
+					String userHref = "UserUpcomingSessionViewDetails?rId="+ids[2];
+					UserNotificationDAO user = new UserNotificationDAO();
+					user.InsertNotification(userComment, userHref, String.valueOf(ids[0]));
+					
+					String advisorComment ="Your follow up mail has been successful sent to "+uName;
+					String advisorHref = "AdvisorUpcomingSessionViewDetails?rId="+ids[2];
+					AdvisorNotificationDAO adv = new AdvisorNotificationDAO();
+					adv.InsertRequestNotification(advisorComment, String.valueOf(ids[1]), advisorHref);
+				}
 				response.getWriter().write("Feedback has been approved");
 			}
 		}else if (sId != null && body!= null && subject != null && advisor != null && advisor.equals("true")  &&  reject == null && again == null && email==null) {
@@ -122,6 +205,24 @@ public class SessionFeedBackController extends HttpServlet {
 			SessionFeedBackDAO feedback = new SessionFeedBackDAO();
 			Boolean isFeedbackCommit= feedback.SetAdvisorFeedBack(sId,body,subject,fileURL);
 			if(isFeedbackCommit){
+				int[] ids = new int[3];
+				//Get Advisor Id
+				UserNotificationDAO id = new UserNotificationDAO();
+				ids = id.GetAdvisorId(sId);
+				
+				//Get Advisr Name
+				AdminNotificationDAO name = new AdminNotificationDAO();
+				String advisorName = name.GetAdvisorName(String.valueOf(ids[1]));
+				
+				//Getting username
+				AdminNotificationDAO userName = new AdminNotificationDAO();
+				String uName = userName.GetUserName(String.valueOf(ids[0]));
+				
+				String comment = advisorName + " has sent a follow up mail to "+uName;
+				String href = "AdminMyUpcomingSessionViewDetail?rId="+ids[2];
+				AdminNotificationDAO admin = new AdminNotificationDAO();
+				admin.InsertNotification(comment, href);
+				
 				 String subjects = "Follow Up Mail sent by Advisor";
 				 String content = "Hi, <br><br>A Follow Up Mail has been sent by the Advisor to the User for:<br>Session Id : " +sId+ "<br>Given By : ADVISOR"+"<br><img src=\"http://www.advisorcircuit.com/Test/assets/img/logo_black.png\" style='float:right' width='25%'>";
 				 SendMail mail = new SendMail(subjects, content, prop1.getProperty("MAIL_ADMIN"),prop1.getProperty("MAIL_ADMIN"));
@@ -165,8 +266,31 @@ public class SessionFeedBackController extends HttpServlet {
 			Boolean isStatusCommit = rejects.SetFeedBackStatusRejected(sId,type);
 			if(isStatusCommit){
 				if(type.equals("user")){
+					int[] ids = new int[3];
+					//GETTING THE USERID, ADVISORID, AND REQUEST ID
+					UserNotificationDAO id = new UserNotificationDAO();
+					ids = id.GetAdvisorId(sId);
+				
+					String userComment ="We're sorry but your follow up mail has been declined. Please keep your query centric to what was discussed in the session and send again. ";
+					String userHref = "UserUpcomingSessionViewDetails?rId="+ids[2];
+					UserNotificationDAO user = new UserNotificationDAO();
+					user.InsertNotification(userComment, userHref, String.valueOf(ids[0]));
 					response.getWriter().write("Feedback has been rejected. Please send offline mail to the user with the reason of rejection");
 				}else {
+					int[] ids = new int[3];
+					//GETTING THE USERID, ADVISORID, AND REQUEST ID
+					UserNotificationDAO id = new UserNotificationDAO();
+					ids = id.GetAdvisorId(sId);
+					
+					//Getting username
+					AdminNotificationDAO userName = new AdminNotificationDAO();
+					String uName = userName.GetUserName(String.valueOf(ids[0]));
+					
+					String advisorComment ="Your follow up mail to "+uName+" has been declined.";
+					String advisorHref = "AdvisorUpcomingSessionViewDetails?rId="+ids[2];
+					AdvisorNotificationDAO adv = new AdvisorNotificationDAO();
+					adv.InsertRequestNotification(advisorComment, String.valueOf(ids[1]), advisorHref);
+					
 					response.getWriter().write("Feedback has been rejected. Please send offline mail to the advisor with the reason of rejection");
 				}
 			}
@@ -252,6 +376,8 @@ public class SessionFeedBackController extends HttpServlet {
 				SessionFeedBackDAO approve = new SessionFeedBackDAO();
 				Boolean isStatusCommit = approve.SetApproveMailStatus(sId,target);
 				if(isStatusCommit){
+					
+					
 					response.getWriter().write("Mail has been approved");
 				}
 			}else{
