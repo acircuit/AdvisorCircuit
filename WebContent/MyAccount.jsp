@@ -73,8 +73,8 @@
             <div class="col-md-9">
             	<div id="page-wrapper">
 					<c:if test="${notify.size() > 0 }">
-            		<div class="grey-panel-1" >
-                    	<p class="notification-msg" style="display:none;">You have 2 message</p>
+            		<div class="grey-panel-1" style="display:none;>
+                    	<p class="notification-msg" ">You have 2 message</p>
                         <ul class="notification-list">
                         	<c:forEach var="note" items="${notify}">
                         		<li><a href="${note.getHref()}&nId=${note.getnId()}">${note.getComment()}</a></li>

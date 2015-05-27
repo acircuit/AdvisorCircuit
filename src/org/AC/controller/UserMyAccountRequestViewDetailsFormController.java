@@ -85,7 +85,7 @@ public class UserMyAccountRequestViewDetailsFormController extends HttpServlet {
 					String userName = name.GetUserName(uId);
 					//Notify Advisor
 					String comment = userName + " cancelled the session";
-					String href = "UserCancelledSessions";
+					String href = "AdvisorCancelledSessionViewDetail?rId="+rId;
 					AdvisorNotificationDAO advisor = new AdvisorNotificationDAO();
 					advisor.InsertRequestNotification(comment, aId, href);
 					
@@ -93,7 +93,7 @@ public class UserMyAccountRequestViewDetailsFormController extends HttpServlet {
 					String advisorName = advName.GetAdvisorName(aId);
 					
 					String adminComment = userName +" cancelled the session with "+advisorName;
-					String adminHref = "AdminCancelledSessions";
+					String adminHref = "AdminCancelledSessionsViewDetails?rId="+rId;
 					//Admin Notification
 					AdminNotificationDAO admin = new AdminNotificationDAO();
 					admin.InsertNotification(adminComment, adminHref);
@@ -115,7 +115,7 @@ public class UserMyAccountRequestViewDetailsFormController extends HttpServlet {
 				String userName = name.GetUserName(uId);
 				//Notify Advisor
 				String comment = userName + " cancelled the session";
-				String href = "UserCancelledSessions";
+				String href = "AdvisorCancelledSessionViewDetail?rId="+rId;
 				AdvisorNotificationDAO advisor = new AdvisorNotificationDAO();
 				advisor.InsertRequestNotification(comment, aId, href);
 				
@@ -123,7 +123,7 @@ public class UserMyAccountRequestViewDetailsFormController extends HttpServlet {
 				String advisorName = advName.GetAdvisorName(aId);
 				
 				String adminComment = userName +" cancelled the session with "+advisorName;
-				String adminHref = "AdminCancelledSessions";
+				String adminHref = "AdminCancelledSessionsViewDetails?rId="+rId;
 				//Admin Notification
 				AdminNotificationDAO admin = new AdminNotificationDAO();
 				admin.InsertNotification(adminComment, adminHref);

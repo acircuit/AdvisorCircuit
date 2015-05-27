@@ -20,6 +20,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.AC.DAO.AdminNotificationDAO;
 import org.AC.DAO.SessionMssagesDAO;
 import org.AC.dto.AdvisorMessageDTO;
 import org.AC.dto.FilesDTO;
@@ -115,6 +116,11 @@ public class AdminMyAccountUserAdvisorMessagesController extends HttpServlet {
 					filesDTO.setFileName(fileName);
 					filesDTO.setHref(href);
 				}
+				//Update Admin's Notification
+	    		String url =  request.getRequestURI()+"?" +request.getQueryString();
+				url = url.substring(url.lastIndexOf('/')+1);
+				AdminNotificationDAO admin = new AdminNotificationDAO();
+				admin.SetNotificationRead(url);
 				
 				request.setAttribute("usermessages", usermessages);
 				request.setAttribute("advisormessages", advisormessages);

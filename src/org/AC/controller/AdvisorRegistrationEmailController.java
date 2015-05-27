@@ -75,7 +75,7 @@ public class AdvisorRegistrationEmailController extends HttpServlet {
 						AdvisorRegistrationDAO dao2 = new AdvisorRegistrationDAO();
 						advisorId = dao2.setEmail(email,securedPassword);
 						String comment = email+" with AdvisorId =" + advisorId+" started the registration process";
-						String href = "AdminAdvisors";
+						String href = "AdvisorProfile?aId="+advisorId+"&admin=true";
 						//Notify Admin
 						AdminNotificationDAO notify = new AdminNotificationDAO();
 						notify.InsertNotification(comment,href);

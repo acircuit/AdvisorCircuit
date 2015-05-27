@@ -19,7 +19,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.AC.DAO.AdminNotificationDAO;
 import org.AC.DAO.AdvisorMyAccountSessionDAO;
+import org.AC.DAO.AdvisorNotificationDAO;
 import org.AC.DAO.MyAccountRequestDAO;
 import org.AC.Util.GetRelativeImageURL;
 import org.AC.Util.GetTimeLeftForReply;
@@ -149,6 +151,11 @@ public class AdvisorMyAccountCancelledSessionViewDetailController extends HttpSe
 				 date = "NOT FIXED";
 				 time1 = "NOT FIXED";
 			}		
+				//Update Advisor's Notification
+	    		String url =  request.getRequestURI()+"?" +request.getQueryString();
+				url = url.substring(url.lastIndexOf('/')+1);
+				AdvisorNotificationDAO admin = new AdvisorNotificationDAO();
+				admin.SetNotificationRead(url, advisorId);
 				request.setAttribute("advisorname", advisorName);
 				request.setAttribute("userName", userName);
 				request.setAttribute("image", relImage);

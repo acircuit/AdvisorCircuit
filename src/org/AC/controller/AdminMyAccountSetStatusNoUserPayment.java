@@ -90,7 +90,7 @@ public class AdminMyAccountSetStatusNoUserPayment extends HttpServlet {
 						toggle.ToggleUserFreeSession(Integer.parseInt(uId));
 					}
 					String userComment = "Your session was cancelled due to no payment";
-					String userHref = "UserCancelledSessions";
+					String userHref = "UserCancelledSessionViewDetails?rId="+rId;
 					UserNotificationDAO user = new UserNotificationDAO();
 					user.InsertNotification(userComment,userHref , uId);
 					
@@ -104,7 +104,7 @@ public class AdminMyAccountSetStatusNoUserPayment extends HttpServlet {
 					ids = id.GetId(rId);
 					//Notify Advisor
 					String advisorComment = "The session with "+userName+" has been cancelled due to no payment";
-					String advisorHref = "AdvisorCancelledSessions";
+					String advisorHref = "AdvisorCancelledSessionViewDetail?rId="+rId;
 					AdvisorNotificationDAO advisor = new AdvisorNotificationDAO();
 					advisor.InsertRequestNotification(advisorComment, String.valueOf(ids[1]), advisorHref);
 					

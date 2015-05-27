@@ -20,6 +20,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.AC.DAO.AdminNotificationDAO;
 import org.AC.DAO.AdminRequestDAO;
 import org.AC.DAO.AdvisorMyAccountSessionDAO;
 import org.AC.DAO.MyAccountRequestDAO;
@@ -171,7 +172,11 @@ public class AdminMyAccountRequestViewDetailsController extends HttpServlet {
 						}
 					}
 				}
-				
+				//Update Admin's Notification
+	    		String url =  request.getRequestURI()+"?" +request.getQueryString();
+				url = url.substring(url.lastIndexOf('/')+1);
+				AdminNotificationDAO admin = new AdminNotificationDAO();
+				admin.SetNotificationRead(url);
 				
 				request.setAttribute("advisorImage", advisorRelImage);
 				request.setAttribute("userImage", userRelImage);

@@ -25,6 +25,7 @@ import javax.servlet.http.Part;
 
 import org.AC.DAO.AdminNotificationDAO;
 import org.AC.DAO.UserDetailsDAO;
+import org.AC.DAO.UserNotificationDAO;
 import org.AC.Util.PasswordHashing;
 import org.AC.Util.SendMail;
 import org.AC.Util.SetFormImage;
@@ -99,9 +100,14 @@ public class User_RegistrationController extends HttpServlet {
 						int userId = dao.setUserDetails(email,hashPassword,fullname,phone,age,occupation,absolutePath);
 						if(userId != 0){
 							String comment = fullname+" signed up as a user";
-							String href = "AdminUsers";
+							String href = "AdminViewUserProfile?email="+email;
 							AdminNotificationDAO notify = new AdminNotificationDAO();
 							notify.InsertNotification(comment, href);
+							
+							String userComment = "Welcome to Advisor Circuit. Find your Advisor now ! If you need any help, call us on +91 9999372087";
+							String userHref = "Advisors?service=All";
+							UserNotificationDAO user = new UserNotificationDAO();
+							user.InsertNotification(userComment, userHref, String.valueOf(userId));
 							
 						 	String subject ="";
 							String content ="";

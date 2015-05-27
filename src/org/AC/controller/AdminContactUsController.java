@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.AC.DAO.AdminNotificationDAO;
 import org.AC.DAO.AdminUserDAO;
 import org.AC.dto.ContactUsDTO;
 import org.apache.log4j.Logger;
@@ -40,11 +41,19 @@ public class AdminContactUsController extends HttpServlet {
 			isError = true;
 			response.sendRedirect("Error");
 		}
-		//Getting the Contact us details
-		List<ContactUsDTO> contactList = new ArrayList<ContactUsDTO>();
-		AdminUserDAO contact = new AdminUserDAO();
-		contactList = contact.GetContactUsDetails();
+		
 		if(isError!= null &&  !isError){
+			//Getting the Contact us details
+			List<ContactUsDTO> contactList = new ArrayList<ContactUsDTO>();
+			AdminUserDAO contact = new AdminUserDAO();
+			contactList = contact.GetContactUsDetails();
+			
+			//Update Admin's Notification
+    		String url =  request.getRequestURI();
+			url = url.substring(url.lastIndexOf('/')+1);
+			AdminNotificationDAO admin = new AdminNotificationDAO();
+			admin.SetNotificationRead(url);
+			
 			request.setAttribute("contactList",contactList);
 			RequestDispatcher rd = getServletContext().getRequestDispatcher("/AdminContactUs.jsp");
 	        rd.forward(request, response);

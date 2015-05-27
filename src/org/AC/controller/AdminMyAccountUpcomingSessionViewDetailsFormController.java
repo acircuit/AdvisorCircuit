@@ -118,14 +118,14 @@ public class AdminMyAccountUpcomingSessionViewDetailsFormController extends Http
 						AdvisorMyAccountRequestViewDetailsDAO toggle = new AdvisorMyAccountRequestViewDetailsDAO();
 						toggle.ToggleUserFreeSession(Integer.parseInt(uId));
 					}
-					if(status.equals("SESSION CANCELLED DUE TO ADVISOR NO SHOW")){
+					if(status.equals("SESSION CANCELLED DUE TO ADVISOR NO SHOW") || status.equals("SESSION CANCELLED DUE TO ADVISOR UNAVAILABILITY")){
 						//Getting the advisor name
 						AdminNotificationDAO name = new AdminNotificationDAO();
 						String advisorName = name.GetAdvisorName(aId);
 						
 						//Notify user
 						String comment = "Your session with "+advisorName+" has been cancelled due to Advisor Unavailibility. We have initiated the refund process";
-						String href = "UserCancelledSessions";
+						String href = "UserCancelledSessionViewDetails?rId="+rId;
 						UserNotificationDAO user = new UserNotificationDAO();
 						user.InsertNotification(comment, href, uId);
 						
@@ -135,7 +135,7 @@ public class AdminMyAccountUpcomingSessionViewDetailsFormController extends Http
 						
 						//Notify advisor
 						String advisorComment = "Your session with "+uName+" has been cancelled.";
-						String advisorHref ="AdvisorCancelledSessions";
+						String advisorHref ="AdvisorCancelledSessionViewDetail?rId="+rId;
 						AdvisorNotificationDAO advisor = new AdvisorNotificationDAO();
 						advisor.InsertRequestNotification(advisorComment, aId, advisorHref);
 					}
@@ -146,7 +146,7 @@ public class AdminMyAccountUpcomingSessionViewDetailsFormController extends Http
 						
 						//Notify user
 						String comment = "Your session with "+advisorName+" is now complete. Hope you had a good session.";
-						String href = "UserPreviousSessions";
+						String href = "UserPreviousSessionViewDetails?rId="+rId;
 						UserNotificationDAO user = new UserNotificationDAO();
 						user.InsertNotification(comment, href, uId);
 						
@@ -156,12 +156,33 @@ public class AdminMyAccountUpcomingSessionViewDetailsFormController extends Http
 						
 						//Notify advisor
 						String advisorComment = "Your session with "+uName+" is now complete. Hope you had a good session.";
-						String advisorHref ="AdvisorPreviousSessions";
+						String advisorHref ="AdvisorPreviousSessionViewDetail?rId="+rId;
 						AdvisorNotificationDAO advisor = new AdvisorNotificationDAO();
 						advisor.InsertRequestNotification(advisorComment, aId, advisorHref);
 						
 					}
-					
+					if(status.equals("SESSION CANCELLED DUE TO USER NO SHOW") || status.equals("SESSION CANCELLED DUE TO USER UNAVAILABILITY")){
+						//Getting the advisor name
+						AdminNotificationDAO name = new AdminNotificationDAO();
+						String advisorName = name.GetAdvisorName(aId);
+						
+						//Notify user
+						String comment = "Your session with "+advisorName+" has been cancelled.";
+						String href = "UserCancelledSessionViewDetails?rId="+rId;
+						UserNotificationDAO user = new UserNotificationDAO();
+						user.InsertNotification(comment, href, uId);
+
+						//Getting the userName
+						AdminNotificationDAO userName = new AdminNotificationDAO();
+						String uName = userName.GetUserName(uId);
+						
+						//Notify advisor
+						String advisorComment = "Your session with "+uName+" has been cancelled due to User Unavailibility.";
+						String advisorHref ="AdvisorCancelledSessionViewDetail?rId="+rId;
+						AdvisorNotificationDAO advisor = new AdvisorNotificationDAO();
+						advisor.InsertRequestNotification(advisorComment, aId, advisorHref);
+						
+					}
 					response.sendRedirect(redirect);
 				}
 				

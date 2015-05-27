@@ -83,14 +83,14 @@ public class AdminMyAccountRequestViewDetailsFormController extends HttpServlet 
 					Boolean isStatusCommit = requestStatus.setStatus(status, Integer.parseInt(rId));
 					if(isStatusCommit){
 						String comment = "Your request has been succesfully placed. Keep checking your account for updates.";
-						String href = "UserRequests";
+						String href = "UserRequestViewDetails?rId="+rId;
 						//Notify User 
 						UserNotificationDAO notify = new UserNotificationDAO();
 						notify.InsertNotification(comment, href,uId);
 						
 						//Notify Advisor
 						String advisorComment = "You've got a new session request !";
-						String advisorHref =  "AdvisorRequests?new=true";
+						String advisorHref =  "AdvisorRequestViewDetail?rId=" +rId;
 						AdvisorNotificationDAO notifyAdvisor = new AdvisorNotificationDAO();
 						notifyAdvisor.InsertRequestNotification(advisorComment, aId, advisorHref);
 						
@@ -113,7 +113,7 @@ public class AdminMyAccountRequestViewDetailsFormController extends HttpServlet 
 							toggle.ToggleUserFreeSession(Integer.parseInt(uId));
 						}
 						String comment = "We're sorry but your request could not be placed. You will get a mail regarding this soon.";
-						String href = "UserCancelledSessions";
+						String href = "UserCancelledSessionViewDetails?rId="+rId;
 						//Notify User 
 						UserNotificationDAO notify = new UserNotificationDAO();
 						notify.InsertNotification(comment, href,uId);

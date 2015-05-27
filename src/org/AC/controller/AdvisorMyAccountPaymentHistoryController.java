@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.AC.DAO.AdvisorNotificationDAO;
 import org.AC.DAO.AdvisorPaymentHistoryDAO;
 import org.AC.DAO.UserPaymentHistoryDAO;
 import org.AC.dto.PaymentDTO;
@@ -64,7 +65,15 @@ public class AdvisorMyAccountPaymentHistoryController extends HttpServlet {
 			}
 			//Getting date of payment, payment mode, and tracking id from payment table
 			AdvisorPaymentHistoryDAO paymentInfo = new AdvisorPaymentHistoryDAO();
-			payments = paymentInfo.GetPaymentInfo(sessionId);			
+			payments = paymentInfo.GetPaymentInfo(sessionId);
+			
+			//Update Advisor's Notification
+    		String url =  request.getRequestURI()+"?" +request.getQueryString();
+			url = url.substring(url.lastIndexOf('/')+1);
+			AdvisorNotificationDAO admin = new AdvisorNotificationDAO();
+			admin.SetNotificationRead(url, advisorId);
+			
+			
 			request.setAttribute("session", paymentHistory);
 			request.setAttribute("request", requests);
 			request.setAttribute("payment", payments);

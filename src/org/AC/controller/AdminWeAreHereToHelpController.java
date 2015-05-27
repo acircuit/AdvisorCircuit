@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.AC.DAO.AdminNotificationDAO;
 import org.AC.DAO.AdminUserDAO;
 import org.AC.dto.HereToHelpDTO;
 import org.apache.log4j.Logger;
@@ -45,6 +46,12 @@ public class AdminWeAreHereToHelpController extends HttpServlet {
 			List<HereToHelpDTO> list = new ArrayList<HereToHelpDTO>();
 			AdminUserDAO user = new AdminUserDAO();
 			list = user.GetHereToHelpDetails();
+			//Update Admin's Notification
+    		String url =  request.getRequestURI();
+			url = url.substring(url.lastIndexOf('/')+1);
+			AdminNotificationDAO admin = new AdminNotificationDAO();
+			admin.SetNotificationRead(url);
+			
 			request.setAttribute("heretohelp", list);
 			RequestDispatcher rd = getServletContext().getRequestDispatcher("/WeAreHereToHelp.jsp");
 	        rd.forward(request, response);

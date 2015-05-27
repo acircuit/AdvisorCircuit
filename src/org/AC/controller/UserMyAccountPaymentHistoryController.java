@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.AC.DAO.UserNotificationDAO;
 import org.AC.DAO.UserPaymentHistoryDAO;
 import org.AC.dto.PaymentDTO;
 import org.apache.log4j.Logger;
@@ -69,6 +70,11 @@ public class UserMyAccountPaymentHistoryController extends HttpServlet {
 			for (PaymentDTO paymentDTO : payments) {
 				paymentDTO.setPurchaseDateString((new SimpleDateFormat("dd-MMM-yyyy' 'h:mm a").format(new Date(paymentDTO.getDateOfPurchase().getTime()))));
 			}
+			
+			String url =  request.getRequestURI() +"?" +request.getQueryString();
+			url = url.substring(url.lastIndexOf('/')+1);
+			UserNotificationDAO notify = new UserNotificationDAO();
+			notify.SetNotificationRead(url, userId);
 			
 			request.setAttribute("session", paymentHistory);
 			request.setAttribute("request", requests);

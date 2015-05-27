@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.AC.DAO.AdminNotificationDAO;
 import org.AC.DAO.AdvisorNotificationDAO;
 import org.AC.DAO.AdvisorPaymentHistoryDAO;
 import org.AC.DAO.UserNotificationDAO;
@@ -72,6 +73,13 @@ public class AdminMyAccountPaymentHistoryController extends HttpServlet {
 				for (PaymentDTO paymentDTO : payments) {
 					paymentDTO.setPurchaseDateString((new SimpleDateFormat("dd-MMM-yyyy' 'h:mm a").format(new Date(paymentDTO.getDateOfPurchase().getTime()))));
 				}
+				
+
+			    String url =  request.getRequestURI() +"?" +request.getQueryString();
+				url = url.substring(url.lastIndexOf('/')+1);
+				AdminNotificationDAO notify = new AdminNotificationDAO();
+				notify.SetNotificationRead(url);
+				
 				request.setAttribute("session", paymentHistory);
 				request.setAttribute("request", requests);
 				request.setAttribute("payment", payments);
@@ -115,7 +123,7 @@ public class AdminMyAccountPaymentHistoryController extends HttpServlet {
 				UserNotificationDAO id = new UserNotificationDAO();
 				ids = id.GetAdvisorId(sid);
 				String userComment = "Please check your Payment tab view details for Session ID "+sid+" for a comment from the Admin";
-				String userHref = "userpaymenthistrory";
+				String userHref = "userpayment";
 				UserNotificationDAO user = new UserNotificationDAO();
 				user.InsertNotification(userComment, userHref,String.valueOf(ids[0]));
 				
@@ -128,7 +136,7 @@ public class AdminMyAccountPaymentHistoryController extends HttpServlet {
 				ids = id.GetAdvisorId(sid);
 				
 				String advisorComment = "Please check your Payment tab view details for Session ID "+sid+" for a comment from the Admin";
-				String advisorHref = "paymenthistrory";
+				String advisorHref = "advisorpayment";
 				AdvisorNotificationDAO advisor = new AdvisorNotificationDAO();
 				advisor.InsertRequestNotification(advisorComment, String.valueOf(ids[1]), advisorHref);
 			}

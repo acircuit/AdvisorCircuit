@@ -23,6 +23,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.AC.DAO.AdvisorMyAccountSessionDAO;
 import org.AC.DAO.MyAccountRequestDAO;
 import org.AC.DAO.SessionFeedBackDAO;
+import org.AC.DAO.UserNotificationDAO;
 import org.AC.Util.GetRelativeImageURL;
 import org.AC.Util.GetTimeLeftForReply;
 import org.AC.dto.AdvisorProfileDTO;
@@ -177,6 +178,13 @@ public class UserMyAccountPreviousSessionViewDetailController extends HttpServle
 			emailUser = mail.GetUserMailForUser(sId);	
 			SessionFeedBackDAO mailAdvisor = new SessionFeedBackDAO();
 			emailAdvisor = mailAdvisor.GetAdvisorMailForUser(sId);
+			
+			String url =  request.getRequestURI() +"?" +request.getQueryString();
+			url = url.substring(url.lastIndexOf('/')+1);
+			UserNotificationDAO notify = new UserNotificationDAO();
+			notify.SetNotificationRead(url, userId);
+			
+			
 			if(list.size() > 0  && list1.size() > 0 && list2.size() > 0) {
 				request.setAttribute("advisorname", advisorName);
 				request.setAttribute("userName", userName);

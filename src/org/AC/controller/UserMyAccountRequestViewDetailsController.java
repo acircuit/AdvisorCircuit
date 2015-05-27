@@ -20,8 +20,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.AC.DAO.AdminNotificationDAO;
 import org.AC.DAO.MyAccountRequestDAO;
 import org.AC.DAO.UserDetailsDAO;
+import org.AC.DAO.UserNotificationDAO;
 import org.AC.Util.GetRelativeImageURL;
 import org.AC.dto.AdvisorNewDatesDTO;
 import org.AC.dto.AdvisorProfileDTO;
@@ -152,6 +154,10 @@ public class UserMyAccountRequestViewDetailsController extends HttpServlet {
 				}
 			}
 			
+			String url =  request.getRequestURI() +"?" +request.getQueryString();
+			url = url.substring(url.lastIndexOf('/')+1);
+			UserNotificationDAO notify = new UserNotificationDAO();
+			notify.SetNotificationRead(url, uId);
 			if(!("").equals(advisorName) && !("").equals(picture) && !("").equals(userName) && list1.size() > 0){
 				String uId1 = Integer.toString(uId);
 				request.setAttribute("uId", uId1);

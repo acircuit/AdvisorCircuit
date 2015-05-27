@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.AC.DAO.AdminNotificationDAO;
 import org.AC.DAO.AdminSessionDAO;
 import org.AC.dto.SessionDTO;
 import org.apache.log4j.BasicConfigurator;
@@ -68,6 +69,12 @@ public class AdminReviewController extends HttpServlet {
 			List<SessionDTO> sessionList = new ArrayList<SessionDTO>();
 			AdminSessionDAO session = new AdminSessionDAO();
 			sessionList = session.GetSessionDetails();
+			
+			String url =  request.getRequestURI() +"?" +request.getQueryString();
+			url = url.substring(url.lastIndexOf('/')+1);
+			AdminNotificationDAO notify = new AdminNotificationDAO();
+			notify.SetNotificationRead(url);
+			
 			request.setAttribute("sessionList", sessionList);
 			RequestDispatcher rd = getServletContext().getRequestDispatcher("/AdminReview.jsp");
 			rd.forward(request, response);

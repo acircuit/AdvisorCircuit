@@ -137,7 +137,7 @@ public class UserMyAccountPaymentController extends HttpServlet {
 					
 					//Notify user 
 					String userComment = "Your session has succesfully been confirmed.";
-					String userHref = "UserUpcomingSessions";
+					String userHref = "UserUpcomingSessionViewDetails?rId="+rId;
 					UserNotificationDAO user = new UserNotificationDAO();
 					user.InsertNotification(userComment, userHref, String.valueOf(ids[0]));
 					
@@ -147,7 +147,7 @@ public class UserMyAccountPaymentController extends HttpServlet {
 					
 					//Notify advisor
 					String advisorComment = "The session with "+userName+" has been confirmed.";
-					String advisorHref = "AdvisorUpcomingSessions";
+					String advisorHref = "AdvisorUpcomingSessionViewDetails?rId="+rId;
 					AdvisorNotificationDAO advisor = new AdvisorNotificationDAO();
 					advisor.InsertRequestNotification(advisorComment, String.valueOf(ids[1]), advisorHref);
 					
@@ -242,7 +242,7 @@ public class UserMyAccountPaymentController extends HttpServlet {
 						
 						//Notify user 
 						String userComment = "Your session has succesfully been confirmed.";
-						String userHref = "UserUpcomingSessions";
+						String userHref = "UserUpcomingSessionViewDetails?rId="+rId;
 						UserNotificationDAO user = new UserNotificationDAO();
 						user.InsertNotification(userComment, userHref, String.valueOf(ids[0]));
 						
@@ -252,7 +252,7 @@ public class UserMyAccountPaymentController extends HttpServlet {
 						
 						//Notify advisor
 						String advisorComment = "The session with "+userName+" has been confirmed.";
-						String advisorHref = "AdvisorUpcomingSessions";
+						String advisorHref = "AdvisorUpcomingSessionViewDetails?rId="+rId;
 						AdvisorNotificationDAO advisor = new AdvisorNotificationDAO();
 						advisor.InsertRequestNotification(advisorComment, String.valueOf(ids[1]), advisorHref);
 						
@@ -376,7 +376,7 @@ public class UserMyAccountPaymentController extends HttpServlet {
 							
 							//Notify user 
 							String userComment = "Your session has succesfully been confirmed.";
-							String userHref = "UserUpcomingSessions";
+							String userHref = "UserUpcomingSessionViewDetails?rId="+rId;
 							UserNotificationDAO user = new UserNotificationDAO();
 							user.InsertNotification(userComment, userHref, String.valueOf(ids[0]));
 							
@@ -386,7 +386,7 @@ public class UserMyAccountPaymentController extends HttpServlet {
 							
 							//Notify advisor
 							String advisorComment = "The session with "+userName+" has been confirmed.";
-							String advisorHref = "AdvisorUpcomingSessions";
+							String advisorHref = "AdvisorUpcomingSessionViewDetails?rId="+rId;
 							AdvisorNotificationDAO advisor = new AdvisorNotificationDAO();
 							advisor.InsertRequestNotification(advisorComment, String.valueOf(ids[1]), advisorHref);
 							

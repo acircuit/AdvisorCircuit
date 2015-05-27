@@ -15,19 +15,24 @@
 					userd = (Integer)session.getAttribute("userId");
 				}else if( session.getAttribute("advisorId") !=null){
 					isLoggedIn=true;
-					username = "Admin";
+					username=(String)session.getAttribute("username");
 					advisord = (Integer)session.getAttribute("advisorId");
 				} 
 				pageContext.setAttribute("isLoggedIn", isLoggedIn);
 		%>    <!-- Fixed navbar -->
-  <head>
+<%--   <head>
       <title><%= request.getParameter("title") %> </title>
+     
       
-  </head>
+  </head> --%>
 <fmt:bundle basename="Resources.Dependency" prefix="path.">
   
 <div class="user-link">
         <div>
+      	<c:if test="<%=isLoggedIn %>">
+      		<%@include file="/Notification.jsp" %>
+      	</c:if>	
+			
     	<c:choose>
     		<c:when test="<%=isLoggedIn %>">
     			<c:if test="<%=advisord != 0%>">
@@ -47,7 +52,6 @@
     	</c:choose>
         </div>
         </div>
-        
     	<div class="navbar navbar-default">    
 		<div class="navbar-header">
           <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -88,6 +92,7 @@
                 <li class="blue"><a href="whyusac">Why use Advisor Circuit</a></li>
 				<li class="red"><a href="howitworks">How it Works</a></li>
 				<li class="orange"><a href="http://www.advisorcircuit.com/blog/" target="blank">Blog<sup style="color: #2dabc2">New</sup></a></li>
+				
 			</ul>
         	<div class="navbar-form navbar-right">
             <form class="" role="form" action="Search" method="post" id="searchform">

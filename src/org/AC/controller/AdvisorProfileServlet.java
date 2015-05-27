@@ -16,11 +16,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.AC.DAO.AdminNotificationDAO;
 import org.AC.DAO.AdvisorModesDAO;
+import org.AC.DAO.AdvisorNotificationDAO;
 import org.AC.DAO.AdvisorProfileDetailsDAO;
 import org.AC.DAO.AdvisorServicesDAO;
 import org.AC.DAO.ProfessionalBackgroundDAO;
 import org.AC.DAO.UserDetailsDAO;
+import org.AC.DAO.UserNotificationDAO;
 import org.AC.Util.GetRelativeImageURL;
 import org.AC.dto.AdvisorEducationDTO;
 import org.AC.dto.AdvisorModeDTO;
@@ -203,9 +206,26 @@ public class AdvisorProfileServlet extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		
 		if(!("true").equals(isAdmin)){
+			//Updating notifications for user
+			int advisorId1 = 0;
+			try{
+				advisorId1 = (int) request.getSession().getAttribute("advisorId"); 	        
+			}catch(Exception e){
+				logger.info(e.getMessage());
+			}
+			if(advisorId1 != 0){
+				String url =  request.getRequestURI() +"?" +request.getQueryString();
+				url = url.substring(url.lastIndexOf('/')+1);
+				AdvisorNotificationDAO advisor = new AdvisorNotificationDAO();
+				advisor.SetNotificationRead(url, advisorId1);
+			}
 			RequestDispatcher rd = getServletContext().getRequestDispatcher("/AdvisorProfile.jsp");
 	        rd.forward(request, response);
 		}else{
+			String url =  request.getRequestURI() +"?" +request.getQueryString();
+			url = url.substring(url.lastIndexOf('/')+1);
+			AdminNotificationDAO notify = new AdminNotificationDAO();
+			notify.SetNotificationRead(url);
 			RequestDispatcher rd = getServletContext().getRequestDispatcher("/AdvisorProfilePage_Admin.jsp");
 	        rd.forward(request, response);
 		}

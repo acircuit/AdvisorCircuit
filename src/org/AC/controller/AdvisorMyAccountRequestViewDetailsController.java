@@ -19,6 +19,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.AC.DAO.AdminNotificationDAO;
+import org.AC.DAO.AdvisorNotificationDAO;
 import org.AC.DAO.MyAccountRequestDAO;
 import org.AC.DAO.UserDetailsDAO;
 import org.AC.Util.GetRelativeImageURL;
@@ -170,7 +172,10 @@ public class AdvisorMyAccountRequestViewDetailsController extends HttpServlet {
 					}
 				}
 			}
-			
+				String url =  request.getRequestURI() +"?" +request.getQueryString();
+				url = url.substring(url.lastIndexOf('/')+1);
+				AdvisorNotificationDAO notify = new AdvisorNotificationDAO();
+				notify.SetNotificationRead(url, aId);
 				String uId1 = Integer.toString(uId);
 				request.setAttribute("uId", uId1);
 				request.setAttribute("cv", cv);

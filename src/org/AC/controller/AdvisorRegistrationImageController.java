@@ -76,7 +76,7 @@ public class AdvisorRegistrationImageController extends HttpServlet {
 				if(isImageCommit){
 					//Notify Admin
 					String comment = email+" completed the registration process";
-					String href = "AdminAdvisors";
+					String href = "AdvisorProfile?aId="+aId+"&admin=true";
 					AdminNotificationDAO notify = new AdminNotificationDAO();
 					notify.InsertNotification(comment, href);
 					//Mail the admin

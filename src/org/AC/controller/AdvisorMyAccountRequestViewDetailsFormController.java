@@ -124,7 +124,7 @@ public class AdvisorMyAccountRequestViewDetailsFormController extends HttpServle
 					isStatusCommit = requestStatus.setStatus( status1,rId1);
 					//Notify the user 
 					String comment = "Your request has been accepted by the Advisor . Pay to confirm the session";
-					String href = "UserRequests";
+					String href = "UserRequestViewDetails?rId="+rId;
 					UserNotificationDAO userNotification = new UserNotificationDAO();
 					userNotification.InsertNotification(comment, href, uId);
 					
@@ -133,7 +133,7 @@ public class AdvisorMyAccountRequestViewDetailsFormController extends HttpServle
 					String uName = userName.GetUserName(uId);
 					
 					String comment1 = advisorName+ " accepted the session with "+ uName;
-					String ahref = "AdminRequests?approved=true";
+					String ahref = "AdminRequestViewDetails?rId="+rId;;
 					//Notify Admin
 					AdminNotificationDAO notify = new AdminNotificationDAO();
 					notify.InsertNotification(comment1, ahref);
@@ -220,7 +220,7 @@ public class AdvisorMyAccountRequestViewDetailsFormController extends HttpServle
 						if(sessionId != 0 && isNewDate){
 							//Notify the user 
 							String comment = "Your request has been accepted by the Advisor with revised dates! Choose 1 date and Pay to confirm the session";
-							String href = "UserRequests";
+							String href = "UserRequestViewDetails?rId="+rId;
 							UserNotificationDAO userNotification = new UserNotificationDAO();
 							userNotification.InsertNotification(comment, href, uId);
 							
@@ -229,14 +229,14 @@ public class AdvisorMyAccountRequestViewDetailsFormController extends HttpServle
 							String uName = userName.GetUserName(uId);
 							
 							String comment1 = advisorName+ " accepted the session with "+ uName+" with revised dates";
-							String ahref = "AdminRequests?approved=true";
+							String ahref = "AdminRequestViewDetails?rId="+rId;
 							//Notify Admin
 							AdminNotificationDAO notify = new AdminNotificationDAO();
 							notify.InsertNotification(comment1, ahref);
 						}else{
 							//Notify the user 
 							String comment = "Your request has been accepted by the Advisor . Pay to confirm the session";
-							String href = "UserRequests";
+							String href = "UserRequestViewDetails?rId="+rId;
 							UserNotificationDAO userNotification = new UserNotificationDAO();
 							userNotification.InsertNotification(comment, href, uId);
 							
@@ -245,7 +245,7 @@ public class AdvisorMyAccountRequestViewDetailsFormController extends HttpServle
 							String uName = userName.GetUserName(uId);
 							
 							String comment1 = advisorName+ " accepted the session with "+ uName;
-							String ahref = "AdminRequests?approved=true";
+							String ahref = "AdminRequestViewDetails?rId="+rId;
 							//Notify Admin
 							AdminNotificationDAO notify = new AdminNotificationDAO();
 							notify.InsertNotification(comment1, ahref);
@@ -284,7 +284,7 @@ public class AdvisorMyAccountRequestViewDetailsFormController extends HttpServle
 				}
 				//Notify the user 
 				String comment = "We're sorry but the Advisor has declined the session. You will get a mail regarding this soon.";
-				String href = "UserCancelledSessions";
+				String href = "UserCancelledSessionViewDetails?rId="+rId;
 				UserNotificationDAO userNotification = new UserNotificationDAO();
 				userNotification.InsertNotification(comment, href, uId);
 				
@@ -293,7 +293,7 @@ public class AdvisorMyAccountRequestViewDetailsFormController extends HttpServle
 				String uName = userName.GetUserName(uId);
 				
 				String comment1 = advisorName+ " has rejected the session with "+ uName;
-				String ahref = "AdminCancelledSessions";
+				String ahref = "AdminCancelledSessionViewDetails?rId="+rId;
 				//Notify Admin
 				AdminNotificationDAO notify = new AdminNotificationDAO();
 				notify.InsertNotification(comment1, ahref);
