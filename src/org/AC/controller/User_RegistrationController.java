@@ -100,11 +100,11 @@ public class User_RegistrationController extends HttpServlet {
 						 	String subject ="";
 							String content ="";
 							subject = "Thank Your For Registering";
-							content = "Hi, <br><br> ThankYou for registering with AdvisorCircuit. Please Click on the below link to activate your account:<br> <a href='"+prop.getProperty("USER_REGISTRATION_VERIFICATION_LINK")+userId+"'>Click Here to Activate Your Account</a>"+"<br><img src=\"http://www.advisorcircuit.com/Test/assets/img/logo_black.png\" style='float:right' width='25%'>";
+							content = "Hi, <br><br> ThankYou for registering with AdvisorCircuit. Please Click on the below link to activate your account:<br> <a href='"+prop.getProperty("USER_REGISTRATION_VERIFICATION_LINK")+userId+"'>Click Here to Activate Your Account</a>"+"<br><img src=\"http://www.advisorcircuit.com/Test/assets/img/logo_black.png\" style='float:right' width='40%' height='50%'>";
 							SendMail mail = new SendMail(subject, content, email,prop.getProperty("MAIL_ADMIN"));
 							mail.start();
 							String subject1= "A New User Sign Up!";
-							String content1 = "Hi, <br><br> A new user has signed up with us. Following are the details: <br>Full Name : "+fullname+" <br>Phone : "+phone+"<br> Age : "+age+"<br> Occupation : "+occupation+"<br>Email Id : " +email+"<br><img src=\"http://www.advisorcircuit.com/Test/assets/img/logo_black.png\" style='float:right' width='25%'>";
+							String content1 = "Hi, <br><br> A new user has signed up with us. Following are the details: <br>Full Name : "+fullname+" <br>Phone : "+phone+"<br> Age : "+age+"<br> Occupation : "+occupation+"<br>Email Id : " +email+"<br><img src=\"http://www.advisorcircuit.com/Test/assets/img/logo_black.png\" style='float:right' width='40%' height='50%'>";
 							SendMail mail1 = new SendMail(subject1, content1, prop.getProperty("MAIL_ADMIN"),prop.getProperty("MAIL_ADMIN"));
 							mail1.start();
 							response.sendRedirect("UserRegistrationComplete");

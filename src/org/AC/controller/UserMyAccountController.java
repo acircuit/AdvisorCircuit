@@ -94,7 +94,7 @@ public class UserMyAccountController extends HttpServlet {
 					absolutePath = image.putImage(request,response,email,"USER");
 				}
 				UserDetailsDAO dao = new UserDetailsDAO();
-				Boolean isCommit = dao.setUserEditDetails(email,fullname,phone,occupation,absolutePath,userId);
+				Boolean isCommit = dao.setUserEditDetails(fullname,phone,occupation,absolutePath,userId);
 				doGet(request, response);
 				
 			}
