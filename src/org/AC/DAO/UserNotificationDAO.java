@@ -155,7 +155,7 @@ public class UserNotificationDAO {
 		try {
 			conn =ConnectionFactory.getConnection();
 			conn.setAutoCommit(false);
-			String query ="SELECT * FROM user_notification WHERE USER_ID=?";
+			String query ="SELECT * FROM user_notification WHERE USER_ID=? ORDER BY DATE DESC";
 			PreparedStatement pstmt = conn.prepareStatement(query);
 			pstmt.setInt(1, uId);
 			ResultSet results = pstmt.executeQuery();

@@ -88,7 +88,7 @@ public class AdvisorNotificationDAO {
 	 try {
 			conn =ConnectionFactory.getConnection();
 			conn.setAutoCommit(false);
-			String query ="SELECT N_ID,COMMENT,HREF,IS_PREVIOUS FROM advisor_notification WHERE ADVISOR_ID = ?";
+			String query ="SELECT N_ID,COMMENT,HREF,IS_PREVIOUS,DATE FROM advisor_notification WHERE ADVISOR_ID = ? ORDER BY DATE  DESC";
 			PreparedStatement pstmt = conn.prepareStatement(query);
 			pstmt.setInt(1, aId);
 			ResultSet results = pstmt.executeQuery();

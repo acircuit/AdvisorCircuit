@@ -156,7 +156,7 @@ public class AdminNotificationDAO {
 		try {
 			conn =ConnectionFactory.getConnection();
 			conn.setAutoCommit(false);
-			String query ="SELECT * FROM admin_notification";
+			String query ="SELECT * FROM admin_notification ORDER BY DATE  DESC";
 			PreparedStatement pstmt = conn.prepareStatement(query);
 			ResultSet results = pstmt.executeQuery();
 			while(results.next()){

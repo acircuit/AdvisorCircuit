@@ -53,22 +53,23 @@ color: #555;
 .notificationsBody
 {
 padding: 0px !important;
-min-height:300px;
-float: left;
+min-height:500px;
 width: 100%;
-
 
 }
 
-.notificationsBody ul{padding: 0;float: left; list-style:none;width: 100%;}
-.notificationsBody li{padding: 10px;text-align: left;}
+.notificationsBody ul{padding: 0;list-style:none;width: 100%;}
+.notificationsBody li{padding: 10px;text-align: left;"}
 .notificationsBody li .date{  
   width: 100%;
   color: black;
-  float: left;
   padding-top: 17px;
   font-size: 10px;
  }
+
+.notificationsBody li a{
+	margin :0px 0px 0px 0px;
+}
 
 .notificationFooter
 {
@@ -110,7 +111,7 @@ if( session.getAttribute("admin") != null &&  (Boolean)session.getAttribute("adm
 			<div class="notificationContainer" id="notificationContainer">
 			
 			<div class="notificationTitle" id="notificationTitle">Notifications</div>
-			<div class="notificationsBody" id="notificationsBody">			
+			<div class="notificationsBody" id="notificationsBody">
 			</div>
 			<div class="notificationFooter" id="notificationFooter"></div>
 			</div>
