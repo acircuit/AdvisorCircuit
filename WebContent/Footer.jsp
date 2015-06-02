@@ -99,7 +99,7 @@
             <div class="row">
         	<div class="col-md-10 col-lg-offset-2">
             	<h4><b>Reach us at</b> <span><i class="glyphicon glyphicon-envelope" style="color:#575758; margin-left:20px"></i> contactus@advisorcircuit.com</span>
-				<span><i class="glyphicon glyphicon glyphicon-earphone" style="color:#575758; margin-left:20px"></i> +919999372087</span></h4>
+				<span><i class="glyphicon glyphicon glyphicon-earphone" style="color:#575758; margin-left:20px"></i> +919999372087</span> <span style="margin-left: 2%">&#169; 2015 Advisor Circuit - All rights reserved.</span>  </h4>
             </div>
         </div>
 		</div>

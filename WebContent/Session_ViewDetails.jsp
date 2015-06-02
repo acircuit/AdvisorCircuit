@@ -245,10 +245,10 @@
                                         <div class="modal-header">
                                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
                                             <c:if test="${request.getService().equals('mockinterview')}">
-                                            	<h4 class="modal-title" id="myModalLabel">Mock Interview Feedback Form <span style="color: #c84c4e">(After pressing send, please don't close the window till you see the message - 'Your Feedback has been sent')</span></h4>
+                                            	<h4 class="modal-title" id="myModalLabel">Mock Interview Feedback Form <span style="color: #c84c4e">(After pressing send, please don't close the window till you see the message - 'Your Feedback has been submitted')</span></h4>
                                             </c:if>
                                             <c:if test="${request.getService().equals('cvcritique')}">
-                                            	<h4 class="modal-title" id="myModalLabel">Resume Critique Feedback Form <span style="color: #c84c4e">(After pressing send, please don't close the window till you see the message - 'Your Feedback has been sent')</span></h4>
+                                            	<h4 class="modal-title" id="myModalLabel">Resume Critique Feedback Form <span style="color: #c84c4e">(After pressing send, please don't close the window till you see the message - 'Your Feedback has been submitted')</span></h4>
                                            	</c:if>
                                         </div>
                                         <div class="modal-body">

@@ -130,6 +130,7 @@
 																	<li><a id="${advisor.getAdvisorId()}" onclick="openFreeSessionModal(this)">Update Free Sessions</a></li>
 																	<li><a id="${advisor.getAdvisorId()}" onclick="openDiscountModal(this)">Update Discount</a></li>
 																	<li><a id="${advisor.getAdvisorId()}" onclick="OpenKeywords(this)">Update KeyWords</a></li>
+																	
 																</ul>
 															</li>
 														</ul>

@@ -20,6 +20,13 @@ public class NotificationDTO {
 	private String comment;
 	private String href;
 	Boolean isPrevious;
+	Boolean isViewed;
+	public Boolean getIsViewed() {
+		return isViewed;
+	}
+	public void setIsViewed(Boolean isViewed) {
+		this.isViewed = isViewed;
+	}
 	public Boolean getIsPrevious() {
 		return isPrevious;
 	}

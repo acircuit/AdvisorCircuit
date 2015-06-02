@@ -110,6 +110,9 @@
                     Book a Session
                 </a>
             </div>
+            <div>
+            	 <p style="color: #c84c4e">${advisor.getName()} donates all earnings from Advisor Circuit to Mother Teresa's home. </p>
+            </div>
         </div>   
       </div>
       <!--end profile intro-->

@@ -3,6 +3,7 @@
 <%@page import="org.AC.dto.SessionDTO"%>
 <%@page import="org.AC.dto.AdvisorNewDatesDTO"%>
 <%@page import="org.AC.dto.SessionFeedBackDTO"%>
+<%@page import="org.AC.dto.FeedbackDTO"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
@@ -61,11 +62,13 @@
 						List<UserRequestDTO> userRequestDetails = (List<UserRequestDTO>)request.getAttribute("requestDetails");
 						List<SessionDTO> sessionDetail = (List<SessionDTO>)request.getAttribute("sessionDetail");	
 						List<AdvisorNewDatesDTO> advisorNewDates = (List<AdvisorNewDatesDTO>)request.getAttribute("advisorNewDates");	
-
+						FeedbackDTO serviceFeedback	 = (FeedbackDTO)request.getAttribute("serviceFeedback");
+						
 						pageContext.setAttribute("userRequestDetails", userRequestDetails);
 						pageContext.setAttribute("sessionDetail", sessionDetail);
 						pageContext.setAttribute("feedback", feedback);
 						pageContext.setAttribute("mail", mail);
+						pageContext.setAttribute("serviceFeedback", serviceFeedback);
 	%>
 </head>
 
@@ -258,9 +261,10 @@
 		                                                                <input class="form-control" id="details"></input>	
 		                                                            </div>
 		                                                        </div>
-		                                                        
-		                                                        <div class="col-md-12">
-		                                                        	<h4><a class="btn btn-info" onclick="SubmitModeDetails()">Submit Pin</a></h4>												
+		                                                        <div class="form-group">
+			                                                        <div class="col-md-12">
+			                                                        	<h4><a class="btn btn-info" onclick="SubmitModeDetails()">Submit Pin</a></h4>												
+			                                                        </div>
 		                                                        </div>
                                                     		</c:otherwise>
                                                     	</c:choose>
@@ -277,15 +281,14 @@
                                                 
                                                 <c:if test="${userRequest.getService().equals('mockinterview') || userRequest.getService().equals('cvcritique')}">
                                                     <div class="form-group">
-                                                        <label for="icode" class="col-md-2 control-label"></label>
                                                         <div class="col-md-9">
                                                             <h4><a href="DownloadFile?path=<%=path%>" class="btn btn-info">${fn:toUpperCase(userRequest.getService())} FeedBack Form</a></h4>
                                                         </div>
-                                                        
-                                                        <div class="col-md-12">
-                                                            <h4><a class="btn btn-info" onclick="approvefeedback()">Approve FeedBack </a></h4>
-                                                        </div>
-                                                        
+                                                        <c:if test="${!serviceFeedback.getApproved()}">
+	                                                        <div class="col-md-12">
+	                                                            <h4><a class="btn btn-info" onclick="approvefeedback()">Approve FeedBack </a></h4>
+	                                                        </div>
+                                                        </c:if>
                                                         <div id="message" style="float: right"></div>
                                                     </div>
                                                 </c:if>	

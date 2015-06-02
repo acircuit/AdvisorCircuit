@@ -30,8 +30,7 @@
         <div class="row">
         <div class="col-lg-12 text-center ex-page">
             <img src="assets/img/logo-new.png" alt="Advisor Circuit" width="450">
-            <h1>Wuhoo! Thanks for becoming a part of Advisor Circuit.</h1>
-            <p>We've sent a verification link to your Email ID.</p>
+            <h1>We've sent a verification link to your Email ID.</h1>
         </div><!-- /col-lg-12 -->
     </div><!-- /row -->
 	<%@include file="/Footer.jsp" %>

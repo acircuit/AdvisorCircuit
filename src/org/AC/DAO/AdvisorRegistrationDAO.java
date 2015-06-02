@@ -1190,7 +1190,6 @@ public int setEmail(String email,String pass){
 		try {
 			conn =ConnectionFactory.getConnection();
 			conn.setAutoCommit(false);
-			String q4in = generateQuery(profIds.size());			
 			String query ="SELECT PROF_ID,DESCRIPTION FROM advisorprofdescription WHERE PROF_ID =?";
 			PreparedStatement pstmt = conn.prepareStatement(query);
 			pstmt.setInt(1, id);

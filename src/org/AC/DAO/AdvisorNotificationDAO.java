@@ -88,7 +88,7 @@ public class AdvisorNotificationDAO {
 	 try {
 			conn =ConnectionFactory.getConnection();
 			conn.setAutoCommit(false);
-			String query ="SELECT N_ID,COMMENT,HREF,IS_PREVIOUS,DATE FROM advisor_notification WHERE ADVISOR_ID = ? ORDER BY DATE  DESC";
+			String query ="SELECT N_ID,COMMENT,HREF,IS_PREVIOUS,DATE,IS_VIEWED FROM advisor_notification WHERE ADVISOR_ID = ? ORDER BY DATE  DESC";
 			PreparedStatement pstmt = conn.prepareStatement(query);
 			pstmt.setInt(1, aId);
 			ResultSet results = pstmt.executeQuery();
@@ -99,6 +99,7 @@ public class AdvisorNotificationDAO {
 				notify.setHref(results.getString("HREF"));
 				notify.setIsPrevious(results.getBoolean("IS_PREVIOUS"));
 				notify.setDate(results.getTimestamp("DATE"));
+				notify.setIsViewed(results.getBoolean("IS_VIEWED"));
 				comment.add(notify);
 			}
 		} catch (SQLException e) {

@@ -79,92 +79,25 @@
 							<h4 class="modal-title" id="myModalLabel" style="text-align: center;">Get Help Finding Your Advisor</h4>
 						</div>
 						<div class="modal-body">
-							<h4 style="text-align: center;">Just send in the below details; we'll go through our panel of experts and help you pick the right advisor! </h4>
+							<h4 style="text-align: center;">Need help? Please send in the below details and we will contact you in no time!</h4>
 							<hr>
 							<form id="help" class="form-horizontal" role="form" method="post">
-								<h4 style="font-family:'custom_light' !important;color:#555">1.Your Personal Information</h4>
-								<div class="form-group">
-								<label for="email" class="col-md-2 control-label">Full Name:</label>
-                                 <div class="col-md-9">
-									  <input id ="name" type="text" name="name" class="form-control" maxlength="70">
-								 </div>
-                                </div>
+								
                                 <div class="form-group">
-								<label for="email" class="col-md-2 control-label">Email:</label>
-                                 <div class="col-md-9">
+								<label for="email" class="col-md-4 control-label">Email:</label>
+                                 <div class="col-md-4">
 									  <input id ="email" type="text" name="email" class="form-control" maxlength="150">
 								 </div>
                                 </div>
                                 <div class="form-group">
-								<label for="phone" class="col-md-2 control-label">Phone:</label>
-                                 <div class="col-md-9">
+								<label for="phone" class="col-md-4 control-label">Phone:</label>
+                                 <div class="col-md-4">
 									  <input id ="phone" type="text" name="phone" class="form-control" maxlength="40">
 								 </div>
                                 </div>
                                 <div class="form-group">
-								<label for="occupation" class="col-md-2 control-label">Occupation:</label>
-                                 <div class="col-md-9">
-									  <input id ="occupation" type="text" name="phone" class="form-control" maxlength="200">
-								 </div>
-                                </div>
-								<h4 style="font-family:'custom_light' !important;color:#555">2.Industry or area in which you need help:</h4>
-								 <div class="form-group">
-                                     <div class="col-md-12">
-										  <input id ="industry" type="text" name="industry" class="form-control" maxlength="200">
-									 </div>
-                                </div>
-                                <h4 style="font-family:'custom_light' !important;color:#555">3.Which Service do you want [Visit <a href="howitworks" target="blank">How It Works </a>page for details]</h4>
-                                <div class="form-group">
-                                     <div class="col-md-9 radio-inline" style="margin-left: 5%">
-										<li style ="display: inline;float:left;margin-right:30px;font-family:'custom_light' !important;color:#555"><input type="radio" name="service"  id="optionsRadiosInlinem1" value="CareerTalk"/>Career Talk</li>
-										<li style ="display: inline;float:left;margin-right:30px;font-family:'custom_light' !important;color:#555"><input type="radio" name="service"  id="optionsRadiosInlinem2" value="Mock Interview"/>Mock Interview</li>	
-										<li style ="display: inline;float:left;margin-right:30px;font-family:'custom_light' !important;color:#555"><input type="radio" name="service"  id="optionsRadiosInlinem3" value="Resume Critique"/>Resume Critique</li>
-							         </div>
-                                </div>
-                                <h4 style="font-family:'custom_light' !important;;color:#555">4.Rank below modes of communication in order of preference </h4>
-                                <div class="form-group">
-                                    <label for="icode" class="col-md-2 control-label" style="text-align: left;margin-left: 5%">Phone:</label>
-                                     <div class="col-md-9 radio-inline">
-										  <li style ="display: inline;float:left;margin-right:30px;font-family:'custom_light' !important;color:#555"><input type="radio" name="phonemode"  id="optionsRadiophone1" value="1"/>1</li>
-										<li style ="display: inline;float:left;margin-right:30px;font-family:'custom_light' !important;color:#555"><input type="radio" name="phonemode"  id="optionsRadiophone2" value="2"/>2</li>	
-										<li style ="display: inline;float:left;margin-right:30px;font-family:'custom_light' !important;color:#555"><input type="radio" name="phonemode"  id="optionsRadiophone3" value="3"/>3</li>
-									 </div>
-								 </div>
-								 <div class="form-group">
-									 <label for="icode" class="col-md-2 control-label" style="text-align: left;margin-left: 5%">Email:</label>
-                                     <div class="col-md-9 radio-inline">
-										  <li style ="display: inline;float:left;margin-right:30px;font-family:'custom_light' !important;color:#555"><input type="radio" name="emailmode"  id="optionsRadioemail1" value="1"/>1</li>
-										<li style ="display: inline;float:left;margin-right:30px;font-family:'custom_light' !important;color:#555"><input type="radio" name="emailmode"  id="optionsRadioemail2" value="2"/>2</li>	
-										<li style ="display: inline;float:left;margin-right:30px;font-family:'custom_light' !important;color:#555"><input type="radio" name="emailmode"  id="optionsRadioemail3" value="3"/>3</li>
-									 </div>
-                                 </div>
-                                 <div class="form-group">
-									 <label for="icode" class="col-md-2 control-label" style="text-align: left;margin-left: 5%">WebChat:</label>
-                                     <div class="col-md-9 radio-inline">
-										  <li style ="display: inline;float:left;margin-right:30px;font-family:'custom_light' !important;color:#555"><input type="radio" name="webchat"  id="optionsRadiowebchat1" value="1"/>1</li>
-										<li style ="display: inline;float:left;margin-right:30px;font-family:'custom_light' !important;color:#555"><input type="radio" name="webchat"  id="optionsRadiowebchat2" value="2"/>2</li>	
-										<li style ="display: inline;float:left;margin-right:30px;font-family:'custom_light' !important;color:#555"><input type="radio" name="webchat"  id="optionsRadiowebchat3" value="3"/>3</li>
-									 </div>
-                                 </div>
-                                 <h4 style="font-family:'custom_light' !important;;color:#555">5.Enter Your Query : </h4>
-                                <div class="form-group">
-                                    <div class="col-md-10 ">
-                                        <textarea class="form-control" style="font-family:'custom_light' !important;" id="query" name="query" rows="3" maxlength="1200"></textarea>
-                                    </div>
-                                    <div class="col-md-2 ">	
-                                   	 <button type="button" style="float:right;margin-right:20px;" class="btn btn-default" data-container="body" data-toggle="popover" data-html="true" data-placement="right" data-content="<p>Example: Hi Mr. Rao, I'mpursuing Civil Engineering from ABC University. I am currently in my final year and want to take up this field professionally. I want to discuss:<br>1.Further education required<br>2.Different specializations in the field and Job Opportunities<br>3.Expected career growth<br>4.How should I plan my future<br>I want to especially focus on making a career plan and things I need to do to achieve it. Looking forward to our session.</p>" data-trigger="focus">
-							   		<span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> </button>   
-                              		</div>
-                                </div>
-                                <h4 style="font-family:'custom_light' !important;;color:#555">6.Any other details that will help us choose a better advisor for you: </h4>
-                              	<div class="form-group">
-                                    <div class="col-md-10">
-                                        <textarea class="form-control" style="font-family:'custom_light' !important;" id="other" name="other" rows="3" maxlength="1200"></textarea>
-                                    </div>
-                                </div>
-                                <div class="form-group">
                                     <!-- Button -->                                        
-                                    <div class="col-md-offset-3 col-md-9">
+                                    <div class="col-md-offset-5 col-md-9">
                                         <button id="submit_btn" style="font-family:'custom_light' !important;" type="button"  class="btn btn-info">Submit</button>
 										<!--<button id="btn" type="submit" class="btn btn-info">Cancel</button>	-->
                                     </div>
@@ -336,12 +269,6 @@ var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ur
 $(document).ready(function() {
 	$("#submit_btn").click(function(event){
         	var ajax = true;
-        	var indus = $("#industry").val();
-        	
-        	var input_n = $("#name").val();
-			var filtern = /^[a-z A-Z]+$/; 
-			var is_name = filtern.test(input_n);
-			
 			var input_e = $("#email").val();
 			var re = /^[a-zA-Z0-9.!$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 			var is_email=re.test(input_e);
@@ -350,18 +277,8 @@ $(document).ready(function() {
 			var filter = /^\d{10}$/; 
 			var is_phone = filter.test(input_p);
 			
-			if(input_n=='')
-			{
-				alert("Full Name Required");
-				event.preventDefault();
-				ajax = false;
-			}
-			else if (!is_name){
-				name_flag = 1;
-				alert("Invalid Name");
-				event.preventDefault(); 
-				ajax = false;
-			}else if(input_e=='')
+
+			if(input_e=='')
 			{
 				alert("Email Required");
 				event.preventDefault();
@@ -372,100 +289,21 @@ $(document).ready(function() {
 				alert("Invalid Email");
 				event.preventDefault();
 				ajax = false;
-			}
-			else if($("#occupation").val() == ""){
-				alert("Please Enter Your Occupation");
+			}else if (input_p =='') {
+				alert("Phone No Required");
+				event.preventDefault();
+				ajax = false;
+			}else if (!is_phone) {
+				alert("Please Enter a Valid Phone Number");
 				event.preventDefault();
 				ajax = false;
 			}
-			else if(indus == ""){
-        		alert("Please Enter the industry");
-        		event.preventDefault();
-        		ajax = false;
-        	}else if ($("#optionsRadiosInlinem1").is(':checked') == false && $("#optionsRadiosInlinem2").is(':checked') ==false && $("#optionsRadiosInlinem3").is(':checked') == false) {
-        		alert("Choose a service");
-        		ajax = false;
-        		event.preventDefault();
-			}else if ($("#optionsRadiophone1").is(':checked') == false && $("#optionsRadiophone2").is(':checked') == false && $("#optionsRadiophone3").is(':checked') == false) {
-				alert("Choose a Phone Preference");
-        		event.preventDefault();
-        		ajax = false;
-			}else if ($("#optionsRadioemail1").is(':checked') == false && $("#optionsRadioemail2").is(':checked') == false && $("#optionsRadioemail3").is(':checked') == false) {
-				alert("Choose a Email Preference");
-        		event.preventDefault();
-        		ajax = false;
-			}else if ($("#optionsRadiowebchat1").is(':checked') == false && $("#optionsRadiowebchat2").is(':checked') == false && $("#optionsRadiowebchat3").is(':checked') == false) {
-				alert("Choose a WebChat Preference");
-        		event.preventDefault();
-        		ajax = false;
-			}else if ($("#query").val() =="") {
-				alert("Please Enter Your Query");
-        		event.preventDefault();
-        		ajax = false;
-			}else{
-				var i=1;
-				while(i<=3){
-					if(($("#optionsRadiophone"+i).is(':checked') && $("#optionsRadioemail"+i).is(':checked'))
-							|| ($("#optionsRadioemail"+i).is(':checked') && $("#optionsRadiowebchat"+i).is(':checked') )
-									|| ($("#optionsRadiophone"+i).is(':checked') && $("#optionsRadiowebchat"+i).is(':checked')) ){
-						alert("Please Change Your Mode preference.Two modes cannot have the same preference");
-						event.preventDefault();
-						ajax = false;
-					}
-					i++;
-				}
-				 if(input_p !='')
-				{	
-					 if (!is_phone){
-						alert("Please Enter a Valid Phone Number");
-						event.preventDefault();
-						ajax = false;
-					}
-				}
-			}
 			if(ajax){
-				var name=$("#name").val();
 		  		var email=$("#email").val();
 		  		var phone=$("#phone").val();
-		  		var occupation=$("#occupation").val();
-		  		var industry = $("#industry").val();
-		  		var radios = document.getElementsByName('service'); 
-		  	    var service  = '';
-				for (var i = radios.length; i--;) {
-			  	    if (radios[i].checked) {
-			  	        service = radios[i].value;
-			  	        break;
-			  	    }
-		  		}
-				var radios1 = document.getElementsByName('phonemode'); 
-		  	    var phonemode  = '';
-				for (var i = radios1.length; i--;) {
-			  	    if (radios1[i].checked) {
-			  	    	phonemode = radios1[i].value;
-			  	        break;
-			  	    }
-		  		}
-				var radios2 = document.getElementsByName('emailmode'); 
-		  	    var emailmode  = '';
-				for (var i = radios2.length; i--;) {
-			  	    if (radios2[i].checked) {
-			  	    	emailmode = radios2[i].value;
-			  	        break;
-			  	    }
-		  		}
-				var radios3 = document.getElementsByName('webchat'); 
-		  	    var webchat  = '';
-				for (var i = radios3.length; i--;) {
-			  	    if (radios3[i].checked) {
-			  	    	webchat = radios3[i].value;
-			  	        break;
-			  	    }
-		  		}
-				var query = $("#query").val();
-				var other = $("#other").val();
 		  		$.ajax({
 		     	    url : 'WeAreHereToHelp', // Your Servlet mapping or JSP(not suggested)
-		     	    data : {"name" :name,"email" :email,"phone":phone,"occupation":occupation,"industry" : industry,"service" : service,"phonemode" :phonemode,"emailmode" :emailmode,"webchat" :webchat,"query" :query,"other" :other},
+		     	    data : {"email" :email,"phone":phone},
 		     	    type : 'POST',
 		     	    dataType : 'html', // Returns HTML as plain text; included script tags are evaluated when inserted in the DOM.
 		     	    success : function(response) {

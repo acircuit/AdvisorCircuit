@@ -28,39 +28,18 @@ public class WeAreHereToHelpController extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		logger.info("Entered doPost method of WeAreHereToHelpController");
-		String name = request.getParameter("name");
 		String email = request.getParameter("email");
 		String phone = request.getParameter("phone");
-		String occupation = request.getParameter("occupation");
-		String industry = request.getParameter("industry");
-		String service = request.getParameter("service");
-		String phonemode = request.getParameter("phonemode");
-		String emailmode = request.getParameter("emailmode");
-		String webchat = request.getParameter("webchat");
-		String query = request.getParameter("query");
-		String other = request.getParameter("other");
-		if(query != null){
-			query = query.replaceAll("\r\n", "");
-			query = query.replaceAll( "\r", "");
-			query = query.replaceAll("\n", ""); 
-		}
-		if(other!= null){
-			query = query.replaceAll("\r\n", "");
-			query = query.replaceAll( "\r", "");
-			query = query.replaceAll("\n", ""); 
-		}
 		Properties prop = new Properties();
 	    InputStream resourceAsStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("Resources/mail.properties");
 	    prop.load(resourceAsStream);
-		if(name != null && email != null && occupation != null && industry != null && service != null && phonemode != null && emailmode != null && webchat != null
-				&& query != null && !name.isEmpty() && !email.isEmpty() && !occupation.isEmpty() && !industry.isEmpty() && !service.isEmpty() && !phonemode.isEmpty() && !emailmode.isEmpty() 
-				&& !webchat.isEmpty() && !query.isEmpty()){
+		if( email != null && phone != null && !email.isEmpty() && !phone.isEmpty()){
 			
 			UserDetailsDAO here = new UserDetailsDAO();
-			Boolean isDetailsCommit = here.SetHereToHelpDetails(name,email,phone,occupation,industry,service,phonemode,emailmode,webchat,query,other);
+			Boolean isDetailsCommit = here.SetHereToHelpDetails(email,phone);
 			if(isDetailsCommit){
 				//Notify Admin
-				String comment = name+" sent a message through We Are Here to Help";
+				String comment = email+" sent a message through We Are Here to Help";
 				String href = "AdminHereToHelp";
 				AdminNotificationDAO notify = new AdminNotificationDAO();
 				notify.InsertNotification(comment, href);
@@ -68,7 +47,7 @@ public class WeAreHereToHelpController extends HttpServlet {
 				String subject ="";
 				String content ="";
 				subject = "We Are here to help";
-				content = "Hi, <br><br>A new user has filled in details for We are here to help.Following are the details : <br> Name: "+ name +" <br> Email :"+email+"<br><img src=\"http://www.advisorcircuit.com/Test/assets/img/logo_black.png\" style='float:right' width='25%'>";
+				content = "Hi, <br><br>A new user has filled in details for We are here to help.Following are the details : <br> Email :"+email+"<br><img src=\"http://www.advisorcircuit.com/Test/assets/img/logo_black.png\" style='float:right' width='25%'>";
 				SendMail mail = new SendMail(subject, content, prop.getProperty("MAIL_ADMIN"),prop.getProperty("MAIL_ADMIN"));
 				mail.start();
 				response.getWriter().write("Thank you for reaching out to us! We'll help you find the right Advisor within 48 Hrs.");

@@ -166,6 +166,7 @@ public class UserNotificationDAO {
 				note.setHref(results.getString("HREF"));
 				note.setIsPrevious(results.getBoolean("IS_PREVIOUS"));
 				note.setDate(results.getTimestamp("DATE"));
+				note.setIsViewed(results.getBoolean("IS_VIEWED"));
 				notify.add(note);
 			}
 
