@@ -24,7 +24,7 @@
     <link href="assets/css/main.css" rel="stylesheet">
 
     <!-- Fonts from Google Fonts -->
-	<link href='http://fonts.googleapis.com/css?family=Lato:300,400,900' rel='stylesheet' type='text/css'>
+	<link href='https://fonts.googleapis.com/css?family=Lato:300,400,900' rel='stylesheet' type='text/css'>
 	<%
 		List<AdvisorServiceDTO> advisorServices = (List<AdvisorServiceDTO>)request.getAttribute("advisorservices");
 		List<AdvisorModeDTO> advisorModes = (List<AdvisorModeDTO>)request.getAttribute("advisormodes");
@@ -178,7 +178,7 @@
                                                    	
                                                    	</c:otherwise>
                                                 </c:choose>
-                                                     <p>Please select if you want to give users a free introductory session. Session here means 30 mins. </p>
+                                                     <p>Please select the number of free 30 mins introductory sessions you want to offer. </p>
          
                                                    </div> 
                                                   </div>
@@ -418,7 +418,7 @@
                                                    	
                                                    	</c:otherwise>
                                                 </c:choose>
-                                                <p>Please select if you want to give users a free introductory session. Session here means 30 mins. </p>
+                                                <p>Please select the number of free 30 mins introductory sessions you want to offer. </p>
 
                                                    </div> 
                                                   </div>
@@ -614,7 +614,7 @@
                                                    	
                                                    	</c:otherwise>
                                                 </c:choose>
-                                                	<p>Please select if you want to give users a free introductory session. Session here means 30 mins. </p>
+                                                	<p>Please select the number of free 30 mins introductory sessions you want to offer. </p>
 
                                                    </div> 
                                                   </div>
@@ -1023,7 +1023,7 @@
 			                                                      <option value="3">3</option>
 			                                                      <option value="4">4</option>
 			                                              </select>
-			                                              <p>Please select if you want to give users a free introductory session. Session here means 30 mins. </p>
+			                                              <p>Please select the number of free 30 mins introductory sessions you want to offer. </p>
                                                  
                                             	</div>
                                             </div>
@@ -1118,7 +1118,7 @@
 			                                                      <option value="3">3</option>
 			                                                      <option value="4">4</option>
 			                                              </select>
-			                                              <p>Please select if you want to give users a free introductory session. Session here means 30 mins. </p>
+			                                              <p>Please select the number of free 30 mins introductory sessions you want to offer. </p>
                                                                             		  </div>                                         
                                             </div>
                                             <div class="form-group" id="dmockInterview_mode">
@@ -1197,7 +1197,7 @@
 			                                                      <option value="3">3</option>
 			                                                      <option value="4">4</option>
 			                                              </select>
-			                                              <p>Please select if you want to give users a free introductory session. Session here means 30 mins.</p>
+			                                              <p>Please select the number of free 30 mins introductory sessions you want to offer.</p>
                                            
                                             	</div>
                                             </div>          

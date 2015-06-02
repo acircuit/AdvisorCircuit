@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.AC.DAO.AdminAdvisorDAO;
+import org.AC.DAO.AdminNotificationDAO;
 import org.AC.DAO.AdvisorProfileDetailsDAO;
 import org.AC.DAO.MessageDAO;
 import org.AC.dto.AdvisorProfileDTO;
@@ -77,6 +78,10 @@ public class AdminMyAccountAdvisorMessageController extends HttpServlet {
 					
 					}
 				}
+				String url =  request.getRequestURI() +"?" +request.getQueryString();
+				url = url.substring(url.lastIndexOf('/')+1);
+				AdminNotificationDAO notify = new AdminNotificationDAO();
+				notify.SetNotificationRead(url);
 				request.setAttribute("email", email);	
 				request.setAttribute("message", message);
 				request.setAttribute("name", advisorName);

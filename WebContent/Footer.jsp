@@ -79,14 +79,14 @@
                 	<c:when test="<%= isLogged != null && isLogged %>">
                 		<div class="col-md-2 links">
 							<h4><a href="login">Logout</a></h4>
-							<h4><a href="http://www.advisorcircuit.com/blog/" target="blank">Blog<sup style="color: #2dabc2">New</sup></a></h4>
+							<h4><a href="https://www.advisorcircuit.com/blog/" target="blank">Blog<sup style="color: #2dabc2">New</sup></a></h4>
 							<h4><a href="contactus">Contact Us</a></h4>
 						</div>
                 	</c:when>
                 	<c:otherwise>
                 		 <div class="col-md-2 links">
 							<h4><a href="login">Log In</a></h4>
-							<h4><a href="http://www.advisorcircuit.com/blog/" target="blank">Blog<sup style="color: #2dabc2">New</sup></a></h4>
+							<h4><a href="https://www.advisorcircuit.com/blog/" target="blank">Blog<sup style="color: #2dabc2">New</sup></a></h4>
 							<h4><a href="contactus">Contact Us</a></h4>
 						</div>
                 	</c:otherwise>

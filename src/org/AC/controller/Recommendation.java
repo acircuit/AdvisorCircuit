@@ -25,7 +25,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.AC.DAO.AdminNotificationDAO;
+import org.AC.DAO.AdvisorNotificationDAO;
 import org.AC.DAO.ReviewAndRecommendationDAO;
+import org.AC.DAO.UserNotificationDAO;
 import org.AC.Util.SendMail;
 import org.AC.dto.RecommendationDTO;
 import org.apache.log4j.BasicConfigurator;
@@ -81,11 +84,32 @@ public class Recommendation extends HttpServlet {
 							ReviewAndRecommendationDAO updateRatingForAdvsisor = new ReviewAndRecommendationDAO();
 							Boolean isCommit = updateRatingForAdvsisor.UpdateRecommendationForAdvisor(advisorId);
 							if(isCommit){
-								if(reviewMessage == null){
+								int[] ids = new int[3];
+								//GETTING THE USERID, ADVISORID, AND REQUEST ID
+								UserNotificationDAO id = new UserNotificationDAO();
+								ids = id.GetAdvisorId(sId);
+								
+								//Getting username
+								AdminNotificationDAO name = new AdminNotificationDAO();
+								String uName = name.GetUserName(String.valueOf(ids[0]));
+								
+								//Notify advisor
+								String comment = "You've been recommended by "+uName;
+								String href = "AdvisorProfile?aId="+ids[1];
+								AdvisorNotificationDAO notify = new AdvisorNotificationDAO();
+								notify.InsertRequestNotification(comment, String.valueOf(ids[1]) , href);
+								
+								//Getting advisor name
+								AdminNotificationDAO aName = new AdminNotificationDAO();
+								String advisorName = aName.GetAdvisorName(String.valueOf(ids[1]));
+								
+								//Notify Admin
+								String adminComment = uName + " recommended "+advisorName;
+								String adminHref = "AdminReview";
+								AdminNotificationDAO admin = new AdminNotificationDAO();
+								admin.InsertNotification(adminComment, adminHref);
+								
 								response.getWriter().write("THANK YOU FOR RECOMMENDING.");
-								}else{
-									response.getWriter().write("THANK YOU FOR RECOMMENDING.");
-								}
 							}
 						}
 					}
@@ -107,10 +131,32 @@ public class Recommendation extends HttpServlet {
 							ReviewAndRecommendationDAO messages = new ReviewAndRecommendationDAO();
 							isReviewCommit = message.UpdateReviewMessage(sId, reviewmessage);
 							if(isReviewCommit){
+								int[] ids = new int[3];
+								//GETTING THE USERID, ADVISORID, AND REQUEST ID
+								UserNotificationDAO id = new UserNotificationDAO();
+								ids = id.GetAdvisorId(sId);
+								
+								//Getting username
+								AdminNotificationDAO name = new AdminNotificationDAO();
+								String uName = name.GetUserName(String.valueOf(ids[0]));
+								
+								//Getting advisor name
+								AdminNotificationDAO aName = new AdminNotificationDAO();
+								String advisorName = aName.GetAdvisorName(String.valueOf(ids[1]));
+								
+								//Notify Admin
+								String adminComment = uName + " wrote a review for "+advisorName;
+								String adminHref = "AdminReview";
+								AdminNotificationDAO admin = new AdminNotificationDAO();
+								admin.InsertNotification(adminComment, adminHref);
+								
+								
+								
+								
 								String subject ="";
 								String content ="";
 								subject = "An Advisor got reviewed";
-								content = "Hi, <br><br>An advisor just got reviewed. Following are the details : <br> For SessionId : " +sId+ "<br>Review Message : " +reviewmessage+"<br><img src=\"http://www.advisorcircuit.com/Test/assets/img/logo_black.png\" style='float:right' width='25%'>";
+								content = "Hi, <br><br>An advisor just got reviewed. Following are the details : <br> For SessionId : " +sId+ "<br>Review Message : " +reviewmessage+"<br><img src=\"https://www.advisorcircuit.com/Test/assets/img/logo_black.png\" style='float:right' width='25%'>";
 								SendMail mail = new SendMail(subject, content, prop.getProperty("MAIL_ADMIN"),prop.getProperty("MAIL_ADMIN"));
 								mail.start();
 								reviews = "Thank you for the review. You can also recommend "+advisorname+" by clicking on the star above.";
@@ -121,10 +167,30 @@ public class Recommendation extends HttpServlet {
 								ReviewAndRecommendationDAO messages = new ReviewAndRecommendationDAO();
 								isReviewCommit = message.UpdateReviewMessage(sId, reviewmessage);
 								if(isReviewCommit){
+									
+									int[] ids = new int[3];
+									//GETTING THE USERID, ADVISORID, AND REQUEST ID
+									UserNotificationDAO id = new UserNotificationDAO();
+									ids = id.GetAdvisorId(sId);
+									
+									//Getting username
+									AdminNotificationDAO name = new AdminNotificationDAO();
+									String uName = name.GetUserName(String.valueOf(ids[0]));
+									
+									//Getting advisor name
+									AdminNotificationDAO aName = new AdminNotificationDAO();
+									String advisorName = aName.GetAdvisorName(String.valueOf(ids[1]));
+									
+									//Notify Admin
+									String adminComment = uName + " wrote a review for "+advisorName;
+									String adminHref = "AdminReview";
+									AdminNotificationDAO admin = new AdminNotificationDAO();
+									admin.InsertNotification(adminComment, adminHref);
+									
 									String subject ="";
 									String content ="";
 									subject = "An Advisor got reviewed";
-									content = "Hi, <br><br>An advisor just got reviewed. Following are the details : <br> For SessionId : " +sId+ "<br>Review Message : " +reviewmessage+"<br><img src=\"http://www.advisorcircuit.com/Test/assets/img/logo_black.png\" style='float:right' width='25%'>";
+									content = "Hi, <br><br>An advisor just got reviewed. Following are the details : <br> For SessionId : " +sId+ "<br>Review Message : " +reviewmessage+"<br><img src=\"https://www.advisorcircuit.com/Test/assets/img/logo_black.png\" style='float:right' width='25%'>";
 									SendMail mail = new SendMail(subject, content, prop.getProperty("MAIL_ADMIN"),prop.getProperty("MAIL_ADMIN"));
 									mail.start();
 									reviews = "Thank you for the review. You can also recommend "+advisorname+" by clicking on the star above.";

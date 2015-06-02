@@ -22,6 +22,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.AC.DAO.AdvisorMyAccountSessionDAO;
 import org.AC.DAO.MyAccountRequestDAO;
+import org.AC.DAO.UserNotificationDAO;
 import org.AC.Util.GetRelativeImageURL;
 import org.AC.Util.GetTimeLeftForReply;
 import org.AC.dto.AdvisorProfileDTO;
@@ -95,8 +96,9 @@ public class UserMyAccountCancelledSessionViewDetailController extends HttpServl
 			for (SessionDTO SessionDTO : list) {
 				advisorId = SessionDTO.getAdvisorId();
 				acceptedDate = SessionDTO.getAcceptedDate();
-				SessionDTO.setAcceptedDateString(new SimpleDateFormat("dd-MMM-yyyy' 'h:mm a").format(new Date(SessionDTO.getAcceptedDate().getTime())));
-
+				if(SessionDTO.getAcceptedDate() != null){
+					SessionDTO.setAcceptedDateString(new SimpleDateFormat("dd-MMM-yyyy' 'h:mm a").format(new Date(SessionDTO.getAcceptedDate().getTime())));
+				}
 			}
 			if(list.size() > 0){
 				MyAccountRequestDAO name = new MyAccountRequestDAO();
@@ -176,7 +178,11 @@ public class UserMyAccountCancelledSessionViewDetailController extends HttpServl
 						GetRelativeImageURL image1 = new GetRelativeImageURL();
 						 relImage = image1.getImageURL(picture);
 					}
-			}
+			}	
+				String url =  request.getRequestURI() +"?" +request.getQueryString();
+				url = url.substring(url.lastIndexOf('/')+1);
+				UserNotificationDAO notify = new UserNotificationDAO();
+				notify.SetNotificationRead(url, userId);
 				request.setAttribute("advisorname", advisorName);
 				request.setAttribute("userName", userName);
 				request.setAttribute("image", relImage);

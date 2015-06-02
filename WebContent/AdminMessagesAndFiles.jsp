@@ -98,7 +98,7 @@ tr{
 <!-- Custom styles for this template -->
 
 <!-- Fonts from Google Fonts -->
-<link href='http://fonts.googleapis.com/css?family=Lato:300,400,900' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Lato:300,400,900' rel='stylesheet' type='text/css'>
 
 
 <!-- Custom Fonts -->
@@ -230,6 +230,7 @@ table{font-family:'custom_light' !important;}
 												</div>
 												<!-- /.modal-dialog -->
 											</div>
+											<c:set var="usermsgsessionId" value="${message.getSessionId()}"></c:set>
 											<!-- /.modal -->
 										</c:forEach>
 										<c:forEach var="message" items="${advisormessages}">
@@ -285,6 +286,7 @@ table{font-family:'custom_light' !important;}
 												</div>
 												<!-- /.modal-dialog -->
 											</div>
+											<c:set var="advisormsgsessionId" value="${message.getSessionId()}"></c:set>
 											<!-- /.modal -->
 										</c:forEach>
 										<c:forEach var="file" items="${files}">
@@ -312,6 +314,7 @@ table{font-family:'custom_light' !important;}
 												</c:choose>
 
 											</tr>
+											<c:set var="filesessionId" value="${file.getSessionId()}"></c:set>
 										</c:forEach>
 
 									</table>
@@ -366,7 +369,8 @@ table{font-family:'custom_light' !important;}
 				url : 'AdminApproveSessionMessagesAndFiles', // Your Servlet mapping or JSP(not suggested)
 				data : {
 					"fileId" : val,
-					"status" : "APPROVED"
+					"status" : "APPROVED",
+					"sId"    : "${filesessionId}"
 				},
 				type : 'POST',
 				dataType : 'html', // Returns HTML as plain text; included script tags are evaluated when inserted in the DOM.
@@ -385,7 +389,8 @@ table{font-family:'custom_light' !important;}
 				url : 'AdminApproveSessionMessagesAndFiles', // Your Servlet mapping or JSP(not suggested)
 				data : {
 					"fileId" : val,
-					"status" : "REJECTED"
+					"status" : "REJECTED",
+					"sId"    : ${filesessionId}
 				},
 				type : 'POST',
 				dataType : 'html', // Returns HTML as plain text; included script tags are evaluated when inserted in the DOM.
@@ -402,7 +407,7 @@ table{font-family:'custom_light' !important;}
 			var val = $('#usermessagebtn').val();
 			$.ajax({
 			    url : 'AdminApproveSessionMessagesAndFiles', // Your Servlet mapping or JSP(not suggested)
-			    data : {"userMessageId" : val,"status" : "APPROVED"},
+			    data : {"userMessageId" : val,"status" : "APPROVED","sId" : ${usermsgsessionId}},
 			    type : 'POST',
 			    dataType : 'html', // Returns HTML as plain text; included script tags are evaluated when inserted in the DOM.
 			    success : function(response) {
@@ -440,7 +445,9 @@ table{font-family:'custom_light' !important;}
 				url : 'AdminApproveSessionMessagesAndFiles', // Your Servlet mapping or JSP(not suggested)
 				data : {
 					"advisorMessageId" : val,
-					"status" : "APPROVED"
+					"status" : "APPROVED",
+					"sId"    : "${advisormsgsessionId}"
+
 				},
 				type : 'POST',
 				dataType : 'html', // Returns HTML as plain text; included script tags are evaluated when inserted in the DOM.
@@ -459,7 +466,8 @@ table{font-family:'custom_light' !important;}
 				url : 'AdminApproveSessionMessagesAndFiles', // Your Servlet mapping or JSP(not suggested)
 				data : {
 					"advisorMessageId" : val,
-					"status" : "REJECTED"
+					"status" : "REJECTED",
+					"sId"    : "${advisormsgsessionId}"
 				},
 				type : 'POST',
 				dataType : 'html', // Returns HTML as plain text; included script tags are evaluated when inserted in the DOM.

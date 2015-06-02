@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.AC.DAO.AdminNotificationDAO;
 import org.AC.DAO.AdvisorProfileDetailsDAO;
 import org.AC.DAO.MessageDAO;
 import org.AC.DAO.MyAccountRequestDAO;
@@ -63,8 +64,14 @@ public class AdvisorMyAccountMessageAdminFormController extends HttpServlet {
 					 advisorEmail = advisorProfileDTO.getEmail();
 				}
 				 if(advisorId != 0  && !("").equals(advisorEmail) && !("").equals(advisorName)){
+					 
+					 	String comment = advisorName+" has sent a message to the Admin";
+					 	String href = "AdminAdvisorMessage?email="+advisorEmail;
+					 	AdminNotificationDAO admin = new AdminNotificationDAO();
+					 	admin.InsertNotification(comment, href);
+					 
 					 	String subject ="New Message From Advisor To Admin!!!!!";
-						String content ="Hi, <br><br> An Advisor has sent a message to admin. Following are the details: <br>Message By : " +advisorName+ "<br>Email Id: " +advisorEmail+ "<br>Advisor Id: " +advisorId+ "<br>Message: " +advisorMessage+"<br><img src=\"http://www.advisorcircuit.com/Test/assets/img/logo_black.png\" style='float:right' width='25%'>";
+						String content ="Hi, <br><br> An Advisor has sent a message to admin. Following are the details: <br>Message By : " +advisorName+ "<br>Email Id: " +advisorEmail+ "<br>Advisor Id: " +advisorId+ "<br>Message: " +advisorMessage+"<br><img src=\"https://www.advisorcircuit.com/Test/assets/img/logo_black.png\" style='float:right' width='25%'>";
 						SendMail mail = new SendMail(subject, content, prop.getProperty("MAIL_ADMIN"),prop.getProperty("MAIL_ADMIN"));
 						mail.start();
 				 }

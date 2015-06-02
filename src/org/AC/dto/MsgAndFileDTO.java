@@ -82,8 +82,10 @@ public class MsgAndFileDTO implements Comparable<MsgAndFileDTO> {
 			}else if(this.getSender().equalsIgnoreCase("user")){
 				if(this.getMessageStatus() != null && this.getMessageStatus().equals("REJECTED")){
 					data = "<li class='left clearfix'><span class='chat-img pull-right'><i class='glyphicon glyphicon-user'></i></span><div class='chat-body clearfix' style='margin-left:0px'><div class='header'>"
+
 							+ "<small ><i class='fa fa-clock-o fa-fw gray' style='width:inherit; font-size:12px'>"+this.getTimeStampStr()+"</i></small><span><img src='assets/img/reject1.png' style='margin-left:1%'><span style='margin-left:1%;color:#c84c4e;'>Rejected</span></span><strong class='pull-right primary-font'>User</strong></div>"
 									+ "<p class = 'pull-right' style='color:#c84c4e'>"+this.getMessage()+"</p></div></li>";
+
 				}else{
 					data = "<li class='left clearfix'><span class='chat-img pull-right'><i class='glyphicon glyphicon-user'></i></span><div class='chat-body clearfix' style='margin-left:0px'><div class='header'>"
 							+ "<small ><i class='fa fa-clock-o fa-fw gray' style='width:inherit; font-size:12px'>"+this.getTimeStampStr()+"</i></small><strong class='pull-right primary-font'>User</strong></div>"

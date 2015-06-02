@@ -19,8 +19,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.AC.DAO.AdminNotificationDAO;
 import org.AC.DAO.AdvisorMyAccountSessionDAO;
 import org.AC.DAO.MyAccountRequestDAO;
+import org.AC.DAO.UserNotificationDAO;
 import org.AC.Util.GetRelativeImageURL;
 import org.AC.dto.AdvisorNewDatesDTO;
 import org.AC.dto.AdvisorProfileDTO;
@@ -138,15 +140,21 @@ public class AdminMyAccountCancelledSessionViewDetailsController extends HttpSer
 					AdvisorMyAccountSessionDAO sessionDetails = new AdvisorMyAccountSessionDAO();
 					sessionDetail = sessionDetails.getSessionDetails(rId);
 					for (SessionDTO sessionDTO : sessionDetail) {
-						if(mode.equals("email")){
-							sessionDTO.setAcceptedDateString(new SimpleDateFormat("dd-MMM-yyyy").format(new Date(sessionDTO.getAcceptedDate().getTime())));
-						}else{
-							sessionDTO.setAcceptedDateString(new SimpleDateFormat("dd-MMM-yyyy' 'h:mm a").format(new Date(sessionDTO.getAcceptedDate().getTime())));
-	
+						if(sessionDTO.getAcceptedDate() != null){
+							if(mode.equals("email")){
+								sessionDTO.setAcceptedDateString(new SimpleDateFormat("dd-MMM-yyyy").format(new Date(sessionDTO.getAcceptedDate().getTime())));
+							}else{
+								sessionDTO.setAcceptedDateString(new SimpleDateFormat("dd-MMM-yyyy' 'h:mm a").format(new Date(sessionDTO.getAcceptedDate().getTime())));
+		
+							}
 						}
 					}
 				}
 		    }
+		    String url =  request.getRequestURI() +"?" +request.getQueryString();
+			url = url.substring(url.lastIndexOf('/')+1);
+			AdminNotificationDAO notify = new AdminNotificationDAO();
+			notify.SetNotificationRead(url);
 			request.setAttribute("advisorImage", advisorRelImage);
 			request.setAttribute("userImage", userRelImage);
 			request.setAttribute("userName", userName);

@@ -41,7 +41,7 @@
 <!-- Custom styles for this template -->
 
 <!-- Fonts from Google Fonts -->
-<link href='http://fonts.googleapis.com/css?family=Lato:300,400,900'
+<link href='https://fonts.googleapis.com/css?family=Lato:300,400,900'
 	rel='stylesheet' type='text/css'>
 
 <!-- Custom Fonts -->
@@ -357,7 +357,7 @@
 													<a data-toggle="modal" data-target="#messageadvisor" onclick="getmessages()" class="btn btn-career margin-10">View  Chat</a>
 												</c:when>
 												<c:otherwise>
-													<a data-toggle="modal" data-target="#messageadvisor" onclick="getmessages()" class="btn btn-career margin-10">Chat with the Advisor</a>
+													<a data-toggle="modal" data-target="#messageadvisor" onclick="getmessages()" class="btn btn-career margin-10">Chat with <span style="text-transform: capitalize"><%=advisorname%></span> </a>
 												</c:otherwise>
 											</c:choose>
 

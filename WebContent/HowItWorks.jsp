@@ -19,7 +19,7 @@
     <link href="assets/css/main.css" rel="stylesheet">
 	 <link href="assets/css/full-slider.css" rel="stylesheet">
     <!-- Fonts from Google Fonts -->
-	<link href='http://fonts.googleapis.com/css?family=Lato:300,400,900' rel='stylesheet' type='text/css'>
+	<link href='https://fonts.googleapis.com/css?family=Lato:300,400,900' rel='stylesheet' type='text/css'>
     	<fmt:bundle basename="Resources.Dependency" prefix="path.">
   		 <link rel="shortcut icon" href=<fmt:message key="shortcuticon"/>>	
   	</fmt:bundle>

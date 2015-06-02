@@ -20,9 +20,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.AC.DAO.AdminNotificationDAO;
 import org.AC.DAO.AdvisorMyAccountSessionDAO;
 import org.AC.DAO.MyAccountRequestDAO;
 import org.AC.DAO.SessionFeedBackDAO;
+import org.AC.DAO.UserNotificationDAO;
 import org.AC.Util.GetRelativeImageURL;
 import org.AC.Util.GetTimeLeftForReply;
 import org.AC.dto.AdvisorNewDatesDTO;
@@ -175,6 +177,10 @@ public class AdminMyAccountUpcomingSessionViewDetailsController extends HttpServ
 				SessionFeedBackDAO mails = new SessionFeedBackDAO();
 				mail = mails.GetMail(sessionId);
 		    }
+		    String url =  request.getRequestURI() +"?" +request.getQueryString();
+			url = url.substring(url.lastIndexOf('/')+1);
+			AdminNotificationDAO notify = new AdminNotificationDAO();
+			notify.SetNotificationRead(url);
 		    request.setAttribute("isSessionPast", isSessionPast);
 			request.setAttribute("advisorImage", advisorRelImage);
 			request.setAttribute("userImage", userRelImage);

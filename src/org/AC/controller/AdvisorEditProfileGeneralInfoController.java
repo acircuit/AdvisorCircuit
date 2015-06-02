@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.AC.DAO.AdminNotificationDAO;
 import org.AC.DAO.AdvisorEditProfileDAO;
 import org.AC.DAO.AdvisorRegistrationDAO;
 import org.AC.Util.SendMail;
@@ -121,12 +122,21 @@ public class AdvisorEditProfileGeneralInfoController extends HttpServlet {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
 						}
+						//Getting advisor name
+						AdminNotificationDAO aName = new AdminNotificationDAO();
+						String advisorName = aName.GetAdvisorName(String.valueOf(advisorId));
+						
+						String comment = advisorName + "with Id = "+advisorId+" edited his general info ";
+						String href = "AdvisorProfile?aId="+advisorId+"&admin=true";
+						AdminNotificationDAO admin = new AdminNotificationDAO();
+						admin.InsertNotification(comment, href);
+						
 						String subject = "";
 						String content = "";
 						subject = "An Advisor just edited his profile";
 						content = "Hi, <br><br>An Advisor just edited his profile. Following are the details: <br> Advisor Id : "
 								+ advisorId
-								+ "<br>Section : General Info <br><img src=\"http://www.advisorcircuit.com/Test/assets/img/logo_black.png\" style='float:right' width='25%'>";
+								+ "<br>Section : General Info <br><img src=\"https://www.advisorcircuit.com/Test/assets/img/logo_black.png\" style='float:right' width='25%'>";
 						SendMail mail = new SendMail(subject, content,
 								prop.getProperty("MAIL_ADMIN"),
 								prop.getProperty("MAIL_ADMIN"));

@@ -20,7 +20,7 @@
     <link href="assets/css/main.css" rel="stylesheet">
 
     <!-- Fonts from Google Fonts -->
-	<link href='http://fonts.googleapis.com/css?family=Lato:300,400,900' rel='stylesheet' type='text/css'>
+	<link href='https://fonts.googleapis.com/css?family=Lato:300,400,900' rel='stylesheet' type='text/css'>
     <link href="assets/css/font-awesome.min.css" rel="stylesheet" type="text/css">
   
   </head>
@@ -162,7 +162,7 @@
 	
         <div class="row text-center primary">
             <div class="col-lg-8 col-lg-offset-2" style="padding-top:12px;">
-              <p>Still confused whether we can solve your career doubts? <br><a href="#" data-toggle="modal" data-target="#heretohelp">Send us your query and we will tell you </a><br>
+              <p>Still confused whether we can solve your career doubts? <br><a href="#" data-toggle="modal" data-target="#heretohelp">Send us your query </a> and we will tell you <br>
                 whether our advisors can help you or not!</p>
             </div>
             

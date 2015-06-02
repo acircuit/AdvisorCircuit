@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.AC.DAO.AdvisorNotificationDAO;
 import org.AC.DAO.MessageDAO;
 import org.AC.dto.MessageDTO;
 import org.apache.log4j.BasicConfigurator;
@@ -50,6 +51,13 @@ public class AdvisorMyAccountMessageAdminController extends HttpServlet {
 					messageDTO.setAdminMessageTimeString(dateFormat.format(messageDTO.getAdminMessageTime()));
 				}
 			}
+			
+			//Update Advisor's Notification
+    		String url =  request.getRequestURI();
+			url = url.substring(url.lastIndexOf('/')+1);
+			AdvisorNotificationDAO admin = new AdvisorNotificationDAO();
+			admin.SetNotificationRead(url, advisorId);
+			
 			request.setAttribute("message", message);
 			RequestDispatcher rd = getServletContext().getRequestDispatcher("/Message_Admin.jsp");
 		     rd.forward(request, response);			

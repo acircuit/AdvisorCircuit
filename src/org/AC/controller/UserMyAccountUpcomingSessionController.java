@@ -91,7 +91,6 @@ public class UserMyAccountUpcomingSessionController extends HttpServlet {
 						userRequestDTO.setSessionId(sessionDTO.getSessionId());
 						userRequestDTO.setReviewMessageStatus(sessionDTO.getReviewMessageStatus());
 						Timestamp sessionDate = sessionDTO.getAcceptedDate();
-						System.out.println("123" +  sessionDTO.getAcceptedDate());
 						sessionDTO.setAcceptedDateString(new SimpleDateFormat("dd-MMM-yyyy' 'h:mm a").format(new Date(sessionDTO.getAcceptedDate().getTime())));
 						userRequestDTO.setAcceptedDate(sessionDTO.getAcceptedDateString());
 						GetTimeLeftForReply time = new GetTimeLeftForReply();

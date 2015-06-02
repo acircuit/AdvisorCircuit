@@ -14,9 +14,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.AC.DAO.AdminNotificationDAO;
 import org.AC.DAO.AdvisorMyAccountRequestViewDetailsDAO;
+import org.AC.DAO.AdvisorNotificationDAO;
 import org.AC.DAO.ChangeRequestStatusDAO;
 import org.AC.DAO.ChangeSessionStatusDAO;
+import org.AC.DAO.UserNotificationDAO;
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Logger;
 
@@ -129,6 +132,71 @@ public class AdminMyAccountUpcomingSessionViewDetailsFormController extends
 						// table
 						AdvisorMyAccountRequestViewDetailsDAO toggle = new AdvisorMyAccountRequestViewDetailsDAO();
 						toggle.ToggleUserFreeSession(Integer.parseInt(uId));
+					}
+					if(status.equals("SESSION CANCELLED DUE TO ADVISOR NO SHOW") || status.equals("SESSION CANCELLED DUE TO ADVISOR UNAVAILABILITY")){
+						//Getting the advisor name
+						AdminNotificationDAO name = new AdminNotificationDAO();
+						String advisorName = name.GetAdvisorName(aId);
+						
+						//Notify user
+						String comment = "Your session with "+advisorName+" has been cancelled due to Advisor Unavailibility. We have initiated the refund process";
+						String href = "UserCancelledSessionViewDetails?rId="+rId;
+						UserNotificationDAO user = new UserNotificationDAO();
+						user.InsertNotification(comment, href, uId);
+						
+						//Getting the userName
+						AdminNotificationDAO userName = new AdminNotificationDAO();
+						String uName = userName.GetUserName(uId);
+						
+						//Notify advisor
+						String advisorComment = "Your session with "+uName+" has been cancelled.";
+						String advisorHref ="AdvisorCancelledSessionViewDetail?rId="+rId;
+						AdvisorNotificationDAO advisor = new AdvisorNotificationDAO();
+						advisor.InsertRequestNotification(advisorComment, aId, advisorHref);
+					}
+					if(status.equals("SESSION COMPLETE")){
+						//Getting the advisor name
+						AdminNotificationDAO name = new AdminNotificationDAO();
+						String advisorName = name.GetAdvisorName(aId);
+						
+						//Notify user
+						String comment = "Your session with "+advisorName+" is now complete. Hope you had a good session.";
+						String href = "UserPreviousSessionViewDetails?rId="+rId;
+						UserNotificationDAO user = new UserNotificationDAO();
+						user.InsertNotification(comment, href, uId);
+						
+						//Getting the userName
+						AdminNotificationDAO userName = new AdminNotificationDAO();
+						String uName = userName.GetUserName(uId);
+						
+						//Notify advisor
+						String advisorComment = "Your session with "+uName+" is now complete. Hope you had a good session.";
+						String advisorHref ="AdvisorPreviousSessionViewDetail?rId="+rId;
+						AdvisorNotificationDAO advisor = new AdvisorNotificationDAO();
+						advisor.InsertRequestNotification(advisorComment, aId, advisorHref);
+						
+					}
+					if(status.equals("SESSION CANCELLED DUE TO USER NO SHOW") || status.equals("SESSION CANCELLED DUE TO USER UNAVAILABILITY")){
+						//Getting the advisor name
+						AdminNotificationDAO name = new AdminNotificationDAO();
+						String advisorName = name.GetAdvisorName(aId);
+						
+						//Notify user
+						String comment = "Your session with "+advisorName+" has been cancelled.";
+						String href = "UserCancelledSessionViewDetails?rId="+rId;
+						UserNotificationDAO user = new UserNotificationDAO();
+						user.InsertNotification(comment, href, uId);
+
+						//Getting the userName
+						AdminNotificationDAO userName = new AdminNotificationDAO();
+						String uName = userName.GetUserName(uId);
+						
+						//Notify advisor
+						String advisorComment = "Your session with "+uName+" has been cancelled due to User Unavailibility.";
+						String advisorHref ="AdvisorCancelledSessionViewDetail?rId="+rId;
+						AdvisorNotificationDAO advisor = new AdvisorNotificationDAO();
+						advisor.InsertRequestNotification(advisorComment, aId, advisorHref);
+						
 					}
 					response.sendRedirect(redirect);
 				}

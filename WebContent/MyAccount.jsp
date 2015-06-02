@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<%@page import="org.AC.dto.NotificationDTO"%>
 <%@page import="org.AC.dto.UserRequestDTO"%>
 <%@page import="org.AC.dto.AdvisorProfileDTO"%>
 <%@page import="org.AC.dto.UserDetailsDTO"%>
@@ -42,7 +43,9 @@
     <![endif]-->
     <%
     	AdvisorProfileDTO advisor = (AdvisorProfileDTO)request.getAttribute("advisor");
+   		 List<NotificationDTO> notify= (List<NotificationDTO>)request.getAttribute("notify");
     	pageContext.setAttribute("advisor", advisor);
+    	pageContext.setAttribute("notify", notify);
     %>
 </head>
 
@@ -69,15 +72,16 @@
             
             <div class="col-md-9">
             	<div id="page-wrapper">
-					
-            		<div class="grey-panel-1" style="display:none;">
-                    	<p class="notification-msg">You have 2 message</p>
+					<c:if test="${notify.size() > 0 }">
+            		<div class="grey-panel-1" style="display:none;>
+                    	<p class="notification-msg" ">You have 2 message</p>
                         <ul class="notification-list">
-                        	<li>- Aditya Raina has replied to your session request.</li>
-                            <li>- You have a new message from Lavi Aggarwal.</li>
+                        	<c:forEach var="note" items="${notify}">
+                        		<li><a href="${note.getHref()}&nId=${note.getnId()}">${note.getComment()}</a></li>
+                        	</c:forEach>
                         </ul>
                     </div>
-                    
+                    </c:if>
                     <div class="grey-panel-1">
                         <div class="row">
                         	<div class="col-md-9">
@@ -120,7 +124,7 @@
                             </div>
    
                             <div class="col-md-3">
-                            	   <div style="margin-top: 100%"> <a href="AdvisorProfile?aId=${advisor.getAdvisorId()}&advisor=true"><img width="35" id="" src="assets/img/Icon_Edit.png" alt="32321" border="0" align="absmiddle" style="margin-right:10px;"> View Profile	</a></div>
+                            	   <div style="margin-top: 100%"> <a href="AdvisorProfile?aId=${advisor.getAdvisorId()}&advisor=true"><img width="35" id="" src="assets/img/Icon_Advisor.png" alt="32321" border="0" align="absmiddle" style="margin-right:10px;"> View Profile	</a></div>
                             </div>
                                                                                
                             

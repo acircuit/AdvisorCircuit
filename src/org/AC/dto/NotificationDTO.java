@@ -1,4 +1,5 @@
 package org.AC.dto;
+import java.sql.Timestamp;
 
 public class NotificationDTO {
 	private int nId;
@@ -10,6 +11,20 @@ public class NotificationDTO {
 	}
 	private String comment;
 	private String href;
+	private Timestamp date;
+	public Timestamp getDate() {
+		return date;
+	}
+	public void setDate(Timestamp date) {
+		this.date = date;
+	}
+	Boolean isPrevious;
+	public Boolean getIsPrevious() {
+		return isPrevious;
+	}
+	public void setIsPrevious(Boolean isPrevious) {
+		this.isPrevious = isPrevious;
+	}
 	public String getComment() {
 		return comment;
 	}

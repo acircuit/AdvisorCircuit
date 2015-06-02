@@ -10,7 +10,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.AC.DAO.AdminNotificationDAO;
 import org.AC.DAO.AdvisorMyAccountRequestViewDetailsDAO;
+import org.AC.DAO.AdvisorNotificationDAO;
 import org.AC.DAO.ChangeRequestStatusDAO;
 import org.AC.DAO.ChangeSessionStatusDAO;
 import org.AC.Util.SendMail;
@@ -78,8 +80,26 @@ public class UserMyAccountRequestViewDetailsFormController extends HttpServlet {
 						AdvisorMyAccountRequestViewDetailsDAO toggle = new AdvisorMyAccountRequestViewDetailsDAO();
 						toggle.ToggleUserFreeSession(Integer.parseInt(uId));
 					}
+					//Getting UserName
+					AdminNotificationDAO name = new AdminNotificationDAO();
+					String userName = name.GetUserName(uId);
+					//Notify Advisor
+					String comment = userName + " cancelled the session";
+					String href = "AdvisorCancelledSessionViewDetail?rId="+rId;
+					AdvisorNotificationDAO advisor = new AdvisorNotificationDAO();
+					advisor.InsertRequestNotification(comment, aId, href);
+					
+					AdminNotificationDAO advName = new AdminNotificationDAO();
+					String advisorName = advName.GetAdvisorName(aId);
+					
+					String adminComment = userName +" cancelled the session with "+advisorName;
+					String adminHref = "AdminCancelledSessionsViewDetails?rId="+rId;
+					//Admin Notification
+					AdminNotificationDAO admin = new AdminNotificationDAO();
+					admin.InsertNotification(adminComment, adminHref);
+					
 					String subject = "Session Rejected By User!";
-					String content = "Hi, <br><br>The Session was rejected by the user for Session Id : "+sessionId+ " and Request Id :"+rId1+"<br><img src=\"http://www.advisorcircuit.com/Test/assets/img/logo_black.png\" style='float:right' width='25%'>";
+					String content = "Hi, <br><br>The Session was rejected by the user for Session Id : "+sessionId+ " and Request Id :"+rId1+"<br><img src=\"https://www.advisorcircuit.com/Test/assets/img/logo_black.png\" style='float:right' width='25%'>";
 					SendMail mail = new SendMail(subject, content, prop.getProperty("MAIL_ADMIN"),prop.getProperty("MAIL_ADMIN"));
 					mail.start();
 					response.sendRedirect("UserCancelledSessions");
@@ -90,8 +110,25 @@ public class UserMyAccountRequestViewDetailsFormController extends HttpServlet {
 					AdvisorMyAccountRequestViewDetailsDAO toggle = new AdvisorMyAccountRequestViewDetailsDAO();
 					toggle.ToggleUserFreeSession(Integer.parseInt(uId));
 				}
+				//Getting UserName
+				AdminNotificationDAO name = new AdminNotificationDAO();
+				String userName = name.GetUserName(uId);
+				//Notify Advisor
+				String comment = userName + " cancelled the session";
+				String href = "AdvisorCancelledSessionViewDetail?rId="+rId;
+				AdvisorNotificationDAO advisor = new AdvisorNotificationDAO();
+				advisor.InsertRequestNotification(comment, aId, href);
+				
+				AdminNotificationDAO advName = new AdminNotificationDAO();
+				String advisorName = advName.GetAdvisorName(aId);
+				
+				String adminComment = userName +" cancelled the session with "+advisorName;
+				String adminHref = "AdminCancelledSessionsViewDetails?rId="+rId;
+				//Admin Notification
+				AdminNotificationDAO admin = new AdminNotificationDAO();
+				admin.InsertNotification(adminComment, adminHref);
 				String subject = "Session Rejected By User!";
-				String content = "Hi, <br><br>The Session was rejected by the user for Request Id :"+rId1+"<br><img src=\"http://www.advisorcircuit.com/Test/assets/img/logo_black.png\" style='float:right' width='25%'>";
+				String content = "Hi, <br><br>The Session was rejected by the user for Request Id :"+rId1+"<br><img src=\"https://www.advisorcircuit.com/Test/assets/img/logo_black.png\" style='float:right' width='25%'>";
 				SendMail mail = new SendMail(subject, content, prop.getProperty("MAIL_ADMIN"),prop.getProperty("MAIL_ADMIN"));
 				mail.start();
 				response.sendRedirect("UserCancelledSessions");

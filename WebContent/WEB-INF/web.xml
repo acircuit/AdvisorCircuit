@@ -856,6 +856,14 @@
     <url-pattern>/AdminPayment</url-pattern>
   </servlet-mapping>
   <servlet>
+    <servlet-name>Notifications</servlet-name>
+    <servlet-class>org.AC.controller.NotificationController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Notifications</servlet-name>
+    <url-pattern>/Notifications</url-pattern>
+  </servlet-mapping>
+  <servlet>
     <servlet-name>NewPassword</servlet-name>
     <jsp-file>/NewPassword.jsp</jsp-file>
   </servlet>
@@ -1087,7 +1095,7 @@
     <servlet-name>adminpaymenthistrory</servlet-name>
     <url-pattern>/adminpaymenthistrory</url-pattern>
   </servlet-mapping>
-    <servlet>
+  <servlet>
     <servlet-name>thankyouforpayment</servlet-name>
     <jsp-file>/PaymentDone.jsp</jsp-file>
   </servlet>

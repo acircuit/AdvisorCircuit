@@ -20,7 +20,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.AC.DAO.AdminNotificationDAO;
 import org.AC.DAO.SessionMssagesDAO;
+import org.AC.DAO.UserNotificationDAO;
 import org.AC.Util.SendMail;
 import org.AC.dto.AdvisorMessageDTO;
 import org.AC.dto.FilesDTO;
@@ -170,10 +172,28 @@ public class SessionMessagesController extends HttpServlet {
 				SessionMssagesDAO message = new SessionMssagesDAO();
 				isMessageCommit = message.SetMessage(sId, inputMessage,"advisor");
 				if(isMessageCommit){
+					int[] ids = new int[3];
+					//GETTING THE USERID, ADVISORID, AND REQUEST ID
+					UserNotificationDAO id = new UserNotificationDAO();
+					ids = id.GetAdvisorId(sId);
+					
+					//Getting username
+					AdminNotificationDAO name = new AdminNotificationDAO();
+					String uName = name.GetUserName(String.valueOf(ids[0]));
+					
+					//Getting advisor name
+					AdminNotificationDAO aName = new AdminNotificationDAO();
+					String advisorName = aName.GetAdvisorName(String.valueOf(ids[1]));
+					
+					//Notify Admin
+					String comment = advisorName+" sent a message/file to "+uName;
+					String href = "AdminUserAdvisorMessages?sessionid="+sId;
+					AdminNotificationDAO admin = new AdminNotificationDAO();
+					admin.InsertNotification(comment, href);
 					String subject ="";
 					String content ="";
 					subject = "New Message From Advisor To User!!!!!";
-					content = "Hi, <br><br>Advisor Sent a new message to user for : <br>Session Id  :" +sId+ "<br>Message : " +inputMessage+"<br><img src=\"http://www.advisorcircuit.com/Test/assets/img/logo_black.png\" style='float:right' width='25%'>";
+					content = "Hi, <br><br>Advisor Sent a new message to user for : <br>Session Id  :" +sId+ "<br>Message : " +inputMessage+"<br><img src=\"https://www.advisorcircuit.com/Test/assets/img/logo_black.png\" style='float:right' width='25%'>";
 					SendMail mail = new SendMail(subject, content, prop.getProperty("MAIL_ADMIN"),prop.getProperty("MAIL_ADMIN"));
 					mail.start();
 					response.getWriter().write("true");
@@ -185,10 +205,28 @@ public class SessionMessagesController extends HttpServlet {
 				SessionMssagesDAO message = new SessionMssagesDAO();
 				isMessageCommit = message.SetMessage(sId, inputMessage,"user");
 				if(isMessageCommit){
+					int[] ids = new int[3];
+					//GETTING THE USERID, ADVISORID, AND REQUEST ID
+					UserNotificationDAO id = new UserNotificationDAO();
+					ids = id.GetAdvisorId(sId);
+					
+					//Getting username
+					AdminNotificationDAO name = new AdminNotificationDAO();
+					String uName = name.GetUserName(String.valueOf(ids[0]));
+					
+					//Getting advisor name
+					AdminNotificationDAO aName = new AdminNotificationDAO();
+					String advisorName = aName.GetAdvisorName(String.valueOf(ids[1]));
+					
+					//Notify Admin
+					String comment = uName+" sent a message/file to "+advisorName;
+					String href = "AdminUserAdvisorMessages?sessionid="+sId;
+					AdminNotificationDAO admin = new AdminNotificationDAO();
+					admin.InsertNotification(comment, href);
 					String subject ="";
 					String content ="";
 					subject = "New Message From User To Advisor!!!!!";
-					content = "Hi, <br><br>User Sent a new message to advisor for : <br>Session Id  :" +sId+ "<br>Message : " +inputMessage+"<br><img src=\"http://www.advisorcircuit.com/Test/assets/img/logo_black.png\" style='float:right' width='25%'>";
+					content = "Hi, <br><br>User Sent a new message to advisor for : <br>Session Id  :" +sId+ "<br>Message : " +inputMessage+"<br><img src=\"https://www.advisorcircuit.com/Test/assets/img/logo_black.png\" style='float:right' width='25%'>";
 					SendMail mail = new SendMail(subject, content, prop.getProperty("MAIL_ADMIN"),prop.getProperty("MAIL_ADMIN"));
 					mail.start();
 					response.getWriter().write("true");

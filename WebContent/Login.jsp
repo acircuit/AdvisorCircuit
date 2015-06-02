@@ -23,7 +23,7 @@
 	<link href="assets/css/sb-admin-2.css" rel="stylesheet">
 
     <!-- Fonts from Google Fonts -->
-	<link href='http://fonts.googleapis.com/css?family=Lato:300,400,900' rel='stylesheet' type='text/css'>
+	<link href='https://fonts.googleapis.com/css?family=Lato:300,400,900' rel='stylesheet' type='text/css'>
 	    <% String isLoginFailed= (String)request.getAttribute("loginverificationfailed");
 	    Boolean isInvalidUsername= (Boolean)request.getAttribute("isInvalidUsername");
 	    Boolean isLoginFailedFromProfile =false;
@@ -154,7 +154,6 @@
 									</div>
 								<div class="modal-body">
 									<form id="signupform" class="form-horizontal" role="form" enctype="multipart/form-data"  action="UserRegistration" method="post" >
-										<p style="color: #c84c4e">Sign Up Now and get first 15 mins free with any Advisor of your choice</p>
 										<div id="signupalert" style="display:none" class="alert alert-danger">
 											<p>Error:</p>
 											<span></span>

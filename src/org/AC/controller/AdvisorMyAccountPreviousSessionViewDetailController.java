@@ -29,6 +29,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.AC.DAO.AdvisorMyAccountSessionDAO;
+import org.AC.DAO.AdvisorNotificationDAO;
 import org.AC.DAO.MyAccountRequestDAO;
 import org.AC.DAO.SessionFeedBackDAO;
 import org.AC.Util.GetRelativeImageURL;
@@ -192,7 +193,14 @@ public class AdvisorMyAccountPreviousSessionViewDetailController extends
 			emailUser = mail.GetUserMailForAdvisor(sId);
 			SessionFeedBackDAO mailAdvisor = new SessionFeedBackDAO();
 			emailAdvisor = mailAdvisor.GetAdvisorMailForAdvisor(sId);
-			if (list.size() > 0 && list1.size() > 0 && list2.size() > 0) {
+			
+			//Update Advisor's Notification
+    		String url =  request.getRequestURI()+"?" +request.getQueryString();
+			url = url.substring(url.lastIndexOf('/')+1);
+			AdvisorNotificationDAO admin = new AdvisorNotificationDAO();
+			admin.SetNotificationRead(url, advisorId);
+			
+			if(list.size() > 0  && list1.size() > 0 && list2.size() > 0) {
 				request.setAttribute("advisorname", advisorName);
 				request.setAttribute("userName", userName);
 				request.setAttribute("image", relImage);

@@ -19,7 +19,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.AC.DAO.AdminNotificationDAO;
 import org.AC.DAO.SearchDAO;
+import org.AC.DAO.UserNotificationDAO;
 import org.AC.Util.GetRelativeImageURL;
 import org.AC.dto.AdvisorProfileDTO;
 import org.AC.dto.AdvisorServiceDTO;
@@ -150,7 +152,22 @@ public class AdvisorsTabController extends HttpServlet {
 		// Sorting results for featured advisors
 		Collections.sort(advisorProfileList);
 
-		// Getting the Services of the advisors
+		
+		//Updating notifications for user
+		int userId = 0;
+		try{
+			userId = (int) request.getSession().getAttribute("userId"); 	        
+		}catch(Exception e){
+			logger.info(e.getMessage());
+		}
+		if(userId != 0){
+			String url =  request.getRequestURI() +"?" +request.getQueryString();
+			url = url.substring(url.lastIndexOf('/')+1);
+			UserNotificationDAO user = new UserNotificationDAO();
+			user.SetNotificationRead(url, userId);
+		}
+		
+		//Getting the Services of the advisors
 		List<AdvisorServiceDTO> services = new ArrayList<AdvisorServiceDTO>();
 		SearchDAO advisorServices = new SearchDAO();
 		services = advisorServices.getAdvisorServices(advisorIds);

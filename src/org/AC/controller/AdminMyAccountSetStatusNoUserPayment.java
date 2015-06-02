@@ -14,9 +14,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.AC.DAO.AdminNotificationDAO;
 import org.AC.DAO.AdvisorMyAccountRequestViewDetailsDAO;
+import org.AC.DAO.AdvisorNotificationDAO;
 import org.AC.DAO.ChangeRequestStatusDAO;
 import org.AC.DAO.ChangeSessionStatusDAO;
+import org.AC.DAO.UserNotificationDAO;
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Logger;
 
@@ -86,7 +89,26 @@ public class AdminMyAccountSetStatusNoUserPayment extends HttpServlet {
 						AdvisorMyAccountRequestViewDetailsDAO toggle = new AdvisorMyAccountRequestViewDetailsDAO();
 						toggle.ToggleUserFreeSession(Integer.parseInt(uId));
 					}
-					response.sendRedirect("AdminCancelledSessions.jsp");
+					String userComment = "Your session was cancelled due to no payment";
+					String userHref = "UserCancelledSessionViewDetails?rId="+rId;
+					UserNotificationDAO user = new UserNotificationDAO();
+					user.InsertNotification(userComment,userHref , uId);
+					
+					//Getting the username
+					AdminNotificationDAO name = new AdminNotificationDAO();
+					String userName = name.GetUserName(uId);
+					
+					int[] ids = new int[2];
+					//Getting AdvisorId from requestId
+					UserNotificationDAO id = new UserNotificationDAO();
+					ids = id.GetId(rId);
+					//Notify Advisor
+					String advisorComment = "The session with "+userName+" has been cancelled due to no payment";
+					String advisorHref = "AdvisorCancelledSessionViewDetail?rId="+rId;
+					AdvisorNotificationDAO advisor = new AdvisorNotificationDAO();
+					advisor.InsertRequestNotification(advisorComment, String.valueOf(ids[1]), advisorHref);
+					
+					response.sendRedirect("AdminCancelledSessions");
 				}
 			}
 		}

@@ -23,7 +23,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 
+import org.AC.DAO.AdminNotificationDAO;
 import org.AC.DAO.UserDetailsDAO;
+import org.AC.DAO.UserNotificationDAO;
 import org.AC.Util.PasswordHashing;
 import org.AC.Util.SendMail;
 import org.AC.Util.SetFormImage;
@@ -97,14 +99,24 @@ public class User_RegistrationController extends HttpServlet {
 						UserDetailsDAO dao = new UserDetailsDAO();
 						int userId = dao.setUserDetails(email,hashPassword,fullname,phone,age,occupation,absolutePath);
 						if(userId != 0){
+							String comment = fullname+" signed up as a user";
+							String href = "AdminViewUserProfile?email="+email;
+							AdminNotificationDAO notify = new AdminNotificationDAO();
+							notify.InsertNotification(comment, href);
+							
+							String userComment = "Welcome to Advisor Circuit. Find your Advisor now ! If you need any help, call us on +91 9999372087";
+							String userHref = "Advisors?service=All";
+							UserNotificationDAO user = new UserNotificationDAO();
+							user.InsertNotification(userComment, userHref, String.valueOf(userId));
+							
 						 	String subject ="";
 							String content ="";
 							subject = "Thank Your For Registering";
-							content = "Hi, <br><br> ThankYou for registering with AdvisorCircuit. Please Click on the below link to activate your account:<br> <a href='"+prop.getProperty("USER_REGISTRATION_VERIFICATION_LINK")+userId+"'>Click Here to Activate Your Account</a>"+"<br><img src=\"http://www.advisorcircuit.com/Test/assets/img/logo_black.png\" style='float:right' width='40%' height='50%'>";
+							content = "Hi, <br><br> ThankYou for registering with AdvisorCircuit. Please Click on the below link to activate your account:<br> <a href='"+prop.getProperty("USER_REGISTRATION_VERIFICATION_LINK")+userId+"'>Click Here to Activate Your Account</a>"+"<br><img src=\"https://www.advisorcircuit.com/Test/assets/img/logo_black.png\" style='float:right' width='25%'>";
 							SendMail mail = new SendMail(subject, content, email,prop.getProperty("MAIL_ADMIN"));
 							mail.start();
 							String subject1= "A New User Sign Up!";
-							String content1 = "Hi, <br><br> A new user has signed up with us. Following are the details: <br>Full Name : "+fullname+" <br>Phone : "+phone+"<br> Age : "+age+"<br> Occupation : "+occupation+"<br>Email Id : " +email+"<br><img src=\"http://www.advisorcircuit.com/Test/assets/img/logo_black.png\" style='float:right' width='40%' height='50%'>";
+							String content1 = "Hi, <br><br> A new user has signed up with us. Following are the details: <br>Full Name : "+fullname+" <br>Phone : "+phone+"<br> Age : "+age+"<br> Occupation : "+occupation+"<br>Email Id : " +email+"<br><img src=\"https://www.advisorcircuit.com/Test/assets/img/logo_black.png\" style='float:right' width='25%'>";
 							SendMail mail1 = new SendMail(subject1, content1, prop.getProperty("MAIL_ADMIN"),prop.getProperty("MAIL_ADMIN"));
 							mail1.start();
 							response.sendRedirect("UserRegistrationComplete");

@@ -486,29 +486,34 @@ public class MyAccountRequestDAO {
 				// Array array = conn.createArrayOf("INT", list.toArray());
 				// pstmt.setString(1, parameters);
 				int i = 1;
-				for (Integer item : id) {
-					pstmt.setInt(i++, item);
-				}
-				ResultSet results = pstmt.executeQuery();
-				while (results.next()) {
-					UserRequestDTO user = new UserRequestDTO();
-					user.setRequestId(results.getInt("REQUEST_ID"));
-					user.setUserId(results.getInt("USER_ID"));
-					user.setAdvisorId(results.getInt("ADVISOR_ID"));
-					user.setService(results.getString("SERVICE"));
-					user.setMode(results.getString("MODE_OF_COMMUNICATION"));
-					user.setQuery(results.getString("QUERY"));
-					user.setDuration(results.getString("DURATION"));
-					user.setBookingTime(results.getTimestamp("BOOKING_TIME"));
-					user.setTime1(results.getTimestamp("DATE_TIME1"));
-					user.setTime2(results.getTimestamp("DATE_TIME2"));
-					user.setTime3(results.getTimestamp("DATE_TIME3"));
-					user.setTime4(results.getTimestamp("DATE_TIME4"));
-					user.setStatus(results.getString("STATUS"));
-					user.setUserIsFree(results.getBoolean("IS_FREE_USER"));
-					list.add(user);
-				}
-				conn.commit();
+				  for (Integer item : id) {
+					  pstmt.setInt(i++, item);
+				  }
+			    ResultSet results = pstmt.executeQuery();
+			    	while(results.next()){
+				    	UserRequestDTO user =  new UserRequestDTO();
+				    	user.setRequestId(results.getInt("REQUEST_ID"));
+				    	user.setUserId(results.getInt("USER_ID"));
+				    	user.setAdvisorId(results.getInt("ADVISOR_ID"));
+				    	user.setService(results.getString("SERVICE"));
+				    	user.setMode(results.getString("MODE_OF_COMMUNICATION"));
+				    	user.setQuery(results.getString("QUERY"));
+				    	user.setDuration(results.getString("DURATION"));
+				    	user.setBookingTime(results.getTimestamp("BOOKING_TIME"));
+				    	user.setTime1(results.getTimestamp("DATE_TIME1"));
+				    	user.setTime2(results.getTimestamp("DATE_TIME2"));
+				    	user.setTime3(results.getTimestamp("DATE_TIME3"));
+				    	user.setTime4(results.getTimestamp("DATE_TIME4"));
+				    	user.setStatus(results.getString("STATUS"));
+				    	user.setStatus(results.getString("STATUS"));
+				    	user.setAmount(results.getInt("AMOUNT"));
+				    	user.setDiscount(results.getInt("DISCOUNT"));
+				    	user.setPrice(results.getInt("PRICE"));
+				    	user.setIsFree(results.getBoolean("IS_FREE_FROM_ADVISOR"));
+				    	user.setUserIsFree(results.getBoolean("IS_FREE_USER"));
+				    	list.add(user);
+				    }
+				   conn.commit();
 			} catch (SQLException e) {
 				try {
 					conn.rollback();

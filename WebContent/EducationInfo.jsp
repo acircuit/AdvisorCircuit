@@ -20,7 +20,7 @@
     <link href="assets/css/main.css" rel="stylesheet">
 
     <!-- Fonts from Google Fonts -->
-	<link href='http://fonts.googleapis.com/css?family=Lato:300,400,900' rel='stylesheet' type='text/css'>
+	<link href='https://fonts.googleapis.com/css?family=Lato:300,400,900' rel='stylesheet' type='text/css'>
 		<%
 			List<AdvisorEducationDTO> education = (List<AdvisorEducationDTO>)request.getAttribute("education");
 			Boolean edit = (Boolean)request.getAttribute("edit");
@@ -161,7 +161,6 @@
 		// under can't be blank
 			$("#btn-signup").click(function(event){
 				var i =0;
-				while(i<10){
 					var input_city = $("#under").val();
 					if ($("#under").is(':visible') && input_city==''){
 						$("#required_name").show();
@@ -169,8 +168,13 @@
 					}else{
 						$("#required_name").hide();
 					}
-					i++;
-				}
+					var input_city1 = $("#under0").val();
+					if ($("#under0").is(':visible') && input_city1==''){
+						$("#required_name0").show();
+						event.preventDefault(); 
+					}else{
+						$("#required_name0").hide();
+					}
 			});
 			$("#btn-signup").click(function(event){
 				for(i=0;i<=10;i++){

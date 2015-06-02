@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.AC.DAO.AdminNotificationDAO;
 import org.AC.DAO.UserDetailsDAO;
 import org.AC.Util.SendMail;
 import org.apache.log4j.Logger;
@@ -68,15 +69,22 @@ public class WeAreHereToHelpController extends HttpServlet {
 			Boolean isDetailsCommit = here.SetHereToHelpDetails(name, email,
 					phone, occupation, industry, service, phonemode, emailmode,
 					webchat, query, other);
-			if (isDetailsCommit) {
-				String subject = "";
-				String content = "";
+			
+			if(isDetailsCommit){
+				//Notify Admin
+				String comment = name+" sent a message through We Are Here to Help";
+				String href = "AdminHereToHelp";
+				AdminNotificationDAO notify = new AdminNotificationDAO();
+				notify.InsertNotification(comment, href);
+				
+				String subject ="";
+				String content ="";
 				subject = "We Are here to help";
 				content = "Hi, <br><br>A new user has filled in details for We are here to help.Following are the details : <br> Name: "
 						+ name
 						+ " <br> Email :"
 						+ email
-						+ "<br><img src=\"http://www.advisorcircuit.com/Test/assets/img/logo_black.png\" style='float:right' width='25%'>";
+						+ "<br><img src=\"https://www.advisorcircuit.com/Test/assets/img/logo_black.png\" style='float:right' width='25%'>";
 				SendMail mail = new SendMail(subject, content,
 						prop.getProperty("MAIL_ADMIN"),
 						prop.getProperty("MAIL_ADMIN"));

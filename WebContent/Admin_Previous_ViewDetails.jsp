@@ -36,7 +36,7 @@
 	<!-- Custom styles for this template -->
     
     <!-- Fonts from Google Fonts -->
-	<link href='http://fonts.googleapis.com/css?family=Lato:300,400,900' rel='stylesheet' type='text/css'>
+	<link href='https://fonts.googleapis.com/css?family=Lato:300,400,900' rel='stylesheet' type='text/css'>
 	
     <!-- Custom Fonts -->
     <link href="assets/font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
@@ -211,6 +211,7 @@
                                                         <span class="form-control"><c:out value="${userRequest.getIsFree()}"/></span>
                                                     </div>
                                                 </div>
+
                                                  <div class="form-group">
                                                         <label for="icode" class="col-md-3 control-label">Free 15 mins to User</label>
                                                     <div class="col-md-9">

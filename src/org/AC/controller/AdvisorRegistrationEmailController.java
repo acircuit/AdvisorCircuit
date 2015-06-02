@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.AC.DAO.AdminNotificationDAO;
 import org.AC.DAO.AdvisorRegistrationDAO;
 import org.AC.Util.PasswordHashing;
 import org.AC.Util.SendMail;
@@ -73,11 +74,17 @@ public class AdvisorRegistrationEmailController extends HttpServlet {
 						//If the advisor has not started the registration process then set the email address and change the status
 						AdvisorRegistrationDAO dao2 = new AdvisorRegistrationDAO();
 						advisorId = dao2.setEmail(email,securedPassword);
+						String comment = email+" with AdvisorId =" + advisorId+" started the registration process";
+						String href = "AdvisorProfile?aId="+advisorId+"&admin=true";
+						//Notify Admin
+						AdminNotificationDAO notify = new AdminNotificationDAO();
+						notify.InsertNotification(comment,href);
+						
 						//This is a new advisor.Send verification mail
 						String subject ="";
 						String content ="";
 						subject = "Thank Your For Registering";
-						content = "Hi, <br><br>ThankYou for registering with AdvisorCircuit. Please Click on the below link to create your own profile:<br> <a href='"+prop.getProperty("ADVISOR_REGISTRATION_VERIFICATION_LINK")+advisorId+"'>Click Here to Create Your Profile</a>"+"<br><img src=\"http://www.advisorcircuit.com/Test/assets/img/logo_black.png\" style='float:right' width='25%'>";
+						content = "Hi, <br><br>ThankYou for registering with AdvisorCircuit. Please Click on the below link to create your own profile:<br> <a href='"+prop.getProperty("ADVISOR_REGISTRATION_VERIFICATION_LINK")+advisorId+"'>Click Here to Create Your Profile</a>"+"<br><img src=\"https://www.advisorcircuit.com/Test/assets/img/logo_black.png\" style='float:right' width='25%'>";
 						SendMail mail = new SendMail(subject, content, email,prop.getProperty("MAIL_ADMIN"));
 						mail.start();
 						response.sendRedirect("AdvisorRegistrationComplete");

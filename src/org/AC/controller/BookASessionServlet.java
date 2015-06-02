@@ -25,7 +25,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 
+import org.AC.DAO.AdminNotificationDAO;
 import org.AC.DAO.AdvisorModesDAO;
+import org.AC.DAO.AdvisorNotificationDAO;
 import org.AC.DAO.BookASessionDAO;
 import org.AC.Util.SendMail;
 import org.AC.Util.SetCV;
@@ -170,26 +172,24 @@ public class BookASessionServlet extends HttpServlet {
 					BookASessionDAO free = new BookASessionDAO();
 					free.ToggleUserIsFree(userId);
 				}
-				// Send Mail to Admin
+				String comment = "You've got a new Session request";
+				String href = "AdminRequestViewDetails?rId="+requestId;
+				//Notification for Admin
+				AdminNotificationDAO notify = new AdminNotificationDAO();
+				notify.InsertNotification(comment,href);
+				//Send Mail to Admin
 				String subject = "A new session request!";
-				String content = "Hi, <br><br>A new SESSION REQUEST by the user ! Following are the details :<br>User Name : "
-						+ userName
-						+ "<br>Query: "
-						+ query
-						+ "<br>Mode : "
-						+ mode
-						+ "<br><img src=\"http://www.advisorcircuit.com/Test/assets/img/logo_black.png\" style='float:right' width='25%'>";
-				SendMail mail = new SendMail(subject, content,
-						prop.getProperty("MAIL_ADMIN"),
-						prop.getProperty("MAIL_ADMIN"));
+				String content = "Hi, <br><br>A new SESSION REQUEST by the user ! Following are the details :<br>User Name : " +userName+"<br>Query: "+query+"<br>Mode : "+mode+"<br><img src=\"https://www.advisorcircuit.com/Test/assets/img/logo_black.png\" style='float:right' width='25%'>";
+				SendMail mail = new SendMail(subject, content, prop.getProperty("MAIL_ADMIN"),prop.getProperty("MAIL_ADMIN"));
 				mail.start();
 				response.sendRedirect("UserRequests?bookasession=true");
 			}
+			
 			logger.info("Exit doPost method of BookASessionServlet");
 		} catch (Exception e) {
 			logger.equals("doPost method of BookASessionServlet threw error:"
 					+ e.getMessage());
-			e.printStackTrace();
+		
 		}
 	}
 }

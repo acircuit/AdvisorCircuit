@@ -20,7 +20,7 @@
     <link href="assets/css/main.css" rel="stylesheet">
 
     <!-- Fonts from Google Fonts -->
-	<link href='http://fonts.googleapis.com/css?family=Lato:300,400,900' rel='stylesheet' type='text/css'>
+	<link href='https://fonts.googleapis.com/css?family=Lato:300,400,900' rel='stylesheet' type='text/css'>
 	 <%
     UserDetailsDTO profile = (UserDetailsDTO)request.getAttribute("user");
     	pageContext.setAttribute("profile", profile);
@@ -148,6 +148,7 @@ $(document).ready(function() {
 			$("#required_name").hide();
 			$("#dfname").removeClass("has-error");
 		}
+
 		var input_p = $("#phone").val();
 		var filter = /^\d{10}$/; 
 		var is_phone = filter.test(input_p);

@@ -22,7 +22,7 @@
     <link href="assets/css/main.css" rel="stylesheet">
 
     <!-- Fonts from Google Fonts -->
-	<link href='http://fonts.googleapis.com/css?family=Lato:300,400,900' rel='stylesheet' type='text/css'>
+	<link href='https://fonts.googleapis.com/css?family=Lato:300,400,900' rel='stylesheet' type='text/css'>
 	<%
 			List<AdvisorProfileDTO> achievements = (List<AdvisorProfileDTO>)request.getAttribute("achievements");
 			List<AdvisorProfileDTO> keySkill = (List<AdvisorProfileDTO>)request.getAttribute("keySkill");
@@ -82,7 +82,7 @@
                                     <li><a href="<%=image%>">Upload Image</a></li>
                                 </ul>
                                 <label for="icode">Awards And Acheivement </label>
-								<hr>
+                                <hr>
                                 	<c:choose>
                                 		<c:when test="${keySkill.size() >0 }">
                                 		

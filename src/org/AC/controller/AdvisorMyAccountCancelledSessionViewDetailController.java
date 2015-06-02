@@ -19,7 +19,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.AC.DAO.AdminNotificationDAO;
 import org.AC.DAO.AdvisorMyAccountSessionDAO;
+import org.AC.DAO.AdvisorNotificationDAO;
 import org.AC.DAO.MyAccountRequestDAO;
 import org.AC.Util.GetRelativeImageURL;
 import org.AC.Util.GetTimeLeftForReply;
@@ -139,36 +141,39 @@ public class AdvisorMyAccountCancelledSessionViewDetailController extends
 			String sessionDate = "";
 			String date = "";
 			String time1 = "";
-			if (acceptedDate != null) {
-				sessionDate = acceptedDate.toString();
-				Timestamp timestamp = new Timestamp(acceptedDate.getTime());
-				SimpleDateFormat simpleDateFormat = new SimpleDateFormat(
-						"dd-MMM-yyyy");
-				SimpleDateFormat simpleDateFormat1 = new SimpleDateFormat(
-						"h:mm a");
-				date = simpleDateFormat.format(timestamp);
-				if (mode.equals("email")) {
-					time1 = "N/A";
-				} else {
-					time1 = simpleDateFormat1.format(timestamp);
-				}
-			} else {
-				date = "NOT FIXED";
-				time1 = "NOT FIXED";
-			}
-			request.setAttribute("advisorname", advisorName);
-			request.setAttribute("userName", userName);
-			request.setAttribute("image", relImage);
-			request.setAttribute("sessions", list);
-			request.setAttribute("time", time1);
-			request.setAttribute("isFromCancelledSession", true);
-			request.setAttribute("date", date);
-			request.setAttribute("requests", list1);
-			request.setAttribute("userdetails", list2);
-			request.setAttribute("sessionDate", sessionDate);
-			RequestDispatcher rd = getServletContext().getRequestDispatcher(
-					"/Session_ViewDetails.jsp");
-			rd.forward(request, response);
+
+			if(acceptedDate != null){
+				 sessionDate =  acceptedDate.toString();
+				 Timestamp timestamp = new Timestamp(acceptedDate.getTime());
+				 SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MMM-yyyy");
+				 SimpleDateFormat simpleDateFormat1 = new SimpleDateFormat("h:mm a");
+				 date = simpleDateFormat.format(timestamp);
+				 if(mode.equals("email")){
+					 time1="N/A";
+				 }else{
+					 time1 = simpleDateFormat1.format(timestamp);
+				 }
+			}else{
+				 date = "NOT FIXED";
+				 time1 = "NOT FIXED";
+			}		
+				//Update Advisor's Notification
+	    		String url =  request.getRequestURI()+"?" +request.getQueryString();
+				url = url.substring(url.lastIndexOf('/')+1);
+				AdvisorNotificationDAO admin = new AdvisorNotificationDAO();
+				admin.SetNotificationRead(url, advisorId);
+				request.setAttribute("advisorname", advisorName);
+				request.setAttribute("userName", userName);
+				request.setAttribute("image", relImage);
+				request.setAttribute("sessions", list);
+				request.setAttribute("time", time1);
+				request.setAttribute("isFromCancelledSession", true);
+				request.setAttribute("date", date);
+				request.setAttribute("requests", list1);
+				request.setAttribute("userdetails", list2);
+				request.setAttribute("sessionDate", sessionDate);
+				RequestDispatcher rd = getServletContext().getRequestDispatcher("/Session_ViewDetails.jsp");
+		        rd.forward(request, response);
 		}
 		logger.info("Exit doGet method of AdvisorMyAccountUpcomingSessionViewDetailController");
 	}

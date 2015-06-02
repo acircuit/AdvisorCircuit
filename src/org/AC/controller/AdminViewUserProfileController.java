@@ -15,7 +15,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.AC.DAO.AdminNotificationDAO;
 import org.AC.DAO.AdminUserDAO;
+import org.AC.DAO.UserNotificationDAO;
 import org.AC.Util.CreateUserFormPDF;
 import org.AC.dto.UserDetailsDTO;
 import org.apache.log4j.BasicConfigurator;
@@ -80,6 +82,22 @@ public class AdminViewUserProfileController extends HttpServlet {
 
 				}
 			}
+			if(email != null){
+		    	UserDetailsDTO user = new UserDetailsDTO();
+		    	AdminUserDAO userDetails = new AdminUserDAO();
+		    	user = userDetails.GetUserDetails(email);
+		    	if(user.getUserId() != 0 && user.getEmail() != null){
+		    		//Update Admin's Notification
+		    		String url =  request.getRequestURI() +"?" +request.getQueryString();
+					url = url.substring(url.lastIndexOf('/')+1);
+					url = url.replace("%40", "@");
+					AdminNotificationDAO admin = new AdminNotificationDAO();
+					admin.SetNotificationRead(url);
+		    		CreateUserFormPDF pdf = new CreateUserFormPDF();
+		    		pdf.createPDF(response, user.getUserId(), user.getEmail(), user.getFullName(), user.getPhone(), user.getAge(), user.getOccupation(), user.getImage(),user.getDateOfRegistration(),user.getIsActive());
+		    		
+		    	}
+			}	
 		}
 		logger.info("Entered doGet method of AdminViewUserProfileController");
 	}

@@ -22,7 +22,7 @@
   		 <link rel="shortcut icon" href=<fmt:message key="shortcuticon"/>>	
   	</fmt:bundle>
     <!-- Fonts from Google Fonts -->
-	<link href='http://fonts.googleapis.com/css?family=Lato:300,400,900' rel='stylesheet' type='text/css'>
+	<link href='https://fonts.googleapis.com/css?family=Lato:300,400,900' rel='stylesheet' type='text/css'>
 	<%		Boolean edit = (Boolean)request.getAttribute("edit");
 			String action ="";
 			String general="";

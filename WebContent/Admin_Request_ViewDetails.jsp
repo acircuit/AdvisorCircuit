@@ -33,7 +33,7 @@
 	<!-- Custom styles for this template -->
     
     <!-- Fonts from Google Fonts -->
-	<link href='http://fonts.googleapis.com/css?family=Lato:300,400,900' rel='stylesheet' type='text/css'>
+	<link href='https://fonts.googleapis.com/css?family=Lato:300,400,900' rel='stylesheet' type='text/css'>
 	
     <!-- Custom Fonts -->
     <link href="assets/font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
@@ -216,8 +216,9 @@
                                                       <span class="form-control"><c:out value="${userRequest.getUserIsFree()}"/></span>
                                                   </div>
                                               </div>
+
+                              
                                 <input type="hidden" name="rId" value="${userRequest.getRequestId()}">
-                                
                                 <c:if test="${userRequest.getService().equals('mockinterview') || userRequest.getService().equals('cvcritique')}">										
                                 <div class="form-group">
                                     <div class="col-md-12">
@@ -290,7 +291,8 @@
                                     </div>
                                     </c:otherwise>
                                     </c:choose>
-                                        
+                                    <input type="hidden" name="uId" value="${userRequest.getUserId()}">
+                                    <input type="hidden" name="aId" value="${userRequest.getAdvisorId()}">        
                                     <c:if test="${sessionDetail.size() > 0}">
                                         <c:forEach var="session" items="${sessionDetail}">
                                             <h3>Session Details</h3>
@@ -331,7 +333,7 @@
                                                         </div>
                                                     </c:forEach>
                                                 </c:if>
-                                                
+                                               
                                                 <div class="form-group">
                                                     <div class="row">
                                                         <div class="col-md-9" style="text-align: center;margin-top: 20px;margin-left: 30px">

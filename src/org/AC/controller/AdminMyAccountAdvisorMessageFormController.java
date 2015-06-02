@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.AC.DAO.AdvisorNotificationDAO;
 import org.AC.DAO.MessageDAO;
 import org.AC.Util.SendMail;
 import org.apache.log4j.Logger;
@@ -45,6 +46,7 @@ public class AdminMyAccountAdvisorMessageFormController extends HttpServlet {
 		}
 		if (isError != null && !isError) {
 			String messageId = request.getParameter("mId");
+			String aId = request.getParameter("aId");
 			String adminMessage = request.getParameter("adminmessage");
 			String email = request.getParameter("email");
 			Boolean isMessageCommit = false;
@@ -65,11 +67,18 @@ public class AdminMyAccountAdvisorMessageFormController extends HttpServlet {
 					}
 					String subject = "";
 					String content = "";
-					subject = "You received a communication by Admin";
-					content = "Hi, <br><br>You've received a message from the Advisor Circuit Administrator. The message is given below: <br>"
+			         String comment = "You've got a message from our team.";
+			         String href = "AdvisorMessageAdmin";
+			         AdvisorNotificationDAO advisor = new AdvisorNotificationDAO();
+			         advisor.InsertRequestNotification(comment, aId, href);
+			         
+					 String subject1 ="";
+					String content1 ="";
+					subject1 = "You received a communication by Admin";
+					content1 = "Hi, <br><br>You've received a message from the Advisor Circuit Administrator. The message is given below: <br>"
 							+ adminMessage
-							+ " <br><br>Cheers, <br> Team Advisor Circuit<img src=\"http://www.advisorcircuit.com/Test/assets/img/logo_black.png\" style='float:right' width='25%'>";
-					SendMail mail = new SendMail(subject, content, email,
+							+ " <br><br>Cheers, <br> Team Advisor Circuit<img src=\"https://www.advisorcircuit.com/Test/assets/img/logo_black.png\" style='float:right' width='25%'>";
+					SendMail mail = new SendMail(subject1, content1, email,
 							prop.getProperty("MAIL_ADMIN"));
 					mail.start();
 					request.setAttribute("email", email);
