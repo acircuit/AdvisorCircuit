@@ -93,7 +93,7 @@
             <div class="col-md-9">
             	<div id="page-wrapper">
 					
-                    <div class="table-responsive">
+                    <div class="table-responsive" style="overflow-x:visible ">
                     <table style="text-align:center" class="table table-bordered " id="tblData">
 												<tr>
 													<th style="text-align:center">ACTION</th>
@@ -122,15 +122,15 @@
 																	<c:url value="/AdminAdvisorMessage" var="AdminAdvisorMessage">
 												   						<c:param name="email" value="${advisor.getEmail()}"/>
 																	</c:url>
-																	<li><a href="${AdminAdvisorMessage}" target="_blank">Message</a></li>
-																	<li><a id="${advisor.getAdvisorId()}" onclick="deactivate(this)">Deactivate Account</a></li>
-																	<li><a id="${advisor.getAdvisorId()}" onclick="activate(this)">Activate Account</a></li>	
-																	<li><a id="${advisor.getAdvisorId()}" onclick="openChangePriorityModal(${advisor.getAdvisorId()},${advisor.getPageRank()})">Change Priority</a></li>
-																	<li><a id="${advisor.getAdvisorId()}" onclick="changeVisibility(this)">Change Visibility</a></li>
-																	<li><a id="${advisor.getAdvisorId()}" onclick="openFreeSessionModal(this)">Update Free Sessions</a></li>
-																	<li><a id="${advisor.getAdvisorId()}" onclick="openDiscountModal(this)">Update Discount</a></li>
-																	<li><a id="${advisor.getAdvisorId()}" onclick="OpenKeywords(this)">Update KeyWords</a></li>
-																	
+																	<li><a href="${AdminAdvisorMessage}" target="_blank" >Message</a></li>
+																	<li><a id="${advisor.getAdvisorId()}" onclick="deactivate(this)" href="#">Deactivate Account</a></li>
+																	<li><a id="${advisor.getAdvisorId()}" onclick="activate(this)" href="#">Activate Account</a></li>	
+																	<li><a id="${advisor.getAdvisorId()}" onclick="openChangePriorityModal(${advisor.getAdvisorId()},${advisor.getPageRank()})" href="#">Change Priority</a></li>
+																	<li><a id="${advisor.getAdvisorId()}" onclick="changeVisibility(this)" href="#">Change Visibility</a></li>
+																	<li><a id="${advisor.getAdvisorId()}" onclick="openFreeSessionModal(this)" href="#">Update Free Sessions</a></li>
+																	<li><a id="${advisor.getAdvisorId()}" onclick="openDiscountModal(this)" href="#">Update Discount</a></li>
+																	<li><a id="${advisor.getAdvisorId()}" onclick="OpenKeywords(this)" href="#">Update KeyWords</a></li>
+																	<li><a id="${advisor.getAdvisorId()}" onclick="OpenNGO(this)" href="#">Update NGO</a></li>
 																</ul>
 															</li>
 														</ul>
@@ -283,6 +283,29 @@
 																		<c:if test="${!advisor.getKeywords().equals('')}">
 													          			   <button type="button" class="btn btn-primary"  onclick="updatekeyword(${advisor.getAdvisorId()})">Update</button>        																				
 																		</c:if>
+													          		</form>
+													        	</div>
+														    </div>
+														  </div>
+														</div>
+														<div class="modal fade" id="charity${advisor.getAdvisorId()}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+													<div class="modal-dialog modal-lg">
+														<div class="modal-content">
+															<div class="modal-header">
+															<button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+															<h4 class="modal-title" id="myModalLabel">Update NGO</h4>
+															</div>
+													        	<div class="modal-body">
+													        		<form action="">
+												        				<div class="form-group">
+																			<label  class="col-md-3 control-label">Organization : </label>
+																			<div class="col-md-9">
+																				<textarea id="org${advisor.getAdvisorId() }" rows="5" cols="30">${advisor.getCharity()}</textarea>
+																			</div>
+																		</div>
+																		<div class="form-group" style="margin-top:5% ">
+													          			   <button type="button" style="margin-left:25%"	 class="btn btn-primary"  onclick="updateorganisation(${advisor.getAdvisorId()})">Update</button>        																				
+													          			</div>
 													          		</form>
 													        	</div>
 														    </div>
@@ -472,6 +495,10 @@
 		var id = elem.id;
 		$("#keywords"+id).modal();
 	}
+	function OpenNGO(elem){
+		var id = elem.id;
+		$("#charity"+id).modal();
+	}
 	function UpdateFreeSessions(elem){
 		var advisorId = elem.id;
 		$.ajax({
@@ -554,6 +581,20 @@
 		$.ajax({
             url : 'AdminAdvisors',
             data : {"operation": "updatekeywords", "keywords" : $("#advisorkeywords"+id).val(),"advisor" : id},
+            type : 'POST',
+            success : function(response) {
+            	location.reload();
+            },
+            error : function(request, textStatus, errorThrown) {
+            	alert("Error in updating keywords.")
+            }
+        }); 	
+		
+	}
+	function updateorganisation(id){
+		$.ajax({
+            url : 'AdminAdvisors',
+            data : {"operation": "updateorganization", "org" : $("#org"+id).val(),"advisor" : id},
             type : 'POST',
             success : function(response) {
             	location.reload();

@@ -83,6 +83,7 @@ font-size: 11px;
 }
 </style>
 <%
+response.setHeader("cache-control", "no-cache"); 
 String source="";
 if( session.getAttribute("admin") != null &&  (Boolean)session.getAttribute("admin")){
 	source = "admin";

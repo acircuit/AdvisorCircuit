@@ -99,7 +99,7 @@ public class UserMyAccountRequestViewDetailsFormController extends HttpServlet {
 					admin.InsertNotification(adminComment, adminHref);
 					
 					String subject = "Session Rejected By User!";
-					String content = "Hi, <br><br>The Session was rejected by the user for Session Id : "+sessionId+ " and Request Id :"+rId1+"<br><img src=\"http://www.advisorcircuit.com/Test/assets/img/logo_black.png\" style='float:right' width='25%'>";
+					String content = "Hi, <br><br>The Session was rejected by the user for Session Id : "+sessionId+ " and Request Id :"+rId1+"<br><img src=\"http://www.advisorcircuit.com/Test/assets/img/logo_black.png\" style='float:right' width='15%'>";
 					SendMail mail = new SendMail(subject, content, prop.getProperty("MAIL_ADMIN"),prop.getProperty("MAIL_ADMIN"));
 					mail.start();
 					response.sendRedirect("UserCancelledSessions");
@@ -128,7 +128,7 @@ public class UserMyAccountRequestViewDetailsFormController extends HttpServlet {
 				AdminNotificationDAO admin = new AdminNotificationDAO();
 				admin.InsertNotification(adminComment, adminHref);
 				String subject = "Session Rejected By User!";
-				String content = "Hi, <br><br>The Session was rejected by the user for Request Id :"+rId1+"<br><img src=\"http://www.advisorcircuit.com/Test/assets/img/logo_black.png\" style='float:right' width='25%'>";
+				String content = "Hi, <br><br>The Session was rejected by the user for Request Id :"+rId1+"<br><img src=\"http://www.advisorcircuit.com/Test/assets/img/logo_black.png\" style='float:right' width='15%'>";
 				SendMail mail = new SendMail(subject, content, prop.getProperty("MAIL_ADMIN"),prop.getProperty("MAIL_ADMIN"));
 				mail.start();
 				response.sendRedirect("UserCancelledSessions");

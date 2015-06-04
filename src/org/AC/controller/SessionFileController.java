@@ -121,10 +121,10 @@ public class SessionFileController extends HttpServlet {
 					 String content ="";
 					 if(("true").equals(fromUser)){
 						 subject = "New File Uploaded by User!!!!!";
-						 content = "Hi, <br><br> A new File has been uploaded by user for : <br>Session Id  : " +sId+ " <br>Uploaded By : USER"+"<br><img src=\"http://www.advisorcircuit.com/Test/assets/img/logo_black.png\" style='float:right' width='25%'>";
+						 content = "Hi, <br><br> A new File has been uploaded by user for : <br>Session Id  : " +sId+ " <br>Uploaded By : USER"+"<br><img src=\"http://www.advisorcircuit.com/Test/assets/img/logo_black.png\" style='float:right' width='15%'>";
 			         }else{
 			        	 subject = "New File Uploaded by Advisor!!!!!";
-			        	 content = "Hi, <br><br> A new File has been uploaded by Advisor for : <br>Session Id  : " +sId+ " <br>Uploaded By : ADVISOR"+"<br><img src=\"http://www.advisorcircuit.com/Test/assets/img/logo_black.png\" style='float:right' width='25%'>"; 
+			        	 content = "Hi, <br><br> A new File has been uploaded by Advisor for : <br>Session Id  : " +sId+ " <br>Uploaded By : ADVISOR"+"<br><img src=\"http://www.advisorcircuit.com/Test/assets/img/logo_black.png\" style='float:right' width='15%'>"; 
 			         }
 					SendMail mail = new SendMail(subject, content, prop1.getProperty("MAIL_ADMIN"),prop1.getProperty("MAIL_ADMIN"));
 					mail.start();

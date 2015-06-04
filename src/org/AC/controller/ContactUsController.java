@@ -69,7 +69,7 @@ public class ContactUsController extends HttpServlet {
 				notify.InsertNotification(comment, href);
 				int image = 1;
 				String subject = "Contact Us!";
-				String content = "Hi, <br><br>A user has sent a query through the contact us page. Following are the details:<br>Name: " +name+ "<br>Email Id: " +email+"<br>Phone: " +phone+"<br>Message: "+ message+"<br><img src=\"http://www.advisorcircuit.com/Test/assets/img/logo_black.png\" style='float:right' width='25%'>";
+				String content = "Hi, <br><br>A user has sent a query through the contact us page. Following are the details:<br>Name: " +name+ "<br>Email Id: " +email+"<br>Phone: " +phone+"<br>Message: "+ message+"<br><img src=\"http://www.advisorcircuit.com/Test/assets/img/logo_black.png\" style='float:right' width='15%'>";
 				SendMail mail = new SendMail(subject, content,"udaykhatry@advisorcircuit.com", email);
 				mail.start();
 				response.sendRedirect("ContactUsThankyou");

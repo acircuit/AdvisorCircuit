@@ -119,7 +119,7 @@ public class ApproveFeedbackController extends HttpServlet {
 			        InputStream resourceAsStream1 = Thread.currentThread().getContextClassLoader().getResourceAsStream("Resources/mail.properties");
 			        prop1.load(resourceAsStream1);
 			        String subject1= "Advisor "+service+" Feedback!";
-					String content1 = "Hi, <br><br> An Advisor gave "+service+ "feedback. Following are the details: <br>Session Id : "+sId+"<br><img src=\"http://www.advisorcircuit.com/Test/assets/img/logo_black.png\" style='float:right' width='25%'>";
+					String content1 = "Hi, <br><br> An Advisor gave "+service+ "feedback. Following are the details: <br>Session Id : "+sId+"<br><img src=\"http://www.advisorcircuit.com/Test/assets/img/logo_black.png\" style='float:right' width='15%'>";
 					SendMail mail1 = new SendMail(subject1, content1, prop1.getProperty("MAIL_ADMIN"),prop1.getProperty("MAIL_ADMIN"));
 					mail1.start();
 					response.getWriter().write("Your FeedBack has been submitted");

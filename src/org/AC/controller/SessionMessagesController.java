@@ -193,7 +193,7 @@ public class SessionMessagesController extends HttpServlet {
 					String subject ="";
 					String content ="";
 					subject = "New Message From Advisor To User!!!!!";
-					content = "Hi, <br><br>Advisor Sent a new message to user for : <br>Session Id  :" +sId+ "<br>Message : " +inputMessage+"<br><img src=\"http://www.advisorcircuit.com/Test/assets/img/logo_black.png\" style='float:right' width='25%'>";
+					content = "Hi, <br><br>Advisor Sent a new message to user for : <br>Session Id  :" +sId+ "<br>Message : " +inputMessage+"<br><img src=\"http://www.advisorcircuit.com/Test/assets/img/logo_black.png\" style='float:right' width='15%'>";
 					SendMail mail = new SendMail(subject, content, prop.getProperty("MAIL_ADMIN"),prop.getProperty("MAIL_ADMIN"));
 					mail.start();
 					response.getWriter().write("true");
@@ -226,7 +226,7 @@ public class SessionMessagesController extends HttpServlet {
 					String subject ="";
 					String content ="";
 					subject = "New Message From User To Advisor!!!!!";
-					content = "Hi, <br><br>User Sent a new message to advisor for : <br>Session Id  :" +sId+ "<br>Message : " +inputMessage+"<br><img src=\"http://www.advisorcircuit.com/Test/assets/img/logo_black.png\" style='float:right' width='25%'>";
+					content = "Hi, <br><br>User Sent a new message to advisor for : <br>Session Id  :" +sId+ "<br>Message : " +inputMessage+"<br><img src=\"http://www.advisorcircuit.com/Test/assets/img/logo_black.png\" style='float:right' width='15%'>";
 					SendMail mail = new SendMail(subject, content, prop.getProperty("MAIL_ADMIN"),prop.getProperty("MAIL_ADMIN"));
 					mail.start();
 					response.getWriter().write("true");

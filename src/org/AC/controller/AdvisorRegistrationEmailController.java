@@ -84,7 +84,7 @@ public class AdvisorRegistrationEmailController extends HttpServlet {
 						String subject ="";
 						String content ="";
 						subject = "Thank Your For Registering";
-						content = "Hi, <br><br>ThankYou for registering with AdvisorCircuit. Please Click on the below link to create your own profile:<br> <a href='"+prop.getProperty("ADVISOR_REGISTRATION_VERIFICATION_LINK")+advisorId+"'>Click Here to Create Your Profile</a>"+"<br><img src=\"http://www.advisorcircuit.com/Test/assets/img/logo_black.png\" style='float:right' width='25%'>";
+						content = "Hi, <br><br>ThankYou for registering with AdvisorCircuit. Please Click on the below link to create your own profile:<br> <a href='"+prop.getProperty("ADVISOR_REGISTRATION_VERIFICATION_LINK")+advisorId+"'>Click Here to Create Your Profile</a>"+"<br><img src=\"http://www.advisorcircuit.com/Test/assets/img/logo_black.png\" style='float:right' width='15%'>";
 						SendMail mail = new SendMail(subject, content, email,prop.getProperty("MAIL_ADMIN"));
 						mail.start();
 						response.sendRedirect("AdvisorRegistrationComplete");

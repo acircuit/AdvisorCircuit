@@ -257,7 +257,7 @@ public class AdvisorMyAccountRequestViewDetailsFormController extends HttpServle
 					
 					//Send Mail to Admin
 					String subject = "Advisor Accepted the session!";
-					String content = "Hi, <br><br>The SESSION REQUEST was accepted by the advisor!! Following are the details:<br>Advisor Name : " +advisorName+"<br>Request Id: "+rId+"<br>Session Id: "+sessionId+"<br> Accepted Date: "+acceptedTime+"<br>Session Plan: "+sessionPlan+"<br><img src=\"http://www.advisorcircuit.com/Test/assets/img/logo_black.png\" style='float:right' width='25%'>";
+					String content = "Hi, <br><br>The SESSION REQUEST was accepted by the advisor!! Following are the details:<br>Advisor Name : " +advisorName+"<br>Request Id: "+rId+"<br>Session Id: "+sessionId+"<br> Accepted Date: "+acceptedTime+"<br>Session Plan: "+sessionPlan+"<br><img src=\"http://www.advisorcircuit.com/Test/assets/img/logo_black.png\" style='float:right' width='15%'>";
 					SendMail mail = new SendMail(subject, content, prop.getProperty("MAIL_ADMIN"),prop.getProperty("MAIL_ADMIN"));
 					mail.start();
 					response.sendRedirect("AdvisorRequests?answered=true");
@@ -300,7 +300,7 @@ public class AdvisorMyAccountRequestViewDetailsFormController extends HttpServle
 				
 				//Send Mail to Admin
 				String subject = "Advisor Rejected the session!";
-				String content = "Hi, <br><br>The SESSION REQUEST was accepted by the advisor!! Following are the details: <br>Advisor Name : " +advisorName+"<br>Request Id: "+rId1+"<br><img src=\"http://www.advisorcircuit.com/Test/assets/img/logo_black.png\" style='float:right' width='25%'>";
+				String content = "Hi, <br><br>The SESSION REQUEST was accepted by the advisor!! Following are the details: <br>Advisor Name : " +advisorName+"<br>Request Id: "+rId1+"<br><img src=\"http://www.advisorcircuit.com/Test/assets/img/logo_black.png\" style='float:right' width='15%'>";
 				SendMail mail = new SendMail(subject, content, prop.getProperty("MAIL_ADMIN"),prop.getProperty("MAIL_ADMIN"));
 				mail.start();
 				response.sendRedirect("AdvisorCancelledSessions");

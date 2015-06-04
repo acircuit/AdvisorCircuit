@@ -71,7 +71,7 @@ public class AdvisorMyAccountMessageAdminFormController extends HttpServlet {
 					 	admin.InsertNotification(comment, href);
 					 
 					 	String subject ="New Message From Advisor To Admin!!!!!";
-						String content ="Hi, <br><br> An Advisor has sent a message to admin. Following are the details: <br>Message By : " +advisorName+ "<br>Email Id: " +advisorEmail+ "<br>Advisor Id: " +advisorId+ "<br>Message: " +advisorMessage+"<br><img src=\"http://www.advisorcircuit.com/Test/assets/img/logo_black.png\" style='float:right' width='25%'>";
+						String content ="Hi, <br><br> An Advisor has sent a message to admin. Following are the details: <br>Message By : " +advisorName+ "<br>Email Id: " +advisorEmail+ "<br>Advisor Id: " +advisorId+ "<br>Message: " +advisorMessage+"<br><img src=\"http://www.advisorcircuit.com/Test/assets/img/logo_black.png\" style='float:right' width='15%'>";
 						SendMail mail = new SendMail(subject, content, prop.getProperty("MAIL_ADMIN"),prop.getProperty("MAIL_ADMIN"));
 						mail.start();
 				 }

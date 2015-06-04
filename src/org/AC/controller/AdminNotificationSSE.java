@@ -43,6 +43,8 @@ public class AdminNotificationSSE extends HttpServlet {
 		if(!isError && isAdmin != null && isAdmin){
         response.setContentType("text/event-stream");
         response.setCharacterEncoding("UTF-8");
+        response.setHeader("Connection", "keep-alive");
+        response.setHeader("cache-control", "no-cache"); 
  
         PrintWriter writer = response.getWriter();
 		List<NotificationDTO> notify = new ArrayList<NotificationDTO>();
