@@ -863,7 +863,6 @@
     <servlet-name>Notifications</servlet-name>
     <url-pattern>/Notifications</url-pattern>
   </servlet-mapping>
-  <servlet>
    <servlet>
     <servlet-name>AdminPromotions</servlet-name>
     <servlet-class>org.AC.controller.AdminPromotionsController</servlet-class>
