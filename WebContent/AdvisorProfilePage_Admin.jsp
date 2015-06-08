@@ -104,6 +104,11 @@
                         <img src="assets/img/ProfileImages/Panel_Services_Book.png" height="65"></br>Book a Session
                     </a>
                 </div>
+             <c:if test="${advisor.getCharity() != null && !advisor.getCharity().equals('')}">
+	            <div>
+	            	 <p style="color:#c84c4e">${advisor.getName()} donates all earnings from Advisor Circuit to ${advisor.getCharity()}. </p>
+	            </div>
+            </c:if>
             </div>
 		</div>
     	<!--end profile intro-->

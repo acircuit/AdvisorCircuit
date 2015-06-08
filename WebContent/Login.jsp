@@ -241,7 +241,28 @@
 												<p class="required" id="required_ext">Invalid Extension.Please upload png,jpg,jpeg or gif</p>
 											</div>
 											
-										</div> 
+										</div>
+										<div class="form-group col-md-12"> 
+											<div class="accordion" id="accordion2">
+											  <div class="accordion-group">
+											    <div class="accordion-heading">
+											    <label for="icode" class="col-md-3 control-label"></label>
+											    <div class="col-md-6">
+											      <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">
+											        	Have a Referral Code ?
+											      </a>
+											       <div id="collapseOne" class="accordion-body collapse">
+											      <div class="accordion-inner">
+											        <input id="refcode" name="refcode" placeholder="Enter your referral code" class="form-control">
+											        <button id="btn-signup" style="margin-top: 3%" type="submit" class="btn btn-info">Submit</button>
+											      </div>
+											    </div>
+											     </div>
+											    </div>
+											   
+											  </div>
+										    </div>
+									    </div>
 										<div class="form-group">
 											<!-- Button -->                                        
 											<div class="col-md-offset-3 col-md-9">

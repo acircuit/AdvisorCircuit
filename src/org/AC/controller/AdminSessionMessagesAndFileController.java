@@ -119,7 +119,7 @@ public class AdminSessionMessagesAndFileController extends HttpServlet {
 						subject = "Your Communication has been rejected";
 						content = "Hi, <br><br>We are sorry but your communication has been rejected. For further information please contact <b>Advisor Circuit at </b>contactus@advisorcircuit.com<br><h3>File Purpose : </h3>"
 								+ comment
-								+ "<br><img src=\"https://www.advisorcircuit.com/Test/assets/img/logo_black.png\" style='float:right' width='25%'>";
+								+ "<br><img src=\"https://www.advisorcircuit.com/Test/assets/img/logo_black.png\" style='float:right' width='15%'>";
 						SendMail mail = new SendMail(subject, content, email,
 								prop.getProperty("MAIL_ADMIN"));
 						mail.start();
@@ -203,7 +203,8 @@ public class AdminSessionMessagesAndFileController extends HttpServlet {
 							String subject ="";
 							String content ="";
 							subject = "Your Communication has been rejected";
-							content = "Hi, <br><br>We are sorry but your communication has been rejected. For further information please contact <b>Advisor Circuit at </b>contactus@advisorcircuit.com<br><h3>Message : </h3>" +userMessage+"<br><img src=\"https://www.advisorcircuit.com/Test/assets/img/logo_black.png\" style='float:right' width='25%'>";
+							content = "Hi, <br><br>We are sorry but your communication has been rejected. For further information please contact <b>Advisor Circuit at </b>contactus@advisorcircuit.com<br><h3>Message : </h3>" +userMessage+"<br><img src=\"https://www.advisorcircuit.com/Test/assets/img/logo_black.png\" style='float:right' width='15%'>";
+
 							SendMail mail = new SendMail(subject, content, email ,prop.getProperty("MAIL_ADMIN"));
 							mail.start();
 								response.getWriter().write("THE STATUS HAS BEEN CHANGED.PLEASE REFRESH THE PAGE");
@@ -258,7 +259,7 @@ public class AdminSessionMessagesAndFileController extends HttpServlet {
 							String subject ="";
 							String content ="";
 							subject = "Your Communication has been rejected";
-							content = "Hi, <br><br>We are sorry but your communication has been rejected. For further information please contact <b>Advisor Circuit at </b>contactus@advisorcircuit.com<br><h3>Message : </h3>" +advisorMessage+"<br><img src=\"https://www.advisorcircuit.com/Test/assets/img/logo_black.png\" style='float:right' width='25%'>";
+							content = "Hi, <br><br>We are sorry but your communication has been rejected. For further information please contact <b>Advisor Circuit at </b>contactus@advisorcircuit.com<br><h3>Message : </h3>" +advisorMessage+"<br><img src=\"https://www.advisorcircuit.com/Test/assets/img/logo_black.png\" style='float:right' width='15%'>";
 							SendMail mail = new SendMail(subject, content,email ,prop.getProperty("MAIL_ADMIN"));
 							mail.start();
 								response.getWriter().write("THE STATUS HAS BEEN CHANGED.PLEASE REFRESH THE PAGE");

@@ -33,7 +33,14 @@ public class AdvisorProfileDTO implements Comparable<AdvisorProfileDTO> {
 	private Boolean isActive;
 	private Boolean isVisible;
 	private String keywords;
-
+	private String charity;
+	
+	public String getCharity() {
+		return charity;
+	}
+	public void setCharity(String charity) {
+		this.charity = charity;
+	}
 	public String getKeywords() {
 		return keywords;
 	}

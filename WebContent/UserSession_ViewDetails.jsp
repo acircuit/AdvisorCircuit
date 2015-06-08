@@ -350,10 +350,9 @@
 
 									<div style="height: 10px"></div>
 
-									<c:if test="${(!fromCancelledSession)}">
 										<div class="text-center">
 											<c:choose>
-												<c:when test="${fromPreviousSession}">
+												<c:when test="${fromPreviousSession || fromCancelledSession}">
 													<a data-toggle="modal" data-target="#messageadvisor" onclick="getmessages()" class="btn btn-career margin-10">View  Chat</a>
 												</c:when>
 												<c:otherwise>
@@ -363,7 +362,6 @@
 
 											<!-- <a data-toggle="modal" data-target="#uploadfile" onclick="getFiles()" class="btn btn-career margin-10">Upload Files</a> -->
 										</div>
-									</c:if>
 									<c:choose>
 										<c:when test="${fromPreviousSession && request.getMode().equals('email') }">
 											<a class="btn btn-info margin-10" data-toggle="modal"
@@ -413,8 +411,8 @@
 															<div class="panel-body">
 																<ul id="message" class='chat'></ul>
 															</div>
-															<c:if test="${(!fromPreviousSession)}">
-																<form>
+
+															<c:if test="${(!fromPreviousSession) && !fromCancelledSession}">
 																<div class="panel-footer col-xs-12">
 																	<form class="form-inline">
 																		  <div class="form-group col-xs-11">

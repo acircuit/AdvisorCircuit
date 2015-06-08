@@ -572,38 +572,24 @@ public class UserDetailsDAO {
 		}
 		return isFlagCommit;
 	}
-
-	public Boolean SetHereToHelpDetails(String name, String email,
-			String phone, String occupation, String industry, String service,
-			String phonemode, String emailmode, String webchat, String query,
-			String other) {
+	
+	public Boolean SetHereToHelpDetails(String email,String phone){
 		logger.info("Entered SetHereToHelpDetails method of UserDetailsDAO");
 		int result = 0;
 		Boolean isDetailsCommit = false;
 		try {
-			conn = ConnectionFactory.getConnection();
-			conn.setAutoCommit(false);
-			String query1 = "insert into heretohelp"
-					+ "(NAME,EMAIL,PHONE,OCCUPATION,INDUSTRY,SERVICE,PHONE_RANK,EMAIL_RANK,WEBCHAT_RANK,QUERY,OTHER) values"
-					+ "(?,?,?,?,?,?,?,?,?,?,?)";
+	        conn =ConnectionFactory.getConnection();
+	 		conn.setAutoCommit(false);
+	 		String query1 = "insert into heretohelp"+"(EMAIL,PHONE) values" + "(?,?)";
 			PreparedStatement pstmt = conn.prepareStatement(query1);
-			pstmt.setString(1, name);
-			pstmt.setString(2, email);
-			pstmt.setString(3, phone);
-			pstmt.setString(4, occupation);
-			pstmt.setString(5, industry);
-			pstmt.setString(6, service);
-			pstmt.setString(7, phonemode);
-			pstmt.setString(8, emailmode);
-			pstmt.setString(9, webchat);
-			pstmt.setString(10, query);
-			pstmt.setString(11, other);
-			result = pstmt.executeUpdate();
-			if (result > 0) {
-				conn.commit();
-				isDetailsCommit = true;
-			}
-			logger.info("Exit SetHereToHelpDetails method of UserDetailsDAO");
+			pstmt.setString(1,email);
+			pstmt.setString(2,phone);
+		    result = pstmt.executeUpdate();
+		    if(result > 0){
+		    	conn.commit();
+		    	isDetailsCommit= true;
+		    }
+		logger.info("Exit SetHereToHelpDetails method of UserDetailsDAO");
 		} catch (SQLException e) {
 			try {
 				conn.rollback();

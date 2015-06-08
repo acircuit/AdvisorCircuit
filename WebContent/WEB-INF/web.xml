@@ -864,6 +864,15 @@
     <url-pattern>/Notifications</url-pattern>
   </servlet-mapping>
   <servlet>
+   <servlet>
+    <servlet-name>AdminPromotions</servlet-name>
+    <servlet-class>org.AC.controller.AdminPromotionsController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>AdminPromotions</servlet-name>
+    <url-pattern>/AdminPromotions</url-pattern>
+  </servlet-mapping>
+  <servlet>
     <servlet-name>NewPassword</servlet-name>
     <jsp-file>/NewPassword.jsp</jsp-file>
   </servlet>

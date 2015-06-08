@@ -18,6 +18,7 @@ import java.util.List;
 import org.AC.JDBC.ConnectionFactory;
 import org.AC.dto.AdvisorProfileDTO;
 import org.AC.dto.FeedbackDTO;
+import org.AC.dto.SessionFeedBackDTO;
 import org.AC.dto.UserDetailsDTO;
 import org.AC.dto.UserRequestDTO;
 import org.apache.log4j.Logger;
@@ -772,47 +773,46 @@ public class MyAccountRequestDAO {
 		logger.info("Exit GetFeedbackPathForUser method of MyAccountRequestDAO");
 		return formPath;
 	}
-
-	public String GetFeedbackPathForAdmin(int sId) {
-
-		logger.info("Entered GetFeedbackPathForAdmin method of MyAccountRequestDAO");
-		String formPath = "";
-		PreparedStatement pstmt;
-		try {
-			conn = ConnectionFactory.getConnection();
-			conn.setAutoCommit(false);
-			String query = "SELECT FORM FROM feedback WHERE SESSION_ID = ? AND SUBMITTED= ?";
-			pstmt = conn.prepareStatement(query);
-			pstmt.setInt(1, sId);
-			pstmt.setBoolean(2, true);
-			ResultSet results = pstmt.executeQuery();
-			if (results.next()) {
-				formPath = results.getString("FORM");
-			}
-		} catch (SQLException e) {
-			logger.error("GetFeedbackPathForAdmin method of MyAccountRequestDAO threw error:"
-					+ e.getMessage());
-			e.printStackTrace();
-		} catch (IOException e) {
-			logger.error("GetFeedbackPathForAdmin method of MyAccountRequestDAO threw error:"
-					+ e.getMessage());
-			e.printStackTrace();
-		} catch (PropertyVetoException e) {
-			logger.error("GetFeedbackPathForAdmin method of MyAccountRequestDAO threw error:"
-					+ e.getMessage());
-			e.printStackTrace();
-		} finally {
+	public FeedbackDTO GetFeedbackPathForAdmin(int sId){
+			
+			logger.info("Entered GetFeedbackPathForAdmin method of MyAccountRequestDAO");
+			String formPath = "";
+			PreparedStatement pstmt;
+	    	FeedbackDTO feedback = new FeedbackDTO();
 			try {
-				conn.close();
+				conn =ConnectionFactory.getConnection();
+				conn.setAutoCommit(false);
+				String query ="SELECT FORM,APPROVED FROM feedback WHERE SESSION_ID = ? AND SUBMITTED= ?";
+				pstmt = conn.prepareStatement(query);
+				pstmt.setInt(1, sId);
+				pstmt.setBoolean(2, true);
+			    ResultSet results = pstmt.executeQuery();
+			    if(results.next()) {
+			    	feedback.setPath(results.getString("FORM"));
+			    	feedback.setApproved(results.getBoolean("APPROVED"));
+			    }		    	
 			} catch (SQLException e) {
 				logger.error("GetFeedbackPathForAdmin method of MyAccountRequestDAO threw error:"
 						+ e.getMessage());
 				e.printStackTrace();
-			}
-		}
-
-		logger.info("Exit GetFeedbackPathForAdmin method of MyAccountRequestDAO");
-		return formPath;
+			} catch (IOException e) {
+				logger.error("GetFeedbackPathForAdmin method of MyAccountRequestDAO threw error:"+e.getMessage());
+				e.printStackTrace();
+			} catch (PropertyVetoException e) {
+				logger.error("GetFeedbackPathForAdmin method of MyAccountRequestDAO threw error:"+e.getMessage());
+				e.printStackTrace();
+			}finally{
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					logger.error("GetFeedbackPathForAdmin method of MyAccountRequestDAO threw error:"+e.getMessage());
+					e.printStackTrace();
+				}
+			}	
+	
+			
+			logger.info("Exit GetFeedbackPathForAdmin method of MyAccountRequestDAO");
+			return feedback;
 	}
 
 	public String GetModeDetails(int sId) {

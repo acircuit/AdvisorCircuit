@@ -167,7 +167,7 @@ public class UserMyAccountPaymentController extends HttpServlet {
 					ChangeRequestStatusDAO copy = new ChangeRequestStatusDAO();
 					String service = copy.GetService(rId);				
 					String subject = "User Payment Done!";
-					String content = "Hi, <br><br>User Payment Done For Session Id : "+sId+" <br>Now, Waiting for session to happen"+"<br><img src=\"https://www.advisorcircuit.com/Test/assets/img/logo_black.png\" style='float:right' width='25%'>";
+					String content = "Hi, <br><br>User Payment Done For Session Id : "+sId+" <br>Now, Waiting for session to happen"+"<br><img src=\"https://www.advisorcircuit.com/Test/assets/img/logo_black.png\" style='float:right' width='15%'>";
 					SendMail mail = new SendMail(subject, content, prop1.getProperty("MAIL_ADMIN"),prop1.getProperty("MAIL_ADMIN"));
 					mail.start();
 					response.sendRedirect("UserUpcomingSessions");
@@ -270,7 +270,7 @@ public class UserMyAccountPaymentController extends HttpServlet {
 						ChangeRequestStatusDAO copy = new ChangeRequestStatusDAO();
 						String service = copy.GetService(rId);
 						String subject = "User Payment Done!";
-						String content = "Hi, <br><br>User Payment Done For Session Id : "+sId+" <br>Now, Waiting for session to happen"+"<br><img src=\"https://www.advisorcircuit.com/Test/assets/img/logo_black.png\" style='float:right' width='25%'>";
+						String content = "Hi, <br><br>User Payment Done For Session Id : "+sId+" <br>Now, Waiting for session to happen"+"<br><img src=\"https://www.advisorcircuit.com/Test/assets/img/logo_black.png\" style='float:right' width='15%'>";
 						SendMail mail = new SendMail(subject, content, prop1.getProperty("MAIL_ADMIN"),prop1.getProperty("MAIL_ADMIN"));
 						mail.start();
 						response.sendRedirect("UserUpcomingSessions");
@@ -402,7 +402,7 @@ public class UserMyAccountPaymentController extends HttpServlet {
 							
 							
 								String subject = "User Payment Done!";
-								String content = "Hi, <br><br>User Payment Done For Session Id : "+sId+" <br>Now, Waiting for session to happen"+"<br><img src=\"https://www.advisorcircuit.com/Test/assets/img/logo_black.png\" style='float:right' width='25%'>";
+								String content = "Hi, <br><br>User Payment Done For Session Id : "+sId+" <br>Now, Waiting for session to happen"+"<br><img src=\"https://www.advisorcircuit.com/Test/assets/img/logo_black.png\" style='float:right' width='15%'>";
 								SendMail mail = new SendMail(subject, content, prop1.getProperty("MAIL_ADMIN"),prop1.getProperty("MAIL_ADMIN"));
 								mail.start();
 								String site = new String("thankyouforpayment");

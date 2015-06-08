@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+\<!DOCTYPE html>
 <%@page import="org.AC.dto.HereToHelpDTO"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
@@ -87,101 +87,11 @@
 				
                     <div class="table-responsive">
                         <table style="text-align:center" class="table table-bordered">
-                                                    <tr><th style="text-align:center">NAME</th><th style="text-align:center">EMAIL</th><th style="text-align:center">OCCUPATION</th><th style="text-align:center">INDUSTRY</th><th style="text-align:center">SERVICE</th><th style="text-align:center">FORM</th></tr>
+                                                    <tr><th style="text-align:center">EMAIL</th><th style="text-align:center">PHONE</th></tr>
                                                             <c:forEach items="${help}" var="we">
-                                                            <tr><td><p>${we.getName()}</p></td><td><p>${we.getEmail()}</p></td><td><p>${we.getOccupation()}</p></td>
-                                                            <td>
-                                                            <p>${we.getIndustry()}</p>
-                                                                                                                
-                                                            </td>
-                                                            <td>
-                                                            <p>${we.getService()}</p>
-                                                            </td>
-                                                            <td>
-                                                                <a data-toggle="modal" data-target="#form${we.getHelpId()}">Full Details</a>
-                                                            </td>
+                                                            <tr><td><p>${we.getEmail()}</p></td><td><p>${we.getPhone()}</p></td>
+                                                           
                                                             </tr>
-                                                        <div class="modal fade" id="form${we.getHelpId()}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                                                            <div class="modal-dialog modal-lg">
-                                                                <div class="modal-content">
-                                                                    <div class="modal-header">
-                                                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
-                                                                        <h4 class="modal-title" id="myModalLabel">Here To Help</h4>
-                                                                    </div>
-                                                                    <div class="modal-body">
-                                                                    <h4 style="font-family:'custom_light' !important;color:#555">1. Personal Information</h4>
-                                                                    <div class="form-group">
-                                                                    <label for="email" class="col-md-3 control-label">Full Name:</label>
-                                                                     <div class="col-md-9">
-                                                                          <input id ="name" type="text" name="name" class="form-control" value="${we.getName()}" >
-                                                                     </div>
-                                                                    </div>
-                                                                    <div class="form-group">
-                                                                    <label for="email" class="col-md-3 control-label">Email:</label>
-                                                                     <div class="col-md-9">
-                                                                          <input id ="email" type="text" name="email" class="form-control" value="${we.getEmail()}">
-                                                                     </div>
-                                                                    </div>
-                                                                    <div class="form-group">
-                                                                    <label for="phone" class="col-md-3 control-label">Phone:</label>
-                                                                     <div class="col-md-9">
-                                                                          <input id ="phone" type="text" name="phone" class="form-control" value="${we.getPhone()}">
-                                                                     </div>
-                                                                    </div>
-                                                                    <div class="form-group">
-                                                                    <label for="occupation" class="col-md-3 control-label">Occupation:</label>
-                                                                     <div class="col-md-9">
-                                                                          <input id ="occupation" type="text" name="phone" class="form-control" value="${we.getOccupation()}">
-                                                                     </div>
-                                                                    </div>
-                                                                    <h4 style="font-family:'custom_light' !important;color:#555">2.Industry or area in which you need help:</h4>
-                                                                     <div class="form-group">
-                                                                         <div class="col-md-12">
-                                                                              <input id ="industry" type="text" name="industry" class="form-control" value="${we.getIndustry()}">
-                                                                         </div>
-                                                                    </div>
-                                                                    <h4 style="font-family:'custom_light' !important;color:#555">3.Which Service do you want [Visit How It Works page for details]</h4>
-                                                                    <div class="form-group">
-                                                                     <div class="col-md-12">
-                                                                          <input id ="name" type="text" name="name" class="form-control" value="${we.getService()}" >
-                                                                     </div>
-                                                                    </div>
-                                                                    <h4 style="font-family:'custom_light' !important;;color:#555">4.Rank below modes of communication in order of preference </h4>
-                                                                    <div class="form-group">
-                                                                        <label for="phone" class="col-md-3 control-label">Phone:</label>
-                                                                         <div class="col-md-9 ">
-                                                                             <input type="text" name="phonemode" class="form-control" id="optionsRadiophone1" value="${we.getPhone_rank() }"/>
-                                                                            
-                                                                         </div>
-                                                                     </div>
-                                                                     <div class="form-group">
-                                                                         <label for="icode" class="col-md-3 control-label">Email:</label>
-                                                                         <div class="col-md-9 ">
-                                                                             <input type="text" name="emailmode" class="form-control" id="optionsRadiophone1" value="${we.getEmail_rank() }"/>								                                     
-                                                                         </div>
-                                                                     </div>
-                                                                     <div class="form-group">
-                                                                         <label for="icode" class="col-md-3 control-label" >WebChat:</label>
-                                                                         <div class="col-md-9 ">
-                                                                             <input type="text" name="webchatmode" class="form-control" id="optionsRadiophone1" value="${we.getWebchat_rank() }"/>								                                     
-                                                                         </div>
-                                                                     </div>
-                                                                      <h4 style="font-family:'custom_light' !important;color:#555">5.Query</h4>
-                                                                    <div class="form-group">
-                                                                        <div class="col-md-12">
-                                                                            <textarea class="form-control" style="font-family:'custom_light' !important;" id="query" name="query" rows="3">${we.getQuery()}</textarea>
-                                                                        </div>
-                                                                    </div>
-                                                                    <h4 style="font-family:'custom_light' !important;color:#555">6.Other Details:</h4>
-                                                                    <div class="form-group">
-                                                                        <div class="col-md-12">
-                                                                            <textarea class="form-control" style="font-family:'custom_light' !important;" id="other" name="other" rows="3">${we.getOther()}</textarea>
-                                                                        </div>
-                                                                    </div>
-                                                                    </div>
-                                                                </div><!-- /.modal-content -->
-                                                            </div><!-- /.modal-dialog -->
-                                                        </div><!-- /.modal -->
                                                         </c:forEach>
                                                     </table>
                     </div>

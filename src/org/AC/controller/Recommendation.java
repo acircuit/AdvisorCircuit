@@ -149,14 +149,10 @@ public class Recommendation extends HttpServlet {
 								String adminHref = "AdminReview";
 								AdminNotificationDAO admin = new AdminNotificationDAO();
 								admin.InsertNotification(adminComment, adminHref);
-								
-								
-								
-								
 								String subject ="";
 								String content ="";
 								subject = "An Advisor got reviewed";
-								content = "Hi, <br><br>An advisor just got reviewed. Following are the details : <br> For SessionId : " +sId+ "<br>Review Message : " +reviewmessage+"<br><img src=\"https://www.advisorcircuit.com/Test/assets/img/logo_black.png\" style='float:right' width='25%'>";
+								content = "Hi, <br><br>An advisor just got reviewed. Following are the details : <br> For SessionId : " +sId+ "<br>Review Message : " +reviewmessage+"<br><img src=\"https://www.advisorcircuit.com/Test/assets/img/logo_black.png\" style='float:right' width='15%'>";
 								SendMail mail = new SendMail(subject, content, prop.getProperty("MAIL_ADMIN"),prop.getProperty("MAIL_ADMIN"));
 								mail.start();
 								reviews = "Thank you for the review. You can also recommend "+advisorname+" by clicking on the star above.";
@@ -190,7 +186,7 @@ public class Recommendation extends HttpServlet {
 									String subject ="";
 									String content ="";
 									subject = "An Advisor got reviewed";
-									content = "Hi, <br><br>An advisor just got reviewed. Following are the details : <br> For SessionId : " +sId+ "<br>Review Message : " +reviewmessage+"<br><img src=\"https://www.advisorcircuit.com/Test/assets/img/logo_black.png\" style='float:right' width='25%'>";
+									content = "Hi, <br><br>An advisor just got reviewed. Following are the details : <br> For SessionId : " +sId+ "<br>Review Message : " +reviewmessage+"<br><img src=\"https://www.advisorcircuit.com/Test/assets/img/logo_black.png\" style='float:right' width='15%'>";
 									SendMail mail = new SendMail(subject, content, prop.getProperty("MAIL_ADMIN"),prop.getProperty("MAIL_ADMIN"));
 									mail.start();
 									reviews = "Thank you for the review. You can also recommend "+advisorname+" by clicking on the star above.";

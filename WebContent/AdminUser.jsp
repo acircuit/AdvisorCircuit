@@ -86,7 +86,7 @@
             
             <div class="col-md-9">
             	<div id="page-wrapper">
-                    <div class="table-responsive">
+                    <div class="table-responsive" style="overflow-x:visible ">
                         <table style="text-align:center" class="table table-bordered" id="tblData">
                             <tr><th style="text-align:center">ID</th><th style="text-align:center">NAME</th><th style="text-align:center">EMAIL</th><th style="text-align:center">ISACTIVE</th><th style="text-align:center">PHONE</th><th style="text-align:center">DATE OF REGISTRATION</th><th style="text-align:center">ACTION</th></tr>
                                 <c:forEach items="${users}" var="user">

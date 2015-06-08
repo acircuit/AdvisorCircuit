@@ -81,7 +81,7 @@ public class AdvisorRegistrationImageController extends HttpServlet {
 					notify.InsertNotification(comment, href);
 					//Mail the admin
 					String subject = "New Registration by Advisor!!!!!";
-					String content = "Hi, <br><br>An advisor registered with us. Following are the details: <br>Email Id :</h3>" +email+"<br><img src=\"https://www.advisorcircuit.com/Test/assets/img/logo_black.png\" style='float:right' width='25%'>";
+					String content = "Hi, <br><br>An advisor registered with us. Following are the details: <br>Email Id :</h3>" +email+"<br><img src=\"https://www.advisorcircuit.com/Test/assets/img/logo_black.png\" style='float:right' width='15%'>";
 					SendMail mail = new SendMail(subject, content,prop.getProperty("MAIL_ADMIN"),email);
 					mail.start();
 					response.sendRedirect("RegistrationComplete");

@@ -1,8 +1,4 @@
-      <style type="text/css">
-.notification_li
-{
-position:relative
-}
+<style type="text/css">
 .notificationContainer 
 {
 background-color: #fff;
@@ -88,6 +84,7 @@ font-size: 11px;
 
 </style>
 <%
+response.setHeader("cache-control", "no-cache"); 
 String source="";
 if( session.getAttribute("admin") != null &&  (Boolean)session.getAttribute("admin")){
 	source = "admin";
@@ -109,13 +106,36 @@ if( session.getAttribute("admin") != null &&  (Boolean)session.getAttribute("adm
 			</div>
 <script src="https://code.jquery.com/jquery-1.11.0.min.js"></script>
 <script type="text/javascript" >
+var id ="";
 	$(document).ready(function() 	
 	{
 		$(".notificationLink").click(function()
-		{
+		{	
+			var type="";
+			if(<%=source.equals("admin")%>){
+				type = "admin";
+			}else if (<%=source.equals("advisor")%>) {
+				type = "advisor";
+			}else{
+				type = "user";
+			}
+			if($("#notificationsBody").is(":visible") == false){
+				$.ajax({
+				    url : 'NotificationViewedController', // Your Servlet mapping or JSP(not suggested)
+				    data : {"id" : id,"type" : type},
+				    type : 'POST',
+				    dataType : 'html', // Returns HTML as plain text; included script tags are evaluated when inserted in the DOM.
+				    success : function(response) {
+				    },
+				    error : function(request, textStatus, errorThrown) {
+				        alert(errorThrown);
+				    }
+				}); 
+			}	
 		$(".notificationContainer").fadeToggle(300);
 		$(".notification_count").fadeOut("slow");
 		return false;
+		
 		});
 		
 		//Document Click hiding the popup 
@@ -124,55 +144,51 @@ if( session.getAttribute("admin") != null &&  (Boolean)session.getAttribute("adm
 		$(".notificationContainer").hide();
 		});
 		
-		//Popup on click
-		
-	
-	});
-</script>
-<script type="text/javascript">
-		$(document).ready(function() { 
-			if(<%=source.equals("admin")%>){
-				var eventSource = new EventSource("AdminNotificationSSE");
-				eventSource.addEventListener('notify', function(event) {
-				        document.getElementById('notificationsBody').innerHTML = event.data;
-				    }, false);
-				eventSource.addEventListener('count', function(event) {
-					if(event.data != $('#notification_count').val()){
-						var div = document.getElementById('notification_count');
+		if(<%=source.equals("admin")%>){
+			var eventSource = new EventSource("AdminNotificationSSE");
+			eventSource.addEventListener('notify', function(event) {
+			        document.getElementById('notificationsBody').innerHTML = event.data;
+			    }, false);
+			eventSource.addEventListener('count', function(event) {
+				
+				if(event.data >0){
+					 document.getElementById('notification_count').style.display = 'block';
+			        document.getElementById('notification_count').innerHTML = event.data;
+				}
+		    }, false);
+			eventSource.addEventListener('id', function(event) {
+				id= event.data;
+		    }, false);
+		}
+		else if(<%=source.equals("user")%>){
+			var eventSource = new EventSource("UserNotificationSSE");
+			eventSource.addEventListener('notify', function(event) {
+			        document.getElementById('notificationsBody').innerHTML = event.data;
+			    }, false);
+			eventSource.addEventListener('count', function(event) {
+				if(event.data >0){
+					 var div = document.getElementById('notification_count');
 					    div.style.display = 'block';
-				        document.getElementById('notification_count').innerHTML = event.data;
-					}
+			        document.getElementById('notification_count').innerHTML = event.data;
+				}
+		    }, false);
+			eventSource.addEventListener('id', function(event) {
+				id= event.data;
+		    }, false);
+		}else if (<%=source.equals("advisor")%>) {
+			var eventSource = new EventSource("AdvisorNotificationSSE");
+			eventSource.addEventListener('notify', function(event) {
+			        document.getElementById('notificationsBody').innerHTML = event.data;
 			    }, false);
-			}
-			else if(<%=source.equals("user")%>){
-				var eventSource = new EventSource("UserNotificationSSE");
-				eventSource.addEventListener('notify', function(event) {
-				        document.getElementById('notificationsBody').innerHTML = event.data;
-				    }, false);
-				eventSource.addEventListener('count', function(event) {
-					if(event.data > 0){
-						 var div = document.getElementById('notification_count');
-						    div.style.display = 'block';
-				        document.getElementById('notification_count').innerHTML = event.data;
-					}else{
-						 var div = document.getElementById('notification_count');
-						    div.style.display = 'none';
-					}
-			    }, false);
-			}else if (<%=source.equals("advisor")%>) {
-				var eventSource = new EventSource("AdvisorNotificationSSE");
-				eventSource.addEventListener('notify', function(event) {
-				        document.getElementById('notificationsBody').innerHTML = event.data;
-				    }, false);
-				eventSource.addEventListener('count', function(event) {
-					if(event.data > 0){
-						 document.getElementById('notification_count').style.display = 'block';
-				        document.getElementById('notification_count').innerHTML = event.data;
-					}else{
-						 var div = document.getElementById('notification_count');
-						    div.style.display = 'none';
-					}
-			    }, false);
-			}
+			eventSource.addEventListener('count', function(event) {
+				if(event.data >0){
+					 document.getElementById('notification_count').style.display = 'block';
+			        document.getElementById('notification_count').innerHTML = event.data;
+				}
+		    }, false);
+			eventSource.addEventListener('id', function(event) {
+				id= event.data;
+		    }, false);
+		}
 	});
 </script>

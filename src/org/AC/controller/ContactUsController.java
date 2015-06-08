@@ -80,7 +80,7 @@ public class ContactUsController extends HttpServlet {
 						+ phone
 						+ "<br>Message: "
 						+ message
-						+ "<br><img src=\"https://www.advisorcircuit.com/Test/assets/img/logo_black.png\" style='float:right' width='25%'>";
+						+ "<br><img src=\"https://www.advisorcircuit.com/Test/assets/img/logo_black.png\" style='float:right' width='15%'>";
 				SendMail mail = new SendMail(subject, content,
 						"udaykhatry@advisorcircuit.com", email);
 				mail.start();

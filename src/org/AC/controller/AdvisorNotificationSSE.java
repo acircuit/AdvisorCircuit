@@ -49,19 +49,29 @@ public class AdvisorNotificationSSE extends HttpServlet {
         notify = user.GetNotification(advisorId);
         String data="<ul>";
         int count = 0;
+        String id = "";
         for (NotificationDTO notificationDTO : notify) {
         	if(!notificationDTO.getIsPrevious()){
 				data = data + "<li style='color:#ffffff;border-bottom: 1px solid #dddddd;background:#e7e7e9;'> <a href='"+notificationDTO.getHref()+"' ><p align='left' style='margin-bottom: 0px;font-size:16px;color:black'>"+notificationDTO.getComment()+"<br><span class='date'>"+new SimpleDateFormat("dd-MMM-yyyy' 'h:mm a").format(new Date(notificationDTO.getDate().getTime()))+"</span></p></a></li>";
-				count++;
+				if(!notificationDTO.getIsViewed()){
+					id = id + notificationDTO.getnId()+",";
+					count++;
+				}
 			}else{
 				data = data + "<li style='color:#ffffff;border-bottom: 1px solid #dddddd;'> <a href='"+notificationDTO.getHref()+"' ><p align='left' style='margin-bottom: 0px;font-size:16px;color:black'>"+notificationDTO.getComment()+"<br><span class='date'>"+new SimpleDateFormat("dd-MMM-yyyy' 'h:mm a").format(new Date(notificationDTO.getDate().getTime()))+"</span></p></a></li>";	
 			}
 		}
+        if(id.length() > 1){
+        	id= id.substring(0, id.length()-1);
+        }
+  
         data= data + "</ul>"; 
         writer.write("event:notify\n");
         writer.write("data: " + data + "\n\n");
         writer.write("event:count\n");
         writer.write("data: " + count + "\n\n");
+        writer.write("event:id\n");
+        writer.write("data: " + id + "\n\n");
         writer.flush();
         
         try {

@@ -166,6 +166,7 @@ public class AdminNotificationDAO {
 				note.setHref(results.getString("HREF"));
 				note.setIsPrevious(results.getBoolean("IS_PREVIOUS"));
 				note.setDate(results.getTimestamp("DATE"));
+				note.setIsViewed(results.getBoolean("IS_VIEWED"));
 				notify.add(note);
 			}
 
@@ -231,5 +232,67 @@ public class AdminNotificationDAO {
 		}		
 		logger.info("Entered SetNotificationRead method of AdminNotificationDAO");
 		return isCommit;
+	}
+	
+	public Boolean SetNotificationsViewed(String[] ids, String type){
+		logger.info("Entered SetNotificationsViewed method of AdminNotificationDAO");
+		Boolean isCommit = false;
+		String query = "";
+		try {
+			conn =ConnectionFactory.getConnection();
+			conn.setAutoCommit(false);
+			String q4in = generateQsForIn(ids.length);
+			if(type.equals("admin")){
+				query = "UPDATE admin_notification SET IS_VIEWED = ? WHERE N_ID IN ( " + q4in + " )"; 	
+			}else if (type.equals("user")) {
+				query = "UPDATE user_notification SET IS_VIEWED = ? WHERE N_ID IN ( " + q4in + " )"; 	
+			}else{
+				query = "UPDATE advisor_notification SET IS_VIEWED = ? WHERE N_ID IN ( " + q4in + " )"; 	
+			}
+			PreparedStatement pstmt = conn.prepareStatement(query);
+			pstmt.setBoolean(1, true);
+			int i = 2;
+			  for (String item : ids) {
+				  pstmt.setString(i++, item);
+			  }
+			int result = pstmt.executeUpdate(); 
+			if(result >0) {
+				conn.commit();
+				isCommit = true;
+			}
+		} catch (SQLException e) {
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				logger.error("SetNotificationsViewed method of AdminNotificationDAO threw error:"+e.getMessage());
+				e1.printStackTrace();
+			}	
+			logger.error("SetNotificationsViewed method of AdminNotificationDAO threw error:"+e.getMessage());
+			e.printStackTrace();
+		} catch (IOException e) {
+			logger.error("SetNotificationsViewed method of AdminNotificationDAO threw error:"+e.getMessage());
+			e.printStackTrace();
+		} catch (PropertyVetoException e) {
+			logger.error("SetNotificationsViewed method of AdminNotificationDAO threw error:"+e.getMessage());
+			e.printStackTrace();
+		}finally{
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				logger.error("SetNotificationsViewed method of AdminNotificationDAO threw error:"+e.getMessage());
+				e.printStackTrace();
+			}
+		}		
+		logger.info("Entered SetNotificationsViewed method of AdminNotificationDAO");
+		return isCommit;
+	}
+	
+	private String generateQsForIn(int numQs) {
+	    String items = "";
+	    for (int i = 0; i < numQs; i++) {
+	        if (i != 0) items += ", ";
+	        items += "?";
+	    }
+	    return items;
 	}
 }

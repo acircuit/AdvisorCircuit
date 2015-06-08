@@ -56,6 +56,7 @@ public class AdvisorProfileDetailsDAO {
 						profile.setState(results.getString("STATE"));
 						profile.setExperience(results.getString("EXPERIENCE"));
 						profile.setRatings(results.getInt("RATING"));
+						profile.setCharity(results.getString("CHARITY"));
 						list.add(profile);
 					}
 						

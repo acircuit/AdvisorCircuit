@@ -29,6 +29,7 @@ import org.AC.Util.GetRelativeImageURL;
 import org.AC.Util.GetTimeLeftForReply;
 import org.AC.dto.AdvisorNewDatesDTO;
 import org.AC.dto.AdvisorProfileDTO;
+import org.AC.dto.FeedbackDTO;
 import org.AC.dto.SessionDTO;
 import org.AC.dto.SessionFeedBackDTO;
 import org.AC.dto.TimeDTO;
@@ -95,6 +96,7 @@ public class AdminMyAccountUpcomingSessionViewDetailsController extends HttpServ
 			Boolean isFeedback =false;
 			int sessionId = 0;
 			String modeDetails = "";
+	    	FeedbackDTO serviceFeedback = new FeedbackDTO();
 			SessionFeedBackDTO feed = new SessionFeedBackDTO();
 			SessionFeedBackDTO mail = new SessionFeedBackDTO();
 			List<UserRequestDTO> requestDetails = new ArrayList<UserRequestDTO>();
@@ -168,7 +170,7 @@ public class AdminMyAccountUpcomingSessionViewDetailsController extends HttpServ
 				if(isFeedback){
 					//Getting the FeedBack Form Path
 					MyAccountRequestDAO form = new MyAccountRequestDAO();
-					path = form.GetFeedbackPathForAdmin(sessionId);
+					serviceFeedback = form.GetFeedbackPathForAdmin(sessionId);
 				}
 				//Get the session feedback details
 				SessionFeedBackDAO feedback = new SessionFeedBackDAO();
@@ -187,6 +189,7 @@ public class AdminMyAccountUpcomingSessionViewDetailsController extends HttpServ
 			request.setAttribute("userName", userName);
 			request.setAttribute("path", path);
 			request.setAttribute("feed", feed);
+			request.setAttribute("serviceFeedback", serviceFeedback);		
 			request.setAttribute("mail", mail);
 			request.setAttribute("advisorName", advisorName);
 			request.setAttribute("requestDetails", requestDetails);

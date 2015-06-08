@@ -19,6 +19,13 @@ public class NotificationDTO {
 		this.date = date;
 	}
 	Boolean isPrevious;
+	Boolean isViewed;
+	public Boolean getIsViewed() {
+		return isViewed;
+	}
+	public void setIsViewed(Boolean isViewed) {
+		this.isViewed = isViewed;
+	}
 	public Boolean getIsPrevious() {
 		return isPrevious;
 	}

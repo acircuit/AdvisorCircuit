@@ -245,10 +245,10 @@
                                         <div class="modal-header">
                                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
                                             <c:if test="${request.getService().equals('mockinterview')}">
-                                            	<h4 class="modal-title" id="myModalLabel">Mock Interview Feedback Form <span style="color: #c84c4e">(After pressing send, please don't close the window till you see the message - 'Your Feedback has been sent')</span></h4>
+                                            	<h4 class="modal-title" id="myModalLabel">Mock Interview Feedback Form <span style="color: #c84c4e">(After pressing send, please don't close the window till you see the message - 'Your Feedback has been submitted')</span></h4>
                                             </c:if>
                                             <c:if test="${request.getService().equals('cvcritique')}">
-                                            	<h4 class="modal-title" id="myModalLabel">Resume Critique Feedback Form <span style="color: #c84c4e">(After pressing send, please don't close the window till you see the message - 'Your Feedback has been sent')</span></h4>
+                                            	<h4 class="modal-title" id="myModalLabel">Resume Critique Feedback Form <span style="color: #c84c4e">(After pressing send, please don't close the window till you see the message - 'Your Feedback has been submitted')</span></h4>
                                            	</c:if>
                                         </div>
                                         <div class="modal-body">
@@ -353,10 +353,9 @@
                             
                             <div style="height:10px"></div>
                             
-                            <c:if test="${(!fromCancelledSession)}">
                             	<div class="text-center">
                                 	<c:choose>
-	                          		<c:when test="${fromPreviousSession}">
+	                          		<c:when test="${fromPreviousSession || fromCancelledSession}">
                                 			<a data-toggle="modal" data-target="#messageuser" onclick="getmessages()" class="btn btn-career">View Chat</a>
 	                          		</c:when>
 	                          		<c:otherwise>
@@ -365,7 +364,6 @@
                                	</c:choose>
                                 	<!-- <a data-toggle="modal" data-target="#uploadfile" onclick="getFiles()" class="btn btn-career">Upload Files</a> -->
                                 </div>
-                            </c:if>
                             <c:if test="${ fromPreviousSession && request.getMode().equals('email') || !fromCancelledSession && emailUser.getId() != 0}">
                                 <a data-toggle="modal" data-target="#email" class="btn btn-info" onclick="">User's Mail</a>
                             </c:if>
@@ -697,7 +695,7 @@
 
 				                           </ul> 
 				                        </div>
-				                        <c:if test="${(!fromPreviousSession)}">
+				                        <c:if test="${(!fromPreviousSession) && !fromCancelledSession}">
 					                        <form >
 						                        <!-- /.panel-body -->
 							                        <div class="panel-footer col-xs-12">

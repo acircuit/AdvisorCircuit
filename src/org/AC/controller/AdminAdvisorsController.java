@@ -254,9 +254,13 @@ public class AdminAdvisorsController extends HttpServlet {
 		} else if (operation.equals("updatekeywords")) {
 			String keywords = request.getParameter("keywords");
 			String aId = request.getParameter("advisor");
-
 			AdminAdvisorDAO advisor = new AdminAdvisorDAO();
 			advisor.UpdateAdvisor(aId, keywords);
+		}else if (operation.equals("updateorganization")) {
+			String org = request.getParameter("org");
+			String aId = request.getParameter("advisor");
+			AdminAdvisorDAO advisor = new AdminAdvisorDAO();
+			advisor.UpdateAdvisorCharity(aId,org);
 		}
 
 		logger.info("Exit doPost method of AdminAdvisorsController");

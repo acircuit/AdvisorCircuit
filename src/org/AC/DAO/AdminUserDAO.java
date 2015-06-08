@@ -280,17 +280,8 @@ public class AdminUserDAO {
 			while (results.next()) {
 				HereToHelpDTO here = new HereToHelpDTO();
 				here.setHelpId(results.getInt("HELP_ID"));
-				here.setName(results.getString("NAME"));
 				here.setEmail(results.getString("EMAIL"));
 				here.setPhone(results.getString("PHONE"));
-				here.setOccupation(results.getString("OCCUPATION"));
-				here.setIndustry(results.getString("INDUSTRY"));
-				here.setService(results.getString("SERVICE"));
-				here.setPhone_rank(results.getString("PHONE_RANK"));
-				here.setEmail_rank(results.getString("EMAIL_RANK"));
-				here.setWebchat_rank(results.getString("WEBCHAT_RANK"));
-				here.setQuery(results.getString("QUERY"));
-				here.setOther(results.getString("OTHER"));
 				list.add(here);
 			}
 
