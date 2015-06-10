@@ -22,6 +22,7 @@ import org.AC.controller.User_RegistrationController;
 import org.AC.dto.AdvisorNewDatesDTO;
 import org.AC.dto.SessionDTO;
 import org.AC.dto.UserDetailsDTO;
+import org.AC.dto.UserReferralDTO;
 import org.AC.dto.UserRequestDTO;
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Logger;
@@ -723,6 +724,309 @@ public class UserDetailsDAO {
 			}
 		}
 		return isFlagCommit;
+	}
+	
+	public Boolean SetUserPromo(int uId,String code){
+		logger.info("Entered SetUserPromo method of UserDetailsDAO");
+		int result = 0;
+		Boolean isDetailsCommit = false;
+		try {
+	        conn =ConnectionFactory.getConnection();
+	 		conn.setAutoCommit(false);
+	 		String query1 = "insert into user_referral"+"(USER_ID,REFERRAL_CODE) values" + "(?,?)";
+			PreparedStatement pstmt = conn.prepareStatement(query1);
+			pstmt.setInt(1, uId);
+			pstmt.setString(2,code);
+		    result = pstmt.executeUpdate();
+		    if(result > 0){
+		    	conn.commit();
+		    	isDetailsCommit= true;
+		    }
+		logger.info("Exit SetUserPromo method of UserDetailsDAO");
+		} catch (SQLException e) {
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				logger.error("SetUserPromo method of UserDetailsDAO threw error:"
+						+ e.getMessage());
+				e1.printStackTrace();
+			}
+			logger.error("SetUserPromo method of UserDetailsDAO threw error:"
+					+ e.getMessage());
+			e.printStackTrace();
+		} catch (IOException e) {
+			logger.error("SetUserPromo method of UserDetailsDAO threw error:"
+					+ e.getMessage());
+			e.printStackTrace();
+		} catch (PropertyVetoException e) {
+			logger.error("SetUserPromo method of UserDetailsDAO threw error:"
+					+ e.getMessage());
+			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				logger.error("SetUserPromo method of UserDetailsDAO threw error:"
+						+ e.getMessage());
+				e.printStackTrace();
+			}
+		}
+		return isDetailsCommit;
+	}
+	
+	public Boolean IncrementReferral(String uId){
+		logger.info("Entered IncrementReferral method of UserDetailsDAO");
+		Boolean isCommit = false;
+		try {
+			conn =ConnectionFactory.getConnection();
+			conn.setAutoCommit(false);
+			String query = "UPDATE user_referral SET REFERRAL_COUNT= REFERRAL_COUNT+1 WHERE USER_ID = ?";
+			PreparedStatement pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, uId);
+			int result = pstmt.executeUpdate(); 
+			if(result >0) {
+				conn.commit();
+				isCommit = true;
+			}
+		} catch (SQLException e) {
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				logger.error("IncrementReferral method of UserDetailsDAO threw error:"+e.getMessage());
+				e1.printStackTrace();
+			}	
+			logger.error("IncrementReferral method of UserDetailsDAO threw error:"+e.getMessage());
+			e.printStackTrace();
+		} catch (IOException e) {
+			logger.error("IncrementReferral method of UserDetailsDAO threw error:"+e.getMessage());
+			e.printStackTrace();
+		} catch (PropertyVetoException e) {
+			logger.error("IncrementReferral method of UserDetailsDAO threw error:"+e.getMessage());
+			e.printStackTrace();
+		}finally{
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				logger.error("IncrementReferral method of UserDetailsDAO threw error:"+e.getMessage());
+				e.printStackTrace();
+			}
+		}		
+		logger.info("Entered IncrementReferral method of UserDetailsDAO");
+		return isCommit;
+	}
+	public Boolean SetUserSignUpReferral(String code,int uId){
+		logger.info("Entered SetUserSignUpReferral method of UserDetailsDAO");
+		int result = 0;
+		Boolean isDetailsCommit = false;
+		try {
+	        conn =ConnectionFactory.getConnection();
+	 		conn.setAutoCommit(false);
+	 		String query1 = "insert into user_signup_referral"+"(USER_ID,SIGN_UP_REFERRAL) values" + "(?,?)";
+			PreparedStatement pstmt = conn.prepareStatement(query1);
+			pstmt.setInt(1, uId);
+			pstmt.setString(2,code);
+		    result = pstmt.executeUpdate();
+		    if(result > 0){
+		    	conn.commit();
+		    	isDetailsCommit= true;
+		    }
+		logger.info("Exit SetUserSignUpReferral method of UserDetailsDAO");
+		} catch (SQLException e) {
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				logger.error("SetUserSignUpReferral method of UserDetailsDAO threw error:"
+						+ e.getMessage());
+				e1.printStackTrace();
+			}
+			logger.error("SetUserSignUpReferral method of UserDetailsDAO threw error:"
+					+ e.getMessage());
+			e.printStackTrace();
+		} catch (IOException e) {
+			logger.error("SetUserSignUpReferral method of UserDetailsDAO threw error:"
+					+ e.getMessage());
+			e.printStackTrace();
+		} catch (PropertyVetoException e) {
+			logger.error("SetUserSignUpReferral method of UserDetailsDAO threw error:"
+					+ e.getMessage());
+			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				logger.error("SetUserSignUpReferral method of UserDetailsDAO threw error:"
+						+ e.getMessage());
+				e.printStackTrace();
+			}
+		}
+		return isDetailsCommit;
+	}
+	
+	public UserReferralDTO GetReferralCode(int uId) {
+		logger.info("Entered GetReferralCode method of UserDetailsDAO");
+		UserReferralDTO ref = new UserReferralDTO();
+		String code = "";
+		try {
+			conn = ConnectionFactory.getConnection();
+			conn.setAutoCommit(false);
+			String query = "SELECT REFERRAL_CODE,REFERRAL_COUNT,REFERRAL_MESSAGE FROM user_referral WHERE USER_ID=?";
+			PreparedStatement pstmt;
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, uId);
+			ResultSet results = pstmt.executeQuery();
+			if (results.next()) {
+				ref.setRefCode(results.getString("REFERRAL_CODE"));
+				ref.setRefCount(results.getInt("REFERRAL_COUNT"));
+				ref.setRefMessage(results.getBoolean("REFERRAL_MESSAGE"));
+			}
+			logger.info("Exit GetReferralCode method of UserDetailsDAO");
+		} catch (SQLException e) {
+			logger.error("GetReferralCode method of UserDetailsDAO threw error:"
+					+ e.getMessage());
+			e.printStackTrace();
+		} catch (IOException e) {
+			logger.error("GetReferralCode method of UserDetailsDAO threw error:"
+					+ e.getMessage());
+			e.printStackTrace();
+		} catch (PropertyVetoException e) {
+			logger.error("GetReferralCode method of UserDetailsDAO threw error:"
+					+ e.getMessage());
+			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				logger.error("GetReferralCode method of UserDetailsDAO threw error:"
+						+ e.getMessage());
+				e.printStackTrace();
+			}
+		}
+
+		logger.info("Exit GetReferralCode method of UserDetailsDAO");
+		return ref;
+	}
+	
+	public Boolean IsPromotionActive(int pId) {
+		logger.info("Entered IsPromotionActive method of UserDetailsDAO");
+		Boolean isActive = false;
+		try {
+			conn = ConnectionFactory.getConnection();
+			conn.setAutoCommit(false);
+			String query = "SELECT IS_ACTIVE FROM promotions WHERE ID=?";
+			PreparedStatement pstmt;
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, pId);
+			ResultSet results = pstmt.executeQuery();
+			if (results.next()) {
+				isActive = results.getBoolean("IS_ACTIVE");
+			}
+			logger.info("Exit IsPromotionActive method of UserDetailsDAO");
+		} catch (SQLException e) {
+			logger.error("IsPromotionActive method of UserDetailsDAO threw error:"
+					+ e.getMessage());
+			e.printStackTrace();
+		} catch (IOException e) {
+			logger.error("IsPromotionActive method of UserDetailsDAO threw error:"
+					+ e.getMessage());
+			e.printStackTrace();
+		} catch (PropertyVetoException e) {
+			logger.error("IsPromotionActive method of UserDetailsDAO threw error:"
+					+ e.getMessage());
+			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				logger.error("IsPromotionActive method of UserDetailsDAO threw error:"
+						+ e.getMessage());
+				e.printStackTrace();
+			}
+		}
+
+		logger.info("Exit IsPromotionActive method of UserDetailsDAO");
+		return isActive;
+	}
+	
+	public int GetReferralCount(String id) {
+		logger.info("Entered IsPromotionActive method of UserDetailsDAO");
+		int count = 0;
+		try {
+			conn = ConnectionFactory.getConnection();
+			conn.setAutoCommit(false);
+			String query = "SELECT REFERRAL_COUNT FROM user_referral WHERE USER_ID=?";
+			PreparedStatement pstmt;
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, id);
+			ResultSet results = pstmt.executeQuery();
+			if (results.next()) {
+				count = results.getInt("REFERRAL_COUNT");
+			}
+			logger.info("Exit GetReferralCount method of UserDetailsDAO");
+		} catch (SQLException e) {
+			logger.error("GetReferralCount method of UserDetailsDAO threw error:"
+					+ e.getMessage());
+			e.printStackTrace();
+		} catch (IOException e) {
+			logger.error("GetReferralCount method of UserDetailsDAO threw error:"
+					+ e.getMessage());
+			e.printStackTrace();
+		} catch (PropertyVetoException e) {
+			logger.error("GetReferralCount method of UserDetailsDAO threw error:"
+					+ e.getMessage());
+			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				logger.error("GetReferralCount method of UserDetailsDAO threw error:"
+						+ e.getMessage());
+				e.printStackTrace();
+			}
+		}
+
+		logger.info("Exit GetReferralCount method of UserDetailsDAO");
+		return count;
+	}
+	
+	public String GetPromoCodeUsed(String uId) {
+		logger.info("Entered GetPromoCodeUsed method of UserDetailsDAO");
+		String code = "";
+		try {
+			conn = ConnectionFactory.getConnection();
+			conn.setAutoCommit(false);
+			String query = "SELECT SIGN_UP_REFERRAL FROM user_signup_referral WHERE USER_ID=?";
+			PreparedStatement pstmt;
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, uId);
+			ResultSet results = pstmt.executeQuery();
+			if (results.next()) {
+				code = results.getString("SIGN_UP_REFERRAL");
+			}
+			logger.info("Exit GetPromoCodeUsed method of UserDetailsDAO");
+		} catch (SQLException e) {
+			logger.error("GetPromoCodeUsed method of UserDetailsDAO threw error:"
+					+ e.getMessage());
+			e.printStackTrace();
+		} catch (IOException e) {
+			logger.error("GetPromoCodeUsed method of UserDetailsDAO threw error:"
+					+ e.getMessage());
+			e.printStackTrace();
+		} catch (PropertyVetoException e) {
+			logger.error("GetPromoCodeUsed method of UserDetailsDAO threw error:"
+					+ e.getMessage());
+			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				logger.error("GetPromoCodeUsed method of UserDetailsDAO threw error:"
+						+ e.getMessage());
+				e.printStackTrace();
+			}
+		}
+
+		logger.info("Exit GetPromoCodeUsed method of UserDetailsDAO");
+		return code;
 	}
 
 }

@@ -13,7 +13,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
-    <meta name="author" content="">
+    <meta name="author" content="">   
 	<fmt:bundle basename="Resources.Dependency" prefix="path.">
   		 <link rel="shortcut icon" href=<fmt:message key="shortcuticon"/>>	
   	</fmt:bundle>
@@ -47,7 +47,6 @@
 </head>
 
 <body>
-
     <div class="container">
    	<%@include file="/Header.jsp"%>
     
@@ -99,7 +98,7 @@
                                     <dd>${user.getOccupation()}</dd>
                                 </dl>
                                 <dl>
-                                <dt>Date of Registration</dt>
+                                	<dt>Date of Registration</dt>
                                     <dd>${user.getDor()}</dd>
                                 </dl>
                             </div>
@@ -109,7 +108,22 @@
                             </div>
                         </div>
                     </div>
-            
+                    <c:if test="${user.getRefCode() != null && !user.getRefCode().equals('')}">
+	                    <div class="col-md-5 grey-panel-1" style="padding-left: 0px">
+	            				<h3 style="margin-top: 0px;text-align: center;">Your Referral Code</h3>
+	            				<h4 style="text-align: center;">${user.getRefCode()}</h4>
+	            				<div style="text-align: center;">
+		            				<h4>Share with friends to win !</h4>
+		            					<div  class="addthis_sharing_toolbox">
+										</div>
+								</div>
+	            		</div>
+	            		<c:if test="${user.getRefCount() >= 5 && user.getRefMessage()}">
+		            		<div class="col-md-5 grey-panel-1">
+		            			<p>Congrats ! You have won a great resume designed by us</p>
+		            		</div>
+	            		</c:if>
+            		</c:if>
         		</div>
             </div><!-- /right area -->
 		
@@ -132,7 +146,11 @@
 
     <!-- Custom Theme JavaScript -->
     <script src="assets/js/sb-admin-2.js"></script>
-
+	
+	<!-- Go to www.addthis.com/dashboard to customize your tools -->
+	<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-557687ac702ff828" async="async"></script>
+	<script src="ZeroClipboard.js"></script>
+    <script src="main.js"></script>
     <!-- Page-Level Demo Scripts - Notifications - Use for reference -->
     <script>
     // tooltip demo
@@ -146,6 +164,15 @@
         .popover()
     </script>
     <script type="text/javascript">
+    var code = $("#ref").val();
+var addthis_share = {
+   url: "https://www.advisorcircuit.com/login",
+   title: "Use My Referral Code:" +code
+}
+
+</script>
+
+    <script type="text/javascript">
 var _urq = _urq || [];
 _urq.push(['initSite', '8571f59c-9c67-4ac9-a169-0eb6aa49f203']);
 (function() {
@@ -153,7 +180,9 @@ var ur = document.createElement('script'); ur.type = 'text/javascript'; ur.async
 ur.src = ('https:' == document.location.protocol ? 'https://cdn.userreport.com/userreport.js' : 'http://cdn.userreport.com/userreport.js');
 var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ur, s);
 })();
-</script> 
+</script>
+<script src="https://apis.google.com/js/platform.js" async defer></script>
+ 
     </body>
 
 </html>

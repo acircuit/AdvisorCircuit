@@ -14,7 +14,28 @@ public class UserDetailsDTO {
 	String image;
 	Timestamp dateOfRegistration;
 	String dor;
+	public int getRefCount() {
+		return refCount;
+	}
+	public void setRefCount(int refCount) {
+		this.refCount = refCount;
+	}
+	public Boolean getRefMessage() {
+		return refMessage;
+	}
+	public void setRefMessage(Boolean refMessage) {
+		this.refMessage = refMessage;
+	}
 	Boolean isActive;
+	String refCode;
+	int refCount;
+	Boolean refMessage;
+	public String getRefCode() {
+		return refCode;
+	}
+	public void setRefCode(String refCode) {
+		this.refCode = refCode;
+	}
 	public Timestamp getDateOfRegistration() {
 		return dateOfRegistration;
 	}

@@ -8,6 +8,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.AC.DAO.AdminNotificationDAO;
+import org.AC.DAO.AdminPromotionsDAO;
 import org.AC.DAO.UserDetailsDAO;
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Logger;
@@ -33,6 +35,31 @@ public class UserActiveURLController extends HttpServlet {
 		UserDetailsDAO user = new UserDetailsDAO();
 		Boolean activated = user.ActivateUser(userId);
 		if (activated) {
+			//Check if the promotion is active
+			int pId =1;
+			AdminPromotionsDAO action = new AdminPromotionsDAO();
+			int promoId = action.CheckPromotionActive(pId);
+			if(promoId == 1){
+				//Get the promo code used by the user
+				UserDetailsDAO promo = new UserDetailsDAO();
+				String code = promo.GetPromoCodeUsed(userId);
+				if(!code.equals("")){
+					code = code.substring(5);
+				}
+				
+				//Increment the user's referral count
+				UserDetailsDAO count = new UserDetailsDAO();
+				count.IncrementReferral(code);
+		
+				UserDetailsDAO refCount = new UserDetailsDAO();
+				int referralCount = refCount.GetReferralCount(code);
+				if(referralCount == 5){
+					String comment1 = "User with User Id="+ code+" has 5 referrals";
+					String href1 = "AdminUsers";
+					AdminNotificationDAO notify1 = new AdminNotificationDAO();
+					notify1.InsertNotification(comment1, href1);
+				}
+			}
 			response.sendRedirect("UserActivationURL");
 		} else {
 			response.sendRedirect("UserActivationURL?active=false");

@@ -58,6 +58,10 @@ public class User_RegistrationController extends HttpServlet {
 		String phone = request.getParameter("phone");
 		String age = request.getParameter("age");
 		String occupation = request.getParameter("occupation");
+		String promo_code = request.getParameter("refcode");
+		String uId = request.getParameter("refCodeUserId");
+		String isPromoActive = request.getParameter("isPromoActive");
+		String isCodeApplied = request.getParameter("isCodeApplied");
 		String hashPassword = "";
 		int result = 0;
 		Properties prop = new Properties();
@@ -99,13 +103,34 @@ public class User_RegistrationController extends HttpServlet {
 						UserDetailsDAO dao = new UserDetailsDAO();
 						int userId = dao.setUserDetails(email,hashPassword,fullname,phone,age,occupation,absolutePath);
 						if(userId != 0){
-							
-							
-							String comment = fullname+" signed up as a user";
-							String href = "AdminViewUserProfile?email="+email;
-							AdminNotificationDAO notify = new AdminNotificationDAO();
-							notify.InsertNotification(comment, href);
-							
+							if(isPromoActive != null && isPromoActive.equals("true")){
+								//Enter the promo code for the user 
+								String code = "ACREF"+userId;
+								UserDetailsDAO promo = new UserDetailsDAO();
+								Boolean isCommit = promo.SetUserPromo(userId,code);
+								if(isCommit && promo_code != null && uId != null && !promo_code.equals("") && isCodeApplied.equals("true")){
+									//Enter the user's referral code used.
+									UserDetailsDAO ref = new UserDetailsDAO();
+									ref.SetUserSignUpReferral(promo_code,userId);
+									
+									
+									String comment = fullname+" signed up as a user using "+promo_code+" as promo code";
+									String href = "AdminViewUserProfile?email="+email;
+									AdminNotificationDAO notify = new AdminNotificationDAO();
+									notify.InsertNotification(comment, href);
+				
+								}else{
+									String comment = fullname+" signed up as a user";
+									String href = "AdminViewUserProfile?email="+email;
+									AdminNotificationDAO notify = new AdminNotificationDAO();
+									notify.InsertNotification(comment, href);
+								}
+							}else{
+								String comment = fullname+" signed up as a user";
+								String href = "AdminViewUserProfile?email="+email;
+								AdminNotificationDAO notify = new AdminNotificationDAO();
+								notify.InsertNotification(comment, href);
+							}
 							String userComment = "Welcome to Advisor Circuit. Find your Advisor now ! If you need any help, call us on +91 9999372087";
 							String userHref = "Advisors?service=All";
 							UserNotificationDAO user = new UserNotificationDAO();

@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<%@page import="org.AC.dto.UserReferralDTO"%>
 <%@page import="org.AC.dto.AdvisorProfileDTO"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
@@ -56,6 +57,8 @@
     </style>	
 	<%
 			List<AdvisorProfileDTO> users = (List<AdvisorProfileDTO>)request.getAttribute("users");
+			List<UserReferralDTO> referral = (List<UserReferralDTO>)request.getAttribute("referral");
+			Boolean isPromoActive = (Boolean) request.getAttribute("isActive");
 			pageContext.setAttribute("users", users);
 	%>
 </head>
@@ -112,11 +115,58 @@
                                                 </c:url>
                                                 <li><a href="${viewprofile}" target="_blank" href="#">View Profile</a></li>
                                                 <li><a id="${user.getUserId()}" onclick="deactivate(this)" href="#">Deactivate Account</a></li>
-                                                <li><a id="${user.getUserId()}" onclick="activate(this)" href="#">Activate Account</a></li>	
+                                                <li><a id="${user.getUserId()}" onclick="activate(this)" href="#">Activate Account</a></li>
+                                                <c:if test="<%=isPromoActive %>">
+                                                	<li><a id="${user.getUserId()}" onclick="OpenReferral(this)" href="#">Update Referral Count</a></li>
+                                                </c:if>
                                             </ul>
                                         </li>
                                     </ul>
                                     </td>
+                                    <c:forEach items="${referral}" var="ref">
+										<c:if test="${ref.getUserId() == user.getUserId() }">
+                                  		<div class="modal fade" id="refs${user.getUserId()}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+											<div class="modal-dialog modal-lg">
+												<div class="modal-content">
+													<div class="modal-header">
+														<button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+														<h4 class="modal-title" id="myModalLabel">Update Referral Count</h4>
+													</div>
+											        	<div class="modal-body">
+											        		<form action="">
+											        			
+												        				<div class="form-group">
+																			<label  class="col-md-3 control-label">Referral Code : </label>
+																			<div class="col-md-9">
+																				<input type="text" value="${ref.getRefCode()}"> 
+																				</div>
+																			</div>
+																		<div class="form-group" style="margin-top: 10%">
+																			<label  class="col-md-3 control-label">Referral Count : </label>
+																			<div class="col-md-9">
+																				<input type="text" id="count${user.getUserId()}" value="${ref.getRefCount()}">
+																			</div>
+																		</div>
+																		<div class="form-group" style="margin-top:5% ">
+													          			   <button type="button" style="margin-left:25%"	 class="btn btn-primary"  onclick="updaterefs(${user.getUserId()})">Update</button>        																				
+													          			</div>
+													          			<div class="form-group" style="margin-top: 10%">
+																			<label  class="col-md-3 control-label">Referral Message : </label>
+																			<div class="col-md-9">
+																				<input type="text" id="message${user.getUserId()}" value="${ref.getRefMessage()}">
+																			</div>
+																		</div>
+																		<div class="form-group" style="margin-top:5% ">
+													          			   <button type="button" style="margin-left:25%"	 class="btn btn-primary"  onclick="updatemessage(${user.getUserId()})">Toggle</button>        																				
+													          			</div>
+												          			
+											          		</form>
+											        	</div>
+												    </div>
+											  </div>
+										</div>
+									</c:if>
+							</c:forEach>
                                     <div id ="deactivate">
                                     </div>
                                     </tr>
@@ -184,7 +234,10 @@
                 }
             }); 		
 		}
-	
+	function OpenReferral(elem){
+		var id = elem.id;
+		$("#refs"+id).modal();
+	}
 	function activate(e){
 		var id = e.id;
 		$.ajax({
@@ -201,6 +254,38 @@
                 
             }
         }); 		
+	}
+	function updaterefs(id){
+		$.ajax({
+            url : 'AdminUsers', // Your Servlet mapping or JSP(not suggested)
+            data : {"uId" :id,"count" :$("#count"+id).val()},
+            type : 'POST',
+            dataType : 'html', // Returns HTML as plain text; included script tags are evaluated when inserted in the DOM.
+            success : function(response) {
+                		location.reload();
+               					// create an empty div in your page with some id
+            },
+            error : function(request, textStatus, errorThrown) {
+                alert(errorThrown);
+                
+            }
+		});
+	}
+	function updatemessage(id){
+		$.ajax({
+            url : 'AdminUsers', // Your Servlet mapping or JSP(not suggested)
+            data : {"uId" :id,"val" :$("#message"+id).val()},
+            type : 'POST',
+            dataType : 'html', // Returns HTML as plain text; included script tags are evaluated when inserted in the DOM.
+            success : function(response) {
+                		location.reload();
+               					// create an empty div in your page with some id
+            },
+            error : function(request, textStatus, errorThrown) {
+                alert(errorThrown);
+                
+            }
+		});
 	}
 	</script>
 	<script src="assets/js/gridSearch.js"></script>

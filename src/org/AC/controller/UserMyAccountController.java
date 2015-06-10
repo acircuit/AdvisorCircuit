@@ -17,6 +17,7 @@ import org.AC.DAO.UserDetailsDAO;
 import org.AC.Util.GetRelativeImageURL;
 import org.AC.Util.SetFormImage;
 import org.AC.dto.UserDetailsDTO;
+import org.AC.dto.UserReferralDTO;
 import org.apache.log4j.Logger;
 
 /**
@@ -53,6 +54,19 @@ public class UserMyAccountController extends HttpServlet {
 			user.setImage(img.getImageURL(user.getImage()));
 			user.setDor(new SimpleDateFormat("dd-MMM-yyyy' 'h:mm a")
 					.format(new Date(user.getDateOfRegistration().getTime())));
+			int id = 1;
+			UserDetailsDAO promotion = new UserDetailsDAO();
+			Boolean isActive = promotion.IsPromotionActive(id);
+			if(isActive){
+				UserReferralDTO referral = new UserReferralDTO();
+				UserDetailsDAO ref = new UserDetailsDAO();
+				referral = ref.GetReferralCode(userId);
+				if(referral.getRefCode() != null && !referral.getRefCode().equals("")){
+					user.setRefCode(referral.getRefCode());
+					user.setRefCount(referral.getRefCount());
+					user.setRefMessage(referral.getRefMessage());
+				}
+			}
 			request.setAttribute("user", user);
 			if(edit != null && edit.equals("true")){
 				RequestDispatcher rd = getServletContext().getRequestDispatcher(

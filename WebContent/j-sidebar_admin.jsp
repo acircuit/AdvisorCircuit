@@ -39,7 +39,7 @@
         <li class="request"><a href="AdminContactUs"><span class="request"></span> Contact Us</a></li>
         <li class="request"><a href="AdminHereToHelp"><span class="request"></span> We Are Here To Help</a></li>
         <li class="request"><a href="AdminPayment"><span class="request"></span> Payment</a></li>
-        <li class="request"><a href=""><span class="request"></span> Promotions</a></li>
+        <li class="request"><a href="AdminPromotions"><span class="request"></span> Promotions</a></li>
         
 	</ul>
 </div>

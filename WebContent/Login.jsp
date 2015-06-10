@@ -242,19 +242,22 @@
 											</div>
 											
 										</div>
-										<div class="form-group col-md-12"> 
+										<div class="form-group col-md-12 collapse" id="referralPromotion"> 
 											<div class="accordion" id="accordion2">
 											  <div class="accordion-group">
 											    <div class="accordion-heading">
 											    <label for="icode" class="col-md-3 control-label"></label>
 											    <div class="col-md-6">
-											      <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">
+											      <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne" style="font-size:larger">
 											        	Have a Referral Code ?
 											      </a>
 											       <div id="collapseOne" class="accordion-body collapse">
 											      <div class="accordion-inner">
 											        <input id="refcode" name="refcode" placeholder="Enter your referral code" class="form-control">
-											        <button id="btn-signup" style="margin-top: 3%" type="submit" class="btn btn-info">Submit</button>
+											    	<p class="required" id="required_promo">Field Required</p>
+											    	<p class="required" id="invalid_promo">Invalid Referral Code</p>
+											    	<p class="required" id="valid_promo">Your referral code is valid. </p>
+											         <button id="btn-promo" style="margin-top: 3%" type="button" class="btn btn-info" onclick="CheckReferralValidity()">Apply</button>
 											      </div>
 											    </div>
 											     </div>
@@ -262,7 +265,10 @@
 											   
 											  </div>
 										    </div>
-									    </div>
+									   </div>
+									     <input type="hidden" id="refCodeUserId" name="refCodeUserId">
+										    <input type="hidden" id="isPromoActive" name="isPromoActive" value="true">
+										    <input type="hidden" name="isCodeApplied" id="isCodeApplied" value="false">
 										<div class="form-group">
 											<!-- Button -->                                        
 											<div class="col-md-offset-3 col-md-9">
@@ -340,6 +346,35 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 <script>
 	$(document).ready(function() {
+		//Get whether promotion is active or not
+		$.ajax({
+            url : 'AdminPromotions', // Your Servlet mapping or JSP(not suggested)
+            data : {"Referral" :true},
+            type : 'POST',
+            dataType : 'html', // Returns HTML as plain text; included script tags are evaluated when inserted in the DOM.
+            success : function(response) {
+            	if(response == "true"){
+		         $("#referralPromotion").show();
+            	}else{
+   		         $("#isPromoActive").val("false");
+            	}
+               					// create an empty div in your page with some id
+            },
+            error : function(request, textStatus, errorThrown) {
+                alert(errorThrown);
+                
+            }
+        }); 	
+		
+	$("#btn-promo").click(function(event){
+		var input_promo = $("#refcode").val();
+		if(input_promo ==""){
+			event.preventDefault(); 
+			$("#required_promo").show();
+		}else{
+			$("#required_promo").hide();
+		}
+	});
 $("#btn-login").click(function(event){
 			
 			var input_user = $("#login-username").val();
@@ -591,8 +626,9 @@ var isPreventDefault = false;
 					event.preventDefault();
 					alert("Hey!! You forgot to accept the Terms & Condition");
 				}
-			
+				
 		}
+
 	function validations(event){
 		var isPreventDefault = false;
 			
@@ -816,6 +852,38 @@ var isPreventDefault = false;
 		
 </script>
  <script type="text/javascript">
+ function CheckReferralValidity(){
+		var promo_code = $("#refcode").val();
+		$.ajax({
+         url : 'AdminPromotions', // Your Servlet mapping or JSP(not suggested)
+         data : {"promo_code" :promo_code},
+         type : 'POST',
+         dataType : 'html', // Returns HTML as plain text; included script tags are evaluated when inserted in the DOM.
+         success : function(response) {
+         	if(response != 0){
+		         $("#valid_promo").show();
+		         $("#required_promo").hide();
+    		  	 $("#invalid_promo").hide();
+    		  	 $("#btn-promo").hide();
+    		  	 $("#refCodeUserId").val(response);
+    				$("#refcode").prop("readonly", true);
+    				$("#isCodeApplied").val(true);
+         	}else{
+         		  $("#invalid_promo").show();
+			         $("#required_promo").hide();
+			         $("#valid_promo").hide();
+	    				$("#refcode").prop("readonly", false);
+	    				$("#isCodeApplied").val(false);
+         	}
+            					// create an empty div in your page with some id
+         },
+         error : function(request, textStatus, errorThrown) {
+             alert(errorThrown);
+             
+         }
+     });
+		
+	}
  function div_show() {
 	 document.getElementById('forgot_password').style.display = "block";
  }

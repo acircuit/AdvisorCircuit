@@ -18,9 +18,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.AC.DAO.AdminAdvisorDAO;
+import org.AC.DAO.AdminNotificationDAO;
 import org.AC.DAO.AdminUserDAO;
+import org.AC.DAO.UserDetailsDAO;
 import org.AC.dto.AdvisorProfileDTO;
 import org.AC.dto.UserDetailsDTO;
+import org.AC.dto.UserReferralDTO;
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Logger;
 
@@ -74,11 +77,48 @@ public class AdminUsersController extends HttpServlet {
 			// Get all the details of the advisor
 			AdminUserDAO user = new AdminUserDAO();
 			users = user.GetUsers();
+			int id =1;
+			UserDetailsDAO promotion = new UserDetailsDAO();
+			Boolean isActive = promotion.IsPromotionActive(id);
+			List<UserReferralDTO> referral = new ArrayList<UserReferralDTO>();
+			AdminUserDAO ref = new AdminUserDAO();
+			referral = ref.GetReferral();
+			
+			//Update Admin's Notification
+    		String url =  request.getRequestURI();
+			url = url.substring(url.lastIndexOf('/')+1);
+			AdminNotificationDAO admin = new AdminNotificationDAO();
+			admin.SetNotificationRead(url);
 			request.setAttribute("users", users);
+			request.setAttribute("isActive", isActive);
+			request.setAttribute("referral", referral);
 			RequestDispatcher rd = getServletContext().getRequestDispatcher(
 					"/AdminUser.jsp");
 			rd.forward(request, response);
 		}
 		logger.info("Exit doGet method of AdminUsersController");
+	}
+	
+	protected void doPost(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+		logger.info("Entered doPost method of AdminUsersController");
+			String uId = request.getParameter("uId");
+			String count = request.getParameter("count");
+			String val = request.getParameter("val");
+			if(uId != null && count != null){
+				AdminUserDAO update = new AdminUserDAO();
+				update.UpdateReferralCount(uId,count);
+			}else if (uId != null && val != null) {
+				if(val.equals("true")){
+					AdminUserDAO update = new AdminUserDAO();
+					update.ToggleRefMessage(uId,false);
+				}else{
+					AdminUserDAO update = new AdminUserDAO();
+					update.ToggleRefMessage(uId,true);
+				}
+
+			}
+		
+		logger.info("Exit doPost method of AdminUsersController");
 	}
 }
