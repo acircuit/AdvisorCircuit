@@ -357,6 +357,26 @@ ul.dropdown-menu li a {
 	font-size:20px;
 	width:240px;
 }
+.ac-alert{
+	background-color : rgb(80,80,90);
+	color:rgb(255,255,255);
+	border-radius: 0px;
+	margin-bottom: 0px;
+	padding: 5px 15px;
+}
+.ac-alert a{
+	color:rgb(255,255,255);
+}
+.ac-alert button{
+	background:none;
+	color:rgb(255,255,255);
+	padding:0;
+	margin:0;
+	outline:0;
+	border:0;
+	width:auto;
+	height:auto;
+}
 @media only screen and (max-width: 980px) {	
 	.main-wrapper {
 		background:#d8d6d7;
@@ -372,6 +392,40 @@ ul.dropdown-menu li a {
 	}
 	.main-wrapper form.find-advisor {
 		margin-top:5px;
+	}
+}
+
+@media only screen and (max-width: 1200px) and (min-width: 761px) {
+
+	.navbar .navbar-header,
+	.navbar .navbar-collapse,
+	#navbar .navbar-nav,
+	#navbar .navbar-form{
+		display:block;
+		float:none !important;
+	}
+	#navbar{
+		margin-top:0px;
+	}
+	.navbar .navbar-header a{
+		width:100%;
+	}
+	.navbar .navbar-header a img{
+		margin:auto;
+	}
+	.navbar .navbar-nav{
+		text-align:center;
+	}
+	#navbar .navbar-nav>li{
+		float:none;
+		display:inline-block;
+	}
+	#navbar .navbar-form{
+		text-align:center;
+		margin-bottom:10px;
+	}
+	#navbar .navbar-form input{
+		width:400px;
 	}
 }
 @media only screen and (max-width: 340px) {	

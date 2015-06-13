@@ -111,7 +111,12 @@
                     <c:if test="${user.getRefCode() != null && !user.getRefCode().equals('')}">
 	                    <div class="col-md-5 grey-panel-1" style="padding-left: 0px">
 	            				<h3 style="margin-top: 0px;text-align: center;">Your Referral Code</h3>
-	            				<h4 style="text-align: center;">${user.getRefCode()}</h4>
+                                <h4 style="text-align: center;">
+                                    ${user.getRefCode()}
+                                    <button id="ac-copy-to-clipboard" class="btn btn-default" data-clipboard-text="${user.getRefCode()}" title="Copy to clipboard">
+                                        <span class="glyphicon glyphicon-copy"></span>
+                                    </button>
+                                </h4>
 	            				<div style="text-align: center;">
 		            				<h4>Share with friends to win !</h4>
 		            					<div  class="addthis_sharing_toolbox">
@@ -149,7 +154,7 @@
 	
 	<!-- Go to www.addthis.com/dashboard to customize your tools -->
 	<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-557687ac702ff828" async="async"></script>
-	<script src="ZeroClipboard.js"></script>
+	<script src="assets/js/ZeroClipboard.min.js"></script>
     <script src="main.js"></script>
     <!-- Page-Level Demo Scripts - Notifications - Use for reference -->
     <script>
@@ -173,8 +178,14 @@ var addthis_share = {
 </script>
 
     <script type="text/javascript">
-var _urq = _urq || [];
-_urq.push(['initSite', '8571f59c-9c67-4ac9-a169-0eb6aa49f203']);
+        $(document).ready(function(){
+            new ZeroClipboard( $('#ac-copy-to-clipboard')[0] );
+        });
+    </script>
+
+    <script type="text/javascript">
+    var _urq = _urq || [];
+    _urq.push(['initSite', '8571f59c-9c67-4ac9-a169-0eb6aa49f203']);
 (function() {
 var ur = document.createElement('script'); ur.type = 'text/javascript'; ur.async = true;
 ur.src = ('https:' == document.location.protocol ? 'https://cdn.userreport.com/userreport.js' : 'http://cdn.userreport.com/userreport.js');

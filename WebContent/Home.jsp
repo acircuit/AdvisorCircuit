@@ -27,6 +27,10 @@
 
   <body>
   <div class="container">
+    <div class="alert ac-alert" role="alert">
+        <a href="#">Invite others and we will create your resume</a>
+        <button class="glyphicon glyphicon-remove pull-right ac-dismiss"></button>
+    </div>
   	<%@include file="/Header.jsp" %>
 	
 	<div class="row main-wrapper">
@@ -245,6 +249,7 @@
 	<script src="https://code.jquery.com/jquery-1.11.0.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 	<a href="https://plus.google.com/111112371994148232700" rel="publisher"></a>
+	<script src="assets/js/acInviteNotification.js"></script>
 	<script>
     // popover demo
     $("[data-toggle=popover]")
