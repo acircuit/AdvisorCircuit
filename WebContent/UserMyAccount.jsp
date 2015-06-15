@@ -111,7 +111,8 @@
                     <c:if test="${user.getRefCode() != null && !user.getRefCode().equals('')}">
 	                    <div class="col-md-5 grey-panel-1" style="padding-left: 0px">
 	            				<h3 style="margin-top: 0px;text-align: center;">Your Referral Code</h3>
-	            				<h4 style="text-align: center;">${user.getRefCode()}</h4>
+	            				<h4 style="text-align: center;" >${user.getRefCode()}</h4>
+	            				<input type="hidden" id="ref" value="${user.getRefCode()}">
 	            				<div style="text-align: center;">
 		            				<h4>Share with friends to win !</h4>
 		            					<div  class="addthis_sharing_toolbox">
