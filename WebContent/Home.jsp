@@ -33,6 +33,26 @@
     </div>
   	<%@include file="/Header.jsp" %>
 	
+	<div id="ac-home-carousel" class="carousel slide" data-ride="carousel" style="height:375px;margin-bottom:50px;">
+	  <ol class="carousel-indicators">
+	    <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+	    <li data-target="#carousel-example-generic" data-slide-to="1"></li>
+	  </ol>
+	  <div class="carousel-inner" role="listbox">
+	    <div class="item active">
+	      <img src="assets/img/WebMail/HomePage/HP_NI_v2.jpg" alt="Search for your advisor">
+	      <div class="carousel-caption">
+	        Have questions about your career?</br>Take charge today!
+	      </div>
+	    </div>
+	    <div class="item">
+	      <img src="assets/img/WebMail/HomePage/HP_NI_v2.jpg" alt="Search for your advisor">
+	      <div class="carousel-caption">
+	        Have questions about your career?</br>Take charge today!
+	      </div>
+	    </div>
+	  </div>
+	</div>
 	<div class="row main-wrapper">
         <div class="col-md-12 text-center">
             <h1>Have questions about your career?</br>Take charge today!</h1>
