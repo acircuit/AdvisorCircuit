@@ -10,7 +10,8 @@
                 noOfPage: 0,
                 curObj: this,
                 ParentID: $(this).attr("id"),
-                curPage: 1
+                curPage: 1,
+                numberOfVisiblePages : 5
             };
         var options = $.extend(defaults, options);
         var defaults1 = {
@@ -18,7 +19,8 @@
                 noOfPage: 0,
                 curObj: this,
                 ParentID: $(this).attr("id"),
-                curPage: 1
+                curPage: 1,
+                numberOfVisiblePages : 5
             };
         var strHtml = '';
 
@@ -102,6 +104,18 @@
             } else {
                 $( '[id*=PageList] [id*=Next]' ).show();
             }
+            $( '[id*=PageList] [id*=Page]' ).each(function(i,page){
+                var $page = $(page),
+                    $pageId = parseInt($page[0].id.split('_')[1]); // for Page_Previous and Page_Next, $pageId will be NAN, so it will be filtered out in next IF condition
+
+                if( $pageId && options.noOfPage > options.numberOfVisiblePages){
+                    if($pageId>=options.curPage && $pageId<=options.curPage + options.numberOfVisiblePages - 1){
+                        $page.show();
+                    } else {
+                        $page.hide();
+                    }
+                }
+            });
         };
 
         hidePrevNext();
