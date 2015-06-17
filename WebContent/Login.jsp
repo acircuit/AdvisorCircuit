@@ -183,16 +183,7 @@
 												<p class="required" id="required_pass">Field Required</p>
 											</div>
 										</div>
-										<div class="form-group" id="dconfirm-password">
-											<label for="password" class="col-md-3 control-label">Confirm Password</label>
-											<div class="col-md-9">
-												<input id="confirm-password" type="password" class="form-control" name="confirmpasswd" placeholder="Confirm Password" maxlength="40">
-											</div>
-											<div class="col-md-9">
-												<p class="required" id="required_confirm_pass">Field Required</p>
-												<p class="required" id="invalid_pass">Password does not match</p>
-											</div>
-										</div>
+
 											
 										<div class="form-group">
 											<label for="firstname" class="col-md-3 control-label" id="dfname">Full Name</label>
@@ -214,25 +205,6 @@
 												<p class="required" id="invalid_phone">Invalid Number</p>
 											</div>
 										</div>	
-										 <div class="form-group" id="dage">
-											<label for="icode" class="col-md-3 control-label">Age</label>
-											<div class="col-md-9">
-												<input id="age" type="text" class="form-control" name="age" placeholder="" maxlength="20">
-											</div>
-											<div class="col-md-9">
-												<p class="required" id="invalid_age">Invalid Age</p>
-												<p class="required" id="required_age">Field Required</p>
-											</div>
-										</div>							
-										<div class="form-group" id="dorg">
-											<label for="icode" class="col-md-3 control-label">Occupation</label>
-											<div class="col-md-9">
-												<input id="org" class="form-control" name="occupation" maxlength="80">
-											</div>
-											<div class="col-md-9">
-												<p class="required" id="required_org">Field Required</p>
-											</div>
-										</div>
 										<div class="form-group" id="dexampleInputFile">
 											<label for="icode" class="col-md-3 control-label">Upload Picture</label>
 											<div class="col-md-9">
@@ -260,7 +232,7 @@
 											        <input id="refcode" name="refcode" placeholder="Enter your referral code" class="form-control">
 											    	<p class="required" id="required_promo">Field Required</p>
 											    	<p class="required" id="invalid_promo">Invalid Referral Code</p>
-											    	<p class="required" id="valid_promo">Your referral code is valid. </p>
+											    	<p  id="valid_promo" style="display: none">Your Referral code has been applied. </p>
 											         <button id="btn-promo" style="margin-top: 3%" type="button" class="btn btn-info" onclick="CheckReferralValidity()">Apply</button>
 											      </div>
 											    </div>
@@ -272,7 +244,7 @@
 									   </div>
 									     <input type="hidden" id="refCodeUserId" name="refCodeUserId">
 										    <input type="hidden" id="isPromoActive" name="isPromoActive" value="true">
-										    <input type="hidden" name="isCodeApplied" id="isCodeApplied" value="false">
+										    <input type="hidden" style="display:none;" name="isCodeApplied" id="isCodeApplied" value="false">
 										<div class="form-group">
 											<!-- Button -->                                        
 											<div class="col-md-offset-3 col-md-9">
@@ -453,32 +425,6 @@ var isPreventDefault = false;
 				$("#dfname").removeClass("has-error");
 			}
 			
-			var input_a = $("#age").val();
-			var filter = /^[0-9-+]+$/;
-			var is_age = filter.test(input_a);
-			if(input_a=='')
-			{
-				$("#required_age").show();
-				$("#invalid_age").hide();
-				event.preventDefault();
-				isPreventDefault = true;
-
-			}
-			else if (!is_age){
-				 age_flag = 1;
-				$("#invalid_age").show();
-				$("#required_age").hide();
-				$("#dage").addClass("has-error");
-					event.preventDefault();
-					isPreventDefault = true;
-
-			}else{
-				age_flag = 0;
-				$("#required_age").hide();
-				$("#invalid_age").hide();
-				$("#dage").removeClass("has-error");
-			}	
-
 			var input_p = $("#phone").val();
 			var filter = /^\d{10}$/; 
 			var is_phone = filter.test(input_p);
@@ -576,18 +522,11 @@ var isPreventDefault = false;
 					}
 				
 			}
-				var input_pwd = $("#confirm-password").val();
 				var input_pwd1 = $("#signup-password").val();
 				if (input_pwd==''){
 					$("#required_confirm_pass").show();
 					$("#dconfirm-password").addClass("has-error");
 					event.preventDefault();
-					isPreventDefault = true;
-
-				}else if ($("#confirm-password").val() != $("#signup-password").val()) {
-					$("#invalid_pass").show();
-					$("#required_confirm_pass").hide();
-					event.preventDefault(); 
 					isPreventDefault = true;
 
 				}else
@@ -664,32 +603,6 @@ var isPreventDefault = false;
 				$("#dfname").removeClass("has-error");
 			}
 			
-			var input_a = $("#age").val();
-			var filter = /^[0-9-+]+$/;
-			var is_age = filter.test(input_a);
-			if(input_a=='')
-			{
-				$("#required_age").show();
-				$("#invalid_age").hide();
-				event.preventDefault();
-				isPreventDefault = true;
-
-			}
-			else if (!is_age){
-				 age_flag = 1;
-				$("#invalid_age").show();
-				$("#required_age").hide();
-				$("#dage").addClass("has-error");
-					event.preventDefault();
-					isPreventDefault = true;
-
-			}else{
-				age_flag = 0;
-				$("#required_age").hide();
-				$("#invalid_age").hide();
-				$("#dage").removeClass("has-error");
-			}	
-
 			var input_p = $("#phone").val();
 			var filter = /^\d{10}$/; 
 			var is_phone = filter.test(input_p);
@@ -794,12 +707,6 @@ var isPreventDefault = false;
 					$("#required_confirm_pass").show();
 					$("#dconfirm-password").addClass("has-error");
 					event.preventDefault();
-					isPreventDefault = true;
-
-				}else if ($("#confirm-password").val() != $("#signup-password").val()) {
-					$("#invalid_pass").show();
-					$("#required_confirm_pass").hide();
-					event.preventDefault(); 
 					isPreventDefault = true;
 
 				}else

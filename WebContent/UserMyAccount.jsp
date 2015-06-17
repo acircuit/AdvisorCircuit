@@ -93,10 +93,6 @@
                                 	<dt>Phone Number</dt>
                                     <dd>${user.getPhone()}</dd>
                                 </dl>
-                                 <dl>
-                                	<dt>Occupation</dt>
-                                    <dd>${user.getOccupation()}</dd>
-                                </dl>
                                 <dl>
                                 	<dt>Date of Registration</dt>
                                     <dd>${user.getDor()}</dd>
@@ -111,8 +107,8 @@
                     <c:if test="${user.getRefCode() != null && !user.getRefCode().equals('')}">
 	                    <div class="col-md-5 grey-panel-1" style="padding-left: 0px">
 	            				<h3 style="margin-top: 0px;text-align: center;">Your Referral Code</h3>
-                                <h4 style="text-align: center;">
-                                    ${user.getRefCode()}
+	            				<input type="hidden" id="ref" value="${user.getRefCode()}">
+                                <h4 style="text-align: center;">${user.getRefCode()}
                                     <button id="ac-copy-to-clipboard" class="btn btn-default" data-clipboard-text="${user.getRefCode()}" title="Copy to clipboard">
                                         <span class="glyphicon glyphicon-copy"></span>
                                     </button>
@@ -125,7 +121,7 @@
 	            		</div>
 	            		<c:if test="${user.getRefCount() >= 5 && user.getRefMessage()}">
 		            		<div class="col-md-5 grey-panel-1">
-		            			<p>Congrats ! You have won a great resume designed by us</p>
+		            			<p>Congratulations ! You've won the competition ! We'll contact you within 24 Hours !</p>
 		            		</div>
 	            		</c:if>
             		</c:if>
@@ -155,7 +151,6 @@
 	<!-- Go to www.addthis.com/dashboard to customize your tools -->
 	<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-557687ac702ff828" async="async"></script>
 	<script src="assets/js/ZeroClipboard.min.js"></script>
-    <script src="main.js"></script>
     <!-- Page-Level Demo Scripts - Notifications - Use for reference -->
     <script>
     // tooltip demo

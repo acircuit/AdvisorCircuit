@@ -76,9 +76,8 @@ public class AdminViewUserProfileController extends HttpServlet {
 				if (user.getUserId() != 0 && user.getEmail() != null) {
 					CreateUserFormPDF pdf = new CreateUserFormPDF();
 					pdf.createPDF(response, user.getUserId(), user.getEmail(),
-							user.getFullName(), user.getPhone(), user.getAge(),
-							user.getOccupation(), user.getImage(),
-							user.getDateOfRegistration(), user.getIsActive());
+							user.getFullName(), user.getPhone(), 
+						 user.getImage(),user.getDateOfRegistration(), user.getIsActive());
 
 				}
 			}
@@ -94,7 +93,7 @@ public class AdminViewUserProfileController extends HttpServlet {
 					AdminNotificationDAO admin = new AdminNotificationDAO();
 					admin.SetNotificationRead(url);
 		    		CreateUserFormPDF pdf = new CreateUserFormPDF();
-		    		pdf.createPDF(response, user.getUserId(), user.getEmail(), user.getFullName(), user.getPhone(), user.getAge(), user.getOccupation(), user.getImage(),user.getDateOfRegistration(),user.getIsActive());
+		    		pdf.createPDF(response, user.getUserId(), user.getEmail(), user.getFullName(), user.getPhone(), user.getImage(),user.getDateOfRegistration(),user.getIsActive());
 		    		
 		    	}
 			}	

@@ -36,8 +36,7 @@ public class UserDetailsDAO {
 	// This method will put the user details retrieved from the form in the
 	// userdetails table
 	public Integer setUserDetails(String email, String hashPassword,
-			String fullname, String phone, String age, String occupation,
-			String absolutePath) {
+			String fullname, String phone, String absolutePath) {
 		logger.info("Entered setUserDetails method of UserDetailsDAO");
 		int result = 0;
 		int userId = 0;
@@ -57,19 +56,17 @@ public class UserDetailsDAO {
 			conn = ConnectionFactory.getConnection();
 			conn.setAutoCommit(false);
 			String query = "insert into userdetails"
-					+ "(EMAIL,PASSWORD,FULL_NAME,PHONE_NUMBER,AGE,OCCUPATION,IMAGE,DATE_OF_REGISTRATION) values"
-					+ "(?,?,?,?,?,?,?,?)";
+					+ "(EMAIL,PASSWORD,FULL_NAME,PHONE_NUMBER,IMAGE,DATE_OF_REGISTRATION) values"
+					+ "(?,?,?,?,?,?)";
 			PreparedStatement pstmt = conn.prepareStatement(query,
 					Statement.RETURN_GENERATED_KEYS);
 			pstmt.setString(1, email);
 			pstmt.setString(2, hashPassword);
 			pstmt.setString(3, fullname);
 			pstmt.setString(4, phone);
-			pstmt.setString(5, age);
-			pstmt.setString(6, occupation);
-			pstmt.setString(7, absolutePath);
+			pstmt.setString(5, absolutePath);
 			Timestamp time = new java.sql.Timestamp(date.getTime());
-			pstmt.setTimestamp(8, time);
+			pstmt.setTimestamp(6, time);
 			result = pstmt.executeUpdate();
 			if (result > 0) {
 				conn.commit();
@@ -133,8 +130,6 @@ public class UserDetailsDAO {
 				user.setEmail(results.getString("EMAIL"));
 				user.setFullName(results.getString("FULL_NAME"));
 				user.setPhone(results.getString("PHONE_NUMBER"));
-				user.setAge(results.getString("AGE"));
-				user.setOccupation(results.getString("OCCUPATION"));
 				user.setImage(results.getString("IMAGE"));
 				list.add(user);
 			}

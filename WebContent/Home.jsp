@@ -39,54 +39,50 @@
 	    <li data-target="#carousel-example-generic" data-slide-to="1"></li>
 	  </ol>
 	  <div class="carousel-inner" role="listbox">
-	    <div class="item active">
-	      <img src="assets/img/WebMail/HomePage/HP_NI_v2.jpg" alt="Search for your advisor">
+	  	    <div class="item active">
+			     <div class="row main-wrapper">
+		        <div class="col-md-12 text-center">
+		            <h1>Have questions about your career?</br>Take charge today!</h1>
+		            <h4>Connect with professionals who are actually in the field.</h4>
+		        </div>
+				
+		        <div class="inner-block">
+		            <div class="col-md-4 text-center">
+		            	<img src="assets/img/WebMail/HomePage/Panel_1_Icon_1.png" width="60" alt="Search for your advisor">
+		            	<p>Search and pick your advisor</p>
+		            </div><!--/col-md-3 -->
+		            
+		            <div class="col-md-4 text-center">
+		            	<img src="assets/img/WebMail/HomePage/Panel_1_Icon_2.png" width="60" alt="Book as per your comfort">
+		            	<p>Book a session as per your convenience</p>
+		            </div><!--/col-md-3 -->
+		            
+		            <div class="col-md-4 text-center">
+		                <img src="assets/img/WebMail/HomePage/Panel_1_Icon_3.png" width="60" alt="Grow in your career">
+		                <p>Connect via Phone, Email or WebChat</p>
+		            </div><!--/col-md-3 -->
+		        </div>
+						 
+		        <div class="col-lg-12 text-center">
+		            <form class="find-advisor" role="form" action="Search" formnovalidate  method="post">
+		                <div class="input-group">
+		                <input type="text" class="form-control" name="search" placeholder="Find Advisors in your Field" required="required">
+		                <span class="input-group-btn">
+		                	<button class="btn btn-default" type="Submit"><i class="glyphicon glyphicon-search" style="color:#FFFFFF"></i></button> 
+		                </span>
+		                </div>
+		            </form>
+				</div>	
+			</div><!-- /main wrapper -->
+
+	    </div>	    
+	    <div class="item ">
+	      <img src="assets/img/PromotionBanner1.jpg" alt="Search for your advisor">
 	      <div class="carousel-caption">
-	        Have questions about your career?</br>Take charge today!
 	      </div>
 	    </div>
-	    <div class="item">
-	      <img src="assets/img/WebMail/HomePage/HP_NI_v2.jpg" alt="Search for your advisor">
-	      <div class="carousel-caption">
-	        Have questions about your career?</br>Take charge today!
-	      </div>
-	    </div>
-	  </div>
 	</div>
-	<div class="row main-wrapper">
-        <div class="col-md-12 text-center">
-            <h1>Have questions about your career?</br>Take charge today!</h1>
-            <h4>Connect with professionals who are actually in the field.</h4>
-        </div>
-		
-        <div class="inner-block">
-            <div class="col-md-4 text-center">
-            	<img src="assets/img/WebMail/HomePage/Panel_1_Icon_1.png" width="60" alt="Search for your advisor">
-            	<p>Search and pick your advisor</p>
-            </div><!--/col-md-3 -->
-            
-            <div class="col-md-4 text-center">
-            	<img src="assets/img/WebMail/HomePage/Panel_1_Icon_2.png" width="60" alt="Book as per your comfort">
-            	<p>Book a session as per your convenience</p>
-            </div><!--/col-md-3 -->
-            
-            <div class="col-md-4 text-center">
-                <img src="assets/img/WebMail/HomePage/Panel_1_Icon_3.png" width="60" alt="Grow in your career">
-                <p>Connect via Phone, Email or WebChat</p>
-            </div><!--/col-md-3 -->
-        </div>
-				 
-        <div class="col-lg-12 text-center">
-            <form class="find-advisor" role="form" action="Search" formnovalidate  method="post">
-                <div class="input-group">
-                <input type="text" class="form-control" name="search" placeholder="Find Advisors in your Field" required="required">
-                <span class="input-group-btn">
-                	<button class="btn btn-default" type="Submit"><i class="glyphicon glyphicon-search" style="color:#FFFFFF"></i></button> 
-                </span>
-                </div>
-            </form>
-		</div>	
-	</div><!-- /main wrapper -->
+
 	<a href="#" data-toggle="modal" data-target="#heretohelp">
     <div class="row text-center help-panel">
     	<div class="help">We are here to help</div>

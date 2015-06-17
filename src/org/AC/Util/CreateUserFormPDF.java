@@ -48,8 +48,7 @@ public class CreateUserFormPDF {
 			Font.UNDERLINE);
 
 	public void createPDF(HttpServletResponse response, int userId,
-			String email, String name, String phone, String age,
-			String occupation, String image, Timestamp dateOfRegistration,
+			String email, String name, String phone, String image, Timestamp dateOfRegistration,
 			Boolean isActive) {
 		logger.info("Entered createPDF method of CreateUserFormPDF");
 		// browser will open the document only if this is set
@@ -61,8 +60,8 @@ public class CreateUserFormPDF {
 			document.open();
 			addTitlePage(document);
 			addImage(document, image);
-			addProfileDetails(document, userId, email, name, phone, age,
-					occupation, dateOfRegistration, isActive);
+			addProfileDetails(document, userId, email, name, phone, 
+					 dateOfRegistration, isActive);
 			document.close();
 			logger.info("Exit createPDF method of CreateUserFormPDF");
 		} catch (FileNotFoundException e) {
@@ -94,19 +93,16 @@ public class CreateUserFormPDF {
 	}
 
 	private static void addProfileDetails(Document document, int userId,
-			String email, String name, String phone, String age,
-			String occupation, Timestamp dateOfRegistration, Boolean isActive) {
+			String email, String name, String phone, 
+			Timestamp dateOfRegistration, Boolean isActive) {
 
 		logger.info("Entered addProfileDetails method of CreateUserFormPDF");
 		Paragraph preface = new Paragraph();
 		try {
 			preface.add(new Paragraph("UserId :" + userId + "\n", catFont));
 			preface.add(new Paragraph("Name :" + name + "\n", catFont));
-			preface.add(new Paragraph("Age :" + age + "\n", catFont));
 			preface.add(new Paragraph("Email :" + email + "\n", catFont));
 			preface.add(new Paragraph("Phone :" + phone + "\n", catFont));
-			preface.add(new Paragraph("Occupation :" + occupation + "\n",
-					catFont));
 			preface.add(new Paragraph("Date Of Registration :"
 					+ dateOfRegistration + "\n", catFont));
 			preface.add(new Paragraph("Is Active  :" + isActive + "\n", catFont));

@@ -65,8 +65,6 @@ public class AdminUserDAO {
 				user.setEmail(results.getString("EMAIL"));
 				user.setFullName(results.getString("FULL_NAME"));
 				user.setPhone(results.getString("PHONE_NUMBER"));
-				user.setAge(results.getString("AGE"));
-				user.setOccupation(results.getString("OCCUPATION"));
 				user.setImage(results.getString("IMAGE"));
 				user.setDateOfRegistration(results
 						.getTimestamp("DATE_OF_REGISTRATION"));
