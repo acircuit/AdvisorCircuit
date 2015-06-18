@@ -377,6 +377,9 @@ ul.dropdown-menu li a {
 	width:auto;
 	height:auto;
 }
+.ac-promotion-banner .modal-body{
+	padding:0px;
+}
 @media only screen and (max-width: 980px) {	
 	.main-wrapper {
 		background:#d8d6d7;
