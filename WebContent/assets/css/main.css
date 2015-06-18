@@ -1518,6 +1518,32 @@ font-size: 11px;
 .myreview img {
 	max-width:50%;
 }
+.ac-advisor-sidebar{
+	box-shadow: 0 0 3px 1px #ccc;
+	-webkit-box-shadow: 0 0 3px 1px #ccc;
+}
+.ac-advisor-sidebar h4{
+	position:relative;
+}
+.ac-advisor-sidebar h4 .ac-nav-tree{
+	display:block;
+	position:absolute;
+	right:0;
+	top:0;
+	height:100%;
+	font-size:10px;
+	cursor:pointer;
+}
+.ac-advisor-sidebar h4 .ac-nav-tree i{
+	margin:0;
+	color:black;
+	position:relative;
+	top:50%;
+	transfrom:translateY(-50%);
+	-moz-transform:translateY(-50%);
+	-webkit-transform:translateY(-50%);	
+}
+
 	ul.industry::-webkit-scrollbar {
     width: 12px;
 	}
@@ -1532,8 +1558,9 @@ ul.industry::-webkit-scrollbar-thumb {
     -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5); 
 }
 ul.industry{
-	height: 150px;
-	overflow-y:scroll;
+	height: 122px;
+	overflow-y:hidden;
+	margin-bottom:0px !important;
 }		
 ul.industry::-moz-scrollbar {
     width: 12px;
@@ -1549,13 +1576,45 @@ ul.industry::-moz-scrollbar-thumb {
     border-radius: 10px;
     -webkit-border-radius: 10px;
     -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5); 
+}		
+ul.ac-popover-industry.ac-show{
+	display:block !important;
+	position:absolute;
+	top:0;
+	background:white;
+	z-index:1002;
+	list-style:none;	
 }
-ul.industry{
-	height: 150px;
-	overflow-y:scroll;
-}			
+.tree-container{
+	border-bottom:1px solid black; 
 }
-
+.tree-container:last-child{
+	border-bottom:none; 
+	margin-bottom:5px;
+}
+.tree-container ul{
+	margin-bottom:0px !important; 
+}
+.show-more-industries{
+	margin-bottom:5px;
+}
+div.filter-list ul{
+	list-style:none;
+	padding:0px;
+}
+div.filter-list ul li.filter{
+	display: inline-block;
+	font-size: 13pt;
+	background-color: #c0c0c0;
+	padding: 5px;
+	border-radius: 5px;
+	margin-right: 5px;
+}
+div.filter-list ul li.filter span.glyphicon-remove{
+	font-size:9pt;
+	margin-left: 5px;
+	cursor:pointer;
+}
 @media only screen and (min-width:1000px) and (max-width: 1100px)  {
 	ul.tab-list li,
 	ul.tab-list li a {
@@ -1598,4 +1657,13 @@ ul.industry{
 	.help-panel > .help {
 		display:none;
 	}
+}
+
+.ac-overlay{
+  position: absolute;
+  z-index: 1001;
+  width: 100%;
+  background-color: rgba(80,80,80,0.5);
+  height: 100%;
+  display: block !important;
 }
