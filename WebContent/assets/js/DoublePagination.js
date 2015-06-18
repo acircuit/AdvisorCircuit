@@ -99,7 +99,7 @@
             } else {
                 $( '[id*=PageList] [id*=Previous]' ).show();
             }
-            if(options.curPage == options.noOfPage){
+            if(options.curPage == options.noOfPage || options.noOfPage==0){
                 $( '[id*=PageList] [id*=Next]' ).hide();
             } else {
                 $( '[id*=PageList] [id*=Next]' ).show();

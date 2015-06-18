@@ -184,7 +184,7 @@
                 <div class="modal-dialog modal-lg">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+                            <button type="button" class="close" data-dismiss="modal">x</button>
                             <h4 class="modal-title" id="myModalLabel" style="text-align: center;">Get Help Finding Your Advisor</h4>
                         </div>
                         <div class="modal-body">
@@ -240,10 +240,10 @@
                 <c:otherwise>
 
                     <div class="row">
-                        <div class="col-md-6 filter-list">
+                        <div class="col-md-9 filter-list">
                             <ul></ul>
                         </div>
-                        <div class="col-md-6 pull-right text-right">
+                        <div class="col-md-3 pull-right text-right">
 
                             <ul class="pagination">
                                 <li id="PageList"></li>
@@ -297,8 +297,9 @@
                                         <div class="modal-dialog" role="document">
                                             <div class="modal-content">
                                                 <div class="modal-header">
+                                                    <h4 class="modal-title" id="gridSystemModalLabel">Filter By Services
                                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">x</span></button>
-                                                    <h4 class="modal-title" id="gridSystemModalLabel">Filter By Services</h4>
+                                                    </h4>
                                                 </div>
                                                 <div class="modal-body">
                                                     <ul class="sidebar-nav list-unstyled">
