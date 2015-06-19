@@ -28,7 +28,8 @@
   <body>
   <div class="container">
     <div class="alert ac-alert" role="alert">
-        <a class="" type="button" data-toggle="modal" data-target="#ac-promotion-banner">Invite others and we will create your resume</a>
+        <a class="hidden-xs hidden-sm">Invite others and we will create your resume</a>
+        <a class="hidden-md hidden-lg" type="button" data-toggle="modal" data-target="#ac-promotion-banner">Invite others and we will create your resume</a>
         <button class="glyphicon glyphicon-remove pull-right ac-dismiss"></button>
     </div>
     <div class="modal fade ac-promotion-banner" role="dialog" aria-labelledby="ac-promotion-banner" id="ac-promotion-banner">
