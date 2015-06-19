@@ -27,9 +27,9 @@
 
   <body>
   <div class="container">
-    <div class="alert ac-alert" role="alert">
-        <a class="hidden-xs hidden-sm">Invite others and we will create your resume</a>
-        <a class="hidden-md hidden-lg" type="button" data-toggle="modal" data-target="#ac-promotion-banner">Invite others and we will create your resume</a>
+    <div class="alert ac-alert hidden-lg" role="alert">
+        <!-- <a class="hidden-xs hidden-sm">Invite others and we will create your resume</a> -->
+        <a type="button" data-toggle="modal" data-target="#ac-promotion-banner">Invite others and we will create your resume</a>
         <button class="glyphicon glyphicon-remove pull-right ac-dismiss"></button>
     </div>
     <div class="modal fade ac-promotion-banner" role="dialog" aria-labelledby="ac-promotion-banner" id="ac-promotion-banner">
@@ -37,7 +37,10 @@
             <div class="modal-content">
                 <div class="modal-body">
                     <div class="row">
-                        <img src="assets/AdvisorImages/mathewdonbosco@yahoo.com/MathewThomas.jpg" alt="" height="100%" width="100%">
+                        <img  class="col-sm-12" src="assets/AdvisorImages/mathewdonbosco@yahoo.com/MathewThomas.jpg" alt="" height="100%" width="100%">
+                    </div>
+                    <div class="">
+                        <button class="btn btn-ac center-block" style="margin-bottom:20px;margin-top:20px;width:50%;background-color:rgb(64,185,231);">Sign Up</button>
                     </div>
                 </div>
             </div>
@@ -45,7 +48,7 @@
     </div>
     <%@include file="/Header.jsp" %>
 
-    <div id="ac-home-carousel" class="carousel slide" data-ride="carousel" style="margin-bottom:50px;">
+    <div id="ac-home-carousel" class="carousel slide hidden-xs hidden-sm hidden-md" data-ride="carousel" style="margin-bottom:50px;">
         <ol class="carousel-indicators" style="bottom:0px;">
             <li data-target="#ac-home-carousel" data-slide-to="0" class="active"></li>
             <li data-target="#ac-home-carousel" data-slide-to="1"></li>
@@ -100,6 +103,40 @@
             <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
             <span class="sr-only">Next</span>
         </a>
+    </div>
+    <div class="row main-wrapper hidden-lg">
+        <div class="col-md-12 text-center">
+            <h1>Have questions about your career?<br/>Take charge today!</h1>
+            <h4>Connect with professionals who are actually in the field.</h4>
+        </div>
+
+        <div class="inner-block">
+            <div class="col-md-4 text-center">
+                <img src="assets/img/WebMail/HomePage/Panel_1_Icon_1.png" width="60" alt="Search for your advisor">
+                <p>Search and pick your advisor</p>
+            </div><!--/col-md-3 -->
+
+            <div class="col-md-4 text-center">
+                <img src="assets/img/WebMail/HomePage/Panel_1_Icon_2.png" width="60" alt="Book as per your comfort">
+                <p>Book a session as per your convenience</p>
+            </div><!--/col-md-3 -->
+
+            <div class="col-md-4 text-center">
+                <img src="assets/img/WebMail/HomePage/Panel_1_Icon_3.png" width="60" alt="Grow in your career">
+                <p>Connect via Phone, Email or WebChat</p>
+            </div><!--/col-md-3 -->
+        </div>
+
+        <div class="col-lg-12 text-center">
+            <form class="find-advisor" role="form" action="Search" formnovalidate  method="post">
+                <div class="input-group">
+                <input type="text" class="form-control" name="search" placeholder="Find Advisors in your Field" required="required">
+                <span class="input-group-btn">
+                    <button class="btn btn-default" type="Submit"><i class="glyphicon glyphicon-search" style="color:#FFFFFF"></i></button>
+                </span>
+                </div>
+            </form>
+        </div>
     </div>
 
     <a href="#" data-toggle="modal" data-target="#heretohelp">
