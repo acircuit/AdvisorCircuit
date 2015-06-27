@@ -21,7 +21,7 @@
     <link href='https://fonts.googleapis.com/css?family=Lato:300,400,900' rel='stylesheet' type='text/css'>
     <link href="assets/css/font-awesome.min.css" rel="stylesheet" type="text/css">
     <fmt:bundle basename="Resources.Dependency" prefix="path.">
-         <link rel="shortcut icon" href=<fmt:message key="shortcuticon"/>
+         <link rel="shortcut icon" href=<fmt:message key="shortcuticon"/>>
     </fmt:bundle>
   </head>
 
@@ -29,18 +29,21 @@
   <div class="container">
     <div class="alert ac-alert hidden-lg" role="alert">
         <!-- <a class="hidden-xs hidden-sm">Invite others and we will create your resume</a> -->
-        <a type="button" data-toggle="modal" data-target="#ac-promotion-banner">Invite others and we will create your resume</a>
+        <a href="#" type="button" data-toggle="modal" data-target="#ac-promotion-banner">Click here and get your resume created for FREE</a>
         <button class="glyphicon glyphicon-remove pull-right ac-dismiss"></button>
     </div>
     <div class="modal fade ac-promotion-banner" role="dialog" aria-labelledby="ac-promotion-banner" id="ac-promotion-banner">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
+            	<div class="modal-header">
+                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+                 </div>
                 <div class="modal-body">
                     <div class="row">
-                        <img  class="col-sm-12" src="assets/AdvisorImages/mathewdonbosco@yahoo.com/MathewThomas.jpg" alt="" height="100%" width="100%">
+                        <img  class="col-sm-12" src="assets/img/PromotionBannerMobile.jpg" alt="" height="100%" width="100%">
                     </div>
                     <div class="">
-                        <button class="btn btn-ac center-block" style="margin-bottom:20px;margin-top:20px;width:50%;background-color:rgb(64,185,231);">Sign Up</button>
+                        <a href="login"><button class="btn btn-ac center-block" style="margin-bottom:20px;margin-top:20px;width:60%;background-color:#c84c4e;font-size:30px;color: #fff;">START NOW</button></a>
                     </div>
                 </div>
             </div>
@@ -48,11 +51,11 @@
     </div>
     <%@include file="/Header.jsp" %>
 
-    <div id="ac-home-carousel" class="carousel slide hidden-xs hidden-sm hidden-md" data-ride="carousel" style="margin-bottom:50px;">
-        <ol class="carousel-indicators" style="bottom:0px;">
+    <div id="ac-home-carousel" class="carousel slide hidden-xs hidden-sm hidden-md" data-ride="carousel">
+      <!--   <ol class="carousel-indicators" style="bottom:0px;">
             <li data-target="#ac-home-carousel" data-slide-to="0" class="active"></li>
             <li data-target="#ac-home-carousel" data-slide-to="1"></li>
-        </ol>
+        </ol> -->
         <div class="carousel-inner" role="listbox">
             <div class="item active">
                 <div class="row main-wrapper">
@@ -95,12 +98,12 @@
                 <div class="carousel-caption"></div>
             </div>
         </div>
-        <a class="left carousel-control" href="#ac-home-carousel" role="button" data-slide="prev">
-            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+        <a class="left carousel-control" href="#ac-home-carousel" role="button" data-slide="prev" style="opacity:0.1">
+            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true" style="margin-left:-75px"></span>
             <span class="sr-only">Previous</span>
         </a>
-        <a class="right carousel-control" href="#ac-home-carousel" role="button" data-slide="next">
-            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+        <a class="right carousel-control" href="#ac-home-carousel" role="button" data-slide="next" style="opacity:0.1">
+            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true" style="margin-right:-75px"></span>
             <span class="sr-only">Next</span>
         </a>
     </div>

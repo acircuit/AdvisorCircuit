@@ -66,10 +66,8 @@ public class AdminUserDAO {
 				user.setFullName(results.getString("FULL_NAME"));
 				user.setPhone(results.getString("PHONE_NUMBER"));
 				user.setImage(results.getString("IMAGE"));
-				user.setDateOfRegistration(results
-						.getTimestamp("DATE_OF_REGISTRATION"));
+				user.setDateOfRegistration(results.getTimestamp("DATE_OF_REGISTRATION"));
 				user.setIsActive(results.getBoolean("ISACTIVE"));
-				conn.commit();
 			}
 			logger.info("Exit GetUserDetails method of AdminUserDAO");
 		} catch (Exception e) {
@@ -318,8 +316,6 @@ public class AdminUserDAO {
 				user.setEmail(results.getString("EMAIL"));
 				user.setFullName(results.getString("FULL_NAME"));
 				user.setPhone(results.getString("PHONE_NUMBER"));
-				user.setAge(results.getString("AGE"));
-				user.setOccupation(results.getString("OCCUPATION"));
 				user.setImage(results.getString("IMAGE"));
 				user.setDateOfRegistration(results
 						.getTimestamp("DATE_OF_REGISTRATION"));

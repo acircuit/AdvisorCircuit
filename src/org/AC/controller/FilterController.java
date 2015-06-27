@@ -246,7 +246,7 @@ public class FilterController extends HttpServlet {
 						data= data.concat("<li>");
 					}
 					String str ="<div class='col-md-6' id='advisor'><div class='pattern clearfix'><div class='row'>"
-								+"<div class=col-md-6 col-xs-6 user-pic'><a href='AdvisorProfile?aId="+advisorDetails.getAdvisorId()+"'><img src='"+advisorDetails.getImage()+"' alt='' height='165'></a></div>"
+								+"<div class='col-md-6 col-xs-6 user-pic'><a href='AdvisorProfile?aId="+advisorDetails.getAdvisorId()+"'><img src='"+advisorDetails.getImage()+"' alt='' height='165'></a></div>"
 								+"<div class='col-md-6 col-xs-6 user-detail'><div class='prof'><h4 class='name'><a href='AdvisorProfile?aId="+advisorDetails.getAdvisorId()+"'>"+advisorDetails.getName()+"</a></h4>"
 								+"<h4 class='industry'><a href='AdvisorProfile?aId="+advisorDetails.getAdvisorId()+"'>"+advisorDetails.getIndustry()+"</a></h4>";
 				

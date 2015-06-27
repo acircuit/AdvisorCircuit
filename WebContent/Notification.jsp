@@ -96,7 +96,7 @@ if( session.getAttribute("admin") != null &&  (Boolean)session.getAttribute("adm
 %>
 	<span class="notification_count" id="notification_count" style="display: none"></span>
 			
-			<a href="" class="notificationLink"><img alt="" src="assets/img/notification-icon.jpg"></a>
+			<a href="" class="notificationLink"><img alt="" src="assets/img/notification_icon.png"></a>
 			<div class="notificationContainer" id="notificationContainer">
 			
 			<div class="notificationTitle" id="notificationTitle">Notifications</div>

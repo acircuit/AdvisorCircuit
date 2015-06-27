@@ -20,12 +20,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.AC.DAO.AdminNotificationDAO;
+import org.AC.DAO.ReviewAndRecommendationDAO;
 import org.AC.DAO.SearchDAO;
 import org.AC.DAO.UserNotificationDAO;
 import org.AC.Util.GetRelativeImageURL;
 import org.AC.dto.AdvisorProfileDTO;
 import org.AC.dto.AdvisorServiceDTO;
 import org.AC.dto.ProfessionalBackgroundDTO;
+import org.AC.dto.RecommendationDTO;
 import org.apache.log4j.Logger;
 
 /********************************CLASS SUMMARY*****************************************************
@@ -111,7 +113,6 @@ public class AdvisorsTabController extends HttpServlet {
 		advisorProfileList = advisorInfo.getAdvisorDetails(advisorIds);
 		SearchDAO industry = new SearchDAO();
 		industries = industry.GetIndustries();
-
 		String ids = "";
 		if (advisorProfileList.size() > 0) {
 			for (AdvisorProfileDTO advisorProfileDTO : advisorProfileList) {
@@ -166,7 +167,6 @@ public class AdvisorsTabController extends HttpServlet {
 			UserNotificationDAO user = new UserNotificationDAO();
 			user.SetNotificationRead(url, userId);
 		}
-		
 		//Getting the Services of the advisors
 		List<AdvisorServiceDTO> services = new ArrayList<AdvisorServiceDTO>();
 		SearchDAO advisorServices = new SearchDAO();

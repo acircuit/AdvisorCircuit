@@ -89,10 +89,12 @@
                                 	<dt>Email Id</dt>
                                     <dd>${user.getEmail()}</dd>
                                 </dl>
-                                <dl>
-                                	<dt>Phone Number</dt>
-                                    <dd>${user.getPhone()}</dd>
-                                </dl>
+                                <c:if test="${user.getPhone() != null}">
+	                                <dl>
+	                                	<dt>Phone Number</dt>
+	                                    <dd>${user.getPhone()}</dd>
+	                                </dl>
+                                </c:if>
                                 <dl>
                                 	<dt>Date of Registration</dt>
                                     <dd>${user.getDor()}</dd>
@@ -167,7 +169,7 @@
     var code = $("#ref").val();
 var addthis_share = {
    url: "https://www.advisorcircuit.com/login",
-   title: "Use My Referral Code:" +code
+   title: "Sign Up on www.advisorcircuit.com using "+code+" Referral Code to help me win the Free Resume Creation Competition! You can participate too, log onto www.advisorcircuit.com today !"
 }
 
 </script>

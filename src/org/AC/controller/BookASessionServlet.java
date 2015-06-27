@@ -29,6 +29,7 @@ import org.AC.DAO.AdminNotificationDAO;
 import org.AC.DAO.AdvisorModesDAO;
 import org.AC.DAO.AdvisorNotificationDAO;
 import org.AC.DAO.BookASessionDAO;
+import org.AC.DAO.UserDetailsDAO;
 import org.AC.Util.SendMail;
 import org.AC.Util.SetCV;
 import org.AC.dto.AdvisorModeDTO;
@@ -90,6 +91,7 @@ public class BookASessionServlet extends HttpServlet {
 			String price = request.getParameter("price");
 			String isFree = request.getParameter("isFree");
 			String userIsFree = request.getParameter("userisfree");
+			String phoneNo = request.getParameter("phone");
 
 			String registrationPrice = request
 					.getParameter("registrationPrice");
@@ -136,6 +138,10 @@ public class BookASessionServlet extends HttpServlet {
 				} else {
 					discount = "100";
 				}
+			}
+			if(phoneNo != null && !phoneNo.equals("")){
+				UserDetailsDAO phno  = new UserDetailsDAO();
+				phno.UpdatePhone(userId,phoneNo);
 			}
 			String absoluteURL = "";
 			Boolean isCvCommit = false;

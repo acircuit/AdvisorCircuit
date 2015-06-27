@@ -56,10 +56,7 @@
   </head>
 <body>	
 	<div class="container">
-		<div class="alert ac-alert" role="alert">
-		<a href="#">Invite others and we will create your resume</a>
-		<button class="glyphicon glyphicon-remove pull-right ac-dismiss"></button>
-	</div>
+		
 	<%@include file="/Header.jsp" %>
     
     <div class="row">
@@ -150,11 +147,11 @@
                             </form>
                          
 						<div class="modal fade" id="usersignup" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-							<div class="modal-dialog modal-lg">
+							<div class="modal-dialog modal-md">
 								<div class="modal-content">
 									<div class="modal-header">
 									<button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
-									<h4 class="modal-title" id="myModalLabel">Sign Up</h4>
+									<h4 class="modal-title" id="myModalLabel" style="text-align: center;">SIGN UP FOR FREE</h4>
 									</div>
 								<div class="modal-body">
 									<form id="signupform" class="form-horizontal" role="form" enctype="multipart/form-data"  action="UserRegistration" method="post" >
@@ -165,58 +162,35 @@
 											
 										<div class="form-group" id="demail">
 											<label for="email" class="col-md-3 control-label">Email</label>
-											<div class="col-md-9">
+											<div class="col-md-6">
 												<input id="email" type="email" class="form-control" name="email" placeholder="Email Address" maxlength="150">
 											</div>
-											<div class="col-md-9">
-												<p class="required" id="required_email">Field Required</p>
+											<div class="col-md-6">
+												<p class="required" id="required_email" style="float: right;">Field Required</p>
 												<p class="required" id="invalid_mail">Invalid Email</p>
 												<p class="required" id="mailnotavailable">Whoa! Looks like your email id already exists with us.</p>
 											</div>
 										</div>
 										 <div class="form-group" id="dsignup-password">
 											<label for="password" class="col-md-3 control-label">Password</label>
-											<div class="col-md-9">
+											<div class="col-md-6">
 												<input id="signup-password" type="password" class="form-control" name="passwd" placeholder="Password" maxlength="40">
 											</div>
-											<div class="col-md-9">
-												<p class="required" id="required_pass">Field Required</p>
+											<div class="col-md-6">
+												<p class="required" id="required_pass" style="float: right;">Field Required</p>
 											</div>
 										</div>
 
 											
 										<div class="form-group">
 											<label for="firstname" class="col-md-3 control-label" id="dfname">Full Name</label>
-											<div class="col-md-9">
+											<div class="col-md-6">
 												<input id="fname" type="text" class="form-control" name="fullname" placeholder="Full Name" maxlength="100">
 											</div>
-											<div class="col-md-9">
-												<p class="required" id="required_name">Field Required</p>
+											<div class="col-md-6">
+												<p class="required" id="required_name" style="float: right;">Field Required</p>
 												<p class="required" id="invalid_name">Invalid Name</p>
 											</div>
-										</div>
-										<div class="form-group" id="dphone">
-											<label for="icode" class="col-md-3 control-label">Phone Number</label>
-											<div class="col-md-9">
-												<input id="phone" type="text"  class="form-control" name="phone" placeholder="" maxlength="20">
-											</div>
-											<div class="col-md-9">
-												<p class="required" id="required_phone">Field Required</p>
-												<p class="required" id="invalid_phone">Invalid Number</p>
-											</div>
-										</div>	
-										<div class="form-group" id="dexampleInputFile">
-											<label for="icode" class="col-md-3 control-label">Upload Picture</label>
-											<div class="col-md-9">
-												<input type="file" id="exampleInputFile" name="file" accept="image/png,image/jpg,image/gif,image/jpeg">
-												<p class="help-block">Max Size 2.5MB</p>
-											</div>
-											<div class="col-md-9">
-												<p class="required" id="required_image">Field Required</p>
-												<p class="required" id="required_size">Please upload a file less than 2.5 MB</p>
-												<p class="required" id="required_ext">Invalid Extension.Please upload png,jpg,jpeg or gif</p>
-											</div>
-											
 										</div>
 										<div class="form-group col-md-12 collapse" id="referralPromotion"> 
 											<div class="accordion" id="accordion2">
@@ -248,7 +222,10 @@
 										<div class="form-group">
 											<!-- Button -->                                        
 											<div class="col-md-offset-3 col-md-9">
-								   				<input type="checkbox" id="agree" name="agree"><span style="padding: 1%">I agree with the <a href="terms" target="blank">Terms & Conditions.</a></span>  
+												<h5>By registering you confirm that you accept the <a href="terms" target="blank">Terms & Conditions</a> and <a href="privacy" target="blank">Privacy Policy</a></h5>
+								   				<input type="checkbox" id="agree" name="newsletter" checked="checked"><span style="padding: 1%">I wish to subscribe to recent news and updates. </span>  
+												
+								
 												<div style="height:5px"></div>  
 											</div>
 										</div>    	
@@ -374,6 +351,7 @@ $("#btn-login").click(function(event){
 				}
 		});
 		$("#btn-signup").click(function(event){
+			debugger;
 			 event.preventDefault();
 			 var val = $("#email").val();
 				 $.ajax({
@@ -395,6 +373,7 @@ $("#btn-login").click(function(event){
 			    });
 		 });
 		function validate(event){
+			debugger
 var isPreventDefault = false;
 			
 			
@@ -424,32 +403,7 @@ var isPreventDefault = false;
 				$("#required_name").hide();
 				$("#dfname").removeClass("has-error");
 			}
-			
-			var input_p = $("#phone").val();
-			var filter = /^\d{10}$/; 
-			var is_phone = filter.test(input_p);
-			if(input_p=='')
-			{
-				$("#required_phone").show();
-				$("#invalid_phone").hide();
-				event.preventDefault();
-				isPreventDefault = true;
-
-			}
-			else if (!is_phone){
-				phone_flag = 1;
-				$("#invalid_phone").show();
-				$("#required_phone").hide();
-				$("#dphone").addClass("has-error");
-					event.preventDefault();
-					isPreventDefault = true;
-
-			}else{
-				$("#required_phone").hide();
-				$("#invalid_phone").hide();
-				phone_flag = 0;
-				$("#dphone").removeClass("has-error");
-			}	
+				
 			
 			var input_e = $("#email").val();
 			var re = /^[a-zA-Z0-9.!$%&*+/=?^_`'{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
@@ -476,52 +430,6 @@ var isPreventDefault = false;
 				$("#invalid_mail").hide();
 				$("#demail").removeClass("has-error");
 			}		
-			
-
-			<!--file input-->
-			var avatar = $("#exampleInputFile").val();
-			var extension = avatar.split('.').pop().toUpperCase();
-			var upload = false;
-			var file;
-			if(typeof($('#exampleInputFile')[0].files[0]) != "undefined"){
-				 file = $('#exampleInputFile')[0].files[0].size;
-				 upload = true;
-			}
-			
-			var image= false;
-			var size = false;
-			var ext =false; 
-			if(upload) {
-				 if (extension!="PNG" && extension!="JPG" && extension!="GIF" && extension!="JPEG"){
-						avatarok = 0;
-						$("#required_ext").show();
-						if(size){
-							$("#required_size").show();
-						}else{
-							$("#required_size").hide();
-						}
-						event.preventDefault();
-						isPreventDefault = true;
-
-					}else if (file > 2621440) {
-						$("#required_size").show();
-						if(ext){
-							$("#required_ext").show();
-						}else{
-							$("#required_ext").hide();
-						}
-						event.preventDefault();
-						isPreventDefault = true;
-
-					} else {
-						avatarok = 1;
-						$("#required_image").hide();
-						$("#required_ext").hide();
-						$("#required_size").hide();
-						//success all ok
-					}
-				
-			}
 				var input_pwd1 = $("#signup-password").val();
 				if (input_pwd==''){
 					$("#required_confirm_pass").show();
@@ -535,22 +443,6 @@ var isPreventDefault = false;
 						$("#invalid_pass").hide();
 						$("#required_confirm_pass").hide();
 					}
-
-				var input_city = $("#org").val();
-				if (input_city==''){
-					org_flag= 1;
-					$("#required_org").show();
-					
-					$("#dorg").addClass("has-error");
-					event.preventDefault(); 
-					isPreventDefault = true;
-
-				}	
-				else{
-				$("#required_org").hide();
-				$("#dorg").removeClass("has-error");
-				org_flag=0;
-				}
 
 
 				var input_pwd = $("#signup-password").val();
@@ -566,14 +458,11 @@ var isPreventDefault = false;
 						$("#required_pass").hide();
 						$("#dsignup-password").removeClass("has-error");
 					}
-				if(!($("#agree").is(':checked'))){
-					event.preventDefault();
-					alert("Hey!! You forgot to accept the Terms & Condition");
-				}
 				
 		}
 
 	function validations(event){
+		debugger;
 		var isPreventDefault = false;
 			
 			var input_n = $("#fname").val();
@@ -603,31 +492,6 @@ var isPreventDefault = false;
 				$("#dfname").removeClass("has-error");
 			}
 			
-			var input_p = $("#phone").val();
-			var filter = /^\d{10}$/; 
-			var is_phone = filter.test(input_p);
-			if(input_p=='')
-			{
-				$("#required_phone").show();
-				$("#invalid_phone").hide();
-				event.preventDefault();
-				isPreventDefault = true;
-
-			}
-			else if (!is_phone){
-				phone_flag = 1;
-				$("#invalid_phone").show();
-				$("#required_phone").hide();
-				$("#dphone").addClass("has-error");
-					event.preventDefault();
-					isPreventDefault = true;
-
-			}else{
-				$("#required_phone").hide();
-				$("#invalid_phone").hide();
-				phone_flag = 0;
-				$("#dphone").removeClass("has-error");
-			}	
 			
 			var input_e = $("#email").val();
 			var re = /^[a-zA-Z0-9.!$%&*+/=?^_`'{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
@@ -654,83 +518,7 @@ var isPreventDefault = false;
 				$("#invalid_mail").hide();
 				$("#demail").removeClass("has-error");
 			}		
-			
 
-		<!--file input-->
-			var avatar = $("#exampleInputFile").val();
-			var extension = avatar.split('.').pop().toUpperCase();
-			var upload = false;
-			var file;
-			if(typeof($('#exampleInputFile')[0].files[0]) != "undefined"){
-				 file = $('#exampleInputFile')[0].files[0].size;
-				 upload = true;
-			}
-			
-			var image= false;
-			var size = false;
-			var ext =false; 
-			if(upload) {
-				 if (extension!="PNG" && extension!="JPG" && extension!="GIF" && extension!="JPEG"){
-						avatarok = 0;
-						$("#required_ext").show();
-						if(size){
-							$("#required_size").show();
-						}else{
-							$("#required_size").hide();
-						}
-						event.preventDefault();
-						isPreventDefault = true;
-
-					}else if (file > 2621440) {
-						$("#required_size").show();
-						if(ext){
-							$("#required_ext").show();
-						}else{
-							$("#required_ext").hide();
-						}
-						event.preventDefault();
-						isPreventDefault = true;
-
-					} else {
-						avatarok = 1;
-						$("#required_image").hide();
-						$("#required_ext").hide();
-						$("#required_size").hide();
-						//success all ok
-					}
-				
-			}
-
-				var input_pwd = $("#confirm-password").val();
-				var input_pwd1 = $("#signup-password").val();
-				if (input_pwd==''){
-					$("#required_confirm_pass").show();
-					$("#dconfirm-password").addClass("has-error");
-					event.preventDefault();
-					isPreventDefault = true;
-
-				}else
-					{
-						$("#dconfirm-password").removeClass("has-error");
-						$("#invalid_pass").hide();
-						$("#required_confirm_pass").hide();
-					}
-
-				var input_city = $("#org").val();
-				if (input_city==''){
-					org_flag= 1;
-					$("#required_org").show();
-					
-					$("#dorg").addClass("has-error");
-					event.preventDefault(); 
-					isPreventDefault = true;
-
-				}	
-				else{
-				$("#required_org").hide();
-				$("#dorg").removeClass("has-error");
-				org_flag=0;
-				}
 
 
 				var input_pwd = $("#signup-password").val();
@@ -746,11 +534,6 @@ var isPreventDefault = false;
 						$("#required_pass").hide();
 						$("#dsignup-password").removeClass("has-error");
 					}
-		if(!($("#agree").is(':checked'))){
-			event.preventDefault();
-			isPreventDefault = true;
-			alert("Hey!! You forgot to accept the Terms & Condition");
-		}
 		if(isPreventDefault){
 			event.preventDefault(); 
 		}else{

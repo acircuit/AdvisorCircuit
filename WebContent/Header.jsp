@@ -91,7 +91,7 @@
             	<li class="green"><a href="becomeanadvisor">Become an Advisor</a></li>
                 <li class="blue"><a href="whyusac">Why use Advisor Circuit</a></li>
 				<li class="red"><a href="howitworks">How it Works</a></li>
-				<li class="orange"><a href="https://www.advisorcircuit.com/blog/" target="blank">Blog<sup style="color: #2dabc2">New</sup></a></li>
+				<li class="orange"><a href="https://www.advisorcircuit.com/blog/" target="blank">Blog</a></li>
 				
 			</ul>
         	<div class="navbar-form navbar-right">

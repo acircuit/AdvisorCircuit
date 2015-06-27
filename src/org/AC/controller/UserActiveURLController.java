@@ -61,8 +61,8 @@ public class UserActiveURLController extends HttpServlet {
 				userNotify.InsertNotification(comment2, href2, code);
 				
 				
-				if(referralCount == 5){
-					String comment1 = "User with User Id="+ code+" has 5 referrals";
+				if(referralCount == 10){
+					String comment1 = "User with User Id="+ code+" has 10 referrals";
 					String href1 = "AdminUsers";
 					AdminNotificationDAO notify1 = new AdminNotificationDAO();
 					notify1.InsertNotification(comment1, href1);

@@ -36,10 +36,16 @@ public class UserDetailsDAO {
 	// This method will put the user details retrieved from the form in the
 	// userdetails table
 	public Integer setUserDetails(String email, String hashPassword,
-			String fullname, String phone, String absolutePath) {
+			String fullname,String absolutePath, String newsletter) {
 		logger.info("Entered setUserDetails method of UserDetailsDAO");
 		int result = 0;
 		int userId = 0;
+		Boolean isNewsLetterSubscribed = false;
+		if(newsletter != null){
+			isNewsLetterSubscribed = true;
+		}else{
+			isNewsLetterSubscribed = false;
+		}
 		Boolean isDetailsCommit = false;
 		Calendar mbCal = new GregorianCalendar(TimeZone.getTimeZone("IST"));
 		mbCal.setTimeInMillis(new Date().getTime());
@@ -56,17 +62,17 @@ public class UserDetailsDAO {
 			conn = ConnectionFactory.getConnection();
 			conn.setAutoCommit(false);
 			String query = "insert into userdetails"
-					+ "(EMAIL,PASSWORD,FULL_NAME,PHONE_NUMBER,IMAGE,DATE_OF_REGISTRATION) values"
+					+ "(EMAIL,PASSWORD,FULL_NAME,IMAGE,DATE_OF_REGISTRATION,NEWSLETTER) values"
 					+ "(?,?,?,?,?,?)";
 			PreparedStatement pstmt = conn.prepareStatement(query,
 					Statement.RETURN_GENERATED_KEYS);
 			pstmt.setString(1, email);
 			pstmt.setString(2, hashPassword);
 			pstmt.setString(3, fullname);
-			pstmt.setString(4, phone);
-			pstmt.setString(5, absolutePath);
+			pstmt.setString(4, absolutePath);
 			Timestamp time = new java.sql.Timestamp(date.getTime());
-			pstmt.setTimestamp(6, time);
+			pstmt.setTimestamp(5, time);
+			pstmt.setBoolean(6, isNewsLetterSubscribed);
 			result = pstmt.executeUpdate();
 			if (result > 0) {
 				conn.commit();
@@ -659,7 +665,7 @@ public class UserDetailsDAO {
 		return isFree;
 	}
 	
-	public Boolean setUserEditDetails(String name,String phone,String occupation,String path, int userId) {
+	public Boolean setUserEditDetails(String name,String phone,String path, int userId) {
 
 		logger.info("Entered setUserEditDetails method of UserDetailsDAO");
 		Boolean isFlagCommit = false;
@@ -670,20 +676,18 @@ public class UserDetailsDAO {
 			conn = ConnectionFactory.getConnection();
 			conn.setAutoCommit(false);
 			if(path.equals("")){
-				query = "UPDATE userdetails SET FULL_NAME=?,PHONE_NUMBER=?,OCCUPATION=? WHERE USER_ID = ?";
+				query = "UPDATE userdetails SET FULL_NAME=?,PHONE_NUMBER=? WHERE USER_ID = ?";
 				pstmt = conn.prepareStatement(query);
 				pstmt.setString(1, name);
 				pstmt.setString(2, phone);
-				pstmt.setString(3, occupation);
-				pstmt.setInt(4, userId);
+				pstmt.setInt(3, userId);
 			}else{
-				query = "UPDATE userdetails SET FULL_NAME=?,PHONE_NUMBER=?,OCCUPATION=?,IMAGE=? WHERE USER_ID = ?";
+				query = "UPDATE userdetails SET FULL_NAME=?,PHONE_NUMBER=?,IMAGE=? WHERE USER_ID = ?";
 				pstmt = conn.prepareStatement(query);
 				pstmt.setString(1, name);
 				pstmt.setString(2, phone);
-				pstmt.setString(3, occupation);
-				pstmt.setString(4,path);
-				pstmt.setInt(5, userId);
+				pstmt.setString(3,path);
+				pstmt.setInt(4, userId);
 			}
 			int result = pstmt.executeUpdate();
 			if (result > 0) {
@@ -1023,5 +1027,95 @@ public class UserDetailsDAO {
 		logger.info("Exit GetPromoCodeUsed method of UserDetailsDAO");
 		return code;
 	}
+	
+	public String GetUserPhone(int uId) {
+		logger.info("Entered GetUserPhone method of UserDetailsDAO");
+		String code = "";
+		try {
+			conn = ConnectionFactory.getConnection();
+			conn.setAutoCommit(false);
+			String query = "SELECT PHONE_NUMBER FROM userdetails WHERE USER_ID=?";
+			PreparedStatement pstmt;
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, uId);
+			ResultSet results = pstmt.executeQuery();
+			if (results.next()) {
+				code = results.getString("PHONE_NUMBER");
+			}
+			logger.info("Exit GetUserPhone method of UserDetailsDAO");
+		} catch (SQLException e) {
+			logger.error("GetUserPhone method of UserDetailsDAO threw error:"
+					+ e.getMessage());
+			e.printStackTrace();
+		} catch (IOException e) {
+			logger.error("GetUserPhone method of UserDetailsDAO threw error:"
+					+ e.getMessage());
+			e.printStackTrace();
+		} catch (PropertyVetoException e) {
+			logger.error("GetUserPhone method of UserDetailsDAO threw error:"
+					+ e.getMessage());
+			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				logger.error("GetUserPhone method of UserDetailsDAO threw error:"
+						+ e.getMessage());
+				e.printStackTrace();
+			}
+		}
 
+		logger.info("Exit GetUserPhone method of UserDetailsDAO");
+		return code;
+	}
+	
+	public Boolean UpdatePhone(int aId,String phone) {
+		logger.info("Entered UpdatePhone method of UserDetailsDAO");
+		Boolean isFlagCommit = false;
+		Boolean flag = true;
+		try {
+			conn = ConnectionFactory.getConnection();
+			conn.setAutoCommit(false);
+			String query = "UPDATE userdetails SET PHONE_NUMBER = ? WHERE USER_ID = ?";
+			PreparedStatement pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, phone);
+			pstmt.setInt(2, aId);
+			int result = pstmt.executeUpdate();
+			if (result > 0) {
+				conn.commit();
+				isFlagCommit = true;
+			}
+			logger.info("Exit UpdatePhone method of UserDetailsDAO");
+		} catch (Exception e) {
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				try {
+					conn.rollback();
+				} catch (SQLException e2) {
+					logger.error("UpdatePhone method of UserDetailsDAO threw error:"
+							+ e2.getMessage());
+					e2.printStackTrace();
+				}
+				logger.error("UpdatePhone method of UserDetailsDAO threw error:"
+						+ e1.getMessage());
+				e1.printStackTrace();
+			}
+			logger.error("UpdatePhone method of UserDetailsDAO threw error:"
+					+ e.getMessage());
+			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				logger.error("UpdatePhone method of UserDetailsDAO threw error:"
+						+ e.getMessage());
+				e.printStackTrace();
+			}
+		}
+		return isFlagCommit;
+	}
+
+	
+	
 }

@@ -106,6 +106,7 @@ public class AdvisorLoginController extends HttpServlet {
 							HttpSession session = request.getSession();
 							session.setAttribute("username", userName);
 							session.setAttribute("advisorId", aId);
+							session.setAttribute("email", email);
 							Cookie loginCookie = new Cookie("username",
 									userName);
 							loginCookie.setMaxAge(60 * 60);

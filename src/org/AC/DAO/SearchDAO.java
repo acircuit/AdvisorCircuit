@@ -460,11 +460,9 @@ public class SearchDAO {
 		List<String> industries = new ArrayList<String>();
 
 		try {
-			HashSet hs = new HashSet();
-
 			conn = ConnectionFactory.getConnection();
 			conn.setAutoCommit(false);
-			String query = "SELECT INDUSTRY FROM advisordetails WHERE ISACTIVE = ? AND ISVISIBLE=? AND ISVERIFIED=?";
+			String query = "SELECT DISTINCT INDUSTRY FROM advisordetails WHERE ISACTIVE = ? AND ISVISIBLE=? AND ISVERIFIED=? ORDER BY INDUSTRY";
 			pstmt = conn.prepareStatement(query);
 			pstmt.setBoolean(1, true);
 			pstmt.setBoolean(2, true);
@@ -472,11 +470,9 @@ public class SearchDAO {
 			ResultSet results = pstmt.executeQuery();
 			while (results.next()) {
 				// removi
-				hs.add(results.getString("INDUSTRY"));
+				industries.add(results.getString("INDUSTRY"));
 
 			}
-			industries.clear();
-			industries.addAll(hs);
 		} catch (SQLException e) {
 			try {
 				conn.rollback();

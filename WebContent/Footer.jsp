@@ -86,7 +86,7 @@
                 	<c:otherwise>
                 		 <div class="col-md-2 links">
 							<h4><a href="login">Log In</a></h4>
-							<h4><a href="https://www.advisorcircuit.com/blog/" target="blank">Blog<sup style="color: #2dabc2">New</sup></a></h4>
+							<h4><a href="https://www.advisorcircuit.com/blog/" target="blank">Blog</a></h4>
 							<h4><a href="contactus">Contact Us</a></h4>
 						</div>
                 	</c:otherwise>
@@ -99,10 +99,13 @@
             <div class="row">
         	<div class="col-md-10 col-lg-offset-2">
             	<h4><b>Reach us at</b> <span><i class="glyphicon glyphicon-envelope" style="color:#575758; margin-left:20px"></i> contactus@advisorcircuit.com</span>
-				<span><i class="glyphicon glyphicon glyphicon-earphone" style="color:#575758; margin-left:20px"></i> +919999372087</span> <span style="margin-left: 2%">&#169; 2015 Advisor Circuit - All rights reserved.</span>  </h4>
+				<span><i class="glyphicon glyphicon glyphicon-earphone" style="color:#575758; margin-left:20px"></i> +919999372087</span>
             </div>
         </div>
 		</div>
 	</div><!-- /footer -->
 	
     <div style="height:10px;"></div>
+    <div class="col-md-10 col-lg-offset-4">
+    	<span style="margin-left: 5%">&#169; 2015 Advisor Circuit - All rights reserved.</span> 
+    </div>

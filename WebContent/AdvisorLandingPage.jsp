@@ -240,10 +240,10 @@
                 <c:otherwise>
 
                     <div class="row">
-                        <div class="col-md-9 filter-list">
+                        <div class="col-md-8 filter-list">
                             <ul></ul>
                         </div>
-                        <div class="col-md-3 pull-right text-right">
+                        <div class="col-md-4 pull-right text-right">
 
                             <ul class="pagination">
                                 <li id="PageList"></li>
@@ -259,13 +259,16 @@
                             <!-- Sidebar -->
                             <a class="selectServices" href="#">Select Filter</a>
                             <div id="sidebar-wrapper">
-                                <h4>Filter By Services</h4>
+                            	<div class="tree-container">
+                                	<h4>Filter</h4>
+                                </div>
                                 <h4>
                                     Industries
-                                    <div class="pull-right ac-nav-tree" for="industries">
+                                    <div class="pull-right ac-nav-tree hidden-xs hidden-sm" for="industries">
                                         <i class="glyphicon glyphicon-minus-sign"></i>
                                     </div>
                                 </h4>
+                                <c:set value="0" var="IndustryCount"></c:set>
                                 <div class="tree-container" data-tree="industries">
                                     <ul class="sidebar-nav list-unstyled industry hidden-xs hidden-sm">
                                         <c:forEach var="industry" items="${industries}">
@@ -274,6 +277,7 @@
                                                     <input id="Industry${industry}" onchange="CreateFilterParameter(this)" type="checkbox" style="width: 25px;">${industry}
                                                 </label>
                                             </li>
+                                            <c:set value="${IndustryCount +1 }" var="IndustryCount"></c:set>
                                         </c:forEach>
 <!--                                         <c:forEach var="industry" items="${industries}" begin="6">
                                             <li class="hidden">
@@ -283,7 +287,7 @@
                                             </li>
                                         </c:forEach> -->
                                     </ul>
-                                    <div class="hidden-xs hidden-sm show-more-industries"type="button" data-toggle="modal" data-target="#exampleModal">Show More</div>
+                                   
                                     <ul class="sidebar-nav list-unstyled industry ac-popover-industry hidden-md hidden-lg">
                                         <c:forEach var="industry" items="${industries}">
                                             <li>
@@ -293,11 +297,14 @@
                                             </li>
                                         </c:forEach>
                                     </ul>
+                                     <c:if test="${(IndustryCount-5) > 0}">
+                                   	 <div class="show-more-industries" type="button" data-toggle="modal" data-target="#exampleModal">${IndustryCount -5 } More</div>
+                                    </c:if>
                                     <div class="modal fade" role="dialog" aria-labelledby="gridSystemModalLabel" id="exampleModal">
                                         <div class="modal-dialog" role="document">
                                             <div class="modal-content">
                                                 <div class="modal-header">
-                                                    <h4 class="modal-title" id="gridSystemModalLabel">Filter By Services
+                                                    <h4 class="modal-title" id="gridSystemModalLabel">Filter By Industries
                                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">x</span></button>
                                                     </h4>
                                                 </div>
@@ -319,7 +326,7 @@
 
                                 <h4>
                                     Services
-                                    <div class="pull-right ac-nav-tree" for="services">
+                                    <div class="pull-right ac-nav-tree hidden-xs hidden-sm" for="services">
                                         <i class="glyphicon glyphicon-minus-sign"></i>
                                     </div>
                                 </h4>
@@ -348,7 +355,7 @@
 
                                 <h4>
                                     Experience
-                                    <div class="pull-right ac-nav-tree" for="experience">
+                                    <div class="pull-right ac-nav-tree hidden-xs hidden-sm" for="experience">
                                         <i class="glyphicon glyphicon-minus-sign"></i>
                                     </div>
                                 </h4>
@@ -371,7 +378,7 @@
 
                                 <h4>
                                     Modes
-                                    <div class="pull-right ac-nav-tree" for="modes">
+                                    <div class="pull-right ac-nav-tree hidden-xs hidden-sm" for="modes">
                                         <i class="glyphicon glyphicon-minus-sign"></i>
                                     </div>
                                 </h4>
@@ -538,7 +545,7 @@
                                         </c:when>
                                         <c:otherwise>
                                             <h4 style="font-style: solid">
-                                                <p>Sorry there are no advisors that match your search. Please try a different keyword or <a href = "Advisors?service=all">click here</a> to view all our advisors.</p>
+                                                <p style="margin-left: 5%">Sorry there are no advisors that match your search. Please try a different keyword or <a href = "Advisors?service=all">click here</a> to view all our advisors.</p>
                                             </h4>
                                         </c:otherwise>
                                     </c:choose>
@@ -657,17 +664,19 @@
     var filter = ":";
     //var ids= "";
     var id = "${ids}";
-    function CreateFilterParameter(e,isModal){
-        var val = e.id;
+    function CreateFilterParameter(elem,isModal){
+        var val = elem.id;
+        var label = document.getElementById(val).parentElement.textContent;    
         if(isModal){
-            val=e.id.replace('Modal','');
+            val=elem.id.replace('Modal','');
         }
         var checkbox = document.getElementById(val);
-        checkbox.checked = e.checked;
+        checkbox.checked = elem.checked;
         var flag = true;
         if(checkbox.checked){
             filter = filter.concat(val +':');
-            $('.filter-list ul').append('<li class="filter"><span>'+e.labels[0].innerText+'</span><span class="glyphicon glyphicon-remove" for="'+val+'"></span></li>');
+            	$('.filter-list ul').append('<li class="filter"><span>'+label+'</span><span class="glyphicon glyphicon-remove" for="'+val+'"></span></li>');
+            
         }else{
             filter = filter.replace(":"+val+":", ":");
             $('.filter-list ul').find('li span.glyphicon[for="'+ val +'"]').parent('li').remove();
@@ -677,8 +686,8 @@
             flag=false;
         }
         if(!isModal){
-            var modalFilter = document.getElementById('Modal'+e.id);
-            if(modalFilter) modalFilter.checked = e.checked;
+            var modalFilter = document.getElementById('Modal'+elem.id);
+            if(modalFilter) modalFilter.checked = elem.checked;
         }
         /*var id = "";
         if(ids == ""){

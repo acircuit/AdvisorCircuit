@@ -60,16 +60,6 @@
 	                  </div>
 	              </div>
 	              
-	              <div class="form-group" id="dorg">
-	                   <label for="icode" class="col-md-3 control-label">Occupation</label>
-	                   <div class="col-md-5">
-	                       <input id="org" type="text" class="form-control" name="org" placeholder="" value="${profile.getOccupation()}" maxlength="200">
-	                   </div>
-	                   <div class="col-md-2">
-	                       <p class="required" id="required_org">Field Required</p>
-	                       <p class="required" id="invalid_org">Invalid Occupation</p>																														
-	                   </div>
-	               </div>
 	               <c:if test="${profile.getImage() != null}">
 	               	<div class="form-group">
 	                    <label for="icode" class="col-md-3 control-label">Uploaded Picture</label>
@@ -174,21 +164,6 @@ $(document).ready(function() {
 			phone_flag = 0;
 			$("#dphone").removeClass("has-error");
 		}	
-		var input_city = $("#org").val();
-		if (input_city==''){
-			org_flag= 1;
-			$("#required_org").show();
-			
-			$("#dorg").addClass("has-error");
-			event.preventDefault(); 
-			isPreventDefault = true;
-
-		}	
-		else{
-		$("#required_org").hide();
-		$("#dorg").removeClass("has-error");
-		org_flag=0;
-		}
 	});	
 
 	

@@ -48,7 +48,8 @@
     List<AdvisorProfileDTO> awards= (List<AdvisorProfileDTO>)request.getAttribute("awards");
 	List<RecommendationDTO> reviews= (List<RecommendationDTO>)request.getAttribute("reviews");
 	List<UserDetailsDTO> reviewUserDetails= (List<UserDetailsDTO>)request.getAttribute("reviewUserDetails");
-   	Boolean userIsFree = (Boolean) request.getAttribute("userIsFree"); 	
+   	Boolean userIsFree = (Boolean) request.getAttribute("userIsFree");
+   	Boolean getUserPhoneNumber = (Boolean) request.getAttribute("getUserPhoneNumber"); 	
 	String advisorId = (String)request.getParameter("aId");
 	request.setAttribute("advisorId", advisorId);	
 		int  uId =  0;
@@ -61,6 +62,7 @@
 		}
 		pageContext.setAttribute("advisors", advisors);
 		pageContext.setAttribute("userIsFree", userIsFree);
+		pageContext.setAttribute("getUserPhoneNumber", getUserPhoneNumber);
 		pageContext.setAttribute("profession", profession);
 		pageContext.setAttribute("services", services);
 		pageContext.setAttribute("modes", modes);
@@ -598,7 +600,14 @@
                                    		<h4 id="freesession1" style="font-family:'custom_light' !important;color: #c84c4e;text-align: left;display: none;">Great news ! This session is free for you. </h4> 
                                     </div>
                                 </div>		
-								  
+								  <c:if test="<%=getUserPhoneNumber %>">
+								        <div id="dphone" class="form-group">
+                                 		<label for="icode" style="font-family:'custom_light' !important;" class="col-md-3 control-label">Phone Number</label>
+										<div class="col-md-4">
+	                                           <input id="phone" type="text"  class="form-control" name="phone" placeholder="" maxlength="20">
+                                        </div>
+								       </div>
+								  </c:if>
                                
 								
 								
@@ -686,7 +695,8 @@
 								</div>
 							</div>
                      	</div>
-                   	</div>	
+                   	</div>
+                   		
   
 	<%@include file="/Footer.jsp" %>  
 	</div>
@@ -1129,6 +1139,10 @@
 		$('#datetimepickeremail').data("DateTimePicker").setMaxDate(dt1);
 		$("#submit_btn").click(function(event){
 			var drop = $("#services_dropdown").val();
+			var noError = true;
+			var input_p = $("#phone").val();
+			var filter = /^\d{10}$/; 
+			var is_phone = filter.test(input_p);
 			<c:forEach items="${services}" var="service">
 			if("${service.getService()}" == drop && $('input:radio[name=duration]:checked').val()== "0.5" || "${service.getService()}" == drop && $('input:radio[name=mode]:checked').val() == "email"){
 				if("${service.getIsFree()}" > 0){
@@ -1142,6 +1156,7 @@
 			{
 				alert("Please choose a service to move ahead !");
 				event.preventDefault();
+				noError =true;
 			}else if($("#optionsRadiosInlinem1").is(':checked') == true || $("#optionsRadiosInlinem2").is(':checked') == true || $("#optionsRadiosInlinem3").is(':checked') == true)
 				{	
 				var query = $("#query").val();
@@ -1164,6 +1179,13 @@
 								event.preventDefault();
 							}else if($("#query").val() == ""){
 								alert("Please enter the Query you want to send to the Advisor.");
+								event.preventDefault();
+							}else if ($('#dphone').is(':visible') && input_p=='') {
+								alert("Please enter your phone number.");
+								event.preventDefault();
+							
+							}else if ($('#dphone').is(':visible') && !is_phone) {
+								alert("Phone number entered is not valid.");
 								event.preventDefault();
 							}
 							else {

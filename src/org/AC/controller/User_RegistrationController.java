@@ -55,11 +55,11 @@ public class User_RegistrationController extends HttpServlet {
 		String email = request.getParameter("email");
 		String password = request.getParameter("passwd");
 		String fullname = request.getParameter("fullname");
-		String phone = request.getParameter("phone");
 		String promo_code = request.getParameter("refcode");
 		String uId = request.getParameter("refCodeUserId");
 		String isPromoActive = request.getParameter("isPromoActive");
 		String isCodeApplied = request.getParameter("isCodeApplied");
+		String newsletter = request.getParameter("newsletter");
 		String hashPassword = "";
 		int result = 0;
 		Properties prop = new Properties();
@@ -76,22 +76,17 @@ public class User_RegistrationController extends HttpServlet {
 		
 		try {
 			
-			if(email != null && password != null && fullname != null && phone != null && !email.isEmpty() && !password.isEmpty() && !fullname.isEmpty() && !phone.isEmpty() 
+			if(email != null && password != null && fullname != null &&  !email.isEmpty() && !password.isEmpty() && !fullname.isEmpty()  
 					 && emailFromAjax == null ){
 						String absolutePath="";
 						//Setting the image retrieved from the user to the required file location
-						if(request.getPart("file") != null && request.getPart("file").getSize() != 0){
-							SetFormImage image = new SetFormImage();
-							absolutePath = image.putImage(request,response,email,"USER");
-						}else{
-						    File source = new File(prop1.getProperty("DUMMY_USER_IMAGE_SOURCE_PATH"));
-						    absolutePath = MessageFormat.format(prop1.getProperty("DUMMY_USER_IMAGE_DESTINATION_PATH"), email);
-							File dest = new File(absolutePath);
-							try {
-							    FileUtils.copyFile(source, dest);
-							} catch (IOException e) {
-							    e.printStackTrace();
-							}
+					    File source = new File(prop1.getProperty("DUMMY_USER_IMAGE_SOURCE_PATH"));
+					    absolutePath = MessageFormat.format(prop1.getProperty("DUMMY_USER_IMAGE_DESTINATION_PATH"), email);
+						File dest = new File(absolutePath);
+						try {
+						    FileUtils.copyFile(source, dest);
+						} catch (IOException e) {
+						    e.printStackTrace();
 						}
 						//Hashing the retrieved password from the user.
 						PasswordHashing securedPass = new PasswordHashing();
@@ -99,7 +94,7 @@ public class User_RegistrationController extends HttpServlet {
 						
 						//Setting the user details in the userdetails table
 						UserDetailsDAO dao = new UserDetailsDAO();
-						int userId = dao.setUserDetails(email,hashPassword,fullname,phone,absolutePath);
+						int userId = dao.setUserDetails(email,hashPassword,fullname,absolutePath,newsletter);
 						if(userId != 0){
 							if(isPromoActive != null && isPromoActive.equals("true")){
 								//Enter the promo code for the user 
@@ -145,7 +140,7 @@ public class User_RegistrationController extends HttpServlet {
 							SendMail mail = new SendMail(subject, content, email,prop.getProperty("MAIL_ADMIN"));
 							mail.start();
 							String subject1= "A New User Sign Up!";
-							String content1 = "Hi, <br><br> A new user has signed up with us. Following are the details: <br>Full Name : "+fullname+" <br>Phone : "+phone+"<br>Email Id : " +email+"<br><img src=\"https://www.advisorcircuit.com/Test/assets/img/logo_black.png\" style='float:right' width='15%'>";
+							String content1 = "Hi, <br><br> A new user has signed up with us. Following are the details: <br>Full Name : "+fullname+"<br>Email Id : " +email+"<br><img src=\"https://www.advisorcircuit.com/Test/assets/img/logo_black.png\" style='float:right' width='15%'>";
 							SendMail mail1 = new SendMail(subject1, content1, prop.getProperty("MAIL_ADMIN"),prop.getProperty("MAIL_ADMIN"));
 							mail1.start();
 							response.sendRedirect("UserRegistrationComplete");

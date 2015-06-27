@@ -52,8 +52,7 @@ public class UserMyAccountController extends HttpServlet {
 			user = details.GetUserDetails(userId);
 			GetRelativeImageURL img = new GetRelativeImageURL();
 			user.setImage(img.getImageURL(user.getImage()));
-			user.setDor(new SimpleDateFormat("dd-MMM-yyyy' 'h:mm a")
-					.format(new Date(user.getDateOfRegistration().getTime())));
+			user.setDor(new SimpleDateFormat("dd-MMM-yyyy' 'h:mm a").format(new Date(user.getDateOfRegistration().getTime())));
 			int id = 1;
 			UserDetailsDAO promotion = new UserDetailsDAO();
 			Boolean isActive = promotion.IsPromotionActive(id);
@@ -98,8 +97,7 @@ public class UserMyAccountController extends HttpServlet {
 			String email = request.getParameter("email");
 			String fullname = request.getParameter("name");
 			String phone = request.getParameter("phone");
-			String occupation = request.getParameter("org");
-			if(email != null && fullname != null && phone != null && occupation !=null && !email.equals("") && !fullname.equals("") && !phone.equals("") && !occupation.equals("") ){
+			if(email != null && fullname != null && phone != null && !email.equals("") && !fullname.equals("") && !phone.equals("")){
 				
 				String absolutePath="";
 				//Setting the image retrieved from the user to the required file location
@@ -108,7 +106,7 @@ public class UserMyAccountController extends HttpServlet {
 					absolutePath = image.putImage(request,response,email,"USER");
 				}
 				UserDetailsDAO dao = new UserDetailsDAO();
-				Boolean isCommit = dao.setUserEditDetails(fullname,phone,occupation,absolutePath,userId);
+				Boolean isCommit = dao.setUserEditDetails(fullname,phone,absolutePath,userId);
 				doGet(request, response);
 				
 			}

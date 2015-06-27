@@ -50,6 +50,7 @@ public class AdvisorProfileServlet extends HttpServlet {
 		logger.info("Enter doGet method of AdvisorProfileServlet.java");
 		String advisorId = request.getParameter("aId");
 		String isAdmin = request.getParameter("admin");
+		Boolean getUserPhoneNumber = false;
 		int userId = 0;
 		Boolean userIsFree =false;
 		if(request.getSession().getAttribute("userId") !=null ){
@@ -105,8 +106,15 @@ public class AdvisorProfileServlet extends HttpServlet {
 		//Getting the user details to check whether the user has is free available or not
 		UserDetailsDAO user = new UserDetailsDAO();
 		userIsFree = user.CheckUserIsFree(userId);
-		}
 		
+		//Getting the user details to check whether the user has upadted his phone number or not
+		UserDetailsDAO phone = new UserDetailsDAO();
+		String phoneNumber = phone.GetUserPhone(userId);
+		if(phoneNumber != null){
+		}else{
+			getUserPhoneNumber = true;
+		}
+		}
 		//This is to get the modes and price for a service 
 		AdvisorModesDAO dao3 = new AdvisorModesDAO();
 		list3 = dao3.getAdvisorModesDetails(advisorId);
@@ -202,6 +210,7 @@ public class AdvisorProfileServlet extends HttpServlet {
 			request.setAttribute("reviewUserDetails", reviewUserDetails);
 		}
 		request.setAttribute("userIsFree", userIsFree);
+		request.setAttribute("getUserPhoneNumber", getUserPhoneNumber);	
 		response.setCharacterEncoding("UTF-8");
 		request.setCharacterEncoding("UTF-8");
 		
