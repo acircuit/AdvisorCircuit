@@ -106,7 +106,7 @@ if( session.getAttribute("admin") != null &&  (Boolean)session.getAttribute("adm
 			</div>
 <script src="https://code.jquery.com/jquery-1.11.0.min.js"></script>
 <script type="text/javascript" >
-var id ="";
+var id1 ="";
 	$(document).ready(function() 	
 	{
 		$(".notificationLink").click(function()
@@ -122,7 +122,7 @@ var id ="";
 			if($("#notificationsBody").is(":visible") == false){
 				$.ajax({
 				    url : 'NotificationViewedController', // Your Servlet mapping or JSP(not suggested)
-				    data : {"id" : id,"type" : type},
+				    data : {"id" : id1,"type" : type},
 				    type : 'POST',
 				    dataType : 'html', // Returns HTML as plain text; included script tags are evaluated when inserted in the DOM.
 				    success : function(response) {
@@ -157,7 +157,7 @@ var id ="";
 				}
 		    }, false);
 			eventSource.addEventListener('id', function(event) {
-				id= event.data;
+				id1= event.data;
 		    }, false);
 		}
 		else if(<%=source.equals("user")%>){
@@ -173,7 +173,7 @@ var id ="";
 				}
 		    }, false);
 			eventSource.addEventListener('id', function(event) {
-				id= event.data;
+				id1= event.data;
 		    }, false);
 		}else if (<%=source.equals("advisor")%>) {
 			var eventSource = new EventSource("AdvisorNotificationSSE");
@@ -187,7 +187,7 @@ var id ="";
 				}
 		    }, false);
 			eventSource.addEventListener('id', function(event) {
-				id= event.data;
+				id1= event.data;
 		    }, false);
 		}
 	});
