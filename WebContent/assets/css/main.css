@@ -377,9 +377,91 @@ ul.dropdown-menu li a {
 	width:auto;
 	height:auto;
 }
-.ac-promotion-banner .modal-body{
+
+.ac-promotion-banner .modal-body,
+#ac-promotion-onload .modal-body{
 	padding:0px;
 }
+
+#ac-promotion-onload .modal-content{
+	border-radius: 0px;
+}
+
+#ac-promotion-onload .modal-body .dismiss{
+	position: absolute;
+	right: 0;
+	transform: translateY(-50%) translateX(50%);
+	background-color: black;
+	color: white;
+	border-radius: 50%;
+	height: 30px;
+	width: 30px;
+	border: 3px solid #fff;
+}
+
+#ac-promotion-onload .modal-body .ribbon{
+	width:100%;
+	height:10px;
+}
+
+#ac-promotion-onload .modal-body .ribbon .ribbon-strip{
+	width:25%;
+	height:100%;
+	float:left;
+}
+
+.ribbon-strip.strip-1{
+	background-color: rgb(255,229,13);
+}
+
+.ribbon-strip.strip-2{
+	background-color: rgb(86,255,159);
+}
+
+.ribbon-strip.strip-3{
+	background-color: rgb(254,264,0);
+}
+
+.ribbon-strip.strip-4{
+	background-color: rgb(246,123,0);
+}
+#ac-promotion-onload .modal-body form{
+	padding:20px;
+	background:rgb(218,218,218);
+	width:90%;
+	margin-left: auto;
+	margin-right: auto;
+}
+#ac-promotion-onload .modal-body form input,
+#ac-promotion-onload .modal-body form button{
+	display: block;
+	width:100%;
+	margin:13px 0px;
+	line-height: 35px;
+	border:0;
+	padding: 0px 10px;
+	font-size:18px;
+}
+#ac-promotion-onload .modal-body form input:first-child{
+	margin-top: 0px;
+}
+#ac-promotion-onload .modal-body form button{
+	margin-bottom:0px;
+	background-color: rgb(122,171,34);
+	color:#fff;
+}
+#ac-promotion-onload .modal-body form span{
+	color: #fff;
+	font-size: 10px;
+	float: right;
+	margin: 2px 0px;
+}
+
+#ac-promotion-onload .modal-body form span a{
+	color: #fff;
+	text-decoration: underline;
+}
+
 @media only screen and (max-width: 980px) {	
 	.main-wrapper {
 		background:#d8d6d7;
