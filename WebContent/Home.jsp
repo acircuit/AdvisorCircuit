@@ -27,6 +27,32 @@
 
   <body>
   <div class="container">
+
+    <div class="modal fade" role="dialog" aria-labelledby="ac-promotion-onload" id="ac-promotion-onload">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <button type="button" class="dismiss" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true" style="top:2px;left:-1px;"></span></button>
+                    <div class="ribbon">
+                        <div class="ribbon-strip strip-1"></div>
+                        <div class="ribbon-strip strip-2"></div>
+                        <div class="ribbon-strip strip-3"></div>
+                        <div class="ribbon-strip strip-4"></div>
+                    </div>
+                    <h3 style="text-align:center;">Sign up for FREE within seconds</h3>
+                    <p style="text-align:center;">Be the first to receive exclusive offers and promotions</p>
+                    <form action="">
+                        <input type="text" placeholder="Enter your Name"/>
+                        <input type="email" placeholder="Enter your Email"/>
+                        <button type="submit">SIGN ME UP!</button>
+                        <span>By Signing up I accept <a href="">Terms of Service</a></span>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
     <div class="alert ac-alert hidden-lg" role="alert">
         <!-- <a class="hidden-xs hidden-sm">Invite others and we will create your resume</a> -->
         <a href="#" type="button" data-toggle="modal" data-target="#ac-promotion-banner">Click here and get your resume created for FREE</a>
@@ -345,6 +371,10 @@ var ur = document.createElement('script'); ur.type = 'text/javascript'; ur.async
 ur.src = ('https:' == document.location.protocol ? 'https://cdn.userreport.com/userreport.js' : 'http://cdn.userreport.com/userreport.js');
 var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ur, s);
 })();
+
+$(window).on('load',function(){
+    $('#ac-promotion-onload').modal('show');
+});
 
 $(document).ready(function() {
     $("#submit_btn").click(function(event){
