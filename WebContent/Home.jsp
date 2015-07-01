@@ -32,18 +32,19 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-body">
-                    <button type="button" class="dismiss" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true" style="top:2px;left:-1px;"></span></button>
+                    <button type="button" class="dismiss" data-dismiss="modal" aria-hidden="true">X</button>
                     <div class="ribbon">
                         <div class="ribbon-strip strip-1"></div>
                         <div class="ribbon-strip strip-2"></div>
                         <div class="ribbon-strip strip-3"></div>
                         <div class="ribbon-strip strip-4"></div>
                     </div>
-                    <h3 style="text-align:center;">Sign up for FREE within seconds</h3>
-                    <p style="text-align:center;">Be the first to receive exclusive offers and promotions</p>
+                    <h3 style="text-align:center;"><span>Sign up for FREE</span> within seconds</h3>
+                    <p style="text-align:center;"><span>Be the first</span> to receive exclusive offers and promotions</p>
                     <form action="">
-                        <input type="text" placeholder="Enter your Name"/>
-                        <input type="email" placeholder="Enter your Email"/>
+                        <input type="text" placeholder="Enter your Name" required/>
+                        <input type="email" placeholder="Enter your Email" required/>
+                        <input type="password" placeholder="Enter your Password" required/>
                         <button type="submit">SIGN ME UP!</button>
                         <span>By Signing up I accept <a href="">Terms of Service</a></span>
                     </form>
