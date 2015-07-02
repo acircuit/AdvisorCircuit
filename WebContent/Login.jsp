@@ -351,7 +351,6 @@ $("#btn-login").click(function(event){
 				}
 		});
 		$("#btn-signup").click(function(event){
-			debugger;
 			 event.preventDefault();
 			 var val = $("#email").val();
 				 $.ajax({

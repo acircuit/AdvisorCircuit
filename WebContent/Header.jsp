@@ -18,13 +18,44 @@
 			isLoggedIn=true;
 			username=(String)session.getAttribute("username");
 			advisord = (Integer)session.getAttribute("advisorId");
-	} 
+	}
+	Boolean isPopUpViewed = (Boolean)session.getAttribute("isPopUpViewed");
+	Boolean showPopUp;
+	if(isPopUpViewed != null){
+		showPopUp = !isPopUpViewed;
+	}else{
+		showPopUp = true;
+		session.setAttribute("isPopUpViewed", true);
+	}
 	pageContext.setAttribute("isLoggedIn", isLoggedIn);
 %>    <!-- Fixed navbar -->
 <head>
 	<title><%= request.getParameter("title") %> </title>
 </head>
-
+<div class="modal fade" role="dialog" aria-labelledby="ac-promotion-onload" id="ac-promotion-onload">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <button type="button" class="dismiss" data-dismiss="modal" aria-hidden="true">X</button>
+                    <div class="ribbon">
+                        <div class="ribbon-strip strip-1"></div>
+                        <div class="ribbon-strip strip-2"></div>
+                        <div class="ribbon-strip strip-3"></div>
+                        <div class="ribbon-strip strip-4"></div>
+                    </div>
+                    <h3 style="text-align:center;">Sign up for FREE within seconds</h3>
+                    <p style="text-align:center;"><span>Be the first to receive exclusive offers and promotions</span></p>
+                    <form action="">
+                        <input id="pop-up-name" type="text" placeholder="Enter your Name" required/>
+                        <input id="pop-up-email" type="email" placeholder="Enter your Email" required/>
+                        <input id="pop-up-password" type="password" placeholder="Enter your Password" required/>
+                        <button type="button" onclick="PopUpSignUp()">SIGN ME UP!</button>
+                        <span>By Signing up I accept <a href="">Terms of Service</a></span>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 <fmt:bundle basename="Resources.Dependency" prefix="path.">
 	<div class="user-link">
 		<div>
@@ -298,4 +329,51 @@
 			$('.covers .cover.cover-'+plainTarget).removeClass('hide').fadeIn(600);
 		});
 	});
+	$(window).on('load',function(){
+           if(<%=showPopUp && !isLoggedIn%>){
+	          $('#ac-promotion-onload').modal('show');
+           }
+	});
+	
+	function PopUpSignUp(){
+			 var ajax = false;		
+             var name =$("#pop-up-name").val();
+             var email=$("#pop-up-email").val();
+             var password =$("#pop-up-password").val();
+			 $.ajax({
+		 	    url : 'UserRegistration', // Your Servlet mapping or JSP(not suggested)
+		 	    data : {"emailFromAjax" : email},
+		 	    type : 'POST',
+		 	    dataType : 'html', // Returns HTML as plain text; included script tags are evaluated when inserted in the DOM.
+		 	   cache: false
+		 	}).done(function(result) {
+		        if (result == "true") {
+		        	Registration();
+		        	}else {
+		        		alert("Whoa! Looks like your email id already exists with us.");
+		        }
+		    }).fail(function() {
+		        alert('ERROR');
+		    });
+	          
+	}
+	
+	function Registration(){
+		 var name =$("#pop-up-name").val();
+         var email=$("#pop-up-email").val();
+         var password =$("#pop-up-password").val();
+		   $.ajax({
+               url : 'UserRegistration', // Your Servlet mapping or JSP(not suggested)
+               data : {"email" :email,"passwd":password,"fullname":name},
+               type : 'POST',
+               dataType : 'html', // Returns HTML as plain text; included script tags are evaluated when inserted in the DOM.
+               success : function(response) {
+              	       $('#ac-promotion-onload').modal('hide');
+              	       $('#ac-login').modal('show');
+               },
+               error : function(request, textStatus, errorThrown) {
+               }
+           }); 
+	}
 </script>
+

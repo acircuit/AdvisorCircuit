@@ -143,7 +143,7 @@ public class User_RegistrationController extends HttpServlet {
 							String content1 = "Hi, <br><br> A new user has signed up with us. Following are the details: <br>Full Name : "+fullname+"<br>Email Id : " +email+"<br><img src=\"https://www.advisorcircuit.com/Test/assets/img/logo_black.png\" style='float:right' width='15%'>";
 							SendMail mail1 = new SendMail(subject1, content1, prop.getProperty("MAIL_ADMIN"),prop.getProperty("MAIL_ADMIN"));
 							mail1.start();
-							response.sendRedirect("UserRegistrationComplete");
+							response.getWriter().write("true");
 						}
 			}else if (emailFromAjax != null) {
 				//Check if user has already been signed up

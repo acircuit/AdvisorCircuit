@@ -28,30 +28,7 @@
   <body>
   <div class="container">
 
-    <div class="modal fade" role="dialog" aria-labelledby="ac-promotion-onload" id="ac-promotion-onload">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-body">
-                    <button type="button" class="dismiss" data-dismiss="modal" aria-hidden="true">X</button>
-                    <div class="ribbon">
-                        <div class="ribbon-strip strip-1"></div>
-                        <div class="ribbon-strip strip-2"></div>
-                        <div class="ribbon-strip strip-3"></div>
-                        <div class="ribbon-strip strip-4"></div>
-                    </div>
-                    <h3 style="text-align:center;"><span>Sign up for FREE</span> within seconds</h3>
-                    <p style="text-align:center;"><span>Be the first</span> to receive exclusive offers and promotions</p>
-                    <form action="">
-                        <input type="text" placeholder="Enter your Name" required/>
-                        <input type="email" placeholder="Enter your Email" required/>
-                        <input type="password" placeholder="Enter your Password" required/>
-                        <button type="submit">SIGN ME UP!</button>
-                        <span>By Signing up I accept <a href="">Terms of Service</a></span>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
+    
 
 
     <div class="alert ac-alert hidden-lg" role="alert">
@@ -373,9 +350,6 @@ ur.src = ('https:' == document.location.protocol ? 'https://cdn.userreport.com/u
 var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ur, s);
 })();
 
-$(window).on('load',function(){
-    $('#ac-promotion-onload').modal('show');
-});
 
 $(document).ready(function() {
     $("#submit_btn").click(function(event){
