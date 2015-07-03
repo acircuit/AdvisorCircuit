@@ -106,6 +106,6 @@
 	</div><!-- /footer -->
 	
     <div style="height:10px;"></div>
-    <div class="col-md-10 col-lg-offset-4">
+    <div class="col-md-12" style="text-align:center;">
     	<span style="margin-left: 5%">&#169; 2015 Advisor Circuit - All rights reserved.</span> 
     </div>
