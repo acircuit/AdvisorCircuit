@@ -421,9 +421,15 @@
 	$(window).on('load',function(){
            if(<%=showPopUp && !isLoggedIn%>){
 	          $('#ac-promotion-onload').modal('show');
+	          $('#ac-promotion-onload').modal({
+	   	           keyboard : false,
+	   	           backdrop : 'static'
+	   	    	});
            }
+           
+           
 	});
-	
+	   
 	function PopUpSignUp(){
 			 var ajax = false;
              var name =$("#pop-up-name").val();
