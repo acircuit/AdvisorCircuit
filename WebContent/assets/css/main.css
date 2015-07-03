@@ -411,10 +411,6 @@ ul.dropdown-menu li a {
 #ac-promotion-onload .modal-body .dismiss{
 	position: absolute;
 	right: 0;
-	transform: translateY(-50%) translateX(50%);
-	-webkit-transform: translateY(-50%) translateX(50%);
-	-ms-transform: translateY(-50%) translateX(50%);
-	-o-transform: translateY(-50%) translateX(50%);
 	background-color: black;
 	color: white;
 	border-radius: 50%;
@@ -426,7 +422,8 @@ ul.dropdown-menu li a {
 	display: table-cell;
 	vertical-align: middle;
 	padding: 0;
-  	margin: 0;
+  	margin: 5px 5px 0 0;
+  	outline : 0;
 }
 
 #ac-promotion-onload .modal-body .ribbon{
@@ -1936,11 +1933,31 @@ div.filter-list ul li.filter span.glyphicon-remove{
 
 .ac-header-theme-modal .field-wrap {
 	position: relative;
-	margin-bottom: 20px;
+	margin-bottom: 30px;
 }
 
 .ac-header-theme-modal .field-wrap.field-checkbox {
 	margin-bottom: 0px;
+}
+
+.ac-header-theme-modal .field-wrap.field-checkbox label,
+.ac-header-theme-modal .field-wrap.field-checkbox a {
+	font-size: 14px;
+	color: #fff;
+}
+
+.ac-header-theme-modal .field-wrap.field-checkbox a {
+	text-decoration: underline;
+}
+
+.ac-header-theme-modal .field-wrap.field-toggle-modal a{
+	font-size: 14px;
+	color: #fff;
+	margin-top: 5px;
+}
+
+.ac-header-theme-modal .field-wrap.field-toggle-modal a:hover{
+	text-decoration: underline;
 }
 
 .ac-header-theme-modal .top-row:after {
@@ -1992,6 +2009,22 @@ div.filter-list ul li.filter span.glyphicon-remove{
 	left: 50%;
 	transform: translateY(-50%);
 	border-left: 1px solid #fff;
+}
+
+@media only screen and (max-width: 992px) {
+
+	.ac-header-theme-modal .covers{
+		position: static;
+		transform: translateY(0%);
+		border-left: none;
+	}
+}
+
+@media only screen and (max-width: 992px) {
+
+	.smallFloatRight{
+		float:right;
+	}
 }
 
 .ac-header-theme-modal .covers .cover .cover-row{

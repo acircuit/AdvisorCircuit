@@ -145,7 +145,7 @@
 					<button type="button" class="dismiss" data-dismiss="modal" aria-hidden="true">X</button>
 					<div class="form">
 						<div class="tab-content">
-							<h1>Login</h1>
+							<h1 style="margin-bottom:30px;">Login</h1>
 							<form action="/" method="post">
 								<div class="field-wrap field-input">
 									<label>
@@ -161,6 +161,13 @@
 									<input type="password" name="password" required autocomplete="off"/>
 								</div>
 								<button type="submit" class="button button-block"/>Sign In</button>
+								<div class="field-wrap field-toggle-modal">
+									<label>
+										<a href="#" ac-target="#ac-signup">
+											Don't have an account? Signup for free.
+										</a>
+									</label>
+								</div>
 							</form>
 						</div>
 					</div>
@@ -176,6 +183,48 @@
 					<button type="button" class="dismiss" data-dismiss="modal" aria-hidden="true">X</button>
 					<div class="form-container">
 						<div class="row">
+							<div class="col-sm-12 col-md-6 covers">
+								<div class="cover cover-user">
+									<div class="cover-row">
+										<div class="icon icon-1"></div>
+										<div class="desc">
+											<p class="">Manage Your Orders <br/> Easily Track Orders, Create Returns</p>
+										</div>
+									</div>
+									<div class="cover-row">
+										<div class="icon icon-2"></div>
+										<div class="desc">
+											<p class="">Make Informed Decisions <br/> Get Relevant Alerts And Recommendations</p>
+										</div>
+									</div>
+									<div class="cover-row">
+										<div class="icon icon-3"></div>
+										<div class="desc">
+											<p class="">Engage Socially <br/> With Wishlists, Reviews, Ratings</p>
+										</div>
+									</div>
+								</div>
+								<div class="cover cover-advisor hide">
+									<div class="cover-row">
+										<div class="icon icon-1"></div>
+										<div class="desc">
+											<p class="">Manage Your Orders <br/> Easily Track Orders, Create Returns</p>
+										</div>
+									</div>
+									<div class="cover-row">
+										<div class="icon icon-2"></div>
+										<div class="desc">
+											<p class="">Make Informed Decisions <br/> Get Relevant Alerts And Recommendations</p>
+										</div>
+									</div>
+									<div class="cover-row">
+										<div class="icon icon-3"></div>
+										<div class="desc">
+											<p class="">Engage Socially <br/> With Wishlists, Reviews, Ratings</p>
+										</div>
+									</div>
+								</div>
+							</div>
 							<div class="col-sm-12 col-md-6">
 								<div class="form">
 									<ul class="tab-group">
@@ -218,9 +267,17 @@
 													</label>
 												</div>
 												<div class="field-wrap field-checkbox">
-													<input type="checkbox" name="tnc" id="tnc" required checked/>
-													<label for="tnc">
-														Terms and Conditions
+													<label>
+														<a href="">
+															Terms and Conditions
+														</a>
+													</label>
+												</div>
+												<div class="field-wrap field-toggle-modal">
+													<label>
+														<a href="#" ac-target="#ac-login">
+															Already have an account? Log In.
+														</a>
 													</label>
 												</div>
 											</form>
@@ -260,54 +317,20 @@
 													</label>
 												</div>
 												<div class="field-wrap field-checkbox">
-													<input type="checkbox" name="tnc" id="tnc" required checked/>
-													<label for="tnc">
-														Terms and Conditions
+													<label>
+														<a href="">
+															Terms and Conditions
+														</a>
+													</label>
+												</div>
+												<div class="field-wrap field-toggle-modal">
+													<label>
+														<a href="#" ac-target="#ac-login">
+															Already have an account? Log In.
+														</a>
 													</label>
 												</div>
 											</form>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="col-sm-12 col-md-6 hidden-xs hidden-sm covers">
-								<div class="cover cover-user">
-									<div class="cover-row">
-										<div class="icon icon-1"></div>
-										<div class="desc">
-											<p class="">Manage Your Orders <br/> Easily Track Orders, Create Returns</p>
-										</div>
-									</div>
-									<div class="cover-row">
-										<div class="icon icon-2"></div>
-										<div class="desc">
-											<p class="">Make Informed Decisions <br/> Get Relevant Alerts And Recommendations</p>
-										</div>
-									</div>
-									<div class="cover-row">
-										<div class="icon icon-3"></div>
-										<div class="desc">
-											<p class="">Engage Socially <br/> With Wishlists, Reviews, Ratings</p>
-										</div>
-									</div>
-								</div>
-								<div class="cover cover-advisor hide">
-									<div class="cover-row">
-										<div class="icon icon-1"></div>
-										<div class="desc">
-											<p class="">Manage Your Orders <br/> Easily Track Orders, Create Returns</p>
-										</div>
-									</div>
-									<div class="cover-row">
-										<div class="icon icon-2"></div>
-										<div class="desc">
-											<p class="">Make Informed Decisions <br/> Get Relevant Alerts And Recommendations</p>
-										</div>
-									</div>
-									<div class="cover-row">
-										<div class="icon icon-3"></div>
-										<div class="desc">
-											<p class="">Engage Socially <br/> With Wishlists, Reviews, Ratings</p>
 										</div>
 									</div>
 								</div>
@@ -384,6 +407,16 @@
 			var $input = $(this);
 			$input.val().length>0?$input.parent('.password').next('.confirmpassword').removeClass('hide'):$input.parent('.password').next('.confirmpassword').addClass('hide');
 		});
+
+		$('.field-wrap.field-toggle-modal').on('click','a', function(e){
+			e.stopPropagation();
+			e.preventDefault();
+			var $link = $(this);
+			$link.parents('.modal').modal('hide');
+			setTimeout(function(){
+				$($link.attr('ac-target')).modal('show');
+			},0);
+		});
 	});
 	$(window).on('load',function(){
            if(<%=showPopUp && !isLoggedIn%>){
@@ -392,7 +425,7 @@
 	});
 	
 	function PopUpSignUp(){
-			 var ajax = false;		
+			 var ajax = false;
              var name =$("#pop-up-name").val();
              var email=$("#pop-up-email").val();
              var password =$("#pop-up-password").val();
