@@ -33,29 +33,30 @@
 	<title><%= request.getParameter("title") %> </title>
 </head>
 <div class="modal fade" role="dialog" aria-labelledby="ac-promotion-onload" id="ac-promotion-onload">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-body">
-                    <button type="button" class="dismiss" data-dismiss="modal" aria-hidden="true">X</button>
-                    <div class="ribbon">
-                        <div class="ribbon-strip strip-1"></div>
-                        <div class="ribbon-strip strip-2"></div>
-                        <div class="ribbon-strip strip-3"></div>
-                        <div class="ribbon-strip strip-4"></div>
-                    </div>
-                    <h3 style="text-align:center;">Sign up for FREE within seconds</h3>
-                    <p style="text-align:center;"><span>Be the first to receive exclusive offers and promotions</span></p>
-                    <form action="">
-                        <input id="pop-up-name" type="text" placeholder="Enter your Name" required/>
-                        <input id="pop-up-email" type="email" placeholder="Enter your Email" required/>
-                        <input id="pop-up-password" type="password" placeholder="Enter your Password" required/>
-                        <button type="button" onclick="PopUpSignUp()">SIGN ME UP!</button>
-                        <span>By Signing up I accept <a href="">Terms of Service</a></span>
-                    </form>
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <button type="button" class="dismiss" data-dismiss="modal" aria-hidden="true">X</button>
+                <div class="ribbon">
+                    <div class="ribbon-strip strip-1"></div>
+                    <div class="ribbon-strip strip-2"></div>
+                    <div class="ribbon-strip strip-3"></div>
+                    <div class="ribbon-strip strip-4"></div>
                 </div>
+                <h3 style="text-align:center;">Sign up for FREE within seconds</h3>
+                <p style="text-align:center;"><span>Be the first to receive exclusive offers and promotions</span></p>
+                <form action="">
+                    <input id="pop-up-name" type="text" placeholder="Enter your Name" required/>
+                    <input id="pop-up-email" type="email" placeholder="Enter your Email" required/>
+                    <input id="pop-up-password" type="password" placeholder="Enter your Password" required/>
+                    <input id="pop-up-confirm-password" class="hide" type="password" placeholder="Confirm your Password" required/>
+                    <button type="button" onclick="PopUpSignUp()">SIGN ME UP!</button>
+                    <span>By Signing up I accept <a href="">Terms of Service</a></span>
+                </form>
             </div>
         </div>
     </div>
+</div>
 <fmt:bundle basename="Resources.Dependency" prefix="path.">
 	<div class="user-link">
 		<div>
@@ -406,6 +407,11 @@
 		$('.ac-header-theme-modal .password').on('keyup', 'input', function(){
 			var $input = $(this);
 			$input.val().length>0?$input.parent('.password').next('.confirmpassword').removeClass('hide'):$input.parent('.password').next('.confirmpassword').addClass('hide');
+		});
+
+		$('#ac-promotion-onload').on('keyup', '#pop-up-password', function(){
+			var $input = $(this);
+			$input.val().length>0?$input.next('#pop-up-confirm-password').removeClass('hide'):$input.next('#pop-up-confirm-password').addClass('hide');
 		});
 
 		$('.field-wrap.field-toggle-modal').on('click','a', function(e){

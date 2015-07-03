@@ -460,9 +460,9 @@ ul.dropdown-menu li a {
 }
 #ac-promotion-onload .modal-body form{
 	padding:20px;
-	background:rgb(218,218,218);
+	/*background:rgb(218,218,218);*/
 	width:90%;
-	margin:25px auto;
+	margin:0px auto;
 }
 #ac-promotion-onload .modal-body form input,
 #ac-promotion-onload .modal-body form button{
@@ -473,6 +473,10 @@ ul.dropdown-menu li a {
 	border:0;
 	padding: 0px 10px;
 	font-size:18px;
+	outline: 0;
+}
+#ac-promotion-onload .modal-body form input{
+	border: 1px solid #000;
 }
 #ac-promotion-onload .modal-body form input:first-child{
 	margin-top: 0px;
