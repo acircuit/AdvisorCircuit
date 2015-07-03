@@ -11,7 +11,7 @@
                 curObj: this,
                 ParentID: $(this).attr("id"),
                 curPage: 1,
-                numberOfVisiblePages : 4
+                numberOfVisiblePages : 5
             };
         var options = $.extend(defaults, options);
         var defaults1 = {
@@ -20,7 +20,7 @@
                 curObj: this,
                 ParentID: $(this).attr("id"),
                 curPage: 1,
-                numberOfVisiblePages : 4
+                numberOfVisiblePages : 5
             };
         var strHtml = '';
 
@@ -94,6 +94,10 @@
         });
 
         function hidePrevNext(){
+            $( '[id*=PageList] [id*=Page]' ).hide();
+            var visibleCounter = options.numberOfVisiblePages,
+                hasNext = true,
+                $nextPage=$( '[id*=PageList] [id*=_'+ options.curPage +']' ).show();
             if(options.curPage == 1){
                 $( '[id*=PageList] [id*=Previous]' ).hide();
             } else {
@@ -104,21 +108,20 @@
             } else {
                 $( '[id*=PageList] [id*=Next]' ).show();
             }
-            $( '[id*=PageList] [id*=Page]' ).each(function(i,page){
-                var $page = $(page),
-                    $pageId = parseInt($page[0].id.split('_')[1]); // for Page_Previous and Page_Next, $pageId will be NAN, so it will be filtered out in next IF condition
-
-                if($pageId && $pageId+options.numberOfVisiblePages>=options.noOfPage){
-                    $page.show();
+            while( visibleCounter && !!$nextPage ){
+                if(hasNext){
+                    $nextPage = $nextPage.next().not('[id*="Next"]');    
+                } else{
+                    $nextPage = $nextPage.prev().not('[id*="Prev"]');    
                 }
-                else if( $pageId && options.noOfPage > options.numberOfVisiblePages){
-                    if($pageId>=(options.curPage - options.numberOfVisiblePages/2) && $pageId<=(options.curPage + options.numberOfVisiblePages/2)){
-                        $page.show();
-                    } else {
-                        $page.hide();
-                    }
+                if($nextPage.length==0){
+                    hasNext = false;
+                    $nextPage = $( '[id*=PageList] [id*=_'+ options.curPage +']' ).prev().not('[id*="Previous"]');
                 }
-            });
+                if($nextPage.length==0) break;
+                $nextPage.show();
+                visibleCounter--;
+            }
         };
 
         hidePrevNext();
