@@ -48,6 +48,10 @@
 
 <body>
     <div class="container">
+    <div class="alert ac-alert" role="alert">
+        <a href="#">Please verify your account to book sessions!</a>
+        <button class="pull-right ac-resend">Resend</button>
+    </div>    
    	<%@include file="/Header.jsp"%>
     
     <div id="wrapper" class="content">
@@ -154,6 +158,7 @@
 	<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-557687ac702ff828" async="async"></script>
 	<script src="assets/js/ZeroClipboard.min.js"></script>
     <!-- Page-Level Demo Scripts - Notifications - Use for reference -->
+    <script src="assets/js/acInviteNotification.js"></script>
     <script>
     // tooltip demo
     $('.tooltip-demo').tooltip({

@@ -309,6 +309,7 @@
                                                     </h4>
                                                 </div>
                                                 <div class="modal-body">
+                                                    <input type="text" id="industrySearch" name="industrySearch" placeholder="Search for industries"/>
                                                     <ul class="sidebar-nav list-unstyled">
                                                         <c:forEach var="industry" items="${industries}">
                                                             <li>
@@ -792,6 +793,22 @@
                 id : $(this).attr('for'),
                 checked : false
             },false);
+        });
+
+        $('#exampleModal #industrySearch').on('keyup',function(e){
+            e.stopPropagation();
+            var val = $(this).val(),
+                items = $(this).parent().find('ul.sidebar-nav li'),
+                search = new RegExp('^'+val,'i');
+            $(items).each(function(i,item){
+                var liText = $(item).find('label').text().replace(/[ \n]/g,"");
+                if( search.test(liText) == true ){
+                  $(item).show();  
+                } else{
+                    $(item).hide();
+                }
+            });
+
         });
     });
   

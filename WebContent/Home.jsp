@@ -350,6 +350,12 @@ ur.src = ('https:' == document.location.protocol ? 'https://cdn.userreport.com/u
 var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ur, s);
 })();
 
+$(window).on('load',function(){
+    $('#ac-promotion-onload').modal({
+        keyboard : false,
+        backdrop : 'static'
+    });
+});
 
 $(document).ready(function() {
     $("#submit_btn").click(function(event){

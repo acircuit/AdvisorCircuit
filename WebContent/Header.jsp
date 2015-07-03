@@ -76,8 +76,8 @@
 					<a href="Logout">Logout</a>
 				</c:when>
 				<c:otherwise>
-					<a href="#" type="button" data-toggle="modal" data-target="#ac-login">Log In</a>
-					<a href="#" type="button" data-toggle="modal" data-target="#ac-signup">Sign Up</a>
+					<a href="#" type="button" data-toggle="modal" data-target="#ac-login" data-keyboard="false" data-backdrop="static">Log In</a>
+					<a href="#" type="button" data-toggle="modal" data-target="#ac-signup" data-keyboard="false" data-backdrop="static">Sign Up</a>
 				</c:otherwise>
 			</c:choose>
 		</div>
@@ -152,6 +152,7 @@
 										Email<span class="req">*</span>
 									</label>
 									<input type="email" name="email" required autocomplete="off"/>
+									<span></span>
 								</div>
 								<div class="field-wrap field-input">
 									<label>
@@ -197,12 +198,19 @@
 													</label>
 													<input type="email" name="email" required autocomplete="off"/>
 												</div>
-												<div class="field-wrap field-input">
+												<div class="field-wrap field-input password">
 													<label>
 														Password<span class="req">*</span>
 													</label>
 													<input type="password" name="password" required autocomplete="off"/>
 												</div>
+												<div class="field-wrap field-input confirmpassword hide">
+													<label>
+														Confirm Password<span class="req">*</span>
+													</label>
+													<input type="confirmpassword" name="confirmpassword" required autocomplete="off"/>
+												</div>
+												<button type="submit" class="button button-block"/>Get Started</button>
 												<div class="field-wrap field-checkbox">
 													<input type="checkbox" name="newsletter" id="newsletter" required checked/>
 													<label for="newsletter">
@@ -215,7 +223,6 @@
 														Terms and Conditions
 													</label>
 												</div>
-												<button type="submit" class="button button-block"/>Get Started</button>
 											</form>
 										</div>
 										<div id="advisor">
@@ -233,12 +240,19 @@
 													</label>
 													<input type="email"required autocomplete="off"/>
 												</div>
-												<div class="field-wrap field-input">
+												<div class="field-wrap field-input password">
 													<label>
 														Password<span class="req">*</span>
 													</label>
 													<input type="password"required autocomplete="off"/>
 												</div>
+												<div class="field-wrap field-input confirmpassword hide">
+													<label>
+														Confirm Password<span class="req">*</span>
+													</label>
+													<input type="confirmpassword" name="confirmpassword" required autocomplete="off"/>
+												</div>
+												<button type="submit" class="button button-block"/>Get Started</button>
 												<div class="field-wrap field-checkbox">
 													<input type="checkbox" name="newsletter" id="newsletter" required checked/>
 													<label for="newsletter">
@@ -251,15 +265,52 @@
 														Terms and Conditions
 													</label>
 												</div>
-												<button type="submit" class="button button-block"/>Get Started</button>
 											</form>
 										</div>
 									</div>
 								</div>
 							</div>
 							<div class="col-sm-12 col-md-6 hidden-xs hidden-sm covers">
-								<div class="cover cover-user">User</div>
-								<div class="cover cover-advisor hide">Advisor</div>
+								<div class="cover cover-user">
+									<div class="cover-row">
+										<div class="icon icon-1"></div>
+										<div class="desc">
+											<p class="">Manage Your Orders <br/> Easily Track Orders, Create Returns</p>
+										</div>
+									</div>
+									<div class="cover-row">
+										<div class="icon icon-2"></div>
+										<div class="desc">
+											<p class="">Make Informed Decisions <br/> Get Relevant Alerts And Recommendations</p>
+										</div>
+									</div>
+									<div class="cover-row">
+										<div class="icon icon-3"></div>
+										<div class="desc">
+											<p class="">Engage Socially <br/> With Wishlists, Reviews, Ratings</p>
+										</div>
+									</div>
+								</div>
+								<div class="cover cover-advisor hide">
+									<div class="cover-row">
+										<div class="icon icon-1"></div>
+										<div class="desc">
+											<p class="">Manage Your Orders <br/> Easily Track Orders, Create Returns</p>
+										</div>
+									</div>
+									<div class="cover-row">
+										<div class="icon icon-2"></div>
+										<div class="desc">
+											<p class="">Make Informed Decisions <br/> Get Relevant Alerts And Recommendations</p>
+										</div>
+									</div>
+									<div class="cover-row">
+										<div class="icon icon-3"></div>
+										<div class="desc">
+											<p class="">Engage Socially <br/> With Wishlists, Reviews, Ratings</p>
+										</div>
+									</div>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -327,6 +378,11 @@
 
 			$(target).fadeIn(600);
 			$('.covers .cover.cover-'+plainTarget).removeClass('hide').fadeIn(600);
+		});
+
+		$('.ac-header-theme-modal .password').on('keyup', 'input', function(){
+			var $input = $(this);
+			$input.val().length>0?$input.parent('.password').next('.confirmpassword').removeClass('hide'):$input.parent('.password').next('.confirmpassword').addClass('hide');
 		});
 	});
 	$(window).on('load',function(){

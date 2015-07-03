@@ -3,4 +3,8 @@ $(document).ready(function(){
 		var $acAlert = $(this).parent('.ac-alert');
 		if($acAlert) $acAlert.remove();
 	});
+	
+	$(document).on('click','.ac-resend', function(event){
+		//Placeholder for resend confirmation email code
+	});
 });

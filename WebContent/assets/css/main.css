@@ -1985,3 +1985,59 @@ div.filter-list ul li.filter span.glyphicon-remove{
 	margin-top: -20px;
 	text-align: right;
 }
+
+.ac-header-theme-modal .covers{
+	top: 50%;
+	position: absolute;
+	left: 50%;
+	transform: translateY(-50%);
+	border-left: 1px solid #fff;
+}
+
+.ac-header-theme-modal .covers .cover .cover-row{
+	margin-bottom: 20px;
+}
+
+.ac-header-theme-modal .covers .cover .cover-row>div{
+	display: inline-block;
+}
+
+.ac-header-theme-modal .covers .cover .cover-row .icon{
+	width: 40px;
+	height: 40px;
+	background-color: red;
+	background-size: 100% 100%;
+	background-repeat: no-repeat;
+}
+
+.ac-header-theme-modal .covers .cover .cover-row .desc{
+	padding-left:15px;
+	margin: 0px;
+}
+.ac-header-theme-modal .covers .cover .cover-row .desc p{
+	margin: 0px;
+	color: #fff;
+}
+
+#exampleModal #industrySearch{
+	width: 50%;
+	margin: 0px auto 10px;
+	display: block;
+	border-radius: 20px;
+	padding: 1px 5px 0px 30px;
+	height: 30px;
+	line-height: 30px;
+	border: 1px solid #000;
+	background: url(../img/search.png) 7px 4px /20px 20px no-repeat;
+	transition: all .5s ease-in-out;
+	outline:none;
+}
+
+#exampleModal #industrySearch:focus{
+	width: 70%;
+}
+
+#exampleModal ul.sidebar-nav li{
+	display: inline-block;
+  	padding-right: 20px;
+}
